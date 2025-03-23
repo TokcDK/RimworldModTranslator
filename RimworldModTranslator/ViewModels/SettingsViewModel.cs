@@ -1,6 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RimworldModTranslator.Models;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Documents;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -8,16 +11,17 @@ namespace RimworldModTranslator.ViewModels
     {
         private readonly GameViewModel gameViewModel = gameViewModel;
 
-        public Game? SelectedGame
-        {
-            get => gameViewModel.SelectedGame;
-            set => gameViewModel.SelectedGame = value;
-        }
+        [ObservableProperty]
+        public Game? selectedGame;
+
+        ObservableCollection<Game> gamesList = [];
 
         [RelayCommand]
         private void AddNewGame()
         {
-            gameViewModel.AddNewGame();
+            var newGame = new Game();
+            gamesList.Add(newGame);
+            SelectedGame = newGame;
         }
     }
 }

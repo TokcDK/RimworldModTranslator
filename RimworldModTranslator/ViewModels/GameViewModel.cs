@@ -138,11 +138,5 @@ namespace RimworldModTranslator.ViewModels
                 return null; // Handle parsing errors gracefully
             }
         }
-
-        internal void AddNewGame()
-        {
-            var game = new Game();
-            SelectedGame = game;
-        }
     }
 }
