@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using RimworldModTranslator.Models;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -7,20 +8,16 @@ namespace RimworldModTranslator.ViewModels
     {
         private readonly GameViewModel gameViewModel = gameViewModel;
 
-        public string? GamePath
+        public Game? SelectedGame
         {
-            get => gameViewModel.GamePath;
-            set => gameViewModel.GamePath = value;
+            get => gameViewModel.SelectedGame;
+            set => gameViewModel.SelectedGame = value;
         }
 
         [RelayCommand]
-        private void Browse()
+        private void AddNewGame()
         {
-            //using var dialog = new FolderBrowserDialog();
-            //if (dialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    GamePath = dialog.SelectedPath;
-            //}
+            gameViewModel.AddNewGame();
         }
     }
 }

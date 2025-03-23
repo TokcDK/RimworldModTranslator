@@ -8,7 +8,8 @@ namespace RimworldModTranslator.Models
 {
     public class Game
     {
-        public string? Path { get; set; }
+        public string? GamePath { get; set; }
+        public string? ConfigPath { get; set; }
         public List<ModData> ModsList { get; set; } = [];
         public List<ModData> SelectedMods { get; set; } = [];
     }

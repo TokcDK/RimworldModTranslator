@@ -12,8 +12,13 @@ namespace RimworldModTranslator.ViewModels
 {
     public partial class GameViewModel : ViewModelBase
     {
+        // Set default ModsConfig.xml path to the Windows LocalLow directory.
+        private readonly string DefaultModsConfigXmlPath =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                         "..", "LocalLow", "Ludeon Studios", "RimWorld by Ludeon Studios", "Config", "ModsConfig.xml");
+
         [ObservableProperty]
-        private string? gamePath;
+        private readonly Game? selectedGame;
 
         [ObservableProperty]
         private ObservableCollection<ModData> modsList = [];
@@ -21,24 +26,41 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private ObservableCollection<ModData> selectedMods = [];
 
-        partial void OnGamePathChanged(string? value)
+        partial void OnSelectedGameChanged(Game? value)
         {
-            LoadModsList(value);
+            LoadGameData(value);
         }
 
-        private void LoadModsList(string? gamePath)
+        private void LoadGameData(Game? game)
         {
             ModsList.Clear();
-            if (string.IsNullOrEmpty(gamePath) || !Directory.Exists(gamePath)) return;
+            if (game == null) return;
+            if (string.IsNullOrEmpty(game.GamePath)
+                || !Directory.Exists(game.GamePath)) return;
 
-            // Example: Load mods from a "Mods" folder in the game path
-            string modsDir = System.IO.Path.Combine(gamePath, "Mods");
+            // Load mods from a "Mods" folder in the game path
+            string modsDir = Path.Combine(game.GamePath, "Mods");
             if (!Directory.Exists(modsDir)) return;
 
-            foreach (var dir in Directory.GetDirectories(modsDir))
+            // Use the default ModsConfig.xml path located in LocalLow
+            if(string.IsNullOrEmpty(game.ConfigPath) || !Directory.Exists(game.ConfigPath))
+            {
+                game.ConfigPath = Path.GetDirectoryName(DefaultModsConfigXmlPath);
+            }
+            var modsConfigXmlPath = Path.Combine(game.ConfigPath!, "ModsConfig.xml");
+            var modsConfig = LoadModsConfig(modsConfigXmlPath);
+            if (modsConfig == null) return;
+
+            foreach (var dir in Directory.EnumerateDirectories(modsDir))
             {
                 var mod = LoadModData(dir);
                 if (mod != null) ModsList.Add(mod);
+            }
+
+            foreach (var mod in ModsList)
+            {
+                mod.IsActive = !string.IsNullOrWhiteSpace(mod!.About!.PackageId)
+                    && modsConfig.ActiveMods.Contains(mod!.About!.PackageId);
             }
         }
 
@@ -48,7 +70,7 @@ namespace RimworldModTranslator.ViewModels
 
             return new ModData
             {
-                DirectoryName = System.IO.Path.GetFileName(modDir),
+                DirectoryName = Path.GetFileName(modDir),
                 About = about,
                 IsActive = false // Assume disabled by default; adjust based on game config if available
             };
@@ -56,7 +78,7 @@ namespace RimworldModTranslator.ViewModels
 
         private static AboutData? LoadAboutData(string modDir)
         {
-            string aboutPath = System.IO.Path.Combine(modDir, "About", "About.xml");
+            string aboutPath = Path.Combine(modDir, "About", "About.xml");
             if (!File.Exists(aboutPath)) return null;
 
             try
@@ -89,6 +111,38 @@ namespace RimworldModTranslator.ViewModels
             {
                 return null; // Handle parsing errors gracefully
             }
+        }
+
+        private static ModsConfigData? LoadModsConfig(string? modsConfigXmlPath)
+        {
+            if (string.IsNullOrWhiteSpace(modsConfigXmlPath)) return null;
+            if (!File.Exists(modsConfigXmlPath)) return null;
+
+            try
+            {
+                XDocument doc = XDocument.Load(modsConfigXmlPath);
+                var meta = doc.Element("ModsConfigData");
+                if (meta == null) return null;
+
+                var modsConfigData = new ModsConfigData
+                {
+                    Version = meta.Element("version")?.Value,
+                    ActiveMods = meta.Element("activeMods")?.Elements("li").Select(e => e.Value).ToList() ?? [],
+                    KnownExpansions = meta.Element("knownExpansions")?.Elements("li").Select(e => e.Value).ToList() ?? []
+                };
+
+                return modsConfigData;
+            }
+            catch
+            {
+                return null; // Handle parsing errors gracefully
+            }
+        }
+
+        internal void AddNewGame()
+        {
+            var game = new Game();
+            SelectedGame = game;
         }
     }
 }
