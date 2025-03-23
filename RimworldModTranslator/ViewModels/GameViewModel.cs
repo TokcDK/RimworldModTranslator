@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using System;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -43,6 +44,18 @@ namespace RimworldModTranslator.ViewModels
 
         private static ModData? LoadModData(string modDir)
         {
+            var about = LoadAboutData(modDir);
+
+            return new ModData
+            {
+                DirectoryName = System.IO.Path.GetFileName(modDir),
+                About = about,
+                IsEnabled = false // Assume disabled by default; adjust based on game config if available
+            };
+        }
+
+        private static AboutData? LoadAboutData(string modDir)
+        {
             string aboutPath = System.IO.Path.Combine(modDir, "About", "About.xml");
             if (!File.Exists(aboutPath)) return null;
 
@@ -60,7 +73,7 @@ namespace RimworldModTranslator.ViewModels
                     SupportedVersions = meta.Element("supportedVersions")?.Elements("li").Select(e => e.Value).ToList() ?? new List<string>(),
                     PackageId = meta.Element("packageId")?.Value,
                     Description = meta.Element("description")?.Value,
-                    LoadAfter = meta.Element("loadAfter")?.Elements("li").Select(e => e.Value).ToList() ?? new List<string>(),
+                    LoadAfter = meta.Element("loadAfter")?.Elements("li").Select(e => e.Value).ToList() ?? [],
                     ModDependencies = meta.Element("modDependencies")?.Elements("li").Select(d => new ModDependency
                     {
                         PackageId = d.Element("packageId")?.Value,
@@ -70,12 +83,7 @@ namespace RimworldModTranslator.ViewModels
                     }).ToList() ?? []
                 };
 
-                return new ModData
-                {
-                    DirectoryName = System.IO.Path.GetFileName(modDir),
-                    About = about,
-                    IsEnabled = false // Assume disabled by default; adjust based on game config if available
-                };
+                return about;
             }
             catch
             {
