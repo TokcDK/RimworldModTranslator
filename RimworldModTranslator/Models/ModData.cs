@@ -11,6 +11,6 @@ namespace RimworldModTranslator.Models
         public string? DirectoryName { get; set; }
         public AboutData? About { get; set; }
         public string? ModDisplayingName => string.IsNullOrEmpty(About?.Name) ? DirectoryName : About.Name;
-        public bool IsEnabled { get; set; }
+        public bool IsActive { get; set; }
     }
 }

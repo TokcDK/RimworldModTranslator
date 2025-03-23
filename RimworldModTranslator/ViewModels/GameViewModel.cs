@@ -50,7 +50,7 @@ namespace RimworldModTranslator.ViewModels
             {
                 DirectoryName = System.IO.Path.GetFileName(modDir),
                 About = about,
-                IsEnabled = false // Assume disabled by default; adjust based on game config if available
+                IsActive = false // Assume disabled by default; adjust based on game config if available
             };
         }
 
