@@ -36,6 +36,8 @@ namespace RimworldModTranslator.Helpers
         {
             if (!IsValidGame(game, settings)) return false;
 
+            game.ModsList.Clear();
+
             string modsDir = Path.Combine(game!.GameDirPath!, "Mods");
             foreach (var dir in Directory.EnumerateDirectories(modsDir))
             {
