@@ -37,6 +37,9 @@ namespace RimworldModTranslator.ViewModels
         //
         //</LanguageData>
 
+        // for editor extra functions to insert most often using replacers
+        // replacers: https://rimworldwiki.com/wiki/Modding_Tutorials/GrammarResolver
+
         public string Header { get; } = "Editor";
 
         private readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+", RegexOptions.Compiled);
