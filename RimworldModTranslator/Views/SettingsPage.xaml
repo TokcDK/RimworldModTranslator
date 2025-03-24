@@ -10,12 +10,14 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TextBlock Text="Game:" Width="Auto" />
-            <ComboBox Grid.Column="1" ItemsSource="{Binding GamesList}" 
-                  SelectedItem="{Binding SelectedGame}"
+            <ComboBox Grid.Column="1" 
+                      ItemsSource="{Binding GamesList, Mode=OneWay}" 
+                      SelectedItem="{Binding SelectedGame}"
+                      SelectedValue="{Binding SelectedGame.GameDirPath}"
                   Width="Auto">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding GamePath}" />
+                        <TextBlock Text="{Binding GameDirPath}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
@@ -29,7 +31,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Game dir path:" Width="Auto" />
                 <TextBox Grid.Column="1" 
-                         Text="{Binding SelectedGame.GameDirPath, Mode=OneTime}" 
+                         Text="{Binding NewGameDirPath}" 
                         HorizontalAlignment="Stretch"/>
             </Grid>
             <Grid>
@@ -39,7 +41,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Config dir path (optional):" Width="Auto" />
                 <TextBox Grid.Column="1" 
-                         Text="{Binding SelectedGame.ConfigDirPath, Mode=OneTime}" 
+                         Text="{Binding NewGameConfigDirPath}" 
                          HorizontalAlignment="Stretch" />
             </Grid>
             <Button Grid.Column="1" Content="Add game" Command="{Binding AddNewGameCommand}" />

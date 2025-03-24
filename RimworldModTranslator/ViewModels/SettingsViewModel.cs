@@ -30,12 +30,21 @@ namespace RimworldModTranslator.ViewModels
             GameHelper.LoadGameData(value, settingsService);
         }
 
+        [ObservableProperty]
+        private string? newGameDirPath;
+        [ObservableProperty]
+        private string? newGameConfigDirPath;
+
         [RelayCommand]
         private void AddNewGame()
         {
-            var newGame = new Game();
+            var newGame = new Game
+            {
+                GameDirPath = NewGameDirPath,
+                ConfigDirPath = NewGameConfigDirPath
+            };
 
-            if(!GameHelper.IsValidGame(newGame, settingsService)) return;
+            if (!GameHelper.IsValidGame(newGame, settingsService)) return;
 
             gamesList.Add(newGame);
             SelectedGame = newGame;

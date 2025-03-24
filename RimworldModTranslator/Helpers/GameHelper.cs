@@ -50,7 +50,7 @@ namespace RimworldModTranslator.Helpers
             foreach (var mod in game.ModsList)
             {
                 mod.IsActive = !string.IsNullOrWhiteSpace(mod!.About!.PackageId)
-                    && modsConfig.ActiveMods.Contains(mod!.About!.PackageId);
+                    && modsConfig.ActiveMods.Contains(mod!.About!.PackageId.ToLowerInvariant());
             }
 
             return true;
