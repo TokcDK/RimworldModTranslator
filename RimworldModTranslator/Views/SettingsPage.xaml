@@ -4,15 +4,46 @@
              xmlns:viewmodels="clr-namespace:RimworldModTranslator.ViewModels" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
     <StackPanel>
-        <ComboBox ItemsSource="{Binding GamesList}" 
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Game:" Width="Auto" />
+            <ComboBox Grid.Column="1" ItemsSource="{Binding GamesList}" 
                   SelectedItem="{Binding SelectedGame}"
                   Width="Auto">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding GamePath}" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <Button Content="Add game" Command="{Binding AddNewGameCommand}" />
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding GamePath}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+        <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Game dir path:" Width="Auto" />
+                <TextBox Grid.Column="1" 
+                         Text="{Binding SelectedGame.GameDirPath, Mode=OneTime}" 
+                        HorizontalAlignment="Stretch"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Config dir path (optional):" Width="Auto" />
+                <TextBox Grid.Column="1" 
+                         Text="{Binding SelectedGame.ConfigDirPath, Mode=OneTime}" 
+                         HorizontalAlignment="Stretch" />
+            </Grid>
+            <Button Grid.Column="1" Content="Add game" Command="{Binding AddNewGameCommand}" />
+        </StackPanel>
+        <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
     </StackPanel>
 </UserControl>
