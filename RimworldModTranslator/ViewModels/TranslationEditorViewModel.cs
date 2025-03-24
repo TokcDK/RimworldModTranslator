@@ -32,11 +32,9 @@ namespace RimworldModTranslator.ViewModels
         //
         //</LanguageData>
 
-
-
         public string Header { get; } = "Editor";
 
-        private Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+", RegexOptions.Compiled);
+        private readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+", RegexOptions.Compiled);
 
         private readonly ModData? mod;
         private readonly Game? game;
