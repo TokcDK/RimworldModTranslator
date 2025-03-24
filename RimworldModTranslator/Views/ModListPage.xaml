@@ -14,10 +14,11 @@
         <DataGrid Grid.Row="0" 
                   ItemsSource="{Binding ModsList}"
                   AutoGenerateColumns="False"
+                  SelectedItem="{Binding SelectedMod}"
                   >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Active" Binding="{Binding IsActive}" Width="Auto" />
-                <DataGridTextColumn Header="Name" Binding="{Binding ModDisplayingName}" Width="*"/>
+                <DataGridTextColumn Header="Active" Binding="{Binding IsActive}" Width="Auto" IsReadOnly="True" />
+                <DataGridTextColumn Header="Name" Binding="{Binding ModDisplayingName}" Width="*" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Grid.Row="1" Text="{Binding TXT}" />
