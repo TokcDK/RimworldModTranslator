@@ -21,6 +21,7 @@ namespace RimworldModTranslator.ViewModels
         public MainViewModel()
         {
             settingsService = new SettingsService();
+            // TabViewModels.Add(new WelcomeViewModel(settingsService)); // Not implemented yet, add there some info possibly
             TabViewModels.Add(new ModListViewModel(settingsService));
             TabViewModels.Add(new TranslationEditorViewModel(settingsService));
             TabViewModels.Add(new SettingsViewModel(settingsService));
