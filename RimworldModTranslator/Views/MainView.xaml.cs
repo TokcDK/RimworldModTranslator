@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using RimworldModTranslator.ViewModels;
 using System.Windows;
 
 namespace RimworldModTranslator.Views;
@@ -29,5 +30,6 @@ public partial class MainView : Window
     public MainView()
     {
         InitializeComponent();
+        DataContext = new MainViewModel();
     }
 }
