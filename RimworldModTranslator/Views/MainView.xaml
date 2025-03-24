@@ -17,7 +17,7 @@
         </DataTemplate>
     </Window.Resources>
     <Grid>
-        <TabControl ItemsSource="{Binding TabViewModels}">
+        <TabControl ItemsSource="{Binding TabViewModels}" SelectedItem="{Binding SelectedTab}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Header}" />

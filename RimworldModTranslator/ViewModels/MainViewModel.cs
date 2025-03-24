@@ -15,12 +15,17 @@ namespace RimworldModTranslator.ViewModels
 
         private SettingsService settingsService;
 
+        [ObservableProperty]
+        private ViewModelBase selectedTab;
+
         public MainViewModel()
         {
             settingsService = new SettingsService();
             TabViewModels.Add(new ModListViewModel(settingsService));
             TabViewModels.Add(new TranslationEditorViewModel(settingsService));
             TabViewModels.Add(new SettingsViewModel(settingsService));
+
+            selectedTab = TabViewModels[2]; // Select the settings tab by default
         }
     }
 }
