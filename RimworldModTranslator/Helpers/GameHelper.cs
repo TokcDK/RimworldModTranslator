@@ -53,6 +53,8 @@ namespace RimworldModTranslator.Helpers
                     && modsConfig.ActiveMods.Contains(mod!.About!.PackageId.ToLowerInvariant());
             }
 
+            settings.ModsList = game.ModsList;
+
             return true;
         }
     }

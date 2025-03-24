@@ -21,5 +21,10 @@ namespace RimworldModTranslator.Services
         private Game? selectedGame;
 
         public ObservableCollection<Game> GamesList { get; internal set; } = [];
+
+        /// <summary>
+        /// Shared modlist for Mod list tab
+        /// </summary>
+        public ObservableCollection<ModData> ModsList { get; set; } = [];
     }
 }

@@ -21,6 +21,5 @@
                 <DataGridTextColumn Header="Name" Binding="{Binding ModDisplayingName}" Width="*" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Row="1" Text="{Binding TXT}" />
     </Grid>
 </UserControl>

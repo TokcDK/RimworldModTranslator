@@ -19,8 +19,7 @@ namespace RimworldModTranslator.ViewModels
     {
         public string Header { get; } = "Settings";
 
-        [ObservableProperty]
-        private ObservableCollection<Game> gamesList = settingsService.GamesList;
+        public ObservableCollection<Game> GamesList { get => settingsService.GamesList; }
 
         [ObservableProperty]
         private Game? selectedGame;
@@ -47,7 +46,7 @@ namespace RimworldModTranslator.ViewModels
 
             if (!GameHelper.IsValidGame(newGame, settingsService)) return;
 
-            gamesList.Add(newGame);
+            GamesList.Add(newGame);
             SelectedGame = newGame;
         }
     }
