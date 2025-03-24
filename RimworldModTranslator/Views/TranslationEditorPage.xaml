@@ -10,19 +10,26 @@
         <!-- Top section with ComboBox for FoldersList and language addition controls -->
         <Grid Grid.Row="0" Margin="5">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
             
+            <!-- TextBlock for Folder label -->
+            <TextBlock Grid.Column="0"
+                       Text="Folder"
+                       VerticalAlignment="Center"
+                       Margin="5"/>
+
             <!-- ComboBox bound to FoldersList -->
-            <ComboBox Grid.Column="0"
+            <ComboBox Grid.Column="1"
                       ItemsSource="{Binding FoldersList}"
                       SelectedItem="{Binding SelectedFolder}"
                       Margin="5"
                       VerticalAlignment="Center"/>
 
             <!-- StackPanel with TextBox and Button for adding a new translation language -->
-            <StackPanel Grid.Column="1"
+            <StackPanel Grid.Column="2"
                         Orientation="Horizontal"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
