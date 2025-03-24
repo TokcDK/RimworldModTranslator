@@ -4,8 +4,15 @@
              xmlns:viewmodels="clr-namespace:RimworldModTranslator.ViewModels" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
     <Grid>
-        <DataGrid ItemsSource="{Binding ModsList}">
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding ModsList}">
         </DataGrid>
+        <TextBlock Grid.Row="1" Text="{Binding TXT}" />
     </Grid>
 </UserControl>
