@@ -7,21 +7,13 @@ using System.Collections.ObjectModel;
 
 namespace RimworldModTranslator.ViewModels
 {
-    public partial class ModListViewModel(GameViewModel gameViewModel) : ViewModelBase
+    public partial class ModListViewModel(SettingsViewModel settingsViewModel) : ViewModelBase
     {
-        private readonly GameViewModel gameViewModel = gameViewModel;
+        private readonly SettingsViewModel settingsViewModel = settingsViewModel;
+
         [ObservableProperty]
         private ModData? selectedMod;
 
-        public ObservableCollection<ModData> ModsList => gameViewModel.ModsList;
-
-        [RelayCommand]
-        private void EditTranslations()
-        {
-            if (SelectedMod != null)
-            {
-                WeakReferenceMessenger.Default.Send(new NavigateToTranslationEditorMessage(SelectedMod));
-            }
-        }
+        public ObservableCollection<ModData> ModsList => settingsViewModel.ModsList;
     }
 }
