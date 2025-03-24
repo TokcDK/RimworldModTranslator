@@ -24,7 +24,6 @@ namespace RimworldModTranslator.Views
         public ModListPage()
         {
             InitializeComponent();
-            DataContext = new ModListViewModel();
         }
     }
 }

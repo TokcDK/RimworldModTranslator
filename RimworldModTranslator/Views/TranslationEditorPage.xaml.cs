@@ -24,7 +24,6 @@ namespace RimworldModTranslator.Views
         public TranslationEditorPage()
         {
             InitializeComponent();
-            DataContext = new TranslationEditorViewModel();
         }
     }
 }

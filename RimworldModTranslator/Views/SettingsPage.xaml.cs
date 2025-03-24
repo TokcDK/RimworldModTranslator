@@ -24,7 +24,6 @@ namespace RimworldModTranslator.Views
         public SettingsPage()
         {
             InitializeComponent();
-            DataContext = new SettingsViewModel();
         }
     }
 }
