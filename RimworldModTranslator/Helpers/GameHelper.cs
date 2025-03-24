@@ -15,7 +15,6 @@ namespace RimworldModTranslator.Helpers
         {
             if (game == null) return false;
 
-            game.ModsList.Clear();
             if (string.IsNullOrEmpty(game.GameDirPath)
                 || !Directory.Exists(game.GameDirPath)) return false;
 
