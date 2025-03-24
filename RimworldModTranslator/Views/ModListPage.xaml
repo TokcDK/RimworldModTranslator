@@ -15,6 +15,8 @@
                   ItemsSource="{Binding ModsList}"
                   AutoGenerateColumns="False"
                   SelectedItem="{Binding SelectedMod}"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
                   >
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="Active" Binding="{Binding IsActive}" Width="Auto" IsReadOnly="True" />
