@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimworldModTranslator.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace RimworldModTranslator.Views
         public ModListPage()
         {
             InitializeComponent();
+            DataContext = new ModListViewModel();
         }
     }
 }
