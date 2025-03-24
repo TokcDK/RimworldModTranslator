@@ -9,12 +9,15 @@ using System.Linq;
 using System.Xml.Linq;
 using RimworldModTranslator.ViewModels;
 using RimworldModTranslator.Services;
+using System.Text.RegularExpressions;
 
 namespace RimworldModTranslator.ViewModels
 {
     public partial class TranslationEditorViewModel : ViewModelBase
     {
         public string Header { get; } = "Editor";
+
+        private Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+", RegexOptions.Compiled);
 
         private readonly ModData? mod;
         private readonly Game? game;
@@ -45,13 +48,13 @@ namespace RimworldModTranslator.ViewModels
 
         private string GetLatestVersionFolder(string modDirectory)
         {
-            string fullPath = Path.Combine(settingsService.SelectedGame.GameDirPath, "Mods", modDirectory, "Languages");
+            string fullPath = Path.Combine(game!.GameDirPath!, "Mods", modDirectory);
             if (!Directory.Exists(fullPath)) return modDirectory;
 
             var versionDirs = Directory.GetDirectories(modDirectory)
                 .Select(Path.GetFileName)
-                .Where(d => d != null && d.All(c => char.IsDigit(c) || c == '.'))
-                .OrderByDescending(v => v, Comparer<string?>.Create(static (a, b) => Version.Parse(a).CompareTo(Version.Parse(b))))
+                .Where(d => d != null && VersionDirRegex.IsMatch(d))
+                .OrderByDescending(v => float.Parse(v))
                 .FirstOrDefault();
             return versionDirs ?? modDirectory;
         }
