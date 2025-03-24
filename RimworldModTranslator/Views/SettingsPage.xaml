@@ -11,9 +11,8 @@
             </Grid.ColumnDefinitions>
             <TextBlock Text="Game:" Width="Auto" />
             <ComboBox Grid.Column="1" 
-                      ItemsSource="{Binding GamesList, Mode=OneWay}" 
+                      ItemsSource="{Binding GamesList}" 
                       SelectedItem="{Binding SelectedGame}"
-                      SelectedValue="{Binding SelectedGame.GameDirPath}"
                   Width="Auto">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>

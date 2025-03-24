@@ -19,7 +19,8 @@ namespace RimworldModTranslator.ViewModels
     {
         public string Header { get; } = "Settings";
 
-        private readonly ObservableCollection<Game> gamesList = settingsService.GamesList;
+        [ObservableProperty]
+        private ObservableCollection<Game> gamesList = settingsService.GamesList;
 
         [ObservableProperty]
         private Game? selectedGame;
