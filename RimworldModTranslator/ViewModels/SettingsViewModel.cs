@@ -15,7 +15,7 @@ using RimworldModTranslator.Services;
 
 namespace RimworldModTranslator.ViewModels
 {
-    public partial class SettingsViewModel(SettingsService settingsService) : ViewModelBase
+    public partial class SettingsViewModel : ViewModelBase
     {
         public string Header { get; } = "Settings";
 
@@ -45,6 +45,16 @@ namespace RimworldModTranslator.ViewModels
         private string? newGameDirPath;
         [ObservableProperty]
         private string? newGameConfigDirPath;
+        private readonly SettingsService settingsService;
+
+        public SettingsViewModel(SettingsService settingsService)
+        {
+            this.settingsService = settingsService;
+            if(settingsService.GamesList.Count > 0)
+            {
+                SelectedGame = settingsService.SelectedGame ?? settingsService.GamesList[0];
+            }
+        }
 
         [RelayCommand]
         private void AddNewGame()
