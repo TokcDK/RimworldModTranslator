@@ -42,7 +42,7 @@ namespace RimworldModTranslator.ViewModels
             mod = settingsService.SelectedMod;
             if (mod == null) return;
 
-            selectedFolder = GetLatestVersionFolder(mod.DirectoryName);
+            SelectedFolder = GetLatestVersionFolder(mod.DirectoryName);
             LoadLanguages();
         }
 
@@ -62,13 +62,15 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void LoadLanguages()
         {
+            if(SelectedFolder == null) return;
+
             Languages.Clear();
             TranslationRows.Clear();
 
             string langDir = Path.Combine(mod.DirectoryName, SelectedFolder, "Languages");
             if (!Directory.Exists(langDir)) return;
 
-            var langFolders = Directory.GetDirectories(langDir).Select(Path.GetFileName).ToList();
+            var langFolders = Directory.GetDirectories(langDir).Where(d => HaveTranslatableDirs(d)).Select(Path.GetFileName).ToList();
             foreach (var lang in langFolders)
             {
                 if(lang == null) continue;
@@ -111,6 +113,11 @@ namespace RimworldModTranslator.ViewModels
                 }
                 TranslationRows.Add(row);
             }
+        }
+
+        private bool HaveTranslatableDirs(string d)
+        {
+            return Directory.Exists(Path.Combine(d, "Defs"));
         }
 
         [RelayCommand]
