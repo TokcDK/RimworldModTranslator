@@ -31,6 +31,9 @@ namespace RimworldModTranslator.Services
         /// </summary>
         public ObservableCollection<ModData> ModsList { get; } = [];
 
+        [ObservableProperty]
+        private ModData? selectedMod;
+
         public SettingsService()
         {
             LoadSettings();
