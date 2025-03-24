@@ -17,7 +17,7 @@
                   SelectedItem="{Binding SelectedMod}"
                   >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Active" Binding="{Binding IsActive}" Width="Auto" IsReadOnly="True" />
+                <DataGridCheckBoxColumn Header="Active" Binding="{Binding IsActive}" Width="Auto" IsReadOnly="True" />
                 <DataGridTextColumn Header="Name" Binding="{Binding ModDisplayingName}" Width="*" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
