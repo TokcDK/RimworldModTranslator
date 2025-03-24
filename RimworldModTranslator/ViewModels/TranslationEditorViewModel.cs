@@ -15,6 +15,15 @@ namespace RimworldModTranslator.ViewModels
 {
     public partial class TranslationEditorViewModel : ViewModelBase
     {
+        // subfolders and xml file naming
+        // For Defs: Languages\%LanguageCode%\DefInjected\XmlParentTagName\ParentXmlName.xml
+        // For keyed (each xml tag value, only from exist language dir): Languages\%LanguageCode%\Keyed\Keyed_%LanguageCode%.xml
+        // For common Strings (in txt each line, only from exist language dir): Languages\LanguageCode\Strings\Names\*.txt
+        // 
+        // key name in xml
+        // <%defName_key_value%.%translatable_key_name%>%translatable_key_value%</%defName_key_value%.%translatable_key_name%>
+
+
         public string Header { get; } = "Editor";
 
         private Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+", RegexOptions.Compiled);
