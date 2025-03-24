@@ -14,6 +14,7 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private ModData? selectedMod;
 
-        public ObservableCollection<ModData> ModsList => settingsService.SelectedGame!.ModsList;
+        [ObservableProperty]
+        public ObservableCollection<ModData> modsList = [];
     }
 }
