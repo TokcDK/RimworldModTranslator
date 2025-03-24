@@ -4,16 +4,16 @@ using CommunityToolkit.Mvvm.Messaging;
 using RimworldModTranslator.ViewModels;
 using RimworldModTranslator.Models;
 using System.Collections.ObjectModel;
+using RimworldModTranslator.Services;
+using System.Collections.Generic;
 
 namespace RimworldModTranslator.ViewModels
 {
-    public partial class ModListViewModel(SettingsViewModel settingsViewModel) : ViewModelBase
+    public partial class ModListViewModel(SettingsService settingsService) : ViewModelBase
     {
-        private readonly SettingsViewModel settingsViewModel = settingsViewModel;
-
         [ObservableProperty]
         private ModData? selectedMod;
 
-        public ObservableCollection<ModData> ModsList => settingsViewModel.ModsList;
+        public ObservableCollection<ModData> ModsList => settingsService.SelectedGame!.ModsList;
     }
 }

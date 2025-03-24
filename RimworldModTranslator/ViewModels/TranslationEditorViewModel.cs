@@ -8,10 +8,11 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using RimworldModTranslator.ViewModels;
+using RimworldModTranslator.Services;
 
 namespace RimworldModTranslator.ViewModels
 {
-    public partial class TranslationEditorViewModel : ViewModelBase
+    public partial class TranslationEditorViewModel(SettingsService settingsService) : ViewModelBase
     {
         private readonly ModData? mod;
 
@@ -23,12 +24,6 @@ namespace RimworldModTranslator.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<TranslationRow> translationRows = new();
-
-        public TranslationEditorViewModel(ModData mod)
-        {
-            this.mod = mod;
-            SelectedFolder = GetLatestVersionFolder(mod.DirectoryName);
-        }
 
         private string GetLatestVersionFolder(string modDirectory)
         {

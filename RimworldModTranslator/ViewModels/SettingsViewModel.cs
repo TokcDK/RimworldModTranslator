@@ -17,28 +17,23 @@ using System.Linq;
 using System.Xml.Linq;
 using System;
 using RimworldModTranslator.Helpers;
+using RimworldModTranslator.Services;
 
 
 
 namespace RimworldModTranslator.ViewModels
 {
-    public partial class SettingsViewModel : ViewModelBase
+    public partial class SettingsViewModel(SettingsService settingsService) : ViewModelBase
     {
+        private readonly ObservableCollection<Game> gamesList = settingsService.GamesList;
+
         [ObservableProperty]
         private readonly Game? selectedGame;
-
-        [ObservableProperty]
-        private ObservableCollection<ModData> modsList = [];
-
-        [ObservableProperty]
-        private ObservableCollection<ModData> selectedMods = [];
-
         partial void OnSelectedGameChanged(Game? value)
         {
+            settingsService.SelectedGame = value;
             GameHelper.LoadGameData(value);
         }
-
-        private readonly ObservableCollection<Game> gamesList = [];
 
         [RelayCommand]
         private void AddNewGame()
