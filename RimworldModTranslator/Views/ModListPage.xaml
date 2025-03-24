@@ -11,7 +11,14 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding ModsList}">
+        <DataGrid Grid.Row="0" 
+                  ItemsSource="{Binding ModsList}"
+                  AutoGenerateColumns="False"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Active" Binding="{Binding IsActive}" Width="Auto" />
+                <DataGridTextColumn Header="Name" Binding="{Binding ModDisplayingName}" Width="*"/>
+            </DataGrid.Columns>
         </DataGrid>
         <TextBlock Grid.Row="1" Text="{Binding TXT}" />
     </Grid>

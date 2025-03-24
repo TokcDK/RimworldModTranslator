@@ -8,9 +8,9 @@ namespace RimworldModTranslator.Models
 {
     public class ModData
     {
-        public string? DirectoryName { get; set; }
-        public AboutData? About { get; set; }
-        public string? ModDisplayingName => string.IsNullOrEmpty(About?.Name) ? DirectoryName : About.Name;
         public bool IsActive { get; set; }
+        public string? ModDisplayingName => string.IsNullOrEmpty(About?.Name) ? DirectoryName : About.Name;
+        public string? DirectoryName { get; set; }
+        public AboutData? About { get; set; }    
     }
 }
