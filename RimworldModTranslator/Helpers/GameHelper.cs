@@ -2,6 +2,7 @@
 using RimworldModTranslator.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -56,9 +57,19 @@ namespace RimworldModTranslator.Helpers
 
             game.ModsList = [.. game.ModsList.OrderBy(g => modsConfig.ActiveMods.IndexOf((g.About == null || g.About.PackageId == null ? "" : g.About.PackageId).ToLowerInvariant()))];
 
-            settings.ModsList = game.ModsList;
+            UpdateSharedModList(settings.ModsList, game.ModsList);
 
             return true;
+        }
+
+        private static void UpdateSharedModList(ObservableCollection<ModData> modlistToUpdate, ObservableCollection<ModData> modlistSource)
+        {
+            modlistToUpdate.Clear();
+
+            foreach (var mod in modlistSource)
+            {
+                modlistToUpdate.Add(mod);
+            }
         }
     }
 }
