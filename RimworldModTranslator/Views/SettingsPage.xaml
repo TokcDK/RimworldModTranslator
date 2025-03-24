@@ -4,7 +4,15 @@
              xmlns:viewmodels="clr-namespace:RimworldModTranslator.ViewModels" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
     <StackPanel>
-        <CheckBox IsChecked="{Binding SomeSetting}" Content="Some Setting" />
-        <!-- Other settings controls -->
+        <ComboBox ItemsSource="{Binding GamesList}" 
+                  SelectedItem="{Binding SelectedGame}"
+                  Width="Auto">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding GamePath}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button Content="Add game" Command="{Binding AddNewGameCommand}" />
     </StackPanel>
 </UserControl>
