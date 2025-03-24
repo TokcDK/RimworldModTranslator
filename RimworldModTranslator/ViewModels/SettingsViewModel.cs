@@ -59,6 +59,11 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void AddNewGame()
         {
+            if (IsAlreadyAddedGame())
+            {
+                return;
+            }
+
             var newGame = new Game
             {
                 GameDirPath = NewGameDirPath,
@@ -69,6 +74,21 @@ namespace RimworldModTranslator.ViewModels
 
             GamesList.Add(newGame);
             SelectedGame = newGame;
+        }
+
+        private bool IsAlreadyAddedGame()
+        {
+            bool isInvalidConfigDirPath = string.IsNullOrWhiteSpace(NewGameConfigDirPath) || !Directory.Exists(NewGameConfigDirPath);
+            string defaultConfigDirPath = Path.GetDirectoryName(settingsService.DefaultModsConfigXmlPath)!;
+            NewGameConfigDirPath = isInvalidConfigDirPath ? defaultConfigDirPath : NewGameConfigDirPath;
+            
+            if (GamesList.Any(g => g.GameDirPath == NewGameDirPath
+                && g.ConfigDirPath == NewGameConfigDirPath))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
