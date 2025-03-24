@@ -26,8 +26,14 @@ namespace RimworldModTranslator.ViewModels
 
         partial void OnSelectedGameChanged(Game? value)
         {
+            var oldSelectedGame = value; // Save the old value in case the new value is invalid
+
             settingsService.SelectedGame = value;
-            GameHelper.LoadGameData(value, settingsService);
+            if(!GameHelper.LoadGameData(value, settingsService) && value != null)
+            {
+                settingsService.GamesList.Remove(value);
+                SelectedGame = oldSelectedGame;
+            }
         }
 
         [ObservableProperty]
