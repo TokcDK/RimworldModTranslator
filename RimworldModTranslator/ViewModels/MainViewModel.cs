@@ -5,6 +5,7 @@ using RimworldModTranslator.ViewModels;
 using RimworldModTranslator.Models;
 using RimworldModTranslator.Services;
 using System.Collections.ObjectModel;
+using RimworldModTranslator.Helpers;
 
 namespace RimworldModTranslator.ViewModels
 {

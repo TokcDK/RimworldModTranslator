@@ -60,6 +60,11 @@ namespace RimworldModTranslator.Helpers
             return true;
         }
 
+        internal static void TryLoadSettings(SettingsService settingsService)
+        {
+            throw new NotImplementedException();
+        }
+
         internal static void UpdateSharedModList(ObservableCollection<ModData> modlistToUpdate, ObservableCollection<ModData> modlistSource)
         {
             modlistToUpdate.Clear();
