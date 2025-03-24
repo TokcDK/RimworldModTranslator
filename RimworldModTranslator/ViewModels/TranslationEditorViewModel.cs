@@ -49,6 +49,9 @@ namespace RimworldModTranslator.ViewModels
         private readonly SettingsService settingsService;
 
         [ObservableProperty]
+        private ObservableCollection<string> folders = new();
+
+        [ObservableProperty]
         private string? selectedFolder;
 
         [ObservableProperty]
@@ -107,21 +110,24 @@ namespace RimworldModTranslator.ViewModels
             mod = settingsService.SelectedMod;
             if (mod == null) return;
 
-            SelectedFolder = GetLatestVersionFolder(mod.DirectoryName);
+            GetLatestVersionFolder(mod.DirectoryName);
             LoadLanguages();
         }
 
-        private string GetLatestVersionFolder(string modDirectory)
+        private void GetLatestVersionFolder(string modDirectory)
         {
             string fullPath = Path.Combine(game!.GameDirPath!, "Mods", modDirectory);
-            if (!Directory.Exists(fullPath)) return modDirectory;
+            if (!Directory.Exists(fullPath)) return;
 
-            var versionDirs = Directory.GetDirectories(modDirectory)
+            Folders = [.. Directory.GetDirectories(modDirectory)
                 .Select(Path.GetFileName)
                 .Where(d => d != null && VersionDirRegex.IsMatch(d))
-                .OrderByDescending(v => float.Parse(v))
-                .FirstOrDefault();
-            return versionDirs ?? modDirectory;
+                .OrderByDescending(v => float.Parse(v))];
+            Folders.Add(modDirectory);
+
+            var firstOrDefault = Folders.FirstOrDefault();
+
+            SelectedFolder = firstOrDefault ?? modDirectory;
         }
 
         [RelayCommand]
