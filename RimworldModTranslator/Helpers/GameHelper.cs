@@ -49,8 +49,8 @@ namespace RimworldModTranslator.Helpers
 
             foreach (var mod in game.ModsList)
             {
-                mod.IsActive = !string.IsNullOrWhiteSpace(mod!.About!.PackageId)
-                    && modsConfig.ActiveMods.Contains(mod!.About!.PackageId.ToLowerInvariant());
+                mod.IsActive = mod.About != null &&!string.IsNullOrWhiteSpace(mod.About.PackageId)
+                    && modsConfig.ActiveMods.Contains(mod.About.PackageId.ToLowerInvariant());
             }
 
             game.ModsList = [.. game.ModsList.OrderBy(g => modsConfig.ActiveMods.IndexOf((g.About == null || g.About.PackageId == null ? "" : g.About.PackageId).ToLowerInvariant()))];
