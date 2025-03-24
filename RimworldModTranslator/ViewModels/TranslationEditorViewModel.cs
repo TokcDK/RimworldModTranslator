@@ -24,11 +24,16 @@ namespace RimworldModTranslator.ViewModels
         // <%defName_key_value%.%translatable_key_name%>%translatable_key_value%</%defName_key_value%.%translatable_key_name%>
 
         // defs language xml structure
+        // %defName_key_value2% includes the all sub tags before translatable tag
         //
         // <?xml version="1.0" encoding="utf-8"?>
         //<LanguageData>
         //
-        //<%defName_key_value%.%translatable_key_name%>%translatable_key_value%</%defName_key_value%.%translatable_key_name%>
+        //<%defName_key_value1%.%translatable_key_name%>%translatable_key_value%</%defName_key_value1%.%translatable_key_name%>
+        //<%defName_key_value1%.%translatable_key_name%>%translatable_key_value%</%defName_key_value1%.%translatable_key_name%>
+        //
+        //<%defName_key_value2%.%translatable_key_name%>%translatable_key_value%</%defName_key_value2%.%translatable_key_name%>
+        //<%defName_key_value2%.%translatable_key_name%>%translatable_key_value%</%defName_key_value2%.%translatable_key_name%>
         //
         //</LanguageData>
 
