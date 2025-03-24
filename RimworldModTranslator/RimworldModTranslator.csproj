@@ -11,4 +11,9 @@
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Helpers\" />
+      <Folder Include="Extensions\" />
+    </ItemGroup>
+
 </Project>
