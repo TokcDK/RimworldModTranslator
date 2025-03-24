@@ -9,6 +9,16 @@
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Grid>
-        
+        <TabControl>
+            <TabItem Header="Mod List">
+                <Frame Source="Views/ModListPage.xaml"/>
+            </TabItem>
+            <TabItem Header="Translation Editor">
+                <Frame Source="Views/TranslationEditorPage.xaml"/>
+            </TabItem>
+            <TabItem Header="Settings">
+                <Frame Source="Views/SettingsPage.xaml"/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
