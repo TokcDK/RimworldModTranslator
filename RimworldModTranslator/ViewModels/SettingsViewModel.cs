@@ -34,6 +34,9 @@ namespace RimworldModTranslator.ViewModels
         private void AddNewGame()
         {
             var newGame = new Game();
+
+            if(!GameHelper.IsValidGame(newGame, settingsService)) return;
+
             gamesList.Add(newGame);
             SelectedGame = newGame;
         }
