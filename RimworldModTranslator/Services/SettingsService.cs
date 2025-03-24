@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RimworldModTranslator.Services
 {
-    public class SettingsService : ObservableObject
+    public partial class SettingsService : ObservableObject
     {
         // Set default ModsConfig.xml path to the Windows LocalLow directory.
         public readonly string DefaultModsConfigXmlPath =

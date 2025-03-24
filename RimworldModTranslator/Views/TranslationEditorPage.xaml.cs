@@ -19,7 +19,7 @@ namespace RimworldModTranslator.Views
     /// <summary>
     /// Логика взаимодействия для TranslationEditorPage.xaml
     /// </summary>
-    public partial class TranslationEditorPage : Page
+    public partial class TranslationEditorPage : UserControl
     {
         public TranslationEditorPage()
         {

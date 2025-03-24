@@ -1,4 +1,5 @@
 ﻿using RimworldModTranslator.Models;
+using RimworldModTranslator.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,10 +11,11 @@ namespace RimworldModTranslator.Helpers
 {
     class GameHelper
     {
-        internal static void LoadGameData(Game? game)
+        internal static void LoadGameData(Game? game, SettingsService settings)
         {
-            ModsList.Clear();
             if (game == null) return;
+
+            game.ModsList.Clear();
             if (string.IsNullOrEmpty(game.GamePath)
                 || !Directory.Exists(game.GamePath)) return;
 
@@ -24,7 +26,7 @@ namespace RimworldModTranslator.Helpers
             // Use the default ModsConfig.xml path located in LocalLow
             if (string.IsNullOrEmpty(game.ConfigPath) || !Directory.Exists(game.ConfigPath))
             {
-                game.ConfigPath = Path.GetDirectoryName(DefaultModsConfigXmlPath);
+                game.ConfigPath = Path.GetDirectoryName(settings.DefaultModsConfigXmlPath);
             }
             var modsConfigXmlPath = Path.Combine(game.ConfigPath!, "ModsConfig.xml");
             var modsConfig = ModHelper.LoadModsConfig(modsConfigXmlPath);
@@ -33,10 +35,10 @@ namespace RimworldModTranslator.Helpers
             foreach (var dir in Directory.EnumerateDirectories(modsDir))
             {
                 var mod = ModHelper.LoadModData(dir);
-                if (mod != null) ModsList.Add(mod);
+                if (mod != null) game.ModsList.Add(mod);
             }
 
-            foreach (var mod in ModsList)
+            foreach (var mod in game.ModsList)
             {
                 mod.IsActive = !string.IsNullOrWhiteSpace(mod!.About!.PackageId)
                     && modsConfig.ActiveMods.Contains(mod!.About!.PackageId);

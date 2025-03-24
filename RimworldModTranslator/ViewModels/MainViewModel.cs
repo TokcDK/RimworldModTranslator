@@ -12,7 +12,7 @@ namespace RimworldModTranslator.ViewModels
     {
         public ObservableCollection<ViewModelBase> TabViewModels { get; } = [];
 
-        private readonly SettingsService settingsService;
+        private SettingsService settingsService;
 
         public MainViewModel()
         {

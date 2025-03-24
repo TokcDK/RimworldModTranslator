@@ -16,12 +16,9 @@ using System.Windows.Shapes;
 
 namespace RimworldModTranslator.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для ModListPage.xaml
-    /// </summary>
-    public partial class ModListPage : Page
+    public partial class ModlistPage : UserControl
     {
-        public ModListPage()
+        public ModlistPage()
         {
             InitializeComponent();
         }
