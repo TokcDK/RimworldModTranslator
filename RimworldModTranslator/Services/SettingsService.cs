@@ -25,6 +25,6 @@ namespace RimworldModTranslator.Services
         /// <summary>
         /// Shared modlist for Mod list tab
         /// </summary>
-        public ObservableCollection<ModData> ModsList { get; set; } = [];
+        public ObservableCollection<ModData> ModsList { get; internal set; } = [];
     }
 }
