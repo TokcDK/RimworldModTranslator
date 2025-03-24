@@ -24,7 +24,12 @@ namespace RimworldModTranslator.ViewModels
         {
             if(settingsService.SelectedGame == null) return;
 
-            GameHelper.LoadGameData(settingsService.SelectedGame, settingsService);
+            var game = settingsService.SelectedGame;
+
+            if (GameHelper.LoadGameData(game, settingsService))
+            {
+                GameHelper.UpdateSharedModList(settingsService.ModsList, game.ModsList);
+            }
         }
     }
 }

@@ -36,6 +36,7 @@ namespace RimworldModTranslator.ViewModels
             else
             {
                 settingsService.SelectedGame = value;
+                GameHelper.UpdateSharedModList(settingsService.ModsList, value!.ModsList);
             }
         }
 

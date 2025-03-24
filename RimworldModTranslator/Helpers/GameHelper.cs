@@ -57,12 +57,10 @@ namespace RimworldModTranslator.Helpers
 
             game.ModsList = [.. game.ModsList.OrderBy(g => modsConfig.ActiveMods.IndexOf((g.About == null || g.About.PackageId == null ? "" : g.About.PackageId).ToLowerInvariant()))];
 
-            UpdateSharedModList(settings.ModsList, game.ModsList);
-
             return true;
         }
 
-        private static void UpdateSharedModList(ObservableCollection<ModData> modlistToUpdate, ObservableCollection<ModData> modlistSource)
+        internal static void UpdateSharedModList(ObservableCollection<ModData> modlistToUpdate, ObservableCollection<ModData> modlistSource)
         {
             modlistToUpdate.Clear();
 
