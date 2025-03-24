@@ -23,6 +23,16 @@ namespace RimworldModTranslator.ViewModels
         // key name in xml
         // <%defName_key_value%.%translatable_key_name%>%translatable_key_value%</%defName_key_value%.%translatable_key_name%>
 
+        // defs language xml structure
+        //
+        // <?xml version="1.0" encoding="utf-8"?>
+        //<LanguageData>
+        //
+        //<%defName_key_value%.%translatable_key_name%>%translatable_key_value%</%defName_key_value%.%translatable_key_name%>
+        //
+        //</LanguageData>
+
+
 
         public string Header { get; } = "Editor";
 
@@ -54,6 +64,7 @@ namespace RimworldModTranslator.ViewModels
             "deathMessage",
             "desc",
             "description",
+            "headerTip",
             "ideoName",
             "ingestCommandString",
             "ingestReportString",
