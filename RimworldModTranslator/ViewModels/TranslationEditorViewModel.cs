@@ -12,11 +12,13 @@ using RimworldModTranslator.Services;
 
 namespace RimworldModTranslator.ViewModels
 {
-    public partial class TranslationEditorViewModel(SettingsService settingsService) : ViewModelBase
+    public partial class TranslationEditorViewModel : ViewModelBase
     {
         public string Header { get; } = "Editor";
 
         private readonly ModData? mod;
+        private readonly Game? game;
+        private readonly SettingsService settingsService;
 
         [ObservableProperty]
         private string? selectedFolder;
@@ -27,9 +29,23 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private ObservableCollection<TranslationRow> translationRows = new();
 
+        public TranslationEditorViewModel(SettingsService settingsService)
+        {
+            this.settingsService = settingsService;
+
+            game = settingsService.SelectedGame;
+            if (game == null) return;
+
+            mod = settingsService.SelectedMod;
+            if (mod == null) return;
+
+            selectedFolder = GetLatestVersionFolder(mod.DirectoryName);
+            LoadLanguages();
+        }
+
         private string GetLatestVersionFolder(string modDirectory)
         {
-            string fullPath = Path.Combine(modDirectory, "Languages");
+            string fullPath = Path.Combine(settingsService.SelectedGame.GameDirPath, "Mods", modDirectory, "Languages");
             if (!Directory.Exists(fullPath)) return modDirectory;
 
             var versionDirs = Directory.GetDirectories(modDirectory)
