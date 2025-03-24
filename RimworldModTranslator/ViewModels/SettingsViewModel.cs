@@ -28,11 +28,14 @@ namespace RimworldModTranslator.ViewModels
         {
             var oldSelectedGame = value; // Save the old value in case the new value is invalid
 
-            settingsService.SelectedGame = value;
             if(!GameHelper.LoadGameData(value, settingsService) && value != null)
             {
                 settingsService.GamesList.Remove(value);
                 SelectedGame = oldSelectedGame;
+            }
+            else
+            {
+                settingsService.SelectedGame = value;
             }
         }
 
