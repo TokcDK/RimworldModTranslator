@@ -32,6 +32,45 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private ObservableCollection<TranslationRow> translationRows = new();
 
+        public ObservableCollection<string> DefsXmlTags { get; } =
+        [
+            "adjective",
+            "baseDesc",
+            "baseInspectLine",
+            "commandDesc",
+            "commandLabel",
+            "customLabel",
+            "customLetterLabel",
+            "customLetterText",
+            "deathMessage",
+            "desc",
+            "description",
+            "ideoName",
+            "ingestCommandString",
+            "ingestReportString",
+            "jobString",
+            "label",
+            "labelNoun",
+            "labelPlural",
+            "leaderTitle",
+            "letterText",
+            "member",
+            "name",
+            "outOfFuelMessage",
+            "pawnSingular",
+            "pawnsPlural",
+            "reportString",
+            "slateRef",
+            "structureLabel",
+            "stuffAdjective",
+            "summary",
+            "text",
+            "theme",
+            "title",
+            "titleshort",
+            "verb"
+        ];
+
         public TranslationEditorViewModel(SettingsService settingsService)
         {
             this.settingsService = settingsService;
