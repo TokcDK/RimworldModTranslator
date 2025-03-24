@@ -6,6 +6,7 @@ using RimworldModTranslator.Models;
 using System.Collections.ObjectModel;
 using RimworldModTranslator.Services;
 using System.Collections.Generic;
+using RimworldModTranslator.Helpers;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -17,5 +18,13 @@ namespace RimworldModTranslator.ViewModels
         private ModData? selectedMod;
 
         public ObservableCollection<ModData> ModsList { get => settingsService.ModsList; }
+
+        [RelayCommand]
+        private void RefreshModList()
+        {
+            if(settingsService.SelectedGame == null) return;
+
+            GameHelper.LoadGameData(settingsService.SelectedGame, settingsService);
+        }
     }
 }
