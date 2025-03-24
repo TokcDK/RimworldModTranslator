@@ -17,6 +17,8 @@ namespace RimworldModTranslator.ViewModels
 {
     public partial class SettingsViewModel(SettingsService settingsService) : ViewModelBase
     {
+        public string Header { get; } = "Settings";
+
         private ObservableCollection<Game> gamesList = settingsService.GamesList;
 
         [ObservableProperty]

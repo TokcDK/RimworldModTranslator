@@ -14,10 +14,12 @@ namespace RimworldModTranslator.ViewModels
 {
     public partial class TranslationEditorViewModel(SettingsService settingsService) : ViewModelBase
     {
+        public string Header { get; } = "Editor";
+
         private readonly ModData? mod;
 
         [ObservableProperty]
-        private string selectedFolder;
+        private string? selectedFolder;
 
         [ObservableProperty]
         private ObservableCollection<string> languages = new();

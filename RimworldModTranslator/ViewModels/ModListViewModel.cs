@@ -11,6 +11,8 @@ namespace RimworldModTranslator.ViewModels
 {
     public partial class ModListViewModel(SettingsService settingsService) : ViewModelBase
     {
+        public string Header { get; } = "Mods";
+
         [ObservableProperty]
         private ModData? selectedMod;
 
