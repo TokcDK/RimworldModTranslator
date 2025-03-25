@@ -14,7 +14,7 @@ using System.Windows.Input;
 
 namespace RimworldModTranslator.ViewModels
 {
-    public partial class TranslationEditorViewModel : ViewModelBase
+    public partial class TranslationEditorViewModel(SettingsService settingsService) : ViewModelBase
     {
         // subfolders and xml file naming
         // For Defs: Languages\%LanguageCode%\DefInjected\XmlParentTagNameInsideOfRootDefsTag\ParentXmlName.xml
@@ -49,7 +49,7 @@ namespace RimworldModTranslator.ViewModels
 
         private ModData? mod;
         private Game? game;
-        private readonly SettingsService settingsService;
+        private readonly SettingsService settingsService = settingsService;
 
         public string? ModDisplayingName { get => settingsService.SelectedMod?.ModDisplayingName; }
 
@@ -109,11 +109,6 @@ namespace RimworldModTranslator.ViewModels
             "titleshortFemale",
             "verb"
         ];
-
-        public TranslationEditorViewModel(SettingsService settingsService)
-        {
-            this.settingsService = settingsService;
-        }
 
         private void GetTranslatableFolders()
         {
