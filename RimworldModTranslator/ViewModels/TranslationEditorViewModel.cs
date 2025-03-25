@@ -287,6 +287,9 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void AddNewLanguage()
         {
+            if (game == null) return;
+            if (mod == null) return;
+
             // Simple example: Add a new language (e.g., prompt user in real app)
             string newLang = $"NewLanguage_{Languages.Count + 1}";
             Languages.Add(newLang);
@@ -299,6 +302,9 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void SaveLanguages()
         {
+            if (game == null) return;
+            if (mod == null) return;
+
             //string langDir = Path.Combine(mod.DirectoryName, SelectedFolder, "Languages");
             //Directory.CreateDirectory(langDir);
 
