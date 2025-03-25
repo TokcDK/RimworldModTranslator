@@ -295,9 +295,4 @@ namespace RimworldModTranslator.ViewModels
             }
         }
     }
-    public class TranslationFile
-    {
-        public string SubPath { get; set; } = string.Empty;
-        public List<TranslationRow> Rows { get; set; } = new();
-    }
 }
