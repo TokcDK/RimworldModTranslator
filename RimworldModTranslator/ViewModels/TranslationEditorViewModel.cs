@@ -97,6 +97,8 @@ namespace RimworldModTranslator.ViewModels
             "theme",
             "title",
             "titleshort",
+            "titleFemale",
+            "titleshortFemale",
             "verb"
         ];
 
