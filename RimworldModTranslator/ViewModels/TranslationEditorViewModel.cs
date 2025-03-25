@@ -48,11 +48,16 @@ namespace RimworldModTranslator.ViewModels
         private Game? game;
         private readonly SettingsService settingsService;
 
+        public string? ModDisplayingName { get => mod?.ModDisplayingName; }
+
         [ObservableProperty]
         private ObservableCollection<string> folders = new();
 
         [ObservableProperty]
         private string? selectedFolder;
+
+        [ObservableProperty]
+        private string? newLanguageName;
 
         [ObservableProperty]
         private ObservableCollection<string> languages = new();
@@ -195,6 +200,13 @@ namespace RimworldModTranslator.ViewModels
 
             GetLatestVersionFolder(mod.DirectoryName);
             LoadLanguages();
+        }
+
+        [RelayCommand]
+        private void SaveStrings()
+        {
+            if (game == null) return;
+            if (mod == null) return;
         }
 
         [RelayCommand]
