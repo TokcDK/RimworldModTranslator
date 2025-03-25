@@ -182,9 +182,8 @@ namespace RimworldModTranslator.ViewModels
         private void LoadStringsFromTheXmlDir(string xmlDirName, List<string?> langDirNames, string languagesDirPath)
         {
             // Создаем словарь с вложенной структурой:
-            // Dictionary<xmlDirName, Dictionary<subPath, Dictionary<key, Dictionary<language, value>>>>
-            var filesDictFull = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, string>>>>();
-            filesDictFull[xmlDirName] = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
+            // Dictionary<subPath, Dictionary<key, Dictionary<language, value>>>
+            var filesDictFull = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
 
             foreach (var language in langDirNames)
             {
@@ -198,13 +197,12 @@ namespace RimworldModTranslator.ViewModels
                 foreach (var file in Directory.GetFiles(langPath, "*.xml", SearchOption.AllDirectories))
                 {
                     // Вычисление подкаталога относительно текущей папки языка
-                    string subPath = Path.GetRelativePath(langPath, file);
+                    string xmlSubPath = Path.GetRelativePath(langPath, file);
 
-                    var subDict = filesDictFull[xmlDirName];
-                    if (!subDict.TryGetValue(subPath, out Dictionary<string, Dictionary<string, string>>? value))
+                    if (!filesDictFull.TryGetValue(xmlSubPath, out Dictionary<string, Dictionary<string, string>>? stringByKeyForEachLanguage))
                     {
-                        value = new Dictionary<string, Dictionary<string, string>>();
-                        subDict[subPath] = value;
+                        stringByKeyForEachLanguage = new Dictionary<string, Dictionary<string, string>>();
+                        filesDictFull[xmlSubPath] = stringByKeyForEachLanguage;
                     }
 
                     try
@@ -212,40 +210,23 @@ namespace RimworldModTranslator.ViewModels
                         XDocument doc = XDocument.Load(file);
                         // Получить все переведенные элементы (без вложенных элементов и пустых значений)
                         var pairs = doc.Descendants().Where(e => !e.HasElements && !string.IsNullOrWhiteSpace(e.Value));
+                        
                         foreach (var pair in pairs)
                         {
                             string key = pair.Name.LocalName;
-                            if (!subDict[subPath].ContainsKey(key))
+                            if (!stringByKeyForEachLanguage.TryGetValue(key, out Dictionary<string, string>? value))
                             {
-                                subDict[subPath][key] = new Dictionary<string, string>();
+                                value = new Dictionary<string, string>();
+                                stringByKeyForEachLanguage[key] = value;
                             }
 
-                            value[key][language] = pair.Value;
+                            value[language] = pair.Value;
                         }
                     }
                     catch
                     {
                         // Игнорировать ошибки парсинга
                     }
-                }
-            }
-
-            // Очистить текущие строки перевода и добавить полученные данные
-            TranslationRows.Clear();
-            foreach (var subPathEntry in filesDictFull[xmlDirName])
-            {
-                var subPath = subPathEntry.Key;
-                var keysDict = subPathEntry.Value;
-                foreach (var keyEntry in keysDict)
-                {
-                    var key = keyEntry.Key;
-                    var languageTranslations = keyEntry.Value;
-                    var row = new TranslationRow { Key = key, XmlDirName = xmlDirName };
-                    foreach (var translation in languageTranslations)
-                    {
-                        row.Translations[translation.Key] = translation.Value;
-                    }
-                    TranslationRows.Add(row);
                 }
             }
         }
