@@ -9,7 +9,7 @@
         </Grid.RowDefinitions>
         
         <!-- Top section with ComboBox for FoldersList and language addition controls -->
-        <Grid Grid.Row="0" Margin="5">
+        <Grid Grid.Row="0" Margin="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="2*"/>
@@ -20,13 +20,13 @@
             <TextBlock Grid.Column="0"
                        Text="Folder"
                        VerticalAlignment="Center"
-                       Margin="5"/>
+                       Margin="2"/>
 
             <!-- ComboBox bound to FoldersList -->
             <ComboBox Grid.Column="1"
                       ItemsSource="{Binding FoldersList}"
                       SelectedItem="{Binding SelectedFolder}"
-                      Margin="5"
+                      Margin="2"
                       VerticalAlignment="Center"/>
 
             <!-- StackPanel with TextBox and Button for adding a new translation language -->
@@ -34,7 +34,7 @@
                         Orientation="Horizontal"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        Margin="5">
+                        Margin="2">
                 <TextBox Width="200" Margin="0,0,10,0"
                          VerticalAlignment="Center"
                          Text="{Binding NewLanguageName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -48,31 +48,31 @@
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding StringsByLanguage}"
                   AutoGenerateColumns="True"
-                  Margin="5"/>
+                  Margin="2"/>
 
         <!-- Bottom section -->
-        <Grid Grid.Row="2" Margin="5">
+        <Grid Grid.Row="2" Margin="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.3*"/>
-                <ColumnDefinition Width="0.3*"/>
-                <ColumnDefinition Width="0.3*"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="Auto" MaxWidth="300"/>
             </Grid.ColumnDefinitions>
 
             <!-- Button for saving strings -->
             <Button Grid.Column="0" Content="Save strings"
                     Command="{Binding SaveStringsCommand}"
-                    VerticalAlignment="Center"/>
+                    VerticalAlignment="Center" Margin="2"/>
 
             <!-- Button for loading strings -->
-            <Button Grid.Column="3" Content="Load strings"
+            <Button Grid.Column="1" Content="Load strings"
                     Command="{Binding LoadStringsCommand}"
-                    VerticalAlignment="Center"/>
+                    VerticalAlignment="Center" Margin="2"/>
 
             <!-- Selected mod name -->
             <TextBlock Grid.Column="2"
                        Text="{Binding ModDisplayingName}"
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Right"/>
+                       HorizontalAlignment="Right" Margin="2"/>
         </Grid>
     </Grid>
 </UserControl>

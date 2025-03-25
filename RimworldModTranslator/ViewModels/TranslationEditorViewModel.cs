@@ -48,7 +48,7 @@ namespace RimworldModTranslator.ViewModels
         private Game? game;
         private readonly SettingsService settingsService;
 
-        public string? ModDisplayingName { get => mod?.ModDisplayingName; }
+        public string? ModDisplayingName { get => settingsService.SelectedMod?.ModDisplayingName; }
 
         [ObservableProperty]
         private ObservableCollection<string> folders = new();
