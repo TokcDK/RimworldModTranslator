@@ -53,8 +53,7 @@ namespace RimworldModTranslator.ViewModels
 
         public string? ModDisplayingName { get => settingsService.SelectedMod?.ModDisplayingName; }
 
-        [ObservableProperty]
-        private ObservableCollection<string> folders = new();
+        public ObservableCollection<string> Folders { get; } = [];
 
         [ObservableProperty]
         private string? selectedFolder;
@@ -115,7 +114,7 @@ namespace RimworldModTranslator.ViewModels
             string fullPath = Path.Combine(game!.GameDirPath!, "Mods", mod!.DirectoryName!);
             if (!Directory.Exists(fullPath)) return;
 
-            Folders = GetTranslatableSubDirs(fullPath);
+            GetTranslatableSubDirs(fullPath);
 
             if(HasExtractableStringsDir(fullPath))
             {
@@ -128,15 +127,17 @@ namespace RimworldModTranslator.ViewModels
             }
         }
 
-        private ObservableCollection<string> GetTranslatableSubDirs(string fullPath)
+        private void GetTranslatableSubDirs(string fullPath)
         {
-            return [..Directory.GetDirectories(fullPath)
+            foreach(var folder in Directory.GetDirectories(fullPath)
                         .Select(Path.GetFileName)
                         .Where(d => d != null
                             && VersionDirRegex.IsMatch(d)
                             && HasExtractableStringsDir(Path.Combine(fullPath, d))
-                        )
-                   ];
+                        ))
+            {
+                Folders.Add(folder!);
+            }
         }
 
         private bool HasExtractableStringsDir(string dir)
