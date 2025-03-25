@@ -43,7 +43,7 @@ namespace RimworldModTranslator.ViewModels
 
         public string Header { get; } = "Editor";
         public string[] TransatableLanguageDirs { get; } = [ "DefInjected", "Keyed", "Strings" ];
-        public string[] ExtractableModSubDirs { get; } = [ "Defs", "Language" ];
+        public string[] ExtractableModSubDirs { get; } = [ "Defs", "Languages" ];
 
         private readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+", RegexOptions.Compiled);
 
@@ -134,7 +134,7 @@ namespace RimworldModTranslator.ViewModels
                         .Select(Path.GetFileName)
                         .Where(d => d != null
                             && VersionDirRegex.IsMatch(d)
-                            && HasExtractableStringsDir(d)
+                            && HasExtractableStringsDir(Path.Combine(fullPath, d))
                         )
                    ];
         }
@@ -166,6 +166,8 @@ namespace RimworldModTranslator.ViewModels
                 Languages.Add(langDirName);
             }
 
+            TranslationRows.Clear();
+
             var xmlDirNames = new string[2] { "DefInjected", "Keyed" };
             foreach (var xmlDirName in xmlDirNames)
             {
@@ -184,11 +186,13 @@ namespace RimworldModTranslator.ViewModels
                 if (language == null)
                     continue;
 
-                string langPath = Path.Combine(languagesDirPath, language, "Strings");
-                if (!Directory.Exists(langPath))  continue;
+                string langPath = Path.Combine(languagesDirPath, language);
+                string langTxtDirPath = Path.Combine(langPath, "Strings");
+                if (!Directory.Exists(langTxtDirPath))
+                    continue;
 
                 Dictionary<string, string> strings = [];
-                foreach (var file in Directory.GetFiles(langPath, "*.txt", SearchOption.AllDirectories))
+                foreach (var file in Directory.GetFiles(langTxtDirPath, "*.txt", SearchOption.AllDirectories))
                 {
                     string txtSubPath = Path.GetRelativePath(langPath, file);
 
@@ -231,11 +235,12 @@ namespace RimworldModTranslator.ViewModels
                 if (language == null)
                     continue;
 
-                string langPath = Path.Combine(languagesDirPath, language, xmlDirName);
-                if (!Directory.Exists(langPath))
+                string langPath = Path.Combine(languagesDirPath, language);
+                string langXmlDirPath = Path.Combine(langPath, xmlDirName);
+                if (!Directory.Exists(langXmlDirPath))
                     continue;
 
-                foreach (var file in Directory.GetFiles(langPath, "*.xml", SearchOption.AllDirectories))
+                foreach (var file in Directory.GetFiles(langXmlDirPath, "*.xml", SearchOption.AllDirectories))
                 {
                     // Вычисление подкаталога относительно текущей папки языка
                     string xmlSubPath = Path.GetRelativePath(langPath, file);
@@ -276,23 +281,21 @@ namespace RimworldModTranslator.ViewModels
 
         private void FillTranslationRows(Dictionary<string, Dictionary<string, Dictionary<string, string>>> filesDictFull)
         {
-            TranslationRows.Clear();
-
             // Dictionary<subPath, Dictionary<key, Dictionary<language, value>>> filesDictFull
             foreach (var (subPath, keyValues) in filesDictFull)
             {
-                var translationRow = new TranslationRow(subPath);
                 foreach (var (key, langValues) in keyValues)
                 {
+                    var translationRow = new TranslationRow(subPath);
                     translationRow.SetKey(key);
 
                     foreach (var (lang, value) in langValues)
                     {
                         translationRow.Translations.Add(new LanguageValueData(lang, value));
                     }
-                }
 
-                TranslationRows.Add(translationRow);
+                    TranslationRows.Add(translationRow);
+                }
             }
         }
 
