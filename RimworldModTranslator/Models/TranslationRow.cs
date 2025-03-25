@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace RimworldModTranslator.Models
 {
-    public class TranslationRow
+    public class TranslationRow(string? subPath)
     {
-        public string? SubPath { get; set; }
-        public string? Key { get; set; }
-        public Dictionary<string, string> Translations { get; set; } = [];
+        public string? SubPath { get; } = subPath;
+
+        private string? _key;
+        public string? Key { get => _key; }
+        public void SetKey(string key)
+        {
+            _key = key;
+        }
+
+        public List<LanguageValueData> Translations { get; } = [];
     }
 }

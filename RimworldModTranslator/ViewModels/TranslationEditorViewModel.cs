@@ -241,16 +241,14 @@ namespace RimworldModTranslator.ViewModels
             // Dictionary<subPath, Dictionary<key, Dictionary<language, value>>> filesDictFull
             foreach (var (subPath, keyValues) in filesDictFull)
             {
-                var translationRow = new TranslationRow();
-                translationRow.SubPath = subPath;
-
+                var translationRow = new TranslationRow(subPath);
                 foreach (var (key, langValues) in keyValues)
                 {
-                    translationRow.Key = key;
+                    translationRow.SetKey(key);
 
                     foreach (var (lang, value) in langValues)
                     {
-                        translationRow.Translations[lang] = value;
+                        translationRow.Translations.Add(new LanguageValueData(lang, value));
                     }
                 }
 
