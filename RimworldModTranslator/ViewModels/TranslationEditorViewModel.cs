@@ -172,7 +172,52 @@ namespace RimworldModTranslator.ViewModels
                 LoadStringsFromTheXmlDir(xmlDirName, langDirNames, languagesDirPath);
             }
 
-            int aaai = 0;
+            LoadStringsFromStringsDir(langDirNames, languagesDirPath);
+        }
+
+        private void LoadStringsFromStringsDir(List<string?> langDirNames, string languagesDirPath)
+        {
+            var filesDictFull = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
+
+            foreach (var language in langDirNames)
+            {
+                if (language == null)
+                    continue;
+
+                string langPath = Path.Combine(languagesDirPath, language, "Strings");
+                if (!Directory.Exists(langPath))  continue;
+
+                Dictionary<string, string> strings = [];
+                foreach (var file in Directory.GetFiles(langPath, "*.txt", SearchOption.AllDirectories))
+                {
+                    string txtSubPath = Path.GetRelativePath(langPath, file);
+
+                    if (!filesDictFull.TryGetValue(txtSubPath, out Dictionary<string, Dictionary<string, string>>? stringByKeyForEachLanguage))
+                    {
+                        stringByKeyForEachLanguage = [];
+                        filesDictFull[txtSubPath] = stringByKeyForEachLanguage;
+                    }
+
+                    var lines = File.ReadAllLines(file);
+
+                    foreach (var line in lines)
+                    {
+                        if (string.IsNullOrWhiteSpace(line)) continue;
+
+                        string key = line;
+                        if (!stringByKeyForEachLanguage.TryGetValue(key, out Dictionary<string, string>? value))
+                        {
+                            value = [];
+                            stringByKeyForEachLanguage[key] = value;
+                        }
+
+                        value[language] = line;
+                    }
+
+                }
+            }
+
+            FillTranslationRows(filesDictFull);
         }
 
         private void LoadStringsFromTheXmlDir(string xmlDirName, List<string?> langDirNames, string languagesDirPath)
@@ -197,7 +242,7 @@ namespace RimworldModTranslator.ViewModels
 
                     if (!filesDictFull.TryGetValue(xmlSubPath, out Dictionary<string, Dictionary<string, string>>? stringByKeyForEachLanguage))
                     {
-                        stringByKeyForEachLanguage = new Dictionary<string, Dictionary<string, string>>();
+                        stringByKeyForEachLanguage = [];
                         filesDictFull[xmlSubPath] = stringByKeyForEachLanguage;
                     }
 
@@ -212,7 +257,7 @@ namespace RimworldModTranslator.ViewModels
                             string key = pair.Name.LocalName;
                             if (!stringByKeyForEachLanguage.TryGetValue(key, out Dictionary<string, string>? value))
                             {
-                                value = new Dictionary<string, string>();
+                                value = [];
                                 stringByKeyForEachLanguage[key] = value;
                             }
 
