@@ -291,7 +291,10 @@ namespace RimworldModTranslator.ViewModels
             if (mod == null) return;
 
             // Simple example: Add a new language (e.g., prompt user in real app)
-            string newLang = $"NewLanguage_{Languages.Count + 1}";
+            string newLang = NewLanguageName!;
+            if(string.IsNullOrEmpty(newLang)) return;
+            if(Languages.Contains(newLang)) return;
+
             Languages.Add(newLang);
             foreach (var row in TranslationRows)
             {
