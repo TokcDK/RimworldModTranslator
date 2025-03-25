@@ -9,7 +9,7 @@
         </Grid.RowDefinitions>
         
         <!-- Top section with ComboBox for FoldersList and language addition controls -->
-        <Grid Grid.Row="0" Margin="2">
+        <Grid Grid.Row="0" Margin="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="2*"/>
@@ -34,7 +34,7 @@
                         Orientation="Horizontal"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        Margin="2">
+                        Margin="1">
                 <TextBox Width="200" Margin="0,0,10,0"
                          VerticalAlignment="Center"
                          Text="{Binding NewLanguageName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -48,31 +48,31 @@
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding StringsByLanguage}"
                   AutoGenerateColumns="True"
-                  Margin="2"/>
+                  Margin="1"/>
 
         <!-- Bottom section -->
-        <Grid Grid.Row="2" Margin="2">
+        <Grid Grid.Row="2" Margin="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*"/>
-                <ColumnDefinition Width="0.2*"/>
-                <ColumnDefinition Width="Auto" MaxWidth="300"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
 
             <!-- Button for saving strings -->
-            <Button Grid.Column="0" Content="Save strings"
+            <Button Grid.Column="1" Content="Save strings"
                     Command="{Binding SaveStringsCommand}"
                     VerticalAlignment="Center" Margin="2"/>
 
             <!-- Button for loading strings -->
-            <Button Grid.Column="1" Content="Load strings"
+            <Button Grid.Column="2" Content="Load strings"
                     Command="{Binding LoadStringsCommand}"
                     VerticalAlignment="Center" Margin="2"/>
 
             <!-- Selected mod name -->
-            <TextBlock Grid.Column="2"
+            <TextBlock Grid.Column="0"
                        Text="{Binding ModDisplayingName}"
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Right" Margin="2"/>
+                       HorizontalAlignment="Left" Margin="2"/>
         </Grid>
     </Grid>
 </UserControl>
