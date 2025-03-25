@@ -270,9 +270,12 @@ namespace RimworldModTranslator.ViewModels
                             value[language] = pair.Value;
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        // Игнорировать ошибки парсинга
+                        // Ignore xml arse errors
+                        // some xml have error parse with error like "{"The 'blabla.labelNoun' start tag on line 17 position 4 does not match the end tag of 'LanguageData'. Line 37, position 3."}"
+                        // it happens because translator accidentally removed '<' or '>' symbol in one of starting or closing tag for a string
+                        // or translator used gpt and gpt made xml structure broken, but more likely it was made manually
                     }
                 }
             }

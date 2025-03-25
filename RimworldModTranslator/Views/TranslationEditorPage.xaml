@@ -24,7 +24,7 @@
 
             <!-- ComboBox bound to FoldersList -->
             <ComboBox Grid.Column="1"
-                      ItemsSource="{Binding FoldersList}"
+                      ItemsSource="{Binding Folders}"
                       SelectedItem="{Binding SelectedFolder}"
                       Margin="2"
                       VerticalAlignment="Center"/>
