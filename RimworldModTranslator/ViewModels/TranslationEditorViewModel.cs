@@ -44,8 +44,8 @@ namespace RimworldModTranslator.ViewModels
 
         private readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+", RegexOptions.Compiled);
 
-        private readonly ModData? mod;
-        private readonly Game? game;
+        private ModData? mod;
+        private Game? game;
         private readonly SettingsService settingsService;
 
         [ObservableProperty]
@@ -105,15 +105,6 @@ namespace RimworldModTranslator.ViewModels
         public TranslationEditorViewModel(SettingsService settingsService)
         {
             this.settingsService = settingsService;
-
-            game = settingsService.SelectedGame;
-            if (game == null) return;
-
-            mod = settingsService.SelectedMod;
-            if (mod == null) return;
-
-            GetLatestVersionFolder(mod.DirectoryName);
-            LoadLanguages();
         }
 
         private void GetLatestVersionFolder(string modDirectory)
@@ -157,7 +148,7 @@ namespace RimworldModTranslator.ViewModels
 
             foreach (var lang in langFolders)
             {
-                string langPath = Path.Combine(langDir, lang);
+                string langPath = Path.Combine(langDir, lang, "Defs");
                 foreach (var file in Directory.GetFiles(langPath, "*.xml", SearchOption.AllDirectories))
                 {
                     try
@@ -191,6 +182,19 @@ namespace RimworldModTranslator.ViewModels
         private bool HaveTranslatableDirs(string d)
         {
             return Directory.Exists(Path.Combine(d, "Defs"));
+        }
+
+        [RelayCommand]
+        private void LoadStrings()
+        {
+            game = settingsService.SelectedGame;
+            if (game == null) return;
+
+            mod = settingsService.SelectedMod;
+            if (mod == null) return;
+
+            GetLatestVersionFolder(mod.DirectoryName);
+            LoadLanguages();
         }
 
         [RelayCommand]
