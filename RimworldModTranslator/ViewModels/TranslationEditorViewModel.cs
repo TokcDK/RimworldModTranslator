@@ -209,7 +209,7 @@ namespace RimworldModTranslator.ViewModels
 
             foreach (var key in allKeys)
             {
-                var row = new TranslationRow { Key = key, Type = xmlDirName };
+                var row = new TranslationRow { Key = key, XmlDirName = xmlDirName };
                 foreach (var lang in Languages)
                 {
                     row.Translations[lang] = translations.TryGetValue(key, out var dict) && dict.TryGetValue(lang, out var value) ? value : string.Empty;
