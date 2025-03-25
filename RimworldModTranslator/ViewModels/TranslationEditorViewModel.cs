@@ -172,7 +172,8 @@ namespace RimworldModTranslator.ViewModels
             var xmlDirNames = new string[2] { "DefInjected", "Keyed" };
             foreach (var xmlDirName in xmlDirNames)
             {
-                LoadStringsFromTheXmlDir(xmlDirName, langDirNames, languagesDirPath);
+                //LoadStringsFromTheXmlDir(xmlDirName, langDirNames, languagesDirPath);
+                LoadStringsFromTheXmlAsTxtDir(xmlDirName, langDirNames, languagesDirPath);
             }
 
             LoadStringsFromStringsDir(langDirNames, languagesDirPath);
@@ -219,6 +220,78 @@ namespace RimworldModTranslator.ViewModels
                         value[language] = line;
                     }
 
+                }
+            }
+
+            FillTranslationRows(filesDictFull);
+        }
+
+        /// <summary>
+        /// The variant when the each language xml file
+        /// parsing as txt file with xml tags
+        /// because of some xml structure was broken and usual pasing fails to read xml
+        /// </summary>
+        /// <param name="xmlDirName"></param>
+        /// <param name="langDirNames"></param>
+        /// <param name="languagesDirPath"></param>
+        private void LoadStringsFromTheXmlAsTxtDir(string xmlDirName, List<string?> langDirNames, string languagesDirPath)
+        {
+            // Создаем словарь с вложенной структурой:
+            // Dictionary<subPath, Dictionary<key, Dictionary<language, value>>>
+            var filesDictFull = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
+            // Регулярное выражение для поиска строк с xml тегами, которые начинаются и заканчиваются одинаково.
+            // Пример: <OvipositorF.stages.5.label>Бездна</OvipositorF.stages.5.label>
+            var regex = new Regex(@"^\s*<(?<tag>[^>]+)>(?<value>.*)</\k<tag>>\s*$", RegexOptions.Compiled);
+
+            foreach (var language in langDirNames)
+            {
+                if (language == null)
+                    continue;
+
+                string langPath = Path.Combine(languagesDirPath, language);
+                string langXmlDirPath = Path.Combine(langPath, xmlDirName);
+                if (!Directory.Exists(langXmlDirPath))
+                    continue;
+
+                foreach (var file in Directory.GetFiles(langXmlDirPath, "*.xml", SearchOption.AllDirectories))
+                {
+                    // Вычисление подкаталога относительно текущей папки языка
+                    string xmlSubPath = Path.GetRelativePath(langPath, file);
+
+                    if (!filesDictFull.TryGetValue(xmlSubPath, out Dictionary<string, Dictionary<string, string>>? stringByKeyForEachLanguage))
+                    {
+                        stringByKeyForEachLanguage = new Dictionary<string, Dictionary<string, string>>();
+                        filesDictFull[xmlSubPath] = stringByKeyForEachLanguage;
+                    }
+
+                    try
+                    {
+                        var lines = File.ReadAllLines(file);
+                        foreach (var line in lines)
+                        {
+                            if (string.IsNullOrWhiteSpace(line))
+                                continue;
+
+                            var match = regex.Match(line);
+                            if (match.Success)
+                            {
+                                string key = match.Groups["tag"].Value;
+                                string value = match.Groups["value"].Value;
+
+                                if (!stringByKeyForEachLanguage.TryGetValue(key, out Dictionary<string, string>? translations))
+                                {
+                                    translations = new Dictionary<string, string>();
+                                    stringByKeyForEachLanguage[key] = translations;
+                                }
+
+                                translations[language] = value;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Ошибка чтения файла текстом, логирование при необходимости
+                    }
                 }
             }
 
