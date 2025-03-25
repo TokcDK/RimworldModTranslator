@@ -159,24 +159,35 @@ namespace RimworldModTranslator.ViewModels
             Languages.Clear();
             TranslationRows.Clear();
 
-            string langDir = Path.Combine(game!.GameDirPath!, "Mods", mod!.DirectoryName!, VersionDirRegex.IsMatch(SelectedFolder) ? SelectedFolder : "", "Languages");
-            if (!Directory.Exists(langDir)) return;
+            string languagesDirPath = Path.Combine(game!.GameDirPath!, "Mods", mod!.DirectoryName!, VersionDirRegex.IsMatch(SelectedFolder) ? SelectedFolder : "", "Languages");
+            if (!Directory.Exists(languagesDirPath)) return;
 
-            var langFolders = Directory.GetDirectories(langDir).Where(d => HaveTranslatableDirs(d)).Select(Path.GetFileName).ToList();
-            foreach (var lang in langFolders)
+            var langDirNames = Directory.GetDirectories(languagesDirPath).Where(d => HaveTranslatableDirs(d)).Select(Path.GetFileName).ToList();
+            foreach (var langDirName in langDirNames)
             {
-                if(lang == null) continue;
+                if(langDirName == null) continue;
 
-                Languages.Add(lang);
+                Languages.Add(langDirName);
             }
 
+            var xmlDirNames = new string[2] { "DefInjected", "Keyed" };
+            foreach (var xmlDirName in xmlDirNames)
+            {
+                LoadStringsFromTheXmlDir(xmlDirName, langDirNames, languagesDirPath);
+            }
+
+            int aaai = 0;
+        }
+
+        private void LoadStringsFromTheXmlDir(string xmlDirName, List<string?> langDirNames, string languagesDirPath)
+        {
             // Aggregate all translation keys across languages
             var allKeys = new HashSet<string>();
             var translations = new Dictionary<string, Dictionary<string, string>>();
 
-            foreach (var lang in langFolders)
+            foreach (var languageDirName in langDirNames)
             {
-                string langPath = Path.Combine(langDir, lang, "DefInjected");
+                string langPath = Path.Combine(languagesDirPath, languageDirName!, xmlDirName);
                 foreach (var file in Directory.GetFiles(langPath, "*.xml", SearchOption.AllDirectories))
                 {
                     try
@@ -189,7 +200,7 @@ namespace RimworldModTranslator.ViewModels
                             allKeys.Add(key);
                             if (!translations.ContainsKey(key))
                                 translations[key] = new Dictionary<string, string>();
-                            translations[key][lang] = pair.Value;
+                            translations[key][languageDirName] = pair.Value;
                         }
                     }
                     catch { /* Ignore parsing errors */ }
@@ -198,15 +209,13 @@ namespace RimworldModTranslator.ViewModels
 
             foreach (var key in allKeys)
             {
-                var row = new TranslationRow { Key = key };
+                var row = new TranslationRow { Key = key, Type = xmlDirName };
                 foreach (var lang in Languages)
                 {
                     row.Translations[lang] = translations.TryGetValue(key, out var dict) && dict.TryGetValue(lang, out var value) ? value : string.Empty;
                 }
                 TranslationRows.Add(row);
             }
-
-            int aaai = 0;
         }
 
         private bool HaveTranslatableDirs(string languageDir)
