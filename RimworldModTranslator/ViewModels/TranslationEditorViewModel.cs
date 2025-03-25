@@ -292,32 +292,32 @@ namespace RimworldModTranslator.ViewModels
             Languages.Add(newLang);
             foreach (var row in TranslationRows)
             {
-                row.Translations[newLang] = string.Empty;
+                row.Translations.Add(new LanguageValueData(newLang, string.Empty));
             }
         }
 
         [RelayCommand]
         private void SaveLanguages()
         {
-            string langDir = Path.Combine(mod.DirectoryName, SelectedFolder, "Languages");
-            Directory.CreateDirectory(langDir);
+            //string langDir = Path.Combine(mod.DirectoryName, SelectedFolder, "Languages");
+            //Directory.CreateDirectory(langDir);
 
-            foreach (var lang in Languages)
-            {
-                string langPath = Path.Combine(langDir, lang);
-                Directory.CreateDirectory(langPath);
+            //foreach (var lang in Languages)
+            //{
+            //    string langPath = Path.Combine(langDir, lang);
+            //    Directory.CreateDirectory(langPath);
 
-                // Simple save: one file per language (adjust structure as needed)
-                var doc = new XDocument(new XElement("LanguageData"));
-                foreach (var row in TranslationRows)
-                {
-                    if (!string.IsNullOrEmpty(row.Translations[lang]))
-                    {
-                        doc.Root.Add(new XElement(row.Key, row.Translations[lang]));
-                    }
-                }
-                doc.Save(Path.Combine(langPath, "Translations.xml"));
-            }
+            //    // Simple save: one file per language (adjust structure as needed)
+            //    var doc = new XDocument(new XElement("LanguageData"));
+            //    foreach (var row in TranslationRows)
+            //    {
+            //        if (!string.IsNullOrEmpty(row.Translations[lang]))
+            //        {
+            //            doc.Root.Add(new XElement(row.Key, row.Translations[lang]));
+            //        }
+            //    }
+            //    doc.Save(Path.Combine(langPath, "Translations.xml"));
+            //}
         }
     }
 }
