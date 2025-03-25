@@ -41,6 +41,7 @@ namespace RimworldModTranslator.ViewModels
         // replacers: https://rimworldwiki.com/wiki/Modding_Tutorials/GrammarResolver
 
         public string Header { get; } = "Editor";
+        public string[] TransatableDirs { get; } = [ "DefInjected", "Keyed", "Strings" ];
 
         private readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+", RegexOptions.Compiled);
 
@@ -184,9 +185,9 @@ namespace RimworldModTranslator.ViewModels
             }
         }
 
-        private bool HaveTranslatableDirs(string d)
+        private bool HaveTranslatableDirs(string languageDir)
         {
-            return Directory.Exists(Path.Combine(d, "Defs"));
+            return TransatableDirs.Any(d => Directory.Exists(Path.Combine(languageDir, d)));
         }
 
         [RelayCommand]
