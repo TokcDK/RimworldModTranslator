@@ -148,6 +148,9 @@ namespace RimworldModTranslator.ViewModels
             return ExtractableModSubDirs.Any(subdir => Directory.Exists(Path.Combine(dir, subdir)));
         }
 
+        /// <summary>
+        /// load strings from Languages dirs for each language dir
+        /// </summary>
         [RelayCommand]
         private void LoadLanguages()
         {
