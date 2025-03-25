@@ -181,40 +181,64 @@ namespace RimworldModTranslator.ViewModels
 
         private void LoadStringsFromTheXmlDir(string xmlDirName, List<string?> langDirNames, string languagesDirPath)
         {
-            // Aggregate all translation keys across languages
-            var allKeys = new HashSet<string>();
-            var translations = new Dictionary<string, Dictionary<string, string>>();
+            // Dictionary to group translation files by subpath (relative to each language's xmlDir)
+            var filesDict = new Dictionary<string, TranslationFile>();
 
-            foreach (var languageDirName in langDirNames)
+            foreach (var language in langDirNames)
             {
-                string langPath = Path.Combine(languagesDirPath, languageDirName!, xmlDirName);
+                if (language == null)
+                    continue;
+
+                string langPath = Path.Combine(languagesDirPath, language, xmlDirName);
+                if (!Directory.Exists(langPath))
+                    continue;
+
+                // Process each XML file in current language folder
                 foreach (var file in Directory.GetFiles(langPath, "*.xml", SearchOption.AllDirectories))
                 {
+                    // Get subpath relative to the language-specific xmlDir
+                    string subPath = Path.GetRelativePath(langPath, file);
+                    if (!filesDict.TryGetValue(subPath, out var translationFile))
+                    {
+                        translationFile = new TranslationFile { SubPath = subPath };
+                        filesDict[subPath] = translationFile;
+                    }
+
                     try
                     {
                         XDocument doc = XDocument.Load(file);
-                        var pairs = doc.Descendants().Where(e => e.HasElements == false && !string.IsNullOrWhiteSpace(e.Value));
+                        // Get all simple translation elements
+                        var pairs = doc.Descendants().Where(e => !e.HasElements && !string.IsNullOrWhiteSpace(e.Value));
                         foreach (var pair in pairs)
                         {
                             string key = pair.Name.LocalName;
-                            allKeys.Add(key);
-                            if (!translations.ContainsKey(key))
-                                translations[key] = new Dictionary<string, string>();
-                            translations[key][languageDirName] = pair.Value;
+                            // Try to find an existing row for the key in this translation file
+                            var row = translationFile.Rows.FirstOrDefault(r => r.Key == key);
+                            if (row == null)
+                            {
+                                row = new TranslationRow { Key = key, XmlDirName = xmlDirName };
+                                translationFile.Rows.Add(row);
+                            }
+                            // Set or update the translation for the current language
+                            row.Translations[language] = pair.Value;
                         }
                     }
-                    catch { /* Ignore parsing errors */ }
+                    catch
+                    {
+                        // Ignore parsing errors
+                    }
                 }
             }
 
-            foreach (var key in allKeys)
+            // Clear current rows and add all rows from each translation file (if needed, adjust how these are stored)
+            TranslationRows.Clear();
+            foreach (var fileEntry in filesDict.Values)
             {
-                var row = new TranslationRow { Key = key, XmlDirName = xmlDirName };
-                foreach (var lang in Languages)
+                foreach (var row in fileEntry.Rows)
                 {
-                    row.Translations[lang] = translations.TryGetValue(key, out var dict) && dict.TryGetValue(lang, out var value) ? value : string.Empty;
+                    // Additional processing can be done here if needed to reflect grouping by file subpath.
+                    TranslationRows.Add(row);
                 }
-                TranslationRows.Add(row);
             }
         }
 
@@ -281,5 +305,10 @@ namespace RimworldModTranslator.ViewModels
                 doc.Save(Path.Combine(langPath, "Translations.xml"));
             }
         }
+    }
+    public class TranslationFile
+    {
+        public string SubPath { get; set; } = string.Empty;
+        public List<TranslationRow> Rows { get; set; } = new();
     }
 }
