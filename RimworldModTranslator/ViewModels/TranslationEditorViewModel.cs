@@ -156,7 +156,7 @@ namespace RimworldModTranslator.ViewModels
             Languages.Clear();
             TranslationRows.Clear();
 
-            string langDir = Path.Combine(mod.DirectoryName, SelectedFolder, "Languages");
+            string langDir = Path.Combine(game!.GameDirPath!, "Mods", mod!.DirectoryName!, VersionDirRegex.IsMatch(SelectedFolder) ? SelectedFolder : "", "Languages");
             if (!Directory.Exists(langDir)) return;
 
             var langFolders = Directory.GetDirectories(langDir).Where(d => HaveTranslatableDirs(d)).Select(Path.GetFileName).ToList();
@@ -173,7 +173,7 @@ namespace RimworldModTranslator.ViewModels
 
             foreach (var lang in langFolders)
             {
-                string langPath = Path.Combine(langDir, lang, "Defs");
+                string langPath = Path.Combine(langDir, lang, "DefInjected");
                 foreach (var file in Directory.GetFiles(langPath, "*.xml", SearchOption.AllDirectories))
                 {
                     try
