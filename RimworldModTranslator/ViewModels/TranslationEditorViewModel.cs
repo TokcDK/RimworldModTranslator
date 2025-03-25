@@ -41,7 +41,8 @@ namespace RimworldModTranslator.ViewModels
         // replacers: https://rimworldwiki.com/wiki/Modding_Tutorials/GrammarResolver
 
         public string Header { get; } = "Editor";
-        public string[] TransatableDirs { get; } = [ "DefInjected", "Keyed", "Strings" ];
+        public string[] TransatableLanguageDirs { get; } = [ "DefInjected", "Keyed", "Strings" ];
+        public string[] ExtractableModSubDirs { get; } = [ "Defs", "Language" ];
 
         private readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+", RegexOptions.Compiled);
 
@@ -113,20 +114,38 @@ namespace RimworldModTranslator.ViewModels
             this.settingsService = settingsService;
         }
 
-        private void GetLatestVersionFolder(string modDirectory)
+        private void GetTranslatableFolders()
         {
-            string fullPath = Path.Combine(game!.GameDirPath!, "Mods", modDirectory);
+            string fullPath = Path.Combine(game!.GameDirPath!, "Mods", mod!.DirectoryName!);
             if (!Directory.Exists(fullPath)) return;
 
-            Folders = [.. Directory.GetDirectories(modDirectory)
-                .Select(Path.GetFileName)
-                .Where(d => d != null && VersionDirRegex.IsMatch(d))
-                .OrderByDescending(v => float.Parse(v))];
-            Folders.Add(modDirectory);
+            Folders = GetTranslatableSubDirs(fullPath);
 
-            var firstOrDefault = Folders.FirstOrDefault();
+            if(HasExtractableStringsDir(fullPath))
+            {
+                Folders.Add(mod!.DirectoryName!);
+            }
 
-            SelectedFolder = firstOrDefault ?? modDirectory;
+            if(Folders.Count > 0)
+            {
+                SelectedFolder = Folders[0];
+            }
+        }
+
+        private ObservableCollection<string> GetTranslatableSubDirs(string fullPath)
+        {
+            return [..Directory.GetDirectories(fullPath)
+                        .Select(Path.GetFileName)
+                        .Where(d => d != null
+                            && VersionDirRegex.IsMatch(d)
+                            && HasExtractableStringsDir(d)
+                        )
+                   ];
+        }
+
+        private bool HasExtractableStringsDir(string dir)
+        {
+            return ExtractableModSubDirs.Any(subdir => Directory.Exists(Path.Combine(dir, subdir)));
         }
 
         [RelayCommand]
@@ -183,11 +202,13 @@ namespace RimworldModTranslator.ViewModels
                 }
                 TranslationRows.Add(row);
             }
+
+            int aaai = 0;
         }
 
         private bool HaveTranslatableDirs(string languageDir)
         {
-            return TransatableDirs.Any(d => Directory.Exists(Path.Combine(languageDir, d)));
+            return TransatableLanguageDirs.Any(d => Directory.Exists(Path.Combine(languageDir, d)));
         }
 
         [RelayCommand]
@@ -199,7 +220,10 @@ namespace RimworldModTranslator.ViewModels
             mod = settingsService.SelectedMod;
             if (mod == null) return;
 
-            GetLatestVersionFolder(mod.DirectoryName);
+            GetTranslatableFolders();
+
+            if(Folders.Count == 0) return; // no translatable folders
+
             LoadLanguages();
         }
 
