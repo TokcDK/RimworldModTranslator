@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using RimworldModTranslator.ViewModels;
 using RimworldModTranslator.Services;
 using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -228,6 +229,32 @@ namespace RimworldModTranslator.ViewModels
                         // Игнорировать ошибки парсинга
                     }
                 }
+            }
+
+            FillTranslationRows(filesDictFull);
+        }
+
+        private void FillTranslationRows(Dictionary<string, Dictionary<string, Dictionary<string, string>>> filesDictFull)
+        {
+            TranslationRows.Clear();
+
+            // Dictionary<subPath, Dictionary<key, Dictionary<language, value>>> filesDictFull
+            foreach (var (subPath, keyValues) in filesDictFull)
+            {
+                var translationRow = new TranslationRow();
+                translationRow.SubPath = subPath;
+
+                foreach (var (key, langValues) in keyValues)
+                {
+                    translationRow.Key = key;
+
+                    foreach (var (lang, value) in langValues)
+                    {
+                        translationRow.Translations[lang] = value;
+                    }
+                }
+
+                TranslationRows.Add(translationRow);
             }
         }
 
