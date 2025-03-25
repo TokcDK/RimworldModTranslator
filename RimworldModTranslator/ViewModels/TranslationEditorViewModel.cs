@@ -181,8 +181,10 @@ namespace RimworldModTranslator.ViewModels
 
         private void LoadStringsFromTheXmlDir(string xmlDirName, List<string?> langDirNames, string languagesDirPath)
         {
-            // Dictionary to group translation files by subpath (relative to each language's xmlDir)
-            var filesDict = new Dictionary<string, TranslationFile>();
+            // Создаем словарь с вложенной структурой:
+            // Dictionary<xmlDirName, Dictionary<subPath, Dictionary<key, Dictionary<language, value>>>>
+            var filesDictFull = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, string>>>>();
+            filesDictFull[xmlDirName] = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
 
             foreach (var language in langDirNames)
             {
@@ -193,50 +195,56 @@ namespace RimworldModTranslator.ViewModels
                 if (!Directory.Exists(langPath))
                     continue;
 
-                // Process each XML file in current language folder
                 foreach (var file in Directory.GetFiles(langPath, "*.xml", SearchOption.AllDirectories))
                 {
-                    // Get subpath relative to the language-specific xmlDir
+                    // Вычисление подкаталога относительно текущей папки языка
                     string subPath = Path.GetRelativePath(langPath, file);
-                    if (!filesDict.TryGetValue(subPath, out var translationFile))
+
+                    var subDict = filesDictFull[xmlDirName];
+                    if (!subDict.TryGetValue(subPath, out Dictionary<string, Dictionary<string, string>>? value))
                     {
-                        translationFile = new TranslationFile { SubPath = subPath };
-                        filesDict[subPath] = translationFile;
+                        value = new Dictionary<string, Dictionary<string, string>>();
+                        subDict[subPath] = value;
                     }
 
                     try
                     {
                         XDocument doc = XDocument.Load(file);
-                        // Get all simple translation elements
+                        // Получить все переведенные элементы (без вложенных элементов и пустых значений)
                         var pairs = doc.Descendants().Where(e => !e.HasElements && !string.IsNullOrWhiteSpace(e.Value));
                         foreach (var pair in pairs)
                         {
                             string key = pair.Name.LocalName;
-                            // Try to find an existing row for the key in this translation file
-                            var row = translationFile.Rows.FirstOrDefault(r => r.Key == key);
-                            if (row == null)
+                            if (!subDict[subPath].ContainsKey(key))
                             {
-                                row = new TranslationRow { Key = key, XmlDirName = xmlDirName };
-                                translationFile.Rows.Add(row);
+                                subDict[subPath][key] = new Dictionary<string, string>();
                             }
-                            // Set or update the translation for the current language
-                            row.Translations[language] = pair.Value;
+
+                            value[key][language] = pair.Value;
                         }
                     }
                     catch
                     {
-                        // Ignore parsing errors
+                        // Игнорировать ошибки парсинга
                     }
                 }
             }
 
-            // Clear current rows and add all rows from each translation file (if needed, adjust how these are stored)
+            // Очистить текущие строки перевода и добавить полученные данные
             TranslationRows.Clear();
-            foreach (var fileEntry in filesDict.Values)
+            foreach (var subPathEntry in filesDictFull[xmlDirName])
             {
-                foreach (var row in fileEntry.Rows)
+                var subPath = subPathEntry.Key;
+                var keysDict = subPathEntry.Value;
+                foreach (var keyEntry in keysDict)
                 {
-                    // Additional processing can be done here if needed to reflect grouping by file subpath.
+                    var key = keyEntry.Key;
+                    var languageTranslations = keyEntry.Value;
+                    var row = new TranslationRow { Key = key, XmlDirName = xmlDirName };
+                    foreach (var translation in languageTranslations)
+                    {
+                        row.Translations[translation.Key] = translation.Value;
+                    }
                     TranslationRows.Add(row);
                 }
             }
