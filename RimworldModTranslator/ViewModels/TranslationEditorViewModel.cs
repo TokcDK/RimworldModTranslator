@@ -217,57 +217,6 @@ namespace RimworldModTranslator.ViewModels
             EditorHelper.LoadStringsFromStringsDir(langDirNames, languagesDirPath, TranslationRows);
         }
 
-        private void CreateTranslationsTable()
-        {
-            if (TranslationRows.Count == 0) return;
-
-            // Создаем новый DataTable
-            var translationsTable = new DataTable();
-
-            // Добавляем первые две колонки: SubPath и ID
-            translationsTable.Columns.Add("SubPath", typeof(string));
-            translationsTable.Columns.Add("ID", typeof(string));
-
-            // Собираем все уникальные языки из TranslationRows
-            var languageSet = new HashSet<string>();
-            foreach (var row in TranslationRows)
-            {
-                foreach (var langValue in row.Translations)
-                {
-                    if (string.IsNullOrEmpty(langValue.Language)) continue;
-                    if (languageSet.Contains(langValue.Language)) continue;
-
-                    languageSet.Add(langValue.Language!);
-                }
-            }
-
-            // Добавляем колонки для каждого языка
-            foreach (var lang in languageSet)
-            {
-                translationsTable.Columns.Add(lang, typeof(string));
-            }
-
-            // Заполняем строки DataTable
-            foreach (var translationRow in TranslationRows)
-            {
-                var dataRow = translationsTable.NewRow();
-                dataRow["SubPath"] = translationRow.SubPath ?? string.Empty;
-                dataRow["ID"] = translationRow.Key ?? string.Empty;
-
-                // Заполняем языковые колонки
-                foreach (var lang in languageSet)
-                {
-                    // Находим значение для данного языка
-                    var languageValue = translationRow.Translations.FirstOrDefault(t => t.Language == lang);
-                    dataRow[lang] = languageValue?.Value;
-                }
-
-                translationsTable.Rows.Add(dataRow);
-            }
-
-            InitTranslationsTable(dataTableToRelink: translationsTable);
-        }
-
         [RelayCommand]
         private void LoadStrings()
         {
@@ -298,7 +247,8 @@ namespace RimworldModTranslator.ViewModels
 
             LoadLanguages();
 
-            CreateTranslationsTable();
+            var translationsTable = EditorHelper.CreateTranslationsTable(TranslationRows);
+            InitTranslationsTable(dataTableToRelink: translationsTable);
         }
 
         [RelayCommand]
