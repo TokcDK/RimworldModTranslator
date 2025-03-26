@@ -177,8 +177,6 @@ namespace RimworldModTranslator.ViewModels
             }
 
             LoadStringsFromStringsDir(langDirNames, languagesDirPath);
-
-            CreateTranslationsTable();
         }
 
         private void LoadStringsFromStringsDir(List<string?> langDirNames, string languagesDirPath)
@@ -380,8 +378,11 @@ namespace RimworldModTranslator.ViewModels
 
         private void CreateTranslationsTable()
         {
+            if (TranslationRows.Count == 0) return;
+
             // Создаем новый DataTable
             TranslationsTable.Clear();
+            TranslationsTable.Columns.Clear();
 
             // Добавляем первые две колонки: SubPath и ID
             TranslationsTable.Columns.Add("SubPath", typeof(string));
@@ -457,6 +458,8 @@ namespace RimworldModTranslator.ViewModels
             SelectedFolder ??= Folders[0];
 
             LoadLanguages();
+
+            CreateTranslationsTable();
         }
 
         [RelayCommand]
