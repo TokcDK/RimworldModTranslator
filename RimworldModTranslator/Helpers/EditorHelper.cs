@@ -19,7 +19,7 @@ namespace RimworldModTranslator.Helpers
 
         public static readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+", RegexOptions.Compiled);
 
-        public static ObservableCollection<string> DefsXmlTags { get; } =
+        public static List<string> DefsXmlTags { get; } =
         [
             "adjective",
             "baseDesc",

@@ -203,6 +203,9 @@ namespace RimworldModTranslator.ViewModels
 
             var defInjectedDataList = new List<DefInjectedStringData>();
 
+            // Define the list of valid tags to be extracted (e.g., "label", "tooltip", etc.)
+            var defsXmlTags = EditorHelper.DefsXmlTags; // добавьте другие теги при необходимости
+
             foreach (var xmlFile in Directory.GetFiles(defsDir, "*.xml", SearchOption.AllDirectories))
             {
                 var xmlFileName = Path.GetFileNameWithoutExtension(xmlFile);
@@ -222,19 +225,21 @@ namespace RimworldModTranslator.ViewModels
 
                         string stringIdRootName = defNameElement.Value.Trim();
 
-                        // Process all <label> elements within the category element.
-                        var labelElements = category.Descendants("label");
-                        foreach (var label in labelElements)
+                        // Find all descendant elements whose tag name is listed in defsXmlTags
+                        var matchingElements = category.Descendants()
+                                                       .Where(e => defsXmlTags.Contains(e.Name.LocalName));
+                        foreach (var element in matchingElements)
                         {
-                            // Get the chain of ancestors from the label up to (but not including) the category element.
-                            var ancestors = label.Ancestors().TakeWhile(e => e != category).Reverse().ToList();
+                            // Получить цепочку предков от текущего элемента до элемента категории
+                            var ancestors = element.Ancestors().TakeWhile(e => e != category).Reverse().ToList();
                             var segments = new List<string>();
 
                             foreach (var anc in ancestors)
                             {
                                 if (anc.Name.LocalName == "li")
                                 {
-                                    var liSiblings = anc.Parent.Elements("li").ToList();
+                                    // save index of li element in parent ul/ol
+                                    var liSiblings = anc.Parent!.Elements("li").ToList();
                                     int index = liSiblings.IndexOf(anc);
                                     segments.Add(index.ToString());
                                 }
@@ -243,11 +248,11 @@ namespace RimworldModTranslator.ViewModels
                                     segments.Add(anc.Name.LocalName);
                                 }
                             }
-                            // Append the label element itself.
-                            segments.Add(label.Name.LocalName);
+                            // Добавляем сам элемент, имя тега используется как последняя часть идентификатора
+                            segments.Add(element.Name.LocalName);
 
                             string stringId = stringIdRootName + "." + string.Join(".", segments);
-                            string stringValue = label.Value.Trim();
+                            string stringValue = element.Value.Trim();
 
                             defInjectedDataList.Add(new DefInjectedStringData(folderName, xmlFileName, stringId, stringValue));
                         }
@@ -255,12 +260,15 @@ namespace RimworldModTranslator.ViewModels
                 }
                 catch (Exception)
                 {
-                    // Optionally handle or log exception
+                    // Опционально: обработка исключения или логирование
                 }
             }
 
-            // The list "defInjectedDataList" now contains all extracted data.
-            // It can now be used to update TranslationRows or further processing.
+            if(defInjectedDataList.Count > 0)
+            {
+            }
+
+            // defInjectedDataList содержит все извлечённые данные для последующей обработки.
         }
 
         // New type to hold extracted DefInjected string data.
