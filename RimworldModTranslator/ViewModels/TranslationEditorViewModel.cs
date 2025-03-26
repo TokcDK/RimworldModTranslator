@@ -43,6 +43,13 @@ namespace RimworldModTranslator.ViewModels
 
     public partial class TranslationEditorViewModel : ViewModelBase
     {
+        #region Fields
+        private ModData? mod;
+        private Game? game;
+        private readonly SettingsService settingsService;
+        #endregion
+
+        #region Constructors
         public TranslationEditorViewModel(SettingsService settingsService)
         {
             this.settingsService = settingsService;
@@ -50,23 +57,25 @@ namespace RimworldModTranslator.ViewModels
 
             InitTranslationsTable();
         }
+        #endregion
 
+        #region Properties
         public string Header { get; } = "Editor";
 
-        private ModData? mod;
-        private Game? game;
-        private readonly SettingsService settingsService;
+        public bool IsTranslatorEnabled => IsTheTranslatorEnabled();
 
+        public bool IsAddNewLanguageEnabled => IsAddNewLanguageButtonEnabled();
 
-        // enable some editor controls by condition
-        public bool IsTranslatorEnabled { get => IsTheTranslatorEnabled(); }
-        public bool IsAddNewLanguageEnabled { get => IsAddNewLanguageButtonEnabled(); }
-        public bool IsFoldersEnabled { get => IsTheFoldersEnabled(); }
+        public bool IsFoldersEnabled => IsTheFoldersEnabled();
 
-        public string? ModDisplayingName { get => settingsService.SelectedMod?.ModDisplayingName; }
+        public string? ModDisplayingName => settingsService.SelectedMod?.ModDisplayingName;
 
         public ObservableCollection<string> Folders { get; } = new();
 
+        public ObservableCollection<TranslationRow> TranslationRows = new();
+        #endregion
+
+        #region Observable Properties
         [ObservableProperty]
         private string? selectedFolder;
         partial void OnSelectedFolderChanged(string? value)
@@ -83,53 +92,14 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private ObservableCollection<string> languages = new();
 
-        public ObservableCollection<TranslationRow> TranslationRows = new();
-
         [ObservableProperty]
         private DataTable? translationsTable;
 
         [ObservableProperty]
         private DataView? translationsView;
+        #endregion
 
-        /// <summary>
-        /// Init Translations table and view
-        /// </summary>
-        /// <param name="fullInit">when false, will be recreated only DataView. TranslationsTable will not be recreated.</param>
-        private void InitTranslationsTable(bool fullInit = true, DataTable? dataTableToRelink = null)
-        {
-            if (fullInit)
-            {
-                TranslationsTable = dataTableToRelink ?? new DataTable();
-            }
-
-            TranslationsView = new DataView(TranslationsTable);
-        }
-
-        private bool IsTheFoldersEnabled()
-        {
-            return game != null
-                && mod != null
-                && Folders.Count > 1;
-        }
-
-        private bool IsTheTranslatorEnabled()
-        {
-            return (settingsService.SelectedGame != null || game != null)
-                && (settingsService.SelectedMod != null || mod != null);
-        }
-
-        private bool IsAddNewLanguageButtonEnabled()
-        {
-            return game != null
-                 && mod != null
-                 && !string.IsNullOrWhiteSpace(NewLanguageName)
-                 && TranslationsTable.Columns.Count > 0
-                 && !TranslationsTable.Columns.Contains(NewLanguageName);
-        }
-
-        /// <summary>
-        /// load strings from Languages dirs for each language dir
-        /// </summary>
+        #region Commands
         [RelayCommand]
         private void LoadLanguages()
         {
@@ -140,7 +110,10 @@ namespace RimworldModTranslator.ViewModels
             string languagesDirPath = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, EditorHelper.GetLanguageFolderIfNeed(SelectedFolder), "Languages");
             if (!Directory.Exists(languagesDirPath)) return;
 
-            var langDirNames = Directory.GetDirectories(languagesDirPath).Where(d => EditorHelper.HaveTranslatableDirs(d)).Select(Path.GetFileName).ToList();
+            var langDirNames = Directory.GetDirectories(languagesDirPath)
+                                        .Where(d => EditorHelper.HaveTranslatableDirs(d))
+                                        .Select(Path.GetFileName)
+                                        .ToList();
             foreach (var langDirName in langDirNames)
             {
                 if (langDirName == null) continue;
@@ -194,6 +167,79 @@ namespace RimworldModTranslator.ViewModels
 
             var translationsTable = EditorHelper.CreateTranslationsTable(TranslationRows);
             InitTranslationsTable(dataTableToRelink: translationsTable);
+        }
+
+        [RelayCommand]
+        private void SaveStrings()
+        {
+            if (game == null) return;
+            if (mod == null) return;
+        }
+
+        [RelayCommand]
+        private void AddNewLanguage()
+        {
+            if (game == null) return;
+            if (mod == null) return;
+
+            if (string.IsNullOrEmpty(NewLanguageName)) return;
+            string newLang = NewLanguageName!.Trim();
+            if (TranslationsTable.Columns.Contains(newLang)) return;
+
+            TranslationsTable.Columns.Add(newLang, typeof(string));
+
+            NewLanguageName = string.Empty;
+
+            InitTranslationsTable(false);
+        }
+
+        [RelayCommand]
+        private void SaveLanguages()
+        {
+            if (game == null) return;
+            if (mod == null) return;
+            if (SelectedFolder == null) return;
+
+            string langDir = Path.Combine(game.ModsDirPath!, mod.DirectoryName!, SelectedFolder, "Languages");
+            Directory.CreateDirectory(langDir);
+        }
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Init Translations table and view
+        /// </summary>
+        /// <param name="fullInit">when false, will be recreated only DataView. TranslationsTable will not be recreated.</param>
+        private void InitTranslationsTable(bool fullInit = true, DataTable? dataTableToRelink = null)
+        {
+            if (fullInit)
+            {
+                TranslationsTable = dataTableToRelink ?? new DataTable();
+            }
+
+            TranslationsView = new DataView(TranslationsTable);
+        }
+
+        private bool IsTheFoldersEnabled()
+        {
+            return game != null
+                   && mod != null
+                   && Folders.Count > 1;
+        }
+
+        private bool IsTheTranslatorEnabled()
+        {
+            return (settingsService.SelectedGame != null || game != null)
+                   && (settingsService.SelectedMod != null || mod != null);
+        }
+
+        private bool IsAddNewLanguageButtonEnabled()
+        {
+            return game != null
+                   && mod != null
+                   && !string.IsNullOrWhiteSpace(NewLanguageName)
+                   && TranslationsTable.Columns.Count > 0
+                   && !TranslationsTable.Columns.Contains(NewLanguageName);
         }
 
         private void ExtractStrings()
@@ -265,40 +311,6 @@ namespace RimworldModTranslator.ViewModels
                 }
             }
         }
-
-        [RelayCommand]
-        private void SaveStrings()
-        {
-            if (game == null) return;
-            if (mod == null) return;
-        }
-
-        [RelayCommand]
-        private void AddNewLanguage()
-        {
-            if (game == null) return;
-            if (mod == null) return;
-
-            if (string.IsNullOrEmpty(NewLanguageName)) return;
-            string newLang = NewLanguageName!.Trim();
-            if (TranslationsTable.Columns.Contains(newLang)) return;
-
-            TranslationsTable.Columns.Add(newLang, typeof(string));
-
-            NewLanguageName = string.Empty;
-
-            InitTranslationsTable(false);
-        }
-
-        [RelayCommand]
-        private void SaveLanguages()
-        {
-            if (game == null) return;
-            if (mod == null) return;
-            if (SelectedFolder == null) return;
-
-            string langDir = Path.Combine(game.ModsDirPath!, mod.DirectoryName!, SelectedFolder, "Languages");
-            Directory.CreateDirectory(langDir);
-        }
+        #endregion
     }
 }
