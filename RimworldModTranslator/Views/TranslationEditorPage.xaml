@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="RimworldModTranslator.Views.TranslationEditorPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid>
+    <Grid IsEnabled="{Binding IsTranslatorEnabled}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

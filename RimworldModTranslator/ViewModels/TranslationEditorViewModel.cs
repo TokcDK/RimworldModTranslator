@@ -66,6 +66,13 @@ namespace RimworldModTranslator.ViewModels
         private string? newLanguageName;
 
         public bool IsAddNewLanguageEnabled { get => IsAddNewLanguageButtonEnabled(); }
+        public bool IsTranslatorEnabled { get => IsTheTranslatorEnabled(); }
+
+        private bool IsTheTranslatorEnabled()
+        {
+            return (settingsService.SelectedGame != null || game != null)
+                && (settingsService.SelectedMod != null || mod != null);
+        }
 
         private bool IsAddNewLanguageButtonEnabled()
         {
