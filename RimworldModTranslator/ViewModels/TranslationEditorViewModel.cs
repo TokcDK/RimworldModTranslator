@@ -91,47 +91,6 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private DataView? translationsView;
 
-        [
-            "adjective",
-            "baseDesc",
-            "baseInspectLine",
-            "commandDesc",
-            "commandLabel",
-            "customLabel",
-            "customLetterLabel",
-            "customLetterText",
-            "deathMessage",
-            "desc",
-            "description",
-            "headerTip",
-            "ideoName",
-            "ingestCommandString",
-            "ingestReportString",
-            "jobString",
-            "label",
-            "labelNoun",
-            "labelPlural",
-            "leaderTitle",
-            "letterText",
-            "member",
-            "name",
-            "outOfFuelMessage",
-            "pawnSingular",
-            "pawnsPlural",
-            "reportString",
-            "slateRef",
-            "structureLabel",
-            "stuffAdjective",
-            "summary",
-            "text",
-            "theme",
-            "title",
-            "titleshort",
-            "titleFemale",
-            "titleshortFemale",
-            "verb"
-        ];
-
         /// <summary>
         /// Init Translations table and view
         /// </summary>
@@ -231,8 +190,18 @@ namespace RimworldModTranslator.ViewModels
 
             LoadLanguages();
 
+            ExtractStrings();
+
             var translationsTable = EditorHelper.CreateTranslationsTable(TranslationRows);
             InitTranslationsTable(dataTableToRelink: translationsTable);
+        }
+
+        private void ExtractStrings()
+        {
+            var defsDir = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, SelectedFolder, "Defs");
+            if (!Directory.Exists(defsDir)) return;
+
+
         }
 
         [RelayCommand]
