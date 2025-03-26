@@ -105,39 +105,6 @@ namespace RimworldModTranslator.ViewModels
 
         #region Commands
         [RelayCommand]
-        private void LoadLanguages()
-        {
-            if (SelectedFolder == null) return;
-
-            Languages.Clear();
-
-            string languagesDirPath = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, EditorHelper.GetLanguageFolderIfNeed(SelectedFolder), "Languages");
-            if (!Directory.Exists(languagesDirPath)) return;
-
-            var langDirNames = Directory.GetDirectories(languagesDirPath)
-                                        .Where(d => EditorHelper.HaveTranslatableDirs(d))
-                                        .Select(Path.GetFileName)
-                                        .ToList();
-            foreach (var langDirName in langDirNames)
-            {
-                if (langDirName == null) continue;
-
-                Languages.Add(langDirName);
-            }
-
-            TranslationRows.Clear();
-
-            var xmlDirNames = new string[2] { "DefInjected", "Keyed" };
-            foreach (var xmlDirName in xmlDirNames)
-            {
-                //LoadStringsFromTheXmlDir(xmlDirName, langDirNames, languagesDirPath);
-                EditorHelper.LoadStringsFromTheXmlAsTxtDir(xmlDirName, langDirNames, languagesDirPath, TranslationRows);
-            }
-
-            EditorHelper.LoadStringsFromStringsDir(langDirNames, languagesDirPath, TranslationRows);
-        }
-
-        [RelayCommand]
         private void LoadStrings()
         {
             if (game == null || game != settingsService.SelectedGame)
@@ -165,16 +132,24 @@ namespace RimworldModTranslator.ViewModels
 
             SelectedFolder ??= Folders[0];
 
-            var selectedLanguageDir = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, SelectedFolder);
+            string selectedFolder = SelectedFolder!;
 
-            LoadLanguages();
+            var selectedLanguageDir = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, EditorHelper.GetLanguageFolderIfNeed(selectedFolder));
 
-            EditorHelper.ExtractStrings(TranslationRows, selectedLanguageDir);
+            List<TranslationRow>? translationRows = new();
+            EditorHelper.LoadLanguages(translationRows, selectedLanguageDir);
+            EditorHelper.ExtractStrings(translationRows, selectedLanguageDir);
 
-            var translationsTable = EditorHelper.CreateTranslationsTable(TranslationRows);
+            var translationsTable = EditorHelper.CreateTranslationsTable(translationRows);
             InitTranslationsTable(dataTableToRelink: translationsTable);
+            
+            if (translationsTable.Columns.Count == 0)
+            {
+                SelectedFolder = previousSelectedFolder;
+                return;
+            }
 
-            OnPropertyChanged(nameof(ModDisplayingName));
+            OnPropertyChanged(nameof(ModDisplayingName)); // update current mod for editor
         }
 
         [RelayCommand]

@@ -303,7 +303,7 @@ namespace RimworldModTranslator.Helpers
             return VersionDirRegex.IsMatch(selectedFolder) ? selectedFolder : "";
         }
 
-        public static DataTable? CreateTranslationsTable(ObservableCollection<TranslationRow> translationRows)
+        public static DataTable? CreateTranslationsTable(List<TranslationRow> translationRows)
         {
             if (translationRows.Count == 0) return null;
 
@@ -353,7 +353,38 @@ namespace RimworldModTranslator.Helpers
 
             return translationsTable;
         }
-        public static void ExtractStrings(ObservableCollection<TranslationRow> translationRows, string selectedLanguageDir)
+
+        public static bool LoadLanguages(List<TranslationRow> translationRows, string selectedLanguageDir)
+        {
+            List<string> languages = [];
+
+            string languagesDirPath = Path.Combine(selectedLanguageDir, "Languages");
+            if (!Directory.Exists(languagesDirPath)) return false;
+
+            var langDirNames = Directory.GetDirectories(languagesDirPath)
+                                        .Where(d => EditorHelper.HaveTranslatableDirs(d))
+                                        .Select(Path.GetFileName)
+                                        .ToList();
+            foreach (var langDirName in langDirNames)
+            {
+                if (langDirName == null) continue;
+
+                languages.Add(langDirName);
+            }
+
+            var xmlDirNames = new string[2] { "DefInjected", "Keyed" };
+            foreach (var xmlDirName in xmlDirNames)
+            {
+                //LoadStringsFromTheXmlDir(xmlDirName, langDirNames, languagesDirPath);
+                EditorHelper.LoadStringsFromTheXmlAsTxtDir(xmlDirName, langDirNames, languagesDirPath, translationRows);
+            }
+
+            EditorHelper.LoadStringsFromStringsDir(langDirNames, languagesDirPath, translationRows);
+
+            return translationRows.Count > 0;
+        }
+
+        public static void ExtractStrings(List<TranslationRow> translationRows, string selectedLanguageDir)
         {
             var defsDir = Path.Combine(selectedLanguageDir, "Defs");
             if (!Directory.Exists(defsDir)) return;
