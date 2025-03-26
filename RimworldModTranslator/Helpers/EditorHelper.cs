@@ -19,6 +19,48 @@ namespace RimworldModTranslator.Helpers
 
         public static readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+", RegexOptions.Compiled);
 
+        public static ObservableCollection<string> DefsXmlTags { get; } =
+        [
+            "adjective",
+            "baseDesc",
+            "baseInspectLine",
+            "commandDesc",
+            "commandLabel",
+            "customLabel",
+            "customLetterLabel",
+            "customLetterText",
+            "deathMessage",
+            "desc",
+            "description",
+            "headerTip",
+            "ideoName",
+            "ingestCommandString",
+            "ingestReportString",
+            "jobString",
+            "label",
+            "labelNoun",
+            "labelPlural",
+            "leaderTitle",
+            "letterText",
+            "member",
+            "name",
+            "outOfFuelMessage",
+            "pawnSingular",
+            "pawnsPlural",
+            "reportString",
+            "slateRef",
+            "structureLabel",
+            "stuffAdjective",
+            "summary",
+            "text",
+            "theme",
+            "title",
+            "titleshort",
+            "titleFemale",
+            "titleshortFemale",
+            "verb"
+        ];
+
         public static void GetTranslatableSubDirs(string fullPath, ObservableCollection<string> folders)
         {
             foreach (var folder in Directory.GetDirectories(fullPath)

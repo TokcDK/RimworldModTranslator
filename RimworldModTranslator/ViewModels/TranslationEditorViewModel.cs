@@ -91,7 +91,6 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private DataView? translationsView;
 
-        public ObservableCollection<string> DefsXmlTags { get; } =
         [
             "adjective",
             "baseDesc",
