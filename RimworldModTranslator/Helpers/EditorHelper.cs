@@ -353,5 +353,74 @@ namespace RimworldModTranslator.Helpers
 
             return translationsTable;
         }
+        public static void ExtractStrings(ObservableCollection<TranslationRow> translationRows, string selectedLanguageDir)
+        {
+            var defsDir = Path.Combine(selectedLanguageDir, "Defs");
+            if (!Directory.Exists(defsDir)) return;
+
+            var defsXmlTags = EditorHelper.DefsXmlTags;
+
+            foreach (var xmlFile in Directory.GetFiles(defsDir, "*.xml", SearchOption.AllDirectories))
+            {
+                var xmlFileName = Path.GetFileName(xmlFile);
+
+                try
+                {
+                    var doc = XDocument.Load(xmlFile);
+                    var root = doc.Element("Defs");
+                    if (root == null) continue;
+
+                    foreach (var category in root.Elements())
+                    {
+                        string folderName = category.Name.LocalName;
+
+                        var defNameElement = category.Element("defName");
+                        if (defNameElement == null) continue;
+
+                        string stringIdRootName = defNameElement.Value.Trim();
+
+                        // Get chain of ancestors from the current element up to the category element
+                        var matchingElements = category.Descendants()
+                                                       .Where(e => defsXmlTags.Contains(e.Name.LocalName));
+                        foreach (var element in matchingElements)
+                        {
+                            // Get the chain of ancestors from the current element up to the category element
+                            var ancestors = element.Ancestors().TakeWhile(e => e != category).Reverse().ToList();
+                            var segments = new List<string>();
+
+                            foreach (var anc in ancestors)
+                            {
+                                if (anc.Name.LocalName == "li")
+                                {
+                                    // save index of li element in parent ul/ol
+                                    var liSiblings = anc.Parent!.Elements("li").ToList();
+                                    int index = liSiblings.IndexOf(anc);
+                                    segments.Add(index.ToString());
+                                }
+                                else
+                                {
+                                    segments.Add(anc.Name.LocalName);
+                                }
+                            }
+                            // Add the element itself; the tag name is used as the last part of the identifier
+                            segments.Add(element.Name.LocalName);
+
+                            string stringId = stringIdRootName + "." + string.Join(".", segments);
+                            string stringValue = element.Value.Trim();
+
+                            var translationRow = new TranslationRow(subPath: $"DefInjected\\{folderName}\\{xmlFileName}");
+                            translationRow.SetKey(stringId);
+                            translationRow.Translations.Add(new LanguageValueData("Extracted", stringValue));
+
+                            translationRows.Add(translationRow);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    // Optionally: exception handling or logging
+                }
+            }
+        }
     }
 }
