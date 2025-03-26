@@ -107,7 +107,7 @@ namespace RimworldModTranslator.Helpers
         /// <param name="xmlDirName"></param>
         /// <param name="langDirNames"></param>
         /// <param name="languagesDirPath"></param>
-        public static void LoadStringsFromTheXmlAsTxtDir(string xmlDirName, List<string?> langDirNames, string languagesDirPath, System.Collections.ObjectModel.ObservableCollection<TranslationRow> translationRows)
+        public static void LoadStringsFromTheXmlAsTxtDir(string xmlDirName, List<string?> langDirNames, string languagesDirPath, List<TranslationRow> translationRows)
         {
             // Создаем словарь с вложенной структурой:
             // Dictionary<subPath, Dictionary<key, Dictionary<language, value>>>
@@ -171,7 +171,7 @@ namespace RimworldModTranslator.Helpers
             FillTranslationRows(filesDictFull, translationRows);
         }
 
-        public static void LoadStringsFromTheXmlDir(string xmlDirName, List<string?> langDirNames, string languagesDirPath, System.Collections.ObjectModel.ObservableCollection<TranslationRow> translationRows)
+        public static void LoadStringsFromTheXmlDir(string xmlDirName, ObservableCollection<string?> langDirNames, string languagesDirPath, List<TranslationRow> translationRows)
         {
             // Создаем словарь с вложенной структурой:
             // Dictionary<subPath, Dictionary<key, Dictionary<language, value>>>
@@ -229,7 +229,7 @@ namespace RimworldModTranslator.Helpers
             FillTranslationRows(filesDictFull, translationRows);
         }
 
-        public static void LoadStringsFromStringsDir(List<string?> langDirNames, string languagesDirPath, System.Collections.ObjectModel.ObservableCollection<TranslationRow> translationRows)
+        public static void LoadStringsFromStringsDir(List<string?> langDirNames, string languagesDirPath, List<TranslationRow> translationRows)
         {
             var filesDictFull = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
 
@@ -278,7 +278,7 @@ namespace RimworldModTranslator.Helpers
             EditorHelper.FillTranslationRows(filesDictFull, translationRows);
         }
 
-        public static void FillTranslationRows(Dictionary<string, Dictionary<string, Dictionary<string, string>>> filesDictFull, System.Collections.ObjectModel.ObservableCollection<TranslationRow> translationRows)
+        public static void FillTranslationRows(Dictionary<string, Dictionary<string, Dictionary<string, string>>> filesDictFull, List<TranslationRow> translationRows)
         {
             // Dictionary<subPath, Dictionary<key, Dictionary<language, value>>> filesDictFull
             foreach (var (subPath, keyValues) in filesDictFull)
