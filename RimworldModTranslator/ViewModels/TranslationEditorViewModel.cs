@@ -192,8 +192,8 @@ namespace RimworldModTranslator.ViewModels
 
             ExtractStrings();
 
-            //var translationsTable = EditorHelper.CreateTranslationsTable(TranslationRows);
-            //InitTranslationsTable(dataTableToRelink: translationsTable);
+            var translationsTable = EditorHelper.CreateTranslationsTable(TranslationRows);
+            InitTranslationsTable(dataTableToRelink: translationsTable);
         }
 
         private void ExtractStrings()
@@ -201,10 +201,7 @@ namespace RimworldModTranslator.ViewModels
             var defsDir = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, SelectedFolder, "Defs");
             if (!Directory.Exists(defsDir)) return;
 
-            var defInjectedDataList = new List<DefInjectedStringData>();
-
-            // Define the list of valid tags to be extracted (e.g., "label", "tooltip", etc.)
-            var defsXmlTags = EditorHelper.DefsXmlTags; // добавьте другие теги при необходимости
+            var defsXmlTags = EditorHelper.DefsXmlTags;
 
             foreach (var xmlFile in Directory.GetFiles(defsDir, "*.xml", SearchOption.AllDirectories))
             {
@@ -254,7 +251,11 @@ namespace RimworldModTranslator.ViewModels
                             string stringId = stringIdRootName + "." + string.Join(".", segments);
                             string stringValue = element.Value.Trim();
 
-                            defInjectedDataList.Add(new DefInjectedStringData($"DefInjected\\{folderName}\\{xmlFileName}", stringId, stringValue));
+                            var translationRow = new TranslationRow(subPath: $"DefInjected\\{folderName}\\{xmlFileName}");
+                            translationRow.SetKey(stringId);
+                            translationRow.Translations.Add(new LanguageValueData("Extracted", stringValue));
+
+                            TranslationRows.Add(translationRow);
                         }
                     }
                 }
@@ -263,8 +264,6 @@ namespace RimworldModTranslator.ViewModels
                     // Опционально: обработка исключения или логирование
                 }
             }
-
-            // defInjectedDataList содержит все извлечённые данные для последующей обработки.
         }
 
         // New type to hold extracted DefInjected string data.
