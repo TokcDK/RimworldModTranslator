@@ -12,6 +12,21 @@ namespace RimworldModTranslator.Helpers
 {
     class GameHelper
     {
+        internal static string CheckCorrectModsPath(string modsPathToCheck)
+        {
+            if (Directory.Exists(Path.Combine(modsPathToCheck, "RimWorldWin64_Data")))
+            {
+                // was wrongly set game path
+                if (Directory.Exists(Path.Combine(modsPathToCheck, "Mods")))
+                {
+                    // set mods path to the one inside of ame directory
+                    return Path.Combine(modsPathToCheck, "Mods");
+                }
+            }
+
+            return modsPathToCheck; // seems to be correct
+        }
+
         internal static bool IsValidGame(Game? game, SettingsService settings)
         {
             if (game == null) return false;

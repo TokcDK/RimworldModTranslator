@@ -57,6 +57,8 @@ namespace RimworldModTranslator.Services
                         var gameParts = game.Split(_gamesListTheGamePathsSeparator);
                         if (gameParts.Length != 2) continue;
 
+                        gameParts[0] = GameHelper.CheckCorrectModsPath(gameParts[0]);
+
                         var newGame = new Game
                         {
                             ModsDirPath = gameParts[0],
