@@ -478,14 +478,10 @@ namespace RimworldModTranslator.ViewModels
 
             // Simple example: Add a new language (e.g., prompt user in real app)
             string newLang = NewLanguageName!;
-            if(string.IsNullOrEmpty(newLang)) return;
-            if(Languages.Contains(newLang)) return;
+            if (string.IsNullOrEmpty(newLang)) return;
+            if (TranslationsTable.Columns.Contains(newLang)) return;
 
-            Languages.Add(newLang);
-            foreach (var row in TranslationRows)
-            {
-                row.Translations.Add(new LanguageValueData(newLang, string.Empty));
-            }
+            TranslationsTable.Columns.Add(newLang, typeof(string));
         }
 
         [RelayCommand]
