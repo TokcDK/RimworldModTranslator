@@ -188,12 +188,12 @@ namespace RimworldModTranslator.ViewModels
 
             SelectedFolder ??= Folders[0];
 
-            LoadLanguages();
+            //LoadLanguages();
 
             ExtractStrings();
 
-            var translationsTable = EditorHelper.CreateTranslationsTable(TranslationRows);
-            InitTranslationsTable(dataTableToRelink: translationsTable);
+            //var translationsTable = EditorHelper.CreateTranslationsTable(TranslationRows);
+            //InitTranslationsTable(dataTableToRelink: translationsTable);
         }
 
         private void ExtractStrings()
@@ -201,8 +201,77 @@ namespace RimworldModTranslator.ViewModels
             var defsDir = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, SelectedFolder, "Defs");
             if (!Directory.Exists(defsDir)) return;
 
+            var defInjectedDataList = new List<DefInjectedStringData>();
 
+            foreach (var xmlFile in Directory.GetFiles(defsDir, "*.xml", SearchOption.AllDirectories))
+            {
+                if (xmlFile == "F:\\Games\\RimWorld\\Mods\\RimJobWorld\\1.5\\Defs\\Drugs\\Contraceptive.xml")
+                {
+                }
+                else
+                {
+                    continue;
+                }
+
+                try
+                {
+                    var doc = XDocument.Load(xmlFile);
+                    var root = doc.Element("Defs");
+                    if (root == null) continue;
+
+                    foreach (var category in root.Elements())
+                    {
+                        string folderName = category.Name.LocalName;
+
+                        var defNameElement = category.Element("defName");
+                        if (defNameElement == null) continue;
+
+                        string xmlFileName = defNameElement.Value.Trim();
+
+                        // Process all <label> elements within the category element.
+                        var labelElements = category.Descendants("label");
+                        foreach (var label in labelElements)
+                        {
+                            // Get the chain of ancestors from the label up to (but not including) the category element.
+                            var ancestors = label.Ancestors().TakeWhile(e => e != category).Reverse().ToList();
+                            var segments = new List<string>();
+
+                            foreach (var anc in ancestors)
+                            {
+                                if (anc.Name.LocalName == "li")
+                                {
+                                    var liSiblings = anc.Parent.Elements("li").ToList();
+                                    int index = liSiblings.IndexOf(anc);
+                                    segments.Add(index.ToString());
+                                }
+                                else
+                                {
+                                    segments.Add(anc.Name.LocalName);
+                                }
+                            }
+                            // Append the label element itself.
+                            segments.Add(label.Name.LocalName);
+
+                            string stringId = xmlFileName + "." + string.Join(".", segments);
+                            string stringValue = label.Value.Trim();
+
+                            defInjectedDataList.Add(new DefInjectedStringData(folderName, xmlFileName, stringId, stringValue));
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    // Optionally handle or log exception
+                }
+            }
+
+            // The list "defInjectedDataList" now contains all extracted data.
+            // It can now be used to update TranslationRows or further processing.
         }
+
+        // New type to hold extracted DefInjected string data.
+        public record DefInjectedStringData(string FolderName, string XmlFileName, string StringId, string StringValue);
+
 
         [RelayCommand]
         private void SaveStrings()
