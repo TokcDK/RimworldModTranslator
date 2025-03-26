@@ -17,6 +17,12 @@ namespace RimworldModTranslator.ViewModels
 {
     public partial class TranslationEditorViewModel : ViewModelBase
     {
+        public TranslationEditorViewModel(SettingsService settingsService)
+        {
+            this.settingsService = settingsService;
+            Folders.CollectionChanged += (s, e) => OnPropertyChanged(nameof(IsFoldersEnabled));
+        }
+
         // subfolders and xml file naming
         // For Defs: Languages\%LanguageCode%\DefInjected\XmlParentTagNameInsideOfRootDefsTag\ParentXmlName.xml
         // For keyed (each xml tag value, only from exist language dir): Languages\%LanguageCode%\Keyed\Keyed_%LanguageCode%.xml
@@ -52,6 +58,12 @@ namespace RimworldModTranslator.ViewModels
         private Game? game;
         private readonly SettingsService settingsService;
 
+
+        // enable some editor controls by condition
+        public bool IsTranslatorEnabled { get => IsTheTranslatorEnabled(); }
+        public bool IsAddNewLanguageEnabled { get => IsAddNewLanguageButtonEnabled(); }
+        public bool IsFoldersEnabled { get => IsTheFoldersEnabled(); }
+
         public string? ModDisplayingName { get => settingsService.SelectedMod?.ModDisplayingName; }
 
         public ObservableCollection<string> Folders { get; } = [];
@@ -64,11 +76,10 @@ namespace RimworldModTranslator.ViewModels
 
         [ObservableProperty]
         private string? newLanguageName;
-
-        // enable some editor controls by condition
-        public bool IsTranslatorEnabled { get => IsTheTranslatorEnabled(); }
-        public bool IsAddNewLanguageEnabled { get => IsAddNewLanguageButtonEnabled(); }
-        public bool IsFoldersEnabled { get => IsTheFoldersEnabled(); }
+        partial void OnNewLanguageNameChanged(string? value)
+        {
+            OnPropertyChanged(nameof(IsAddNewLanguageEnabled));
+        }
 
         [ObservableProperty]
         private ObservableCollection<string> languages = new();
@@ -77,12 +88,6 @@ namespace RimworldModTranslator.ViewModels
         
         [ObservableProperty]
         private DataTable _translationsTable = new();
-
-        public TranslationEditorViewModel(SettingsService settingsService)
-        {
-            this.settingsService = settingsService;
-            Folders.CollectionChanged += (s, e) => OnPropertyChanged(nameof(IsFoldersEnabled));
-        }
 
         public ObservableCollection<string> DefsXmlTags { get; } =
         [
