@@ -124,7 +124,7 @@ namespace RimworldModTranslator.ViewModels
         {
             return game != null
                 && mod != null
-                && Folders.Count > 0;
+                && Folders.Count > 1;
         }
 
         private bool IsTheTranslatorEnabled()
