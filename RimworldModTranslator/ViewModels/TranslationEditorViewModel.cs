@@ -208,7 +208,7 @@ namespace RimworldModTranslator.ViewModels
 
             foreach (var xmlFile in Directory.GetFiles(defsDir, "*.xml", SearchOption.AllDirectories))
             {
-                var xmlFileName = Path.GetFileNameWithoutExtension(xmlFile);
+                var xmlFileName = Path.GetFileName(xmlFile);
 
                 try
                 {
@@ -254,7 +254,7 @@ namespace RimworldModTranslator.ViewModels
                             string stringId = stringIdRootName + "." + string.Join(".", segments);
                             string stringValue = element.Value.Trim();
 
-                            defInjectedDataList.Add(new DefInjectedStringData(folderName, xmlFileName, stringId, stringValue));
+                            defInjectedDataList.Add(new DefInjectedStringData($"DefInjected\\{folderName}\\{xmlFileName}", stringId, stringValue));
                         }
                     }
                 }
@@ -264,15 +264,11 @@ namespace RimworldModTranslator.ViewModels
                 }
             }
 
-            if(defInjectedDataList.Count > 0)
-            {
-            }
-
             // defInjectedDataList содержит все извлечённые данные для последующей обработки.
         }
 
         // New type to hold extracted DefInjected string data.
-        public record DefInjectedStringData(string FolderName, string XmlFileName, string StringId, string StringValue);
+        public record DefInjectedStringData(string SubPath, string StringId, string StringValue);
 
 
         [RelayCommand]
