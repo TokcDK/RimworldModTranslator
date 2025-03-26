@@ -21,6 +21,8 @@ namespace RimworldModTranslator.ViewModels
         {
             this.settingsService = settingsService;
             Folders.CollectionChanged += (s, e) => OnPropertyChanged(nameof(IsFoldersEnabled));
+
+            InitTranslationsTable();
         }
 
         // subfolders and xml file naming
@@ -87,7 +89,10 @@ namespace RimworldModTranslator.ViewModels
         public ObservableCollection<TranslationRow> TranslationRows = new(); 
         
         [ObservableProperty]
-        private DataTable _translationsTable = new();
+        private DataTable translationsTable;
+
+        [ObservableProperty]
+        private DataView translationsView;
 
         public ObservableCollection<string> DefsXmlTags { get; } =
         [
@@ -130,6 +135,20 @@ namespace RimworldModTranslator.ViewModels
             "titleshortFemale",
             "verb"
         ];
+
+        /// <summary>
+        /// Init Translations table and view
+        /// </summary>
+        /// <param name="fullInit">when false, will be recreated only DataView. TranslationsTable will not be recreated.</param>
+        private void InitTranslationsTable(bool fullInit = true)
+        {
+            if(fullInit)
+            {
+                TranslationsTable = new DataTable();
+            }
+
+            TranslationsView = new DataView(TranslationsTable);
+        }
 
         private bool IsTheFoldersEnabled()
         {
@@ -246,11 +265,13 @@ namespace RimworldModTranslator.ViewModels
 
                     var lines = File.ReadAllLines(file);
 
+                    var fileName = Path.GetFileNameWithoutExtension(file);
+                    int idIndex = 0;
                     foreach (var line in lines)
                     {
                         if (string.IsNullOrWhiteSpace(line)) continue;
 
-                        string key = line;
+                        string key = $"{fileName}.{idIndex++}";
                         if (!stringByKeyForEachLanguage.TryGetValue(key, out Dictionary<string, string>? value))
                         {
                             value = [];
@@ -464,7 +485,7 @@ namespace RimworldModTranslator.ViewModels
                 translationsTable.Rows.Add(dataRow);
             }
 
-            TranslationsTable = translationsTable;
+            InitTranslationsTable();
         }
 
         private bool HaveTranslatableDirs(string languageDir)
@@ -526,7 +547,7 @@ namespace RimworldModTranslator.ViewModels
 
             NewLanguageName = string.Empty;
 
-            TranslationsTable = TranslationsTable.Copy();
+            InitTranslationsTable(false);
         }
 
         [RelayCommand]
