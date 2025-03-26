@@ -4,6 +4,7 @@
              xmlns:viewmodels="clr-namespace:RimworldModTranslator.ViewModels" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
+             xmlns:dataGrid2D="http://gu.se/DataGrid2D"
              >
     <Grid>
         <Grid.ColumnDefinitions>
@@ -21,11 +22,17 @@
                   CanUserDeleteRows="False"
                   Margin="1"
                   dgx:DataGridFilter.IsAutoFilterEnabled="True"
+                  dataGrid2D:Index.StartAt="1"
                   >
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="Active" Binding="{Binding IsActive}" Width="Auto" IsReadOnly="True" />
                 <DataGridTextColumn Header="Name" Binding="{Binding ModDisplayingName}" Width="*" IsReadOnly="True"/>
             </DataGrid.Columns>
+            <DataGrid.RowHeaderStyle>
+                <Style TargetType="{x:Type DataGridRowHeader}">
+                    <Setter Property="Content" Value="{Binding Path=(dataGrid2D:Index.OfRow), RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"/>
+                </Style>
+            </DataGrid.RowHeaderStyle>
         </DataGrid>
         <Grid Grid.Row="1" Margin="1">
             <Grid.ColumnDefinitions>

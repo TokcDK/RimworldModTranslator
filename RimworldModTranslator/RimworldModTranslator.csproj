@@ -10,6 +10,7 @@
     <ItemGroup>
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
       <PackageReference Include="DataGridExtensions" Version="2.6.0" />
+      <PackageReference Include="Gu.Wpf.DataGrid2D" Version="0.2.4" />
     </ItemGroup>
 
     <ItemGroup>
