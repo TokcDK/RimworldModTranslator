@@ -11,6 +11,7 @@ using RimworldModTranslator.ViewModels;
 using RimworldModTranslator.Services;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using System.Data;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -64,8 +65,10 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private ObservableCollection<string> languages = new();
 
+        public ObservableCollection<TranslationRow> TranslationRows = new(); 
+        
         [ObservableProperty]
-        private ObservableCollection<TranslationRow> translationRows = new();
+        private DataTable? _translationsTable;
 
         public ObservableCollection<string> DefsXmlTags { get; } =
         [
