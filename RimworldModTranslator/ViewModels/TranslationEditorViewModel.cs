@@ -89,10 +89,10 @@ namespace RimworldModTranslator.ViewModels
         public ObservableCollection<TranslationRow> TranslationRows = new(); 
         
         [ObservableProperty]
-        private DataTable translationsTable;
+        private DataTable? translationsTable;
 
         [ObservableProperty]
-        private DataView translationsView;
+        private DataView? translationsView;
 
         public ObservableCollection<string> DefsXmlTags { get; } =
         [
@@ -140,11 +140,11 @@ namespace RimworldModTranslator.ViewModels
         /// Init Translations table and view
         /// </summary>
         /// <param name="fullInit">when false, will be recreated only DataView. TranslationsTable will not be recreated.</param>
-        private void InitTranslationsTable(bool fullInit = true)
+        private void InitTranslationsTable(bool fullInit = true, DataTable? dataTableToRelink = null)
         {
             if(fullInit)
             {
-                TranslationsTable = new DataTable();
+                TranslationsTable = dataTableToRelink ?? new DataTable();
             }
 
             TranslationsView = new DataView(TranslationsTable);
@@ -437,7 +437,7 @@ namespace RimworldModTranslator.ViewModels
             }
         }
 
-        private void CreateTranslationsTable()
+        private void CreateTranslationsTable(DataTable translationsTable)
         {
             if (TranslationRows.Count == 0) return;
 
@@ -485,7 +485,7 @@ namespace RimworldModTranslator.ViewModels
                 translationsTable.Rows.Add(dataRow);
             }
 
-            InitTranslationsTable();
+            InitTranslationsTable(dataTableToRelink: translationsTable);
         }
 
         private bool HaveTranslatableDirs(string languageDir)
@@ -523,7 +523,7 @@ namespace RimworldModTranslator.ViewModels
 
             LoadLanguages();
 
-            CreateTranslationsTable();
+            CreateTranslationsTable(translationsTable);
         }
 
         [RelayCommand]
