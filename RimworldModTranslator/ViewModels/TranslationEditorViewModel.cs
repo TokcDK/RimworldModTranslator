@@ -381,12 +381,11 @@ namespace RimworldModTranslator.ViewModels
             if (TranslationRows.Count == 0) return;
 
             // Создаем новый DataTable
-            TranslationsTable.Clear();
-            TranslationsTable.Columns.Clear();
+            var translationsTable = new DataTable();
 
             // Добавляем первые две колонки: SubPath и ID
-            TranslationsTable.Columns.Add("SubPath", typeof(string));
-            TranslationsTable.Columns.Add("ID", typeof(string));
+            translationsTable.Columns.Add("SubPath", typeof(string));
+            translationsTable.Columns.Add("ID", typeof(string));
 
             // Собираем все уникальные языки из TranslationRows
             var languageSet = new HashSet<string>();
@@ -404,13 +403,13 @@ namespace RimworldModTranslator.ViewModels
             // Добавляем колонки для каждого языка
             foreach (var lang in languageSet)
             {
-                TranslationsTable.Columns.Add(lang, typeof(string));
+                translationsTable.Columns.Add(lang, typeof(string));
             }
 
             // Заполняем строки DataTable
             foreach (var translationRow in TranslationRows)
             {
-                var dataRow = TranslationsTable.NewRow();
+                var dataRow = translationsTable.NewRow();
                 dataRow["SubPath"] = translationRow.SubPath ?? string.Empty;
                 dataRow["ID"] = translationRow.Key ?? string.Empty;
 
@@ -422,8 +421,10 @@ namespace RimworldModTranslator.ViewModels
                     dataRow[lang] = languageValue?.Value;
                 }
 
-                TranslationsTable.Rows.Add(dataRow);
+                translationsTable.Rows.Add(dataRow);
             }
+
+            TranslationsTable = translationsTable;
         }
 
         private bool HaveTranslatableDirs(string languageDir)
