@@ -205,13 +205,7 @@ namespace RimworldModTranslator.ViewModels
 
             foreach (var xmlFile in Directory.GetFiles(defsDir, "*.xml", SearchOption.AllDirectories))
             {
-                if (xmlFile == "F:\\Games\\RimWorld\\Mods\\RimJobWorld\\1.5\\Defs\\Drugs\\Contraceptive.xml")
-                {
-                }
-                else
-                {
-                    continue;
-                }
+                var xmlFileName = Path.GetFileNameWithoutExtension(xmlFile);
 
                 try
                 {
@@ -226,7 +220,7 @@ namespace RimworldModTranslator.ViewModels
                         var defNameElement = category.Element("defName");
                         if (defNameElement == null) continue;
 
-                        string xmlFileName = defNameElement.Value.Trim();
+                        string stringIdRootName = defNameElement.Value.Trim();
 
                         // Process all <label> elements within the category element.
                         var labelElements = category.Descendants("label");
@@ -252,7 +246,7 @@ namespace RimworldModTranslator.ViewModels
                             // Append the label element itself.
                             segments.Add(label.Name.LocalName);
 
-                            string stringId = xmlFileName + "." + string.Join(".", segments);
+                            string stringId = stringIdRootName + "." + string.Join(".", segments);
                             string stringValue = label.Value.Trim();
 
                             defInjectedDataList.Add(new DefInjectedStringData(folderName, xmlFileName, stringId, stringValue));
