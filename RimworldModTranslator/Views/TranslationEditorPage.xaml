@@ -53,9 +53,12 @@
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding TranslationsTable}" 
                   AutoGenerateColumns="True"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"   
                   Margin="1"
                   dgx:DataGridFilter.IsAutoFilterEnabled="True"
-                  dataGrid2D:Index.StartAt="1">
+                  dataGrid2D:Index.StartAt="1"
+                  >
             <DataGrid.RowHeaderStyle>
                 <Style TargetType="{x:Type DataGridRowHeader}">
                     <Setter Property="Content" Value="{Binding Path=(dataGrid2D:Index.OfRow), RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"/>
