@@ -58,6 +58,9 @@ namespace RimworldModTranslator.ViewModels
 
         [ObservableProperty]
         private string? selectedFolder;
+        partial void OnSelectedFolderChanged(string? value)
+        {
+        }
 
         [ObservableProperty]
         private string? newLanguageName;
@@ -123,11 +126,6 @@ namespace RimworldModTranslator.ViewModels
             {
                 Folders.Add(mod!.DirectoryName!);
             }
-
-            if(Folders.Count > 0)
-            {
-                SelectedFolder = Folders[0];
-            }
         }
 
         private void GetTranslatableSubDirs(string fullPath)
@@ -157,7 +155,6 @@ namespace RimworldModTranslator.ViewModels
             if(SelectedFolder == null) return;
 
             Languages.Clear();
-            TranslationRows.Clear();
 
             string languagesDirPath = Path.Combine(game!.GameDirPath!, "Mods", mod!.DirectoryName!, VersionDirRegex.IsMatch(SelectedFolder) ? SelectedFolder : "", "Languages");
             if (!Directory.Exists(languagesDirPath)) return;
@@ -436,15 +433,28 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void LoadStrings()
         {
-            game = settingsService.SelectedGame;
-            if (game == null) return;
+            if (game == null || game != settingsService.SelectedGame)
+            {
+                // load only when game was not set or changed
+                game = settingsService.SelectedGame;
+                if (game == null) return;
+            }
 
-            mod = settingsService.SelectedMod;
-            if (mod == null) return;
+            if (mod == null || mod != settingsService.SelectedMod)
+            {
+                // load only when mod was not set or changed
+                mod = settingsService.SelectedMod;
+                if (mod == null) return;
+            }
 
-            GetTranslatableFolders();
+            if(Folders.Count == 0)
+            {
+                GetTranslatableFolders();
+            }
 
             if(Folders.Count == 0) return; // no translatable folders
+
+            SelectedFolder ??= Folders[0];
 
             LoadLanguages();
         }
