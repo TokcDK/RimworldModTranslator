@@ -58,6 +58,7 @@
                   Margin="1"
                   dgx:DataGridFilter.IsAutoFilterEnabled="True"
                   dataGrid2D:Index.StartAt="1"
+                  dgx:Tools.ApplyInitialSorting="True"
                   >
             <DataGrid.RowHeaderStyle>
                 <Style TargetType="{x:Type DataGridRowHeader}">
