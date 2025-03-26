@@ -69,7 +69,7 @@ namespace RimworldModTranslator.ViewModels
 
         public bool IsFoldersEnabled => IsTheFoldersEnabled();
 
-        public string? ModDisplayingName => settingsService.SelectedMod?.ModDisplayingName;
+        public string? ModDisplayingName => mod != null && Folders.Count > 0 ? mod.ModDisplayingName : settingsService.SelectedMod?.ModDisplayingName;
 
         public ObservableCollection<string> Folders { get; } = new();
 
@@ -173,6 +173,8 @@ namespace RimworldModTranslator.ViewModels
 
             var translationsTable = EditorHelper.CreateTranslationsTable(TranslationRows);
             InitTranslationsTable(dataTableToRelink: translationsTable);
+
+            OnPropertyChanged(nameof(ModDisplayingName));
         }
 
         [RelayCommand]
