@@ -437,7 +437,7 @@ namespace RimworldModTranslator.ViewModels
             }
         }
 
-        private void CreateTranslationsTable(DataTable translationsTable)
+        private void CreateTranslationsTable()
         {
             if (TranslationRows.Count == 0) return;
 
@@ -523,7 +523,7 @@ namespace RimworldModTranslator.ViewModels
 
             LoadLanguages();
 
-            CreateTranslationsTable(translationsTable);
+            CreateTranslationsTable();
         }
 
         [RelayCommand]
