@@ -147,6 +147,8 @@ namespace RimworldModTranslator.ViewModels
             string fullPath = Path.Combine(game!.GameDirPath!, "Mods", mod!.DirectoryName!);
             if (!Directory.Exists(fullPath)) return;
 
+            Folders.Clear();
+
             GetTranslatableSubDirs(fullPath);
 
             if(HasExtractableStringsDir(fullPath))
@@ -469,14 +471,16 @@ namespace RimworldModTranslator.ViewModels
                 if (game == null) return;
             }
 
-            if (mod == null || mod != settingsService.SelectedMod)
+            bool isChangedMod = mod != settingsService.SelectedMod;
+
+            if (isChangedMod || mod == null)
             {
                 // load only when mod was not set or changed
                 mod = settingsService.SelectedMod;
                 if (mod == null) return;
             }
 
-            if(Folders.Count == 0)
+            if(isChangedMod || Folders.Count == 0)
             {
                 GetTranslatableFolders();
             }
