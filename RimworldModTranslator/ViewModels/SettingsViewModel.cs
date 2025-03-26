@@ -59,10 +59,17 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void AddNewGame()
         {
+            if(NewModsDirPath == null)
+            {
+                return;
+            }
+
             if (IsAlreadyAddedGame())
             {
                 return;
             }
+
+            NewModsDirPath = GameHelper.CheckCorrectModsPath(NewModsDirPath!);
 
             var newGame = new Game
             {
