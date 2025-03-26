@@ -555,26 +555,10 @@ namespace RimworldModTranslator.ViewModels
         {
             if (game == null) return;
             if (mod == null) return;
+            if (SelectedFolder == null) return;
 
-            //string langDir = Path.Combine(mod.DirectoryName, SelectedFolder, "Languages");
-            //Directory.CreateDirectory(langDir);
-
-            //foreach (var lang in Languages)
-            //{
-            //    string langPath = Path.Combine(langDir, lang);
-            //    Directory.CreateDirectory(langPath);
-
-            //    // Simple save: one file per language (adjust structure as needed)
-            //    var doc = new XDocument(new XElement("LanguageData"));
-            //    foreach (var row in TranslationRows)
-            //    {
-            //        if (!string.IsNullOrEmpty(row.Translations[lang]))
-            //        {
-            //            doc.Root.Add(new XElement(row.Key, row.Translations[lang]));
-            //        }
-            //    }
-            //    doc.Save(Path.Combine(langPath, "Translations.xml"));
-            //}
+            string langDir = Path.Combine(game.ModsDirPath!, mod.DirectoryName!, SelectedFolder, "Languages");
+            Directory.CreateDirectory(langDir);  
         }
     }
 }
