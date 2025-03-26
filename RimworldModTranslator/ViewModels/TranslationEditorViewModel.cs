@@ -68,7 +68,7 @@ namespace RimworldModTranslator.ViewModels
         public ObservableCollection<TranslationRow> TranslationRows = new(); 
         
         [ObservableProperty]
-        private DataTable? _translationsTable;
+        private DataTable _translationsTable = new();
 
         public ObservableCollection<string> DefsXmlTags { get; } =
         [
@@ -180,6 +180,8 @@ namespace RimworldModTranslator.ViewModels
             }
 
             LoadStringsFromStringsDir(langDirNames, languagesDirPath);
+
+            CreateTranslationsTable();
         }
 
         private void LoadStringsFromStringsDir(List<string?> langDirNames, string languagesDirPath)
@@ -376,6 +378,53 @@ namespace RimworldModTranslator.ViewModels
 
                     TranslationRows.Add(translationRow);
                 }
+            }
+        }
+
+        private void CreateTranslationsTable()
+        {
+            // Создаем новый DataTable
+            TranslationsTable.Clear();
+
+            // Добавляем первые две колонки: SubPath и ID
+            TranslationsTable.Columns.Add("SubPath", typeof(string));
+            TranslationsTable.Columns.Add("ID", typeof(string));
+
+            // Собираем все уникальные языки из TranslationRows
+            var languageSet = new HashSet<string>();
+            foreach (var row in TranslationRows)
+            {
+                foreach (var langValue in row.Translations)
+                {
+                    if (string.IsNullOrEmpty(langValue.Language)) continue;
+                    if (languageSet.Contains(langValue.Language)) continue;
+
+                    languageSet.Add(langValue.Language!);
+                }
+            }
+
+            // Добавляем колонки для каждого языка
+            foreach (var lang in languageSet)
+            {
+                TranslationsTable.Columns.Add(lang, typeof(string));
+            }
+
+            // Заполняем строки DataTable
+            foreach (var translationRow in TranslationRows)
+            {
+                var dataRow = TranslationsTable.NewRow();
+                dataRow["SubPath"] = translationRow.SubPath ?? string.Empty;
+                dataRow["ID"] = translationRow.Key ?? string.Empty;
+
+                // Заполняем языковые колонки
+                foreach (var lang in languageSet)
+                {
+                    // Находим значение для данного языка
+                    var languageValue = translationRow.Translations.FirstOrDefault(t => t.Language == lang);
+                    dataRow[lang] = languageValue?.Value;
+                }
+
+                TranslationsTable.Rows.Add(dataRow);
             }
         }
 

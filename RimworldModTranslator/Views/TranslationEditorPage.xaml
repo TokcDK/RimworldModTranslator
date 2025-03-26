@@ -46,7 +46,7 @@
         
         <!-- DataGrid bound to StringsByLanguage -->
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding StringsByLanguage}"
+                  ItemsSource="{Binding TranslationsTable}" 
                   AutoGenerateColumns="True"
                   Margin="1"/>
 
