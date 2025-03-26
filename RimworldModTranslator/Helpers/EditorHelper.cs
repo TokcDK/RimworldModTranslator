@@ -171,6 +171,55 @@ namespace RimworldModTranslator.Helpers
             FillTranslationRows(filesDictFull, translationRows);
         }
 
+        public static void LoadStringsFromStringsDir(List<string?> langDirNames, string languagesDirPath, System.Collections.ObjectModel.ObservableCollection<TranslationRow> translationRows)
+        {
+            var filesDictFull = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
+
+            foreach (var language in langDirNames)
+            {
+                if (language == null)
+                    continue;
+
+                string langPath = Path.Combine(languagesDirPath, language);
+                string langTxtDirPath = Path.Combine(langPath, "Strings");
+                if (!Directory.Exists(langTxtDirPath))
+                    continue;
+
+                Dictionary<string, string> strings = [];
+                foreach (var file in Directory.GetFiles(langTxtDirPath, "*.txt", SearchOption.AllDirectories))
+                {
+                    string txtSubPath = Path.GetRelativePath(langPath, file);
+
+                    if (!filesDictFull.TryGetValue(txtSubPath, out Dictionary<string, Dictionary<string, string>>? stringByKeyForEachLanguage))
+                    {
+                        stringByKeyForEachLanguage = [];
+                        filesDictFull[txtSubPath] = stringByKeyForEachLanguage;
+                    }
+
+                    var lines = File.ReadAllLines(file);
+
+                    var fileName = Path.GetFileNameWithoutExtension(file);
+                    int idIndex = 0;
+                    foreach (var line in lines)
+                    {
+                        if (string.IsNullOrWhiteSpace(line)) continue;
+
+                        string key = $"{fileName}.{idIndex++}";
+                        if (!stringByKeyForEachLanguage.TryGetValue(key, out Dictionary<string, string>? value))
+                        {
+                            value = [];
+                            stringByKeyForEachLanguage[key] = value;
+                        }
+
+                        value[language] = line;
+                    }
+
+                }
+            }
+
+            EditorHelper.FillTranslationRows(filesDictFull, translationRows);
+        }
+
         public static void FillTranslationRows(Dictionary<string, Dictionary<string, Dictionary<string, string>>> filesDictFull, System.Collections.ObjectModel.ObservableCollection<TranslationRow> translationRows)
         {
             // Dictionary<subPath, Dictionary<key, Dictionary<language, value>>> filesDictFull
