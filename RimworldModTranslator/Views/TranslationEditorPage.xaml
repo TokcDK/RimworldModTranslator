@@ -53,6 +53,7 @@
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding TranslationsTable}" 
                   AutoGenerateColumns="True"
+                  AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"  
                   HorizontalAlignment="Stretch"

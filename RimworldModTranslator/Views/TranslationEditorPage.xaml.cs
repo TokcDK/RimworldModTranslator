@@ -25,5 +25,13 @@ namespace RimworldModTranslator.Views
         {
             InitializeComponent();
         }
+        private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.Column.Header.ToString() == "SubPath" || e.Column.Header.ToString() == "ID")
+            {
+                e.Column.IsReadOnly = true;
+            }
+            e.Column.Width = 100;
+        }
     }
 }
