@@ -65,23 +65,10 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private string? newLanguageName;
 
-        public bool IsAddNewLanguageEnabled { get => IsAddNewLanguageButtonEnabled(); }
+        // enable some editor controls by condition
         public bool IsTranslatorEnabled { get => IsTheTranslatorEnabled(); }
-
-        private bool IsTheTranslatorEnabled()
-        {
-            return (settingsService.SelectedGame != null || game != null)
-                && (settingsService.SelectedMod != null || mod != null);
-        }
-
-        private bool IsAddNewLanguageButtonEnabled()
-        {
-           return game != null 
-                && mod != null 
-                && !string.IsNullOrWhiteSpace(NewLanguageName) 
-                && TranslationsTable.Columns.Count > 0 
-                && !TranslationsTable.Columns.Contains(NewLanguageName);
-        }
+        public bool IsAddNewLanguageEnabled { get => IsAddNewLanguageButtonEnabled(); }
+        public bool IsFoldersEnabled { get => IsTheFoldersEnabled(); }
 
         [ObservableProperty]
         private ObservableCollection<string> languages = new();
@@ -132,6 +119,28 @@ namespace RimworldModTranslator.ViewModels
             "titleshortFemale",
             "verb"
         ];
+
+        private bool IsTheFoldersEnabled()
+        {
+            return game != null
+                && mod != null
+                && Folders.Count > 0;
+        }
+
+        private bool IsTheTranslatorEnabled()
+        {
+            return (settingsService.SelectedGame != null || game != null)
+                && (settingsService.SelectedMod != null || mod != null);
+        }
+
+        private bool IsAddNewLanguageButtonEnabled()
+        {
+            return game != null
+                 && mod != null
+                 && !string.IsNullOrWhiteSpace(NewLanguageName)
+                 && TranslationsTable.Columns.Count > 0
+                 && !TranslationsTable.Columns.Contains(NewLanguageName);
+        }
 
         private void GetTranslatableFolders()
         {
