@@ -65,7 +65,7 @@ namespace RimworldModTranslator.ViewModels
 
         public string? ModDisplayingName { get => settingsService.SelectedMod?.ModDisplayingName; }
 
-        public ObservableCollection<string> Folders { get; } = [];
+        public ObservableCollection<string> Folders { get; } = new();
 
         [ObservableProperty]
         private string? selectedFolder;
@@ -83,8 +83,8 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private ObservableCollection<string> languages = new();
 
-        public ObservableCollection<TranslationRow> TranslationRows = new(); 
-        
+        public ObservableCollection<TranslationRow> TranslationRows = new();
+
         [ObservableProperty]
         private DataTable? translationsTable;
 
@@ -97,7 +97,7 @@ namespace RimworldModTranslator.ViewModels
         /// <param name="fullInit">when false, will be recreated only DataView. TranslationsTable will not be recreated.</param>
         private void InitTranslationsTable(bool fullInit = true, DataTable? dataTableToRelink = null)
         {
-            if(fullInit)
+            if (fullInit)
             {
                 TranslationsTable = dataTableToRelink ?? new DataTable();
             }
@@ -133,7 +133,7 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void LoadLanguages()
         {
-            if(SelectedFolder == null) return;
+            if (SelectedFolder == null) return;
 
             Languages.Clear();
 
@@ -143,7 +143,7 @@ namespace RimworldModTranslator.ViewModels
             var langDirNames = Directory.GetDirectories(languagesDirPath).Where(d => EditorHelper.HaveTranslatableDirs(d)).Select(Path.GetFileName).ToList();
             foreach (var langDirName in langDirNames)
             {
-                if(langDirName == null) continue;
+                if (langDirName == null) continue;
 
                 Languages.Add(langDirName);
             }
@@ -179,12 +179,12 @@ namespace RimworldModTranslator.ViewModels
                 if (mod == null) return;
             }
 
-            if(isChangedMod || Folders.Count == 0)
+            if (isChangedMod || Folders.Count == 0)
             {
                 EditorHelper.GetTranslatableFolders(Folders, game!.ModsDirPath!, mod.DirectoryName!);
             }
 
-            if(Folders.Count == 0) return; // no translatable folders
+            if (Folders.Count == 0) return; // no translatable folders
 
             SelectedFolder ??= Folders[0];
 
@@ -222,12 +222,12 @@ namespace RimworldModTranslator.ViewModels
 
                         string stringIdRootName = defNameElement.Value.Trim();
 
-                        // Find all descendant elements whose tag name is listed in defsXmlTags
+                        // Get chain of ancestors from the current element up to the category element
                         var matchingElements = category.Descendants()
                                                        .Where(e => defsXmlTags.Contains(e.Name.LocalName));
                         foreach (var element in matchingElements)
                         {
-                            // Получить цепочку предков от текущего элемента до элемента категории
+                            // Get the chain of ancestors from the current element up to the category element
                             var ancestors = element.Ancestors().TakeWhile(e => e != category).Reverse().ToList();
                             var segments = new List<string>();
 
@@ -245,7 +245,7 @@ namespace RimworldModTranslator.ViewModels
                                     segments.Add(anc.Name.LocalName);
                                 }
                             }
-                            // Добавляем сам элемент, имя тега используется как последняя часть идентификатора
+                            // Add the element itself; the tag name is used as the last part of the identifier
                             segments.Add(element.Name.LocalName);
 
                             string stringId = stringIdRootName + "." + string.Join(".", segments);
@@ -261,14 +261,10 @@ namespace RimworldModTranslator.ViewModels
                 }
                 catch (Exception)
                 {
-                    // Опционально: обработка исключения или логирование
+                    // Optionally: exception handling or logging
                 }
             }
         }
-
-        // New type to hold extracted DefInjected string data.
-        public record DefInjectedStringData(string SubPath, string StringId, string StringValue);
-
 
         [RelayCommand]
         private void SaveStrings()
@@ -302,7 +298,7 @@ namespace RimworldModTranslator.ViewModels
             if (SelectedFolder == null) return;
 
             string langDir = Path.Combine(game.ModsDirPath!, mod.DirectoryName!, SelectedFolder, "Languages");
-            Directory.CreateDirectory(langDir);  
+            Directory.CreateDirectory(langDir);
         }
     }
 }
