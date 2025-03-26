@@ -52,10 +52,6 @@ namespace RimworldModTranslator.ViewModels
         // replacers: https://rimworldwiki.com/wiki/Modding_Tutorials/GrammarResolver
 
         public string Header { get; } = "Editor";
-        public string[] TransatableLanguageDirs { get; } = [ "DefInjected", "Keyed", "Strings" ];
-        public string[] ExtractableModSubDirs { get; } = [ "Defs", "Languages" ];
-
-        private readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+", RegexOptions.Compiled);
 
         private ModData? mod;
         private Game? game;
@@ -180,30 +176,12 @@ namespace RimworldModTranslator.ViewModels
 
             Folders.Clear();
 
-            GetTranslatableSubDirs(fullPath);
+             EditorHelper.GetTranslatableSubDirs(fullPath, Folders);
 
-            if(HasExtractableStringsDir(fullPath))
+            if(EditorHelper.HasExtractableStringsDir(fullPath))
             {
                 Folders.Add(mod!.DirectoryName!);
             }
-        }
-
-        private void GetTranslatableSubDirs(string fullPath)
-        {
-            foreach(var folder in Directory.GetDirectories(fullPath)
-                        .Select(Path.GetFileName)
-                        .Where(d => d != null
-                            && VersionDirRegex.IsMatch(d)
-                            && HasExtractableStringsDir(Path.Combine(fullPath, d))
-                        ))
-            {
-                Folders.Add(folder!);
-            }
-        }
-
-        private bool HasExtractableStringsDir(string dir)
-        {
-            return ExtractableModSubDirs.Any(subdir => Directory.Exists(Path.Combine(dir, subdir)));
         }
 
         /// <summary>
@@ -216,10 +194,10 @@ namespace RimworldModTranslator.ViewModels
 
             Languages.Clear();
 
-            string languagesDirPath = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, VersionDirRegex.IsMatch(SelectedFolder) ? SelectedFolder : "", "Languages");
+            string languagesDirPath = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, EditorHelper.GetLanguageFolderIfNeed(SelectedFolder), "Languages");
             if (!Directory.Exists(languagesDirPath)) return;
 
-            var langDirNames = Directory.GetDirectories(languagesDirPath).Where(d => HaveTranslatableDirs(d)).Select(Path.GetFileName).ToList();
+            var langDirNames = Directory.GetDirectories(languagesDirPath).Where(d => EditorHelper.HaveTranslatableDirs(d)).Select(Path.GetFileName).ToList();
             foreach (var langDirName in langDirNames)
             {
                 if(langDirName == null) continue;
@@ -337,11 +315,6 @@ namespace RimworldModTranslator.ViewModels
             }
 
             InitTranslationsTable(dataTableToRelink: translationsTable);
-        }
-
-        private bool HaveTranslatableDirs(string languageDir)
-        {
-            return TransatableLanguageDirs.Any(d => Directory.Exists(Path.Combine(languageDir, d)));
         }
 
         [RelayCommand]

@@ -1,6 +1,7 @@
 ﻿using RimworldModTranslator.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,34 @@ namespace RimworldModTranslator.Helpers
 {
     internal class EditorHelper
     {
+        public static string[] TransatableLanguageDirs { get; } = ["DefInjected", "Keyed", "Strings"];
+        public static string[] ExtractableModSubDirs { get; } = ["Defs", "Languages"];
+
+        public static readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+", RegexOptions.Compiled);
+
+        public static void GetTranslatableSubDirs(string fullPath, ObservableCollection<string> folders)
+        {
+            foreach (var folder in Directory.GetDirectories(fullPath)
+                        .Select(Path.GetFileName)
+                        .Where(d => d != null
+                            && VersionDirRegex.IsMatch(d)
+                            && HasExtractableStringsDir(Path.Combine(fullPath, d))
+                        ))
+            {
+                folders.Add(folder!);
+            }
+        }
+
+        public static bool HasExtractableStringsDir(string dir)
+        {
+            return ExtractableModSubDirs.Any(subdir => Directory.Exists(Path.Combine(dir, subdir)));
+        }
+
+        public static bool HaveTranslatableDirs(string languageDir)
+        {
+            return TransatableLanguageDirs.Any(d => Directory.Exists(Path.Combine(languageDir, d)));
+        }
+
         /// <summary>
         /// The variant when the each language xml file
         /// parsing as txt file with xml tags
@@ -160,6 +189,11 @@ namespace RimworldModTranslator.Helpers
                     translationRows.Add(translationRow);
                 }
             }
+        }
+
+        internal static string GetLanguageFolderIfNeed(string selectedFolder)
+        {
+            return VersionDirRegex.IsMatch(selectedFolder) ? selectedFolder : "";
         }
     }
 }
