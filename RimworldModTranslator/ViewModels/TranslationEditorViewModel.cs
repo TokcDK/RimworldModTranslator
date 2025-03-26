@@ -47,6 +47,7 @@ namespace RimworldModTranslator.ViewModels
         private ModData? mod;
         private Game? game;
         private readonly SettingsService settingsService;
+        string? previousSelectedFolder;
         #endregion
 
         #region Constructors
@@ -80,6 +81,9 @@ namespace RimworldModTranslator.ViewModels
         private string? selectedFolder;
         partial void OnSelectedFolderChanged(string? value)
         {
+            if (value == previousSelectedFolder) return;
+
+            previousSelectedFolder = value;
         }
 
         [ObservableProperty]
