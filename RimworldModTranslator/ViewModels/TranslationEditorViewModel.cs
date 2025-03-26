@@ -16,6 +16,31 @@ using RimworldModTranslator.Helpers;
 
 namespace RimworldModTranslator.ViewModels
 {
+    // subfolders and xml file naming
+    // For Defs: Languages\%LanguageCode%\DefInjected\XmlParentTagNameInsideOfRootDefsTag\ParentXmlName.xml
+    // For keyed (each xml tag value, only from exist language dir): Languages\%LanguageCode%\Keyed\Keyed_%LanguageCode%.xml
+    // For common Strings (in txt each line, only from exist language dir): Languages\LanguageCode\Strings\Names\*.txt
+    // 
+    // key name in xml
+    // <%defName_key_value%.%translatable_key_name%>%translatable_key_value%</%defName_key_value%.%translatable_key_name%>
+
+    // defs language xml structure
+    // %defName_key_value2% includes the all sub tags before translatable tag
+    //
+    // <?xml version="1.0" encoding="utf-8"?>
+    //<LanguageData>
+    //
+    //<%defName_key_value1%.%translatable_key_name%>%translatable_key_value%</%defName_key_value1%.%translatable_key_name%>
+    //<%defName_key_value1%.%translatable_key_name%>%translatable_key_value%</%defName_key_value1%.%translatable_key_name%>
+    //
+    //<%defName_key_value2%.%translatable_key_name%>%translatable_key_value%</%defName_key_value2%.%translatable_key_name%>
+    //<%defName_key_value2%.%translatable_key_name%>%translatable_key_value%</%defName_key_value2%.%translatable_key_name%>
+    //
+    //</LanguageData>
+
+    // for editor extra functions to insert most often using replacers
+    // replacers: https://rimworldwiki.com/wiki/Modding_Tutorials/GrammarResolver
+
     public partial class TranslationEditorViewModel : ViewModelBase
     {
         public TranslationEditorViewModel(SettingsService settingsService)
@@ -25,31 +50,6 @@ namespace RimworldModTranslator.ViewModels
 
             InitTranslationsTable();
         }
-
-        // subfolders and xml file naming
-        // For Defs: Languages\%LanguageCode%\DefInjected\XmlParentTagNameInsideOfRootDefsTag\ParentXmlName.xml
-        // For keyed (each xml tag value, only from exist language dir): Languages\%LanguageCode%\Keyed\Keyed_%LanguageCode%.xml
-        // For common Strings (in txt each line, only from exist language dir): Languages\LanguageCode\Strings\Names\*.txt
-        // 
-        // key name in xml
-        // <%defName_key_value%.%translatable_key_name%>%translatable_key_value%</%defName_key_value%.%translatable_key_name%>
-
-        // defs language xml structure
-        // %defName_key_value2% includes the all sub tags before translatable tag
-        //
-        // <?xml version="1.0" encoding="utf-8"?>
-        //<LanguageData>
-        //
-        //<%defName_key_value1%.%translatable_key_name%>%translatable_key_value%</%defName_key_value1%.%translatable_key_name%>
-        //<%defName_key_value1%.%translatable_key_name%>%translatable_key_value%</%defName_key_value1%.%translatable_key_name%>
-        //
-        //<%defName_key_value2%.%translatable_key_name%>%translatable_key_value%</%defName_key_value2%.%translatable_key_name%>
-        //<%defName_key_value2%.%translatable_key_name%>%translatable_key_value%</%defName_key_value2%.%translatable_key_name%>
-        //
-        //</LanguageData>
-
-        // for editor extra functions to insert most often using replacers
-        // replacers: https://rimworldwiki.com/wiki/Modding_Tutorials/GrammarResolver
 
         public string Header { get; } = "Editor";
 
