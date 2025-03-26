@@ -9,7 +9,7 @@ namespace RimworldModTranslator.Models
 {
     public class Game
     {
-        public string? GameDirPath { get; set; }
+        public string? ModsDirPath { get; set; }
         public string? ConfigDirPath { get; set; }
         public ObservableCollection<ModData> ModsList { get; set; } = [];
         public ObservableCollection<ModData> SelectedMods { get; set; } = [];

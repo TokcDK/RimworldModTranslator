@@ -144,7 +144,7 @@ namespace RimworldModTranslator.ViewModels
 
         private void GetTranslatableFolders()
         {
-            string fullPath = Path.Combine(game!.GameDirPath!, "Mods", mod!.DirectoryName!);
+            string fullPath = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!);
             if (!Directory.Exists(fullPath)) return;
 
             Folders.Clear();
@@ -185,7 +185,7 @@ namespace RimworldModTranslator.ViewModels
 
             Languages.Clear();
 
-            string languagesDirPath = Path.Combine(game!.GameDirPath!, "Mods", mod!.DirectoryName!, VersionDirRegex.IsMatch(SelectedFolder) ? SelectedFolder : "", "Languages");
+            string languagesDirPath = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, VersionDirRegex.IsMatch(SelectedFolder) ? SelectedFolder : "", "Languages");
             if (!Directory.Exists(languagesDirPath)) return;
 
             var langDirNames = Directory.GetDirectories(languagesDirPath).Where(d => HaveTranslatableDirs(d)).Select(Path.GetFileName).ToList();

@@ -57,7 +57,7 @@ namespace RimworldModTranslator.Services
 
                     var newGame = new Game
                     {
-                        GameDirPath = gameParts[0],
+                        ModsDirPath = gameParts[0],
                         ConfigDirPath = gameParts[1]
                     };
 
@@ -87,7 +87,7 @@ namespace RimworldModTranslator.Services
         public void SaveGamesList()
         {
             var gamesListString = string.Join(_gamesListPathsSeparator,
-                GamesList.Select(g => $"{g.GameDirPath}{_gamesListTheGamePathsSeparator}{g.ConfigDirPath}"));
+                GamesList.Select(g => $"{g.ModsDirPath}{_gamesListTheGamePathsSeparator}{g.ConfigDirPath}"));
             Properties.Settings.Default.GamesList = gamesListString;
             Properties.Settings.Default.SelectedGameIndex = SelectedGame != null ? GamesList.IndexOf(SelectedGame) : -1;
             Properties.Settings.Default.Save();

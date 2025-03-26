@@ -16,11 +16,11 @@ namespace RimworldModTranslator.Helpers
         {
             if (game == null) return false;
 
-            if (string.IsNullOrEmpty(game.GameDirPath)
-                || !Directory.Exists(game.GameDirPath)) return false;
+            if (string.IsNullOrEmpty(game.ModsDirPath)
+                || !Directory.Exists(game.ModsDirPath)) return false;
 
             // Load mods from a "Mods" folder in the game path
-            string modsDir = Path.Combine(game.GameDirPath, "Mods");
+            string modsDir = game.ModsDirPath;
             if (!Directory.Exists(modsDir)) return false;
 
             // Use the default ModsConfig.xml path located in LocalLow
@@ -38,7 +38,7 @@ namespace RimworldModTranslator.Helpers
 
             game.ModsList.Clear();
 
-            string modsDir = Path.Combine(game!.GameDirPath!, "Mods");
+            string modsDir = game!.ModsDirPath!;
             foreach (var dir in Directory.EnumerateDirectories(modsDir))
             {
                 var mod = ModHelper.LoadModData(dir);

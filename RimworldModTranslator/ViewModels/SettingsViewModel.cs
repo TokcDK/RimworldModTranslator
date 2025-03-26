@@ -42,9 +42,9 @@ namespace RimworldModTranslator.ViewModels
         }
 
         [ObservableProperty]
-        private string? newGameDirPath;
+        private string? newModsDirPath;
         [ObservableProperty]
-        private string? newGameConfigDirPath;
+        private string? newConfigDirPath;
         private readonly SettingsService settingsService;
 
         public SettingsViewModel(SettingsService settingsService)
@@ -66,8 +66,8 @@ namespace RimworldModTranslator.ViewModels
 
             var newGame = new Game
             {
-                GameDirPath = NewGameDirPath,
-                ConfigDirPath = NewGameConfigDirPath
+                ModsDirPath = NewModsDirPath,
+                ConfigDirPath = NewConfigDirPath
             };
 
             if (!GameHelper.IsValidGame(newGame, settingsService)) return;
@@ -78,12 +78,12 @@ namespace RimworldModTranslator.ViewModels
 
         private bool IsAlreadyAddedGame()
         {
-            bool isInvalidConfigDirPath = string.IsNullOrWhiteSpace(NewGameConfigDirPath) || !Directory.Exists(NewGameConfigDirPath);
+            bool isInvalidConfigDirPath = string.IsNullOrWhiteSpace(NewConfigDirPath) || !Directory.Exists(NewConfigDirPath);
             string defaultConfigDirPath = Path.GetDirectoryName(settingsService.DefaultModsConfigXmlPath)!;
-            NewGameConfigDirPath = isInvalidConfigDirPath ? defaultConfigDirPath : NewGameConfigDirPath;
+            NewConfigDirPath = isInvalidConfigDirPath ? defaultConfigDirPath : NewConfigDirPath;
             
-            if (GamesList.Any(g => g.GameDirPath == NewGameDirPath
-                && g.ConfigDirPath == NewGameConfigDirPath))
+            if (GamesList.Any(g => g.ModsDirPath == NewModsDirPath
+                && g.ConfigDirPath == NewConfigDirPath))
             {
                 return true;
             }
