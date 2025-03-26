@@ -52,18 +52,25 @@ namespace RimworldModTranslator.Services
                 var gamesList = gamesListString.Split(_gamesListPathsSeparator);
                 foreach (var game in gamesList)
                 {
-                    var gameParts = game.Split(_gamesListTheGamePathsSeparator);
-                    if (gameParts.Length != 2) continue;
-
-                    var newGame = new Game
+                    try
                     {
-                        ModsDirPath = gameParts[0],
-                        ConfigDirPath = gameParts[1]
-                    };
+                        var gameParts = game.Split(_gamesListTheGamePathsSeparator);
+                        if (gameParts.Length != 2) continue;
 
-                    if (GameHelper.IsValidGame(newGame, this))
+                        var newGame = new Game
+                        {
+                            ModsDirPath = gameParts[0],
+                            ConfigDirPath = gameParts[1]
+                        };
+
+                        if (GameHelper.IsValidGame(newGame, this))
+                        {
+                            GamesList.Add(newGame);
+                        }
+                    }
+                    catch
                     {
-                        GamesList.Add(newGame);
+                        // skip errors
                     }
                 }
             }
