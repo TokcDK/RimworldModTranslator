@@ -32,6 +32,21 @@ namespace RimworldModTranslator.Helpers
             }
         }
 
+        public static void GetTranslatableFolders(ObservableCollection<string> folders, string modsPath, string modName)
+        {
+            string fullPath = Path.Combine(modsPath, modName);
+            if (!Directory.Exists(fullPath)) return;
+
+            folders.Clear();
+
+            EditorHelper.GetTranslatableSubDirs(fullPath, folders);
+
+            if (EditorHelper.HasExtractableStringsDir(fullPath))
+            {
+                folders.Add(modName);
+            }
+        }
+
         public static bool HasExtractableStringsDir(string dir)
         {
             return ExtractableModSubDirs.Any(subdir => Directory.Exists(Path.Combine(dir, subdir)));

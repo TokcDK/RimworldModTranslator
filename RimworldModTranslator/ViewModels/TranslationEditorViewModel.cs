@@ -169,21 +169,6 @@ namespace RimworldModTranslator.ViewModels
                  && !TranslationsTable.Columns.Contains(NewLanguageName);
         }
 
-        private void GetTranslatableFolders()
-        {
-            string fullPath = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!);
-            if (!Directory.Exists(fullPath)) return;
-
-            Folders.Clear();
-
-             EditorHelper.GetTranslatableSubDirs(fullPath, Folders);
-
-            if(EditorHelper.HasExtractableStringsDir(fullPath))
-            {
-                Folders.Add(mod!.DirectoryName!);
-            }
-        }
-
         /// <summary>
         /// load strings from Languages dirs for each language dir
         /// </summary>
@@ -238,7 +223,7 @@ namespace RimworldModTranslator.ViewModels
 
             if(isChangedMod || Folders.Count == 0)
             {
-                GetTranslatableFolders();
+                EditorHelper.GetTranslatableFolders(Folders, game!.ModsDirPath!, mod.DirectoryName!);
             }
 
             if(Folders.Count == 0) return; // no translatable folders
