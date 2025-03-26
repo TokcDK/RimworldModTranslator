@@ -39,6 +39,7 @@
                          VerticalAlignment="Center"
                          Text="{Binding NewLanguageName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button Content="Add Language"
+                        IsEnabled="{Binding IsAddNewLanguageEnabled}"
                         Command="{Binding AddNewLanguageCommand}"
                         VerticalAlignment="Center"/>
             </StackPanel>

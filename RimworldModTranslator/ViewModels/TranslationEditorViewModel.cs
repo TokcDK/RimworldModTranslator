@@ -65,6 +65,17 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private string? newLanguageName;
 
+        public bool IsAddNewLanguageEnabled { get => IsAddNewLanguageButtonEnabled(); }
+
+        private bool IsAddNewLanguageButtonEnabled()
+        {
+           return game != null 
+                && mod != null 
+                && !string.IsNullOrWhiteSpace(NewLanguageName) 
+                && TranslationsTable.Columns.Count > 0 
+                && !TranslationsTable.Columns.Contains(NewLanguageName);
+        }
+
         [ObservableProperty]
         private ObservableCollection<string> languages = new();
 
