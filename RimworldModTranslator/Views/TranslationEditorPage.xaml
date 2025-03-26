@@ -58,6 +58,7 @@
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   SelectionMode="Extended"
+                  EnableRowVirtualization="True"
                   Margin="1"
                   dgx:DataGridFilter.IsAutoFilterEnabled="True"
                   dataGrid2D:Index.StartAt="1"
