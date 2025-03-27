@@ -61,6 +61,7 @@ namespace RimworldModTranslator.Helpers
                 "titleshortFemale",
                 "verb"
         ];
+        public static string ExtractedLanguageName { get; private set; } = "Extracted";
 
         public static void GetTranslatableSubDirs(string fullPath, ObservableCollection<string> folders)
         {
@@ -126,24 +127,10 @@ namespace RimworldModTranslator.Helpers
                     // Вычисляем подкаталог относительно текущей папки языка
                     string xmlSubPath = Path.GetRelativePath(langPath, file);
                     // Получаем или создаем список для данного xmlSubPath
-                    if (!stringsData.StringsData.TryGetValue(xmlSubPath, out List<StringsBySubPath>? stringIdsList))
+                    if (!stringsData.SubPathStringIdsList.TryGetValue(xmlSubPath, out StringsIdsBySubPath? stringIdsList))
                     {
-                        stringIdsList = [];
-                        stringsData.StringsData[xmlSubPath] = stringIdsList;
-                    }
-                    // Поскольку xmlSubPath характеризует файл, используем один объект StringsByFile на файл
-                    StringsBySubPath stringsBySubPath;
-                    if (stringIdsList.Count == 0)
-                    {
-                        stringsBySubPath = new StringsBySubPath
-                        {
-                            Strings = []
-                        };
-                        stringIdsList.Add(stringsBySubPath);
-                    }
-                    else
-                    {
-                        stringsBySubPath = stringIdsList[0];
+                        stringIdsList = new();
+                        stringsData.SubPathStringIdsList[xmlSubPath] = stringIdsList;
                     }
 
                     try
@@ -160,21 +147,12 @@ namespace RimworldModTranslator.Helpers
                                 string key = match.Groups["tag"].Value;
                                 string value = match.Groups["value"].Value;
 
-                                if (!stringsBySubPath.Strings.TryGetValue(key, out List<LanguageValueData>? langList))
+                                if (!stringIdsList.StringIdLanguageValuePairsList.TryGetValue(key, out LanguageValuePairsData? langList))
                                 {
-                                    langList = [];
-                                    stringsBySubPath.Strings[key] = langList;
+                                    langList = new();
+                                    stringIdsList.StringIdLanguageValuePairsList[key] = langList;
                                 }
-                                // Если для данного языка уже есть значение, обновляем его, иначе добавляем новое.
-                                var existing = langList.FirstOrDefault(l => l.Language == language);
-                                if (existing != null)
-                                {
-                                    existing.Value = value;
-                                }
-                                else
-                                {
-                                    langList.Add(new LanguageValueData(language, value));
-                                }
+                                langList.LanguageValuePairs[language] = value;
                             }
                         }
                     }
@@ -186,7 +164,7 @@ namespace RimworldModTranslator.Helpers
             }
         }
 
-        public static void LoadStringsFromTheXmlDir(string xmlDirName, ObservableCollection<string?> langDirNames, string languagesDirPath, List<TranslationRow> translationRows)
+        public static void LoadStringsFromTheXmlDir(string xmlDirName, ObservableCollection<string?> langDirNames, string languagesDirPath, EditorStringsData stringsData)
         {
             // Создаем словарь с вложенной структурой:
             // Dictionary<subPath, Dictionary<key, Dictionary<language, value>>>
@@ -237,14 +215,10 @@ namespace RimworldModTranslator.Helpers
                     }
                 }
             }
-
-            FillTranslationRows(filesDictFull, translationRows);
         }
 
-        public static void LoadStringsFromStringsDir(List<string?> langDirNames, string languagesDirPath, List<TranslationRow> translationRows)
+        public static void LoadStringsFromStringsDir(List<string?> langDirNames, string languagesDirPath, EditorStringsData stringsData)
         {
-            var filesDictFull = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
-
             foreach (var language in langDirNames)
             {
                 if (language == null)
@@ -258,11 +232,11 @@ namespace RimworldModTranslator.Helpers
                 foreach (var file in Directory.GetFiles(langTxtDirPath, "*.txt", SearchOption.AllDirectories))
                 {
                     string txtSubPath = Path.GetRelativePath(langPath, file);
-
-                    if (!filesDictFull.TryGetValue(txtSubPath, out Dictionary<string, Dictionary<string, string>>? stringByKeyForEachLanguage))
+                    // Получить или создать список для данного txtSubPath
+                    if (!stringsData.SubPathStringIdsList.TryGetValue(txtSubPath, out StringsIdsBySubPath? stringIdsList))
                     {
-                        stringByKeyForEachLanguage = new Dictionary<string, Dictionary<string, string>>();
-                        filesDictFull[txtSubPath] = stringByKeyForEachLanguage;
+                        stringIdsList = new();
+                        stringsData.SubPathStringIdsList[txtSubPath] = stringIdsList;
                     }
 
                     var lines = File.ReadAllLines(file);
@@ -270,39 +244,18 @@ namespace RimworldModTranslator.Helpers
                     int idIndex = 0;
                     foreach (var line in lines)
                     {
-                        if (string.IsNullOrWhiteSpace(line)) continue;
+                        if (string.IsNullOrWhiteSpace(line))
+                            continue;
 
                         string key = $"{fileName}.{idIndex++}";
-                        if (!stringByKeyForEachLanguage.TryGetValue(key, out Dictionary<string, string>? value))
+                        if (!stringIdsList.StringIdLanguageValuePairsList.TryGetValue(key, out LanguageValuePairsData? langList))
                         {
-                            value = new Dictionary<string, string>();
-                            stringByKeyForEachLanguage[key] = value;
+                            langList = new();
+                            stringIdsList.StringIdLanguageValuePairsList[key] = langList;
                         }
 
-                        value[language] = line;
+                        langList.LanguageValuePairs[language] = line;
                     }
-                }
-            }
-
-            EditorHelper.FillTranslationRows(filesDictFull, translationRows);
-        }
-
-        public static void FillTranslationRows(Dictionary<string, Dictionary<string, Dictionary<string, string>>> filesDictFull, List<TranslationRow> translationRows)
-        {
-            // Перебор по подкаталогам и ключам
-            foreach (var (subPath, keyValues) in filesDictFull)
-            {
-                foreach (var (key, langValues) in keyValues)
-                {
-                    var translationRow = new TranslationRow(subPath);
-                    translationRow.SetKey(key);
-
-                    foreach (var (lang, value) in langValues)
-                    {
-                        translationRow.Translations.Add(new LanguageValueData(lang, value));
-                    }
-
-                    translationRows.Add(translationRow);
                 }
             }
         }
@@ -312,9 +265,9 @@ namespace RimworldModTranslator.Helpers
             return VersionDirRegex.IsMatch(selectedFolder) ? selectedFolder : "";
         }
 
-        public static DataTable? CreateTranslationsTable(List<TranslationRow> translationRows)
+        public static DataTable? CreateTranslationsTable(EditorStringsData stringsData)
         {
-            if (translationRows.Count == 0) return null;
+            if (stringsData.SubPathStringIdsList.Count == 0) return null;
 
             // Создаем новый DataTable
             var translationsTable = new DataTable();
@@ -325,12 +278,18 @@ namespace RimworldModTranslator.Helpers
 
             // Собираем все уникальные языки из TranslationRows
             var languageSet = new HashSet<string>();
-            foreach (var row in translationRows)
+            foreach (var SubPathStringIds in stringsData.SubPathStringIdsList)
             {
-                foreach (var langValue in row.Translations)
+                foreach (var stringIdLanguageValuePairs in SubPathStringIds.Value.StringIdLanguageValuePairsList)
                 {
-                    if (string.IsNullOrEmpty(langValue.Language)) continue;
-                    languageSet.Add(langValue.Language);
+                    foreach(var langValuePair in stringIdLanguageValuePairs.Value.LanguageValuePairs)
+                    {
+                        string lang = langValuePair.Key;
+                        if (string.IsNullOrEmpty(lang)) continue;
+                        if (languageSet.Contains(lang)) continue;
+
+                        languageSet.Add(lang);
+                    }
                 }
             }
 
@@ -341,28 +300,38 @@ namespace RimworldModTranslator.Helpers
             }
 
             // Заполняем строки DataTable
-            foreach (var translationRow in translationRows)
+            foreach (var subPathStringIds in stringsData.SubPathStringIdsList)
             {
-                var dataRow = translationsTable.NewRow();
-                dataRow["SubPath"] = translationRow.SubPath ?? string.Empty;
-                dataRow["ID"] = translationRow.Key ?? string.Empty;
+                string? subPath = subPathStringIds.Key;
+                var stringIdsLanguageValuePairsList = subPathStringIds.Value.StringIdLanguageValuePairsList;
 
-                // Заполняем языковые колонки
-                foreach (var lang in languageSet)
+                foreach (var stringIdsLanguageValuePairs in stringIdsLanguageValuePairsList)
                 {
-                    var languageValue = translationRow.Translations.FirstOrDefault(t => t.Language == lang);
-                    dataRow[lang] = languageValue?.Value;
-                }
+                    string? stringId = stringIdsLanguageValuePairs.Key;
 
-                translationsTable.Rows.Add(dataRow);
+                    var dataRow = translationsTable.NewRow();
+                    dataRow["SubPath"] = subPath ?? string.Empty;
+                    dataRow["ID"] = stringId ?? string.Empty;
+
+                    // Заполняем языковые колонки
+                    foreach (var langValuePair in stringIdsLanguageValuePairs.Value.LanguageValuePairs)
+                    {
+                        string lang = langValuePair.Key;
+                        string? languageValue = langValuePair.Value;
+
+                        dataRow[lang] = languageValue;
+                    }
+
+                    translationsTable.Rows.Add(dataRow);
+                }
             }
 
             return translationsTable;
         }
 
-        public static bool LoadLanguages(List<TranslationRow> translationRows, string selectedLanguageDir, EditorStringsData stringsData)
+        public static bool LoadLanguages(string selectedLanguageDir, EditorStringsData stringsData)
         {
-            List<string> languages = new List<string>();
+            List<string> languages = [];
 
             string languagesDirPath = Path.Combine(selectedLanguageDir, "Languages");
             if (!Directory.Exists(languagesDirPath)) return false;
@@ -384,12 +353,12 @@ namespace RimworldModTranslator.Helpers
                 EditorHelper.LoadStringsFromTheXmlAsTxtDir(xmlDirName, langDirNames, languagesDirPath, stringsData);
             }
 
-            EditorHelper.LoadStringsFromStringsDir(langDirNames, languagesDirPath, translationRows);
+            EditorHelper.LoadStringsFromStringsDir(langDirNames, languagesDirPath, stringsData);
 
-            return translationRows.Count > 0;
+            return stringsData.SubPathStringIdsList.Count > 0;
         }
 
-        public static void ExtractStrings(List<TranslationRow> translationRows, string selectedLanguageDir)
+        public static void ExtractStrings(string selectedLanguageDir, EditorStringsData stringsData)
         {
             var defsDir = Path.Combine(selectedLanguageDir, "Defs");
             if (!Directory.Exists(defsDir)) return;
@@ -437,14 +406,22 @@ namespace RimworldModTranslator.Helpers
                             }
                             segments.Add(element.Name.LocalName);
 
+
+                            string subPath = $"DefInjected\\{folderName}\\{xmlFileName}";
                             string stringId = stringIdRootName + "." + string.Join(".", segments);
                             string stringValue = element.Value.Trim();
 
-                            var translationRow = new TranslationRow($"DefInjected\\{folderName}\\{xmlFileName}");
-                            translationRow.SetKey(stringId);
-                            translationRow.Translations.Add(new LanguageValueData("Extracted", stringValue));
-
-                            translationRows.Add(translationRow);
+                            if (!stringsData.SubPathStringIdsList.TryGetValue(subPath, out StringsIdsBySubPath? stringsBySubPath))
+                            {
+                                stringsBySubPath = new();
+                                stringsData.SubPathStringIdsList[subPath] = stringsBySubPath;
+                            }
+                            if (!stringsBySubPath.StringIdLanguageValuePairsList.TryGetValue(stringId, out LanguageValuePairsData? langList))
+                            {
+                                langList = new LanguageValuePairsData();
+                                stringsBySubPath.StringIdLanguageValuePairsList[stringId] = langList;
+                            }
+                            langList.LanguageValuePairs[ExtractedLanguageName] = stringValue;
                         }
                     }
                 }

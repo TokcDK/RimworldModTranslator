@@ -8,11 +8,10 @@ namespace RimworldModTranslator.ViewModels
 
     public partial class TranslationEditorViewModel
     {
-        public class StringsBySubPath
+        public class StringsIdsBySubPath
         {
             // Dictionary<StringId, ListLanguageValuePair>
-            public Dictionary<string, List<LanguageValueData>> Strings { get; set; } = [];
+            public Dictionary<string, LanguageValuePairsData> StringIdLanguageValuePairsList { get; set; } = [];
         }
-        #endregion
     }
 }

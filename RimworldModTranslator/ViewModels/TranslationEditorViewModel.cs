@@ -72,8 +72,6 @@ namespace RimworldModTranslator.ViewModels
         public string? ModDisplayingName => mod != null && Folders.Count > 0 ? mod.ModDisplayingName : settingsService.SelectedMod?.ModDisplayingName;
 
         public ObservableCollection<string> Folders { get; } = [];
-
-        public ObservableCollection<TranslationRow> TranslationRows = [];
         #endregion
 
         #region Observable Properties
@@ -143,14 +141,13 @@ namespace RimworldModTranslator.ViewModels
 
             EditorStringsData stringsData = new();
 
-            List<TranslationRow>? translationRows = [];
-            EditorHelper.LoadLanguages(translationRows, selectedLanguageDir, stringsData);
-            EditorHelper.ExtractStrings(translationRows, selectedLanguageDir);
+            EditorHelper.LoadLanguages(selectedLanguageDir, stringsData);
+            EditorHelper.ExtractStrings(selectedLanguageDir, stringsData);
 
-            var translationsTable = EditorHelper.CreateTranslationsTable(translationRows);
+            var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
             InitTranslationsTable(dataTableToRelink: translationsTable);
 
-            if (translationsTable.Columns.Count == 0)
+            if (translationsTable == null || translationsTable.Columns.Count == 0)
             {
                 SelectedFolder = previousSelectedFolder;
                 return;
