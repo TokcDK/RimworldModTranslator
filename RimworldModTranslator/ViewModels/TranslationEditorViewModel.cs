@@ -128,6 +128,9 @@ namespace RimworldModTranslator.ViewModels
 
         [ObservableProperty]
         private DataView? translationsView;
+
+        [ObservableProperty]
+        private DataRowView? selectedRow;
         #endregion
 
         #region Commands

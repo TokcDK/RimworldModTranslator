@@ -54,6 +54,7 @@
         <!-- DataGrid bound to StringsByLanguage -->
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding TranslationsView}" 
+                  SelectedItem="{Binding SelectedRow}"
                   AutoGenerateColumns="True"
                   AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
                   CanUserAddRows="False"
