@@ -107,6 +107,11 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void LoadStrings()
         {
+            LoadTheSelectedModStrings();
+        }
+
+        public void LoadTheSelectedModStrings()
+        {
             if (game == null || game != settingsService.SelectedGame)
             {
                 // load only when game was not set or changed
@@ -142,7 +147,7 @@ namespace RimworldModTranslator.ViewModels
 
             var translationsTable = EditorHelper.CreateTranslationsTable(translationRows);
             InitTranslationsTable(dataTableToRelink: translationsTable);
-            
+
             if (translationsTable.Columns.Count == 0)
             {
                 SelectedFolder = previousSelectedFolder;

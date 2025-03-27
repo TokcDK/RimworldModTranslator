@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using RimworldModTranslator.Services;
 using System.Collections.Generic;
 using RimworldModTranslator.Helpers;
+using System;
+using RimworldModTranslator.Messages;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -34,6 +36,13 @@ namespace RimworldModTranslator.ViewModels
             {
                 GameHelper.UpdateSharedModList(settingsService.ModsList, game.ModsList);
             }
+        }
+        [RelayCommand]
+        private void LoadStrings()
+        {
+            if(SelectedMod == null) return;
+
+            WeakReferenceMessenger.Default.Send(new LoadSelectedModStringsMessage());
         }
     }
 }

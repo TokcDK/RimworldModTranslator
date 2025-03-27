@@ -6,13 +6,14 @@ using RimworldModTranslator.Models;
 using RimworldModTranslator.Services;
 using System.Collections.ObjectModel;
 using RimworldModTranslator.Helpers;
+using RimworldModTranslator.Messages;
 
 namespace RimworldModTranslator.ViewModels
 {
-    public partial class MainViewModel : ViewModelBase
+    public partial class MainViewModel : ViewModelBase, IRecipient<LoadSelectedModStringsMessage>
     {
-        public ObservableCollection<ViewModelBase> TabViewModels { get; } = [];
-
+        public ObservableCollection<ViewModelBase> TabViewModels { get; } = []; 
+        
         private readonly SettingsService settingsService;
 
         [ObservableProperty]
@@ -27,6 +28,19 @@ namespace RimworldModTranslator.ViewModels
             TabViewModels.Add(new SettingsViewModel(settingsService));
 
             selectedTab = TabViewModels[2]; // Select the settings tab by default
+
+            WeakReferenceMessenger.Default.Register<LoadSelectedModStringsMessage>(this);
+        }
+
+        void IRecipient<LoadSelectedModStringsMessage>.Receive(LoadSelectedModStringsMessage message)
+        {
+            if (TabViewModels[1] is not TranslationEditorViewModel editor) return;
+
+            // switch to editor tab
+            SelectedTab = editor;
+
+            // load strings in editor
+            editor.LoadTheSelectedModStrings();
         }
     }
 }
