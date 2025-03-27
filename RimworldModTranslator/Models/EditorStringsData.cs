@@ -11,6 +11,6 @@ namespace RimworldModTranslator.Models
     {
         // for search by SubPath and StringId By the path
         // Dictionary<SubPath, ListStringIdValuesForEachLanguage>
-        internal Dictionary<string, List<StringsByFile>> StringsData = [];
+        internal Dictionary<string, List<StringsBySubPath>> StringsData = [];
     }
 }

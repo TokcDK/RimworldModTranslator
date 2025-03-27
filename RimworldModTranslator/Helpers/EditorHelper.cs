@@ -23,43 +23,43 @@ namespace RimworldModTranslator.Helpers
         public static List<string> DefsXmlTags { get; } =
         [
             "adjective",
-            "baseDesc",
-            "baseInspectLine",
-            "commandDesc",
-            "commandLabel",
-            "customLabel",
-            "customLetterLabel",
-            "customLetterText",
-            "deathMessage",
-            "desc",
-            "description",
-            "headerTip",
-            "ideoName",
-            "ingestCommandString",
-            "ingestReportString",
-            "jobString",
-            "label",
-            "labelNoun",
-            "labelPlural",
-            "leaderTitle",
-            "letterText",
-            "member",
-            "name",
-            "outOfFuelMessage",
-            "pawnSingular",
-            "pawnsPlural",
-            "reportString",
-            "slateRef",
-            "structureLabel",
-            "stuffAdjective",
-            "summary",
-            "text",
-            "theme",
-            "title",
-            "titleshort",
-            "titleFemale",
-            "titleshortFemale",
-            "verb"
+                "baseDesc",
+                "baseInspectLine",
+                "commandDesc",
+                "commandLabel",
+                "customLabel",
+                "customLetterLabel",
+                "customLetterText",
+                "deathMessage",
+                "desc",
+                "description",
+                "headerTip",
+                "ideoName",
+                "ingestCommandString",
+                "ingestReportString",
+                "jobString",
+                "label",
+                "labelNoun",
+                "labelPlural",
+                "leaderTitle",
+                "letterText",
+                "member",
+                "name",
+                "outOfFuelMessage",
+                "pawnSingular",
+                "pawnsPlural",
+                "reportString",
+                "slateRef",
+                "structureLabel",
+                "stuffAdjective",
+                "summary",
+                "text",
+                "theme",
+                "title",
+                "titleshort",
+                "titleFemale",
+                "titleshortFemale",
+                "verb"
         ];
 
         public static void GetTranslatableSubDirs(string fullPath, ObservableCollection<string> folders)
@@ -101,18 +101,12 @@ namespace RimworldModTranslator.Helpers
         }
 
         /// <summary>
-        /// The variant when the each language xml file
-        /// parsing as txt file with xml tags
-        /// because of some xml structure was broken and usual pasing fails to read xml
+        /// Variant: Each language xml file is parsed as txt file with xml tags
+        /// because some xml structures are broken and usual parsing fails.
+        /// Refactored to fill stringsData directly.
         /// </summary>
-        /// <param name="xmlDirName"></param>
-        /// <param name="langDirNames"></param>
-        /// <param name="languagesDirPath"></param>
         public static void LoadStringsFromTheXmlAsTxtDir(string xmlDirName, List<string?> langDirNames, string languagesDirPath, EditorStringsData stringsData)
         {
-            // Создаем словарь с вложенной структурой:
-            // Dictionary<subPath, Dictionary<key, Dictionary<language, value>>>
-            var filesDictFull = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
             // Регулярное выражение для поиска строк с xml тегами, которые начинаются и заканчиваются одинаково.
             // Пример: <OvipositorF.stages.5.label>Бездна</OvipositorF.stages.5.label>
             var regex = new Regex(@"^\s*<(?<tag>[^>]+)>(?<value>.*)</\k<tag>>\s*$", RegexOptions.Compiled);
@@ -129,13 +123,27 @@ namespace RimworldModTranslator.Helpers
 
                 foreach (var file in Directory.GetFiles(langXmlDirPath, "*.xml", SearchOption.AllDirectories))
                 {
-                    // Вычисление подкаталога относительно текущей папки языка
+                    // Вычисляем подкаталог относительно текущей папки языка
                     string xmlSubPath = Path.GetRelativePath(langPath, file);
-
-                    if (!filesDictFull.TryGetValue(xmlSubPath, out Dictionary<string, Dictionary<string, string>>? stringByKeyForEachLanguage))
+                    // Получаем или создаем список для данного xmlSubPath
+                    if (!stringsData.StringsData.TryGetValue(xmlSubPath, out List<StringsBySubPath>? stringIdsList))
                     {
-                        stringByKeyForEachLanguage = new Dictionary<string, Dictionary<string, string>>();
-                        filesDictFull[xmlSubPath] = stringByKeyForEachLanguage;
+                        stringIdsList = [];
+                        stringsData.StringsData[xmlSubPath] = stringIdsList;
+                    }
+                    // Поскольку xmlSubPath характеризует файл, используем один объект StringsByFile на файл
+                    StringsBySubPath stringsBySubPath;
+                    if (stringIdsList.Count == 0)
+                    {
+                        stringsBySubPath = new StringsBySubPath
+                        {
+                            Strings = []
+                        };
+                        stringIdsList.Add(stringsBySubPath);
+                    }
+                    else
+                    {
+                        stringsBySubPath = stringIdsList[0];
                     }
 
                     try
@@ -152,49 +160,29 @@ namespace RimworldModTranslator.Helpers
                                 string key = match.Groups["tag"].Value;
                                 string value = match.Groups["value"].Value;
 
-                                if (!stringByKeyForEachLanguage.TryGetValue(key, out Dictionary<string, string>? translations))
+                                if (!stringsBySubPath.Strings.TryGetValue(key, out List<LanguageValueData>? langList))
                                 {
-                                    translations = new Dictionary<string, string>();
-                                    stringByKeyForEachLanguage[key] = translations;
+                                    langList = [];
+                                    stringsBySubPath.Strings[key] = langList;
                                 }
-
-                                translations[language] = value;
+                                // Если для данного языка уже есть значение, обновляем его, иначе добавляем новое.
+                                var existing = langList.FirstOrDefault(l => l.Language == language);
+                                if (existing != null)
+                                {
+                                    existing.Value = value;
+                                }
+                                else
+                                {
+                                    langList.Add(new LanguageValueData(language, value));
+                                }
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        // Ошибка чтения файла текстом, логирование при необходимости
+                        // Ошибка чтения файла как текстового, можно добавить логирование при необходимости
                     }
                 }
-            }
-
-            // Перенос значений из filesDictFull в stringsData
-            // Структура stringsData: Dictionary<SubPath, List<StringsByFile>>
-            foreach (var (subPath, keyValues) in filesDictFull)
-            {
-                // Создаем объект StringsByFile для данного subPath
-                var stringsByFile = new StringsByFile
-                {
-                    Strings = new Dictionary<string, List<LanguageValueData>>()
-                };
-
-                foreach (var (key, langValues) in keyValues)
-                {
-                    var languageList = new List<LanguageValueData>();
-                    foreach (var (lang, value) in langValues)
-                    {
-                        languageList.Add(new LanguageValueData(lang, value));
-                    }
-                    stringsByFile.Strings[key] = languageList;
-                }
-
-                if (!stringsData.StringsData.TryGetValue(subPath, out List<StringsByFile>? list))
-                {
-                    list = new List<StringsByFile>();
-                    stringsData.StringsData[subPath] = list;
-                }
-                list.Add(stringsByFile);
             }
         }
 
@@ -221,7 +209,7 @@ namespace RimworldModTranslator.Helpers
 
                     if (!filesDictFull.TryGetValue(xmlSubPath, out Dictionary<string, Dictionary<string, string>>? stringByKeyForEachLanguage))
                     {
-                        stringByKeyForEachLanguage = [];
+                        stringByKeyForEachLanguage = new Dictionary<string, Dictionary<string, string>>();
                         filesDictFull[xmlSubPath] = stringByKeyForEachLanguage;
                     }
 
@@ -236,7 +224,7 @@ namespace RimworldModTranslator.Helpers
                             string key = pair.Name.LocalName;
                             if (!stringByKeyForEachLanguage.TryGetValue(key, out Dictionary<string, string>? value))
                             {
-                                value = [];
+                                value = new Dictionary<string, string>();
                                 stringByKeyForEachLanguage[key] = value;
                             }
 
@@ -245,10 +233,7 @@ namespace RimworldModTranslator.Helpers
                     }
                     catch (Exception ex)
                     {
-                        // Ignore xml arse errors
-                        // some xml have error parse with error like "{"The 'blabla.labelNoun' start tag on line 17 position 4 does not match the end tag of 'LanguageData'. Line 37, position 3."}"
-                        // it happens because translator accidentally removed '<' or '>' symbol in one of starting or closing tag for a string
-                        // or translator used gpt and gpt made xml structure broken, but more likely it was made manually
+                        // Ignore xml parse errors
                     }
                 }
             }
@@ -270,19 +255,17 @@ namespace RimworldModTranslator.Helpers
                 if (!Directory.Exists(langTxtDirPath))
                     continue;
 
-                Dictionary<string, string> strings = [];
                 foreach (var file in Directory.GetFiles(langTxtDirPath, "*.txt", SearchOption.AllDirectories))
                 {
                     string txtSubPath = Path.GetRelativePath(langPath, file);
 
                     if (!filesDictFull.TryGetValue(txtSubPath, out Dictionary<string, Dictionary<string, string>>? stringByKeyForEachLanguage))
                     {
-                        stringByKeyForEachLanguage = [];
+                        stringByKeyForEachLanguage = new Dictionary<string, Dictionary<string, string>>();
                         filesDictFull[txtSubPath] = stringByKeyForEachLanguage;
                     }
 
                     var lines = File.ReadAllLines(file);
-
                     var fileName = Path.GetFileNameWithoutExtension(file);
                     int idIndex = 0;
                     foreach (var line in lines)
@@ -292,13 +275,12 @@ namespace RimworldModTranslator.Helpers
                         string key = $"{fileName}.{idIndex++}";
                         if (!stringByKeyForEachLanguage.TryGetValue(key, out Dictionary<string, string>? value))
                         {
-                            value = [];
+                            value = new Dictionary<string, string>();
                             stringByKeyForEachLanguage[key] = value;
                         }
 
                         value[language] = line;
                     }
-
                 }
             }
 
@@ -307,7 +289,7 @@ namespace RimworldModTranslator.Helpers
 
         public static void FillTranslationRows(Dictionary<string, Dictionary<string, Dictionary<string, string>>> filesDictFull, List<TranslationRow> translationRows)
         {
-            // Dictionary<subPath, Dictionary<key, Dictionary<language, value>>> filesDictFull
+            // Перебор по подкаталогам и ключам
             foreach (var (subPath, keyValues) in filesDictFull)
             {
                 foreach (var (key, langValues) in keyValues)
@@ -348,9 +330,7 @@ namespace RimworldModTranslator.Helpers
                 foreach (var langValue in row.Translations)
                 {
                     if (string.IsNullOrEmpty(langValue.Language)) continue;
-                    if (languageSet.Contains(langValue.Language)) continue;
-
-                    languageSet.Add(langValue.Language!);
+                    languageSet.Add(langValue.Language);
                 }
             }
 
@@ -370,7 +350,6 @@ namespace RimworldModTranslator.Helpers
                 // Заполняем языковые колонки
                 foreach (var lang in languageSet)
                 {
-                    // Находим значение для данного языка
                     var languageValue = translationRow.Translations.FirstOrDefault(t => t.Language == lang);
                     dataRow[lang] = languageValue?.Value;
                 }
@@ -383,7 +362,7 @@ namespace RimworldModTranslator.Helpers
 
         public static bool LoadLanguages(List<TranslationRow> translationRows, string selectedLanguageDir, EditorStringsData stringsData)
         {
-            List<string> languages = [];
+            List<string> languages = new List<string>();
 
             string languagesDirPath = Path.Combine(selectedLanguageDir, "Languages");
             if (!Directory.Exists(languagesDirPath)) return false;
@@ -402,8 +381,7 @@ namespace RimworldModTranslator.Helpers
             var xmlDirNames = new string[2] { "DefInjected", "Keyed" };
             foreach (var xmlDirName in xmlDirNames)
             {
-                //LoadStringsFromTheXmlDir(xmlDirName, langDirNames, languagesDirPath);
-                EditorHelper.LoadStringsFromTheXmlAsTxtDir(xmlDirName, langDirNames, languagesDirPath, translationRows, stringsData);
+                EditorHelper.LoadStringsFromTheXmlAsTxtDir(xmlDirName, langDirNames, languagesDirPath, stringsData);
             }
 
             EditorHelper.LoadStringsFromStringsDir(langDirNames, languagesDirPath, translationRows);
@@ -437,12 +415,10 @@ namespace RimworldModTranslator.Helpers
 
                         string stringIdRootName = defNameElement.Value.Trim();
 
-                        // Get chain of ancestors from the current element up to the category element
                         var matchingElements = category.Descendants()
                                                        .Where(e => defsXmlTags.Contains(e.Name.LocalName));
                         foreach (var element in matchingElements)
                         {
-                            // Get the chain of ancestors from the current element up to the category element
                             var ancestors = element.Ancestors().TakeWhile(e => e != category).Reverse().ToList();
                             var segments = new List<string>();
 
@@ -450,7 +426,6 @@ namespace RimworldModTranslator.Helpers
                             {
                                 if (anc.Name.LocalName == "li")
                                 {
-                                    // save index of li element in parent ul/ol
                                     var liSiblings = anc.Parent!.Elements("li").ToList();
                                     int index = liSiblings.IndexOf(anc);
                                     segments.Add(index.ToString());
@@ -460,13 +435,12 @@ namespace RimworldModTranslator.Helpers
                                     segments.Add(anc.Name.LocalName);
                                 }
                             }
-                            // Add the element itself; the tag name is used as the last part of the identifier
                             segments.Add(element.Name.LocalName);
 
                             string stringId = stringIdRootName + "." + string.Join(".", segments);
                             string stringValue = element.Value.Trim();
 
-                            var translationRow = new TranslationRow(subPath: $"DefInjected\\{folderName}\\{xmlFileName}");
+                            var translationRow = new TranslationRow($"DefInjected\\{folderName}\\{xmlFileName}");
                             translationRow.SetKey(stringId);
                             translationRow.Translations.Add(new LanguageValueData("Extracted", stringValue));
 
@@ -476,7 +450,7 @@ namespace RimworldModTranslator.Helpers
                 }
                 catch (Exception)
                 {
-                    // Optionally: exception handling or logging
+                    // При необходимости можно добавить логирование ошибки
                 }
             }
         }

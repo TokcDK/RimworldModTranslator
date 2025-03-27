@@ -8,7 +8,7 @@ namespace RimworldModTranslator.ViewModels
 
     public partial class TranslationEditorViewModel
     {
-        public class StringsByFile
+        public class StringsBySubPath
         {
             // Dictionary<StringId, ListLanguageValuePair>
             public Dictionary<string, List<LanguageValueData>> Strings { get; set; } = [];
