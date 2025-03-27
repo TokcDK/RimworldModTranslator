@@ -144,7 +144,7 @@ namespace RimworldModTranslator.ViewModels
             EditorStringsData stringsData = new();
 
             List<TranslationRow>? translationRows = [];
-            EditorHelper.LoadLanguages(translationRows, selectedLanguageDir);
+            EditorHelper.LoadLanguages(translationRows, selectedLanguageDir, stringsData);
             EditorHelper.ExtractStrings(translationRows, selectedLanguageDir);
 
             var translationsTable = EditorHelper.CreateTranslationsTable(translationRows);

@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using static RimworldModTranslator.ViewModels.TranslationEditorViewModel;
 
 namespace RimworldModTranslator.Helpers
 {
@@ -107,7 +108,7 @@ namespace RimworldModTranslator.Helpers
         /// <param name="xmlDirName"></param>
         /// <param name="langDirNames"></param>
         /// <param name="languagesDirPath"></param>
-        public static void LoadStringsFromTheXmlAsTxtDir(string xmlDirName, List<string?> langDirNames, string languagesDirPath, List<TranslationRow> translationRows)
+        public static void LoadStringsFromTheXmlAsTxtDir(string xmlDirName, List<string?> langDirNames, string languagesDirPath, EditorStringsData stringsData)
         {
             // Создаем словарь с вложенной структурой:
             // Dictionary<subPath, Dictionary<key, Dictionary<language, value>>>
@@ -168,7 +169,33 @@ namespace RimworldModTranslator.Helpers
                 }
             }
 
-            FillTranslationRows(filesDictFull, translationRows);
+            // Перенос значений из filesDictFull в stringsData
+            // Структура stringsData: Dictionary<SubPath, List<StringsByFile>>
+            foreach (var (subPath, keyValues) in filesDictFull)
+            {
+                // Создаем объект StringsByFile для данного subPath
+                var stringsByFile = new StringsByFile
+                {
+                    Strings = new Dictionary<string, List<LanguageValueData>>()
+                };
+
+                foreach (var (key, langValues) in keyValues)
+                {
+                    var languageList = new List<LanguageValueData>();
+                    foreach (var (lang, value) in langValues)
+                    {
+                        languageList.Add(new LanguageValueData(lang, value));
+                    }
+                    stringsByFile.Strings[key] = languageList;
+                }
+
+                if (!stringsData.StringsData.TryGetValue(subPath, out List<StringsByFile>? list))
+                {
+                    list = new List<StringsByFile>();
+                    stringsData.StringsData[subPath] = list;
+                }
+                list.Add(stringsByFile);
+            }
         }
 
         public static void LoadStringsFromTheXmlDir(string xmlDirName, ObservableCollection<string?> langDirNames, string languagesDirPath, List<TranslationRow> translationRows)
@@ -354,7 +381,7 @@ namespace RimworldModTranslator.Helpers
             return translationsTable;
         }
 
-        public static bool LoadLanguages(List<TranslationRow> translationRows, string selectedLanguageDir)
+        public static bool LoadLanguages(List<TranslationRow> translationRows, string selectedLanguageDir, EditorStringsData stringsData)
         {
             List<string> languages = [];
 
@@ -376,7 +403,7 @@ namespace RimworldModTranslator.Helpers
             foreach (var xmlDirName in xmlDirNames)
             {
                 //LoadStringsFromTheXmlDir(xmlDirName, langDirNames, languagesDirPath);
-                EditorHelper.LoadStringsFromTheXmlAsTxtDir(xmlDirName, langDirNames, languagesDirPath, translationRows);
+                EditorHelper.LoadStringsFromTheXmlAsTxtDir(xmlDirName, langDirNames, languagesDirPath, translationRows, stringsData);
             }
 
             EditorHelper.LoadStringsFromStringsDir(langDirNames, languagesDirPath, translationRows);
