@@ -117,6 +117,8 @@ namespace RimworldModTranslator.Helpers
                 if (language == null)
                     continue;
 
+                stringsData.Languages.Add(language);
+
                 string langPath = Path.Combine(languagesDirPath, language);
                 string langXmlDirPath = Path.Combine(langPath, xmlDirName);
                 if (!Directory.Exists(langXmlDirPath))
@@ -224,6 +226,8 @@ namespace RimworldModTranslator.Helpers
                 if (language == null)
                     continue;
 
+                stringsData.Languages.Add(language);
+
                 string langPath = Path.Combine(languagesDirPath, language);
                 string langTxtDirPath = Path.Combine(langPath, "Strings");
                 if (!Directory.Exists(langTxtDirPath))
@@ -314,23 +318,7 @@ namespace RimworldModTranslator.Helpers
 
         private static HashSet<string> GetUniqueLanguages(EditorStringsData stringsData)
         {
-            var languageSet = new HashSet<string>();
-            foreach (var SubPathStringIds in stringsData.SubPathStringIdsList)
-            {
-                foreach (var stringIdLanguageValuePairs in SubPathStringIds.Value.StringIdLanguageValuePairsList)
-                {
-                    foreach (var langValuePair in stringIdLanguageValuePairs.Value.LanguageValuePairs)
-                    {
-                        string lang = langValuePair.Key;
-                        if (string.IsNullOrEmpty(lang)) continue;
-                        if (languageSet.Contains(lang)) continue;
-
-                        languageSet.Add(lang);
-                    }
-                }
-            }
-
-            return languageSet;
+            return stringsData.Languages;
         }
 
         public static bool LoadLanguages(string selectedLanguageDir, EditorStringsData stringsData)
@@ -366,6 +354,8 @@ namespace RimworldModTranslator.Helpers
         {
             var defsDir = Path.Combine(selectedLanguageDir, "Defs");
             if (!Directory.Exists(defsDir)) return;
+
+            stringsData.Languages.Add(ExtractedLanguageName);
 
             var defsXmlTags = EditorHelper.DefsXmlTags;
 

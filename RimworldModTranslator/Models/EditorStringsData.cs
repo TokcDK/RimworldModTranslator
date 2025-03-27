@@ -9,6 +9,8 @@ namespace RimworldModTranslator.Models
 {
     internal class EditorStringsData
     {
+        internal readonly HashSet<string> Languages = [];
+
         // for search by SubPath and StringId By the path
         // Dictionary<SubPath, ListStringIdValuesForEachLanguage>
         internal Dictionary<string, StringsIdsBySubPath> SubPathStringIdsList = [];
