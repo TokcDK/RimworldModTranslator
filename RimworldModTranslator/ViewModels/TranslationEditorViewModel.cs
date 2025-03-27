@@ -13,6 +13,8 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 using System.Data;
 using RimworldModTranslator.Helpers;
+using System.Windows.Controls;
+using System.Collections.Specialized;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -72,6 +74,32 @@ namespace RimworldModTranslator.ViewModels
         public string? ModDisplayingName => mod != null && Folders.Count > 0 ? mod.ModDisplayingName : settingsService.SelectedMod?.ModDisplayingName;
 
         public ObservableCollection<string> Folders { get; } = [];
+
+        private IList<DataGridCellInfo> selectedCells;
+        public IList<DataGridCellInfo> SelectedCells
+        {
+            get => selectedCells;
+            set
+            {
+                SetProperty(ref selectedCells, value);
+
+                // for debug
+                //if (selectedCells != null)
+                //{
+                //    foreach (var cell in selectedCells)
+                //    {
+                //        var rowItem = cell.Item as DataRowView;
+                //        var column = cell.Column as DataGridColumn;
+                //        if (rowItem != null && column != null)
+                //        {
+                //            var cellValue = column.GetCellContent(rowItem)?.GetValue(TextBlock.TextProperty);
+                //            //System.Diagnostics.Debug.WriteLine($"Selected Cell: Row={rowItem.Name}, Value={cellValue}");
+                //        }
+                //    }
+                //}
+            }
+        }
+
         #endregion
 
         #region Observable Properties

@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
              xmlns:dataGrid2D="http://gu.se/DataGrid2D"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:b="clr-namespace:RimworldModTranslator.Behaviors"
              >
     <Grid IsEnabled="{Binding IsTranslatorEnabled}">
         <Grid.RowDefinitions>
@@ -18,7 +20,7 @@
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            
+
             <!-- TextBlock for Folder label -->
             <TextBlock Grid.Column="0"
                        Text="Folder"
@@ -66,6 +68,11 @@
                   dataGrid2D:Index.StartAt="1"
                   dgx:Tools.ApplyInitialSorting="True"
                   >
+
+            <i:Interaction.Behaviors>
+                <b:DataGridSelectedCellsBehavior SelectedCells="{Binding SelectedCells, Mode=OneWayToSource}" />
+            </i:Interaction.Behaviors>
+            
             <DataGrid.RowHeaderStyle>
                 <Style TargetType="{x:Type DataGridRowHeader}">
                     <Setter Property="Content" Value="{Binding Path=(dataGrid2D:Index.OfRow), RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"/>
