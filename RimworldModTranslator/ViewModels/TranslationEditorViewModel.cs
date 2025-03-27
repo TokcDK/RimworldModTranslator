@@ -63,17 +63,17 @@ namespace RimworldModTranslator.ViewModels
         #region Properties
         public string Header { get; } = "Editor";
 
-        public bool IsTranslatorEnabled => IsTheTranslatorEnabled();
+        public bool IsTranslatorEnabled { get => IsTheTranslatorEnabled(); }
 
-        public bool IsAddNewLanguageEnabled => IsAddNewLanguageButtonEnabled();
+        public bool IsAddNewLanguageEnabled { get => IsAddNewLanguageButtonEnabled(); }
 
-        public bool IsFoldersEnabled => IsTheFoldersEnabled();
+        public bool IsFoldersEnabled { get => IsTheFoldersEnabled(); }
 
         public string? ModDisplayingName => mod != null && Folders.Count > 0 ? mod.ModDisplayingName : settingsService.SelectedMod?.ModDisplayingName;
 
-        public ObservableCollection<string> Folders { get; } = new();
+        public ObservableCollection<string> Folders { get; } = [];
 
-        public ObservableCollection<TranslationRow> TranslationRows = new();
+        public ObservableCollection<TranslationRow> TranslationRows = [];
         #endregion
 
         #region Observable Properties
