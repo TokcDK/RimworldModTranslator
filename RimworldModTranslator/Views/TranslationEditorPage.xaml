@@ -60,6 +60,7 @@
                   VerticalAlignment="Stretch"
                   SelectionMode="Extended"
                   EnableRowVirtualization="True"
+                  SelectionUnit="CellOrRowHeader"
                   Margin="1"
                   dgx:DataGridFilter.IsAutoFilterEnabled="True"
                   dataGrid2D:Index.StartAt="1"
