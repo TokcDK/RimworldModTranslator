@@ -141,8 +141,7 @@ namespace RimworldModTranslator.ViewModels
 
             var selectedLanguageDir = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, EditorHelper.GetLanguageFolderIfNeed(selectedFolder));
 
-            // Dictionary<SubPath, ListStringIdValuesForEachLanguage>
-            Dictionary<string, List<StringsByFile>> stringsData = [];
+            EditorStringsData stringsData = new();
 
             List<TranslationRow>? translationRows = [];
             EditorHelper.LoadLanguages(translationRows, selectedLanguageDir);
