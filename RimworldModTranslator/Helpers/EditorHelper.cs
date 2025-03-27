@@ -269,37 +269,20 @@ namespace RimworldModTranslator.Helpers
         {
             if (stringsData.SubPathStringIdsList.Count == 0) return null;
 
-            // Создаем новый DataTable
             var translationsTable = new DataTable();
 
-            // Добавляем первые две колонки: SubPath и ID
             translationsTable.Columns.Add("SubPath", typeof(string));
             translationsTable.Columns.Add("ID", typeof(string));
 
-            // Собираем все уникальные языки из TranslationRows
-            var languageSet = new HashSet<string>();
-            foreach (var SubPathStringIds in stringsData.SubPathStringIdsList)
-            {
-                foreach (var stringIdLanguageValuePairs in SubPathStringIds.Value.StringIdLanguageValuePairsList)
-                {
-                    foreach(var langValuePair in stringIdLanguageValuePairs.Value.LanguageValuePairs)
-                    {
-                        string lang = langValuePair.Key;
-                        if (string.IsNullOrEmpty(lang)) continue;
-                        if (languageSet.Contains(lang)) continue;
+            var languageSet = GetUniqueLanguages(stringsData);
 
-                        languageSet.Add(lang);
-                    }
-                }
-            }
-
-            // Добавляем колонки для каждого языка
+            // Add column for each language
             foreach (var lang in languageSet)
             {
                 translationsTable.Columns.Add(lang, typeof(string));
             }
 
-            // Заполняем строки DataTable
+            // fill DataTable
             foreach (var subPathStringIds in stringsData.SubPathStringIdsList)
             {
                 string? subPath = subPathStringIds.Key;
@@ -327,6 +310,27 @@ namespace RimworldModTranslator.Helpers
             }
 
             return translationsTable;
+        }
+
+        private static HashSet<string> GetUniqueLanguages(EditorStringsData stringsData)
+        {
+            var languageSet = new HashSet<string>();
+            foreach (var SubPathStringIds in stringsData.SubPathStringIdsList)
+            {
+                foreach (var stringIdLanguageValuePairs in SubPathStringIds.Value.StringIdLanguageValuePairsList)
+                {
+                    foreach (var langValuePair in stringIdLanguageValuePairs.Value.LanguageValuePairs)
+                    {
+                        string lang = langValuePair.Key;
+                        if (string.IsNullOrEmpty(lang)) continue;
+                        if (languageSet.Contains(lang)) continue;
+
+                        languageSet.Add(lang);
+                    }
+                }
+            }
+
+            return languageSet;
         }
 
         public static bool LoadLanguages(string selectedLanguageDir, EditorStringsData stringsData)
