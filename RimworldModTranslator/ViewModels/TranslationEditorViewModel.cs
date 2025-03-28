@@ -257,6 +257,8 @@ namespace RimworldModTranslator.ViewModels
                 Directory.Delete(targetModDirPath, true);
                 return;
             }
+
+            // write the About.xml and othe required data to the targetModDirPath
         }
         #endregion
 
