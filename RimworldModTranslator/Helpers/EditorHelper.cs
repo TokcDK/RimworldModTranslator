@@ -470,8 +470,9 @@ namespace RimworldModTranslator.Helpers
             return translationsData;
         }
 
-        public static void WriteFiles(Dictionary<string, Dictionary<string, Dictionary<string, string>>> translationsData, string targetModLanguagesPath)
+        public static bool WriteFiles(Dictionary<string, Dictionary<string, Dictionary<string, string>>> translationsData, string targetModLanguagesPath)
         {
+            bool isAnyWrote = false;
             foreach (var languagePair in translationsData)
             {
                 string languageName = languagePair.Key;
@@ -513,10 +514,14 @@ namespace RimworldModTranslator.Helpers
                         content = sb.ToString();
                     }
 
+
                     // Записываем контент в файл
                     File.WriteAllText(filePath, content);
+                    isAnyWrote = true;
                 }
             }
+
+            return isAnyWrote;
         }
     }
 }

@@ -249,7 +249,14 @@ namespace RimworldModTranslator.ViewModels
                 return;
 
             // Для каждого языка и каждого под-пути, записываем файлы соответствующим образом
-           EditorHelper.WriteFiles(translationsData, targetModLanguagesPath);
+            bool isAnyFileWrote = EditorHelper.WriteFiles(translationsData, targetModLanguagesPath);
+
+            if (!isAnyFileWrote)
+            {
+                // no files to write and dont need the mod dir
+                Directory.Delete(targetModDirPath, true);
+                return;
+            }
         }
         #endregion
 
