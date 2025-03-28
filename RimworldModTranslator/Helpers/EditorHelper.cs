@@ -527,17 +527,35 @@ namespace RimworldModTranslator.Helpers
         internal static void WriteAboutXml(string targetModDirPath, ModAboutData modAboutData)
         {
             var aboutXmlPath = Path.Combine(targetModDirPath, "About", "About.xml");
+            Directory.CreateDirectory(Path.GetDirectoryName(aboutXmlPath)!);
 
-            var doc = new XDocument(
-                new XElement("ModMetaData",
-                    new XElement("name", modAboutData.Name),
-                    new XElement("packageId", modAboutData.PackageId),
-                    new XElement("author", modAboutData.Author),
-                    new XElement("version", modAboutData.ModVersion),
-                    new XElement("supportedVersions", modAboutData.SupportedVersions),
-                    new XElement("description", modAboutData.Description)
-                )
+            // Обработка SupportedVersions - разбить по запятой и добавить li элементы
+            var supportedVersionsList = new List<XElement>();
+            if (!string.IsNullOrWhiteSpace(modAboutData.SupportedVersions))
+            {
+                var versions = modAboutData.SupportedVersions.Split([',', ';'], StringSplitOptions.RemoveEmptyEntries);
+                foreach (var version in versions)
+                {
+                    supportedVersionsList.Add(new XElement("li", version.Trim()));
+                }
+            }
+
+            // Значение для loadAfter, используя SourceMod.About.PackageId, если оно доступно
+            string loadAfterPackageId = modAboutData.SourceMod?.About?.PackageId ?? string.Empty;
+
+            var modMetaData = new XElement("ModMetaData",
+                new XElement("name", modAboutData.Name ?? string.Empty),
+                new XElement("author", modAboutData.Author ?? string.Empty),
+                new XElement("url", modAboutData.Url ?? string.Empty),
+                new XElement("packageId", modAboutData.PackageId ?? string.Empty),
+                new XElement("supportedVersions", supportedVersionsList),
+                new XElement("modDependencies"),
+                new XElement("loadAfter", new XElement("li", loadAfterPackageId)),
+                new XElement("description", modAboutData.Description ?? string.Empty)
             );
+
+            var doc = new XDocument(new XDeclaration("1.0", "utf-8", null), modMetaData);
+            doc.Save(aboutXmlPath);
         }
     }
 }
