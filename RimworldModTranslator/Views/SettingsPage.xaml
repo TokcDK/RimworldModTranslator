@@ -57,9 +57,9 @@
                 <TextBlock Text="Displaying name:" Width="150" HorizontalAlignment="Right" />
                 <TextBox Text="{Binding TargetModName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModPackageIdToolTip, Mode=OneWay}">
+            <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModPackageIDToolTip, Mode=OneWay}">
                 <TextBlock Text="PackageId:" Width="150" HorizontalAlignment="Right" />
-                <TextBox Text="{Binding TargetModPackageId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
+                <TextBox Text="{Binding TargetModPackageID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModAuthorToolTip, Mode=OneWay}">
                 <TextBlock Text="Author:" Width="150" HorizontalAlignment="Right" />

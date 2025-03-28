@@ -68,18 +68,18 @@ namespace RimworldModTranslator.ViewModels
             }
         }
         [ObservableProperty]
-        private string? targetModPackageId = Properties.Settings.Default.TargetModPackageId;
+        private string? targetModPackageID = Properties.Settings.Default.TargetModPackageID;
         partial void OnTargetModPackageIdChanged(string? value)
         {
             if (!string.IsNullOrWhiteSpace(value))
             {
-                Properties.Settings.Default.TargetModPackageId = value;
+                Properties.Settings.Default.TargetModPackageID = value;
 
                 Properties.Settings.Default.Save();
             }
             else
             {
-                Properties.Settings.Default.TargetModPackageId = "";
+                Properties.Settings.Default.TargetModPackageID = "";
             }
         }
         [ObservableProperty]

@@ -14,7 +14,7 @@
     <Setting Name="TargetModName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="TargetModPackageId" Type="System.String" Scope="User">
+    <Setting Name="TargetModPackageID" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TargetModAuthor" Type="System.String" Scope="User">

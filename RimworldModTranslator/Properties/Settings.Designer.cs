@@ -74,12 +74,12 @@ namespace RimworldModTranslator.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string TargetModPackageId {
+        public string TargetModPackageID {
             get {
-                return ((string)(this["TargetModPackageId"]));
+                return ((string)(this["TargetModPackageID"]));
             }
             set {
-                this["TargetModPackageId"] = value;
+                this["TargetModPackageID"] = value;
             }
         }
         
