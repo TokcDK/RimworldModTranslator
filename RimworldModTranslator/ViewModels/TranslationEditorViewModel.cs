@@ -260,15 +260,22 @@ namespace RimworldModTranslator.ViewModels
 
             // write the About.xml and othe required data to the targetModDirPath
 
+            string name = Properties.Settings.Default.TargetModName;
+            string packageId = Properties.Settings.Default.TargetModPackageID;
+            string author = Properties.Settings.Default.TargetModAuthor;
+            string version = Properties.Settings.Default.TargetModVersion;
+            string supportedVersions = Properties.Settings.Default.TargetModSupportedVersions;
             var modAboutData = new ModAboutData
             {
-                Name = mod.About?.Name,
-                PackageId = mod.About?.PackageId,
-                Author = mod.About?.Author,
-                ModVersion = "1",
-                SupportedVersions = mod.About?.SupportedVersions != null ? string.Join(",", mod.About?.SupportedVersions!) : ""
+                Name = !string.IsNullOrWhiteSpace(name)? name: $"{mod.About?.Name} Translation",
+                PackageId = !string.IsNullOrWhiteSpace(packageId) ? packageId : $"{mod.About?.PackageId}.translation",
+                Author = !string.IsNullOrWhiteSpace(author) ? author : $"{mod.About?.Author},Anonimous",
+                ModVersion = !string.IsNullOrWhiteSpace(version) ? version : "1.0",
+                SupportedVersions = !string.IsNullOrWhiteSpace(supportedVersions) ? supportedVersions 
+                : mod.About?.SupportedVersions != null ? string.Join(",", mod.About?.SupportedVersions!) : ""
             };
 
+            EditorHelper.WriteAboutXml(targetModDirPath, modAboutData);
         }
         #endregion
 

@@ -523,5 +523,10 @@ namespace RimworldModTranslator.Helpers
 
             return isAnyWrote;
         }
+
+        internal static void WriteAboutXml(string targetModDirPath, ModAboutData modAboutData)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
