@@ -244,13 +244,23 @@ namespace RimworldModTranslator.ViewModels
             // target path for languages: targetModLanguagesPath
             string targetModLanguagesPath = Path.Combine(targetModDirPath, "Languages", SelectedFolder == mod!.DirectoryName ? "" : SelectedFolder!);
 
+            var translationsData = FillTranslationsData(targetModLanguagesPath);
+            if(translationsData == null)
+                return;
+
+            // Для каждого языка и каждого под-пути, записываем файлы соответствующим образом
+            WriteFiles(translationsData, targetModLanguagesPath);
+        }
+
+        private Dictionary<string, Dictionary<string, Dictionary<string, string>>>? FillTranslationsData(string targetModLanguagesPath)
+        {
             // Структура: Dictionary<LanguageName, Dictionary<SubPath, Dictionary<StringId, StringValue>>>
             var translationsData = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
 
             // Предполагаем, что в TranslationsTable есть столбцы "SubPath" и "StringId",
             // а остальные столбцы отвечают за языки.
             if (TranslationsTable == null)
-                return;
+                return null;
 
             foreach (DataRow row in TranslationsTable.Rows)
             {
@@ -280,7 +290,11 @@ namespace RimworldModTranslator.ViewModels
                 }
             }
 
-            // Для каждого языка и каждого под-пути, записываем файлы соответствующим образом
+            return translationsData;
+        }
+
+        private void WriteFiles(Dictionary<string, Dictionary<string, Dictionary<string, string>>> translationsData, string targetModLanguagesPath)
+        {
             foreach (var languagePair in translationsData)
             {
                 string languageName = languagePair.Key;
