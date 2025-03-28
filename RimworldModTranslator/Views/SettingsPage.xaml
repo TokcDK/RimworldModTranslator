@@ -48,7 +48,7 @@
         <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
         <StackPanel Orientation="Horizontal" Margin="2" ToolTip="{Binding ExtractedLanguageNameToolTip, Mode=OneWay}">
             <TextBlock Text="Extracted strings language name:" />
-            <TextBox Text="{Binding ExtractedLanguageName}" Width="200" Margin="5,0,0,0" />
+            <TextBox Text="{Binding ExtractedLanguageName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
         </StackPanel>
         <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
     </StackPanel>
