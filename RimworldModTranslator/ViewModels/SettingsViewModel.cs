@@ -69,7 +69,7 @@ namespace RimworldModTranslator.ViewModels
         }
         [ObservableProperty]
         private string? targetModPackageID = Properties.Settings.Default.TargetModPackageID;
-        partial void OnTargetModPackageIdChanged(string? value)
+        partial void OnTargetModPackageIDChanged(string? value)
         {
             if (!string.IsNullOrWhiteSpace(value))
             {
