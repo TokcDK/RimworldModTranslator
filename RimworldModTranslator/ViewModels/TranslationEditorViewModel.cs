@@ -266,6 +266,7 @@ namespace RimworldModTranslator.ViewModels
             string version = Properties.Settings.Default.TargetModVersion;
             string supportedVersions = Properties.Settings.Default.TargetModSupportedVersions;
             string description = Properties.Settings.Default.TargetModDescription;
+            string url = Properties.Settings.Default.TargetModUrl;
             var modAboutData = new ModAboutData
             {
                 SourceMod = mod,
@@ -275,7 +276,8 @@ namespace RimworldModTranslator.ViewModels
                 ModVersion = !string.IsNullOrWhiteSpace(version) ? version : "1.0",
                 SupportedVersions = !string.IsNullOrWhiteSpace(supportedVersions) ? supportedVersions 
                 : mod.About?.SupportedVersions != null ? string.Join(",", mod.About?.SupportedVersions!) : "",
-                Description = !string.IsNullOrWhiteSpace(description) ? description : $"{mod.About?.Name} Translation"
+                Description = !string.IsNullOrWhiteSpace(description) ? description : $"{mod.About?.Name} Translation",
+                Url = !string.IsNullOrWhiteSpace(url) ? url : ""
             };
 
             EditorHelper.WriteAboutXml(targetModDirPath, modAboutData);

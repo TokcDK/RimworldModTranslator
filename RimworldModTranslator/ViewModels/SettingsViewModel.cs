@@ -27,23 +27,22 @@ namespace RimworldModTranslator.ViewModels
         public static string TargetModAuthorToolTip { get => "Target mod Author. Default: '{Source mod authors},Anonimous'"; }
         public static string TargetModVersionToolTip { get => "Target mod version. Default: '1.0'"; }
         public static string TargetModSupportedVersionsToolTip { get => "Target mod supported game version. Default: {Source mod supported versions}"; }
-        public static string TargetModDescriptionToolTip { get => "Target mod description. Default: '{Source mode name} Translation'"; }
-        
+        public static string TargetModDescriptionToolTip { get => "Optional target mod description. Default: '{Source mode name} Translation'"; }
+        public static string TargetModUrlToolTip { get => "Target mod web page URL. Optional web page URL for detailed mod info. Default: No Url"; }
         #endregion
 
         public ObservableCollection<Game> GamesList { get => settingsService.GamesList; }
 
         [ObservableProperty]
         private Game? selectedGame;
-        
+
         [ObservableProperty]
         private string? extractedLanguageName = Properties.Settings.Default.ExtractedStringsLanguageFolderName;
         partial void OnExtractedLanguageNameChanged(string? value)
         {
-            if(!string.IsNullOrWhiteSpace(value))
+            if (!string.IsNullOrWhiteSpace(value))
             {
                 Properties.Settings.Default.ExtractedStringsLanguageFolderName = value;
-
                 Properties.Settings.Default.Save();
             }
             else
@@ -55,12 +54,11 @@ namespace RimworldModTranslator.ViewModels
         // target mod data
         [ObservableProperty]
         private string? targetModName = Properties.Settings.Default.TargetModName;
-        partial void OnTargetModNameChanged(string? value) 
+        partial void OnTargetModNameChanged(string? value)
         {
             if (!string.IsNullOrWhiteSpace(value))
             {
                 Properties.Settings.Default.TargetModName = value;
-
                 Properties.Settings.Default.Save();
             }
             else
@@ -75,7 +73,6 @@ namespace RimworldModTranslator.ViewModels
             if (!string.IsNullOrWhiteSpace(value))
             {
                 Properties.Settings.Default.TargetModPackageID = value;
-
                 Properties.Settings.Default.Save();
             }
             else
@@ -90,7 +87,6 @@ namespace RimworldModTranslator.ViewModels
             if (!string.IsNullOrWhiteSpace(value))
             {
                 Properties.Settings.Default.TargetModAuthor = value;
-
                 Properties.Settings.Default.Save();
             }
             else
@@ -105,7 +101,6 @@ namespace RimworldModTranslator.ViewModels
             if (!string.IsNullOrWhiteSpace(value))
             {
                 Properties.Settings.Default.TargetModVersion = value;
-
                 Properties.Settings.Default.Save();
             }
             else
@@ -120,7 +115,6 @@ namespace RimworldModTranslator.ViewModels
             if (!string.IsNullOrWhiteSpace(value))
             {
                 Properties.Settings.Default.TargetModSupportedVersions = value;
-
                 Properties.Settings.Default.Save();
             }
             else
@@ -135,7 +129,6 @@ namespace RimworldModTranslator.ViewModels
             if (!string.IsNullOrWhiteSpace(value))
             {
                 Properties.Settings.Default.TargetModDescription = value;
-
                 Properties.Settings.Default.Save();
             }
             else
@@ -143,12 +136,26 @@ namespace RimworldModTranslator.ViewModels
                 Properties.Settings.Default.TargetModDescription = "";
             }
         }
+        [ObservableProperty]
+        private string? targetModUrl = Properties.Settings.Default.TargetModUrl;
+        partial void OnTargetModUrlChanged(string? value)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                Properties.Settings.Default.TargetModUrl = value;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.TargetModUrl = "";
+            }
+        }
 
         partial void OnSelectedGameChanged(Game? value)
         {
             var oldSelectedGame = value; // Save the old value in case the new value is invalid
 
-            if(!GameHelper.LoadGameData(value, settingsService) && value != null)
+            if (!GameHelper.LoadGameData(value, settingsService) && value != null)
             {
                 settingsService.GamesList.Remove(value);
                 SelectedGame = oldSelectedGame;
@@ -170,7 +177,7 @@ namespace RimworldModTranslator.ViewModels
         public SettingsViewModel(SettingsService settingsService)
         {
             this.settingsService = settingsService;
-            if(settingsService.GamesList.Count > 0)
+            if (settingsService.GamesList.Count > 0)
             {
                 SelectedGame = settingsService.SelectedGame ?? settingsService.GamesList[0];
             }
@@ -179,7 +186,7 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void AddNewGame()
         {
-            if(NewModsDirPath == null)
+            if (NewModsDirPath == null)
             {
                 return;
             }
@@ -208,7 +215,7 @@ namespace RimworldModTranslator.ViewModels
             bool isInvalidConfigDirPath = string.IsNullOrWhiteSpace(NewConfigDirPath) || !Directory.Exists(NewConfigDirPath);
             string defaultConfigDirPath = Path.GetDirectoryName(settingsService.DefaultModsConfigXmlPath)!;
             NewConfigDirPath = isInvalidConfigDirPath ? defaultConfigDirPath : NewConfigDirPath;
-            
+
             if (GamesList.Any(g => g.ModsDirPath == NewModsDirPath
                 && g.ConfigDirPath == NewConfigDirPath))
             {

@@ -77,6 +77,10 @@
                 <TextBlock Text="Description:" Width="150" HorizontalAlignment="Right" />
                 <TextBox Text="{Binding TargetModDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModUrlToolTip, Mode=OneWay}">
+                <TextBlock Text="Url:" Width="150" HorizontalAlignment="Right" />
+                <TextBox Text="{Binding TargetModUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
+            </StackPanel>
         </StackPanel>
         <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
     </StackPanel>
