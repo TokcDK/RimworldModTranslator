@@ -272,8 +272,10 @@ namespace RimworldModTranslator.ViewModels
                     if (column.ColumnName == "SubPath" || column.ColumnName == "ID")
                         continue;
 
-                    string languageName = column.ColumnName;
                     string stringValue = row[column]?.ToString() ?? "";
+                    if(string.IsNullOrEmpty(stringValue)) continue; // skip empty strings
+
+                    string languageName = column.ColumnName;
 
                     if (!translationsData.TryGetValue(languageName, out var files))
                     {
