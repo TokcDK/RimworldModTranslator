@@ -46,6 +46,83 @@ namespace RimworldModTranslator.ViewModels
             }
         }
 
+        // target mod data
+        [ObservableProperty]
+        private string? targetModName = Properties.Settings.Default.TargetModName;
+        partial void OnTargetModNameChanged(string? value) 
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                Properties.Settings.Default.TargetModName = value;
+
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.TargetModName = "";
+            }
+        }
+        [ObservableProperty]
+        private string? targetModPackageId = Properties.Settings.Default.TargetModPackageId;
+        partial void OnTargetModPackageIdChanged(string? value)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                Properties.Settings.Default.TargetModPackageId = value;
+
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.TargetModPackageId = "";
+            }
+        }
+        [ObservableProperty]
+        private string? targetModAuthor = Properties.Settings.Default.TargetModAuthor;
+        partial void OnTargetModAuthorChanged(string? value)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                Properties.Settings.Default.TargetModAuthor = value;
+
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.TargetModAuthor = "";
+            }
+        }
+        [ObservableProperty]
+        private string? targetModVersion = Properties.Settings.Default.TargetModVersion;
+        partial void OnTargetModVersionChanged(string? value)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                Properties.Settings.Default.TargetModVersion = value;
+
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.TargetModVersion = "";
+            }
+        }
+        [ObservableProperty]
+        private string? targetModSupportedVersions = Properties.Settings.Default.TargetModSupportedVersions;
+        partial void OnTargetModSupportedVersionsChanged(string? value)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                Properties.Settings.Default.TargetModSupportedVersions = value;
+
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.TargetModSupportedVersions = "";
+            }
+        }
+
         partial void OnSelectedGameChanged(Game? value)
         {
             var oldSelectedGame = value; // Save the old value in case the new value is invalid

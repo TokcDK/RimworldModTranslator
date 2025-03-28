@@ -58,5 +58,65 @@ namespace RimworldModTranslator.Properties {
                 this["ExtractedStringsLanguageFolderName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TargetModName {
+            get {
+                return ((string)(this["TargetModName"]));
+            }
+            set {
+                this["TargetModName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TargetModPackageId {
+            get {
+                return ((string)(this["TargetModPackageId"]));
+            }
+            set {
+                this["TargetModPackageId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TargetModAuthor {
+            get {
+                return ((string)(this["TargetModAuthor"]));
+            }
+            set {
+                this["TargetModAuthor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TargetModVersion {
+            get {
+                return ((string)(this["TargetModVersion"]));
+            }
+            set {
+                this["TargetModVersion"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TargetModSupportedVersions {
+            get {
+                return ((string)(this["TargetModSupportedVersions"]));
+            }
+            set {
+                this["TargetModSupportedVersions"] = value;
+            }
+        }
     }
 }

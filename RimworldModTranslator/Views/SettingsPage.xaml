@@ -51,5 +51,29 @@
             <TextBox Text="{Binding ExtractedLanguageName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
         </StackPanel>
         <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
+        <StackPanel Orientation="Vertical" Margin="2" ToolTip="{Binding ExtractedLanguageNameToolTip, Mode=OneWay}">
+            <TextBlock Text="Target Mod data" HorizontalAlignment="Center" />
+            <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModNameToolTip, Mode=OneWay}">
+                <TextBlock Text="Name:" Width="150" HorizontalAlignment="Right" />
+                <TextBox Text="{Binding TargetModName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModPackageIdToolTip, Mode=OneWay}">
+                <TextBlock Text="PackageId:" Width="150" HorizontalAlignment="Right" />
+                <TextBox Text="{Binding TargetModPackageId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModAuthorToolTip, Mode=OneWay}">
+                <TextBlock Text="Author:" Width="150" HorizontalAlignment="Right" />
+                <TextBox Text="{Binding TargetModAuthor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModVersionToolTip, Mode=OneWay}">
+                <TextBlock Text="ModVersion:" Width="150" HorizontalAlignment="Right" />
+                <TextBox Text="{Binding TargetModVersion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModSupportedVersionsToolTip, Mode=OneWay}">
+                <TextBlock Text="Supported versions:" Width="150" HorizontalAlignment="Right" />
+                <TextBox Text="{Binding TargetModSupportedVersions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
+            </StackPanel>
+        </StackPanel>
+        <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
     </StackPanel>
 </UserControl>
