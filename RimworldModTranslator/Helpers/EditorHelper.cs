@@ -526,6 +526,18 @@ namespace RimworldModTranslator.Helpers
 
         internal static void WriteAbout(string targetModDirPath, ModAboutData modAboutData)
         {
+            WriteAboutXml(targetModDirPath, modAboutData);
+
+            // Copy Preview.png
+            if (!string.IsNullOrWhiteSpace(modAboutData.Preview) && File.Exists(Path.GetFullPath(modAboutData.Preview)))
+            {
+                var previewPath = Path.Combine(targetModDirPath, "About", "Preview.png");
+                File.Copy(modAboutData.Preview, previewPath, true);
+            }
+        }
+
+        private static void WriteAboutXml(string targetModDirPath, ModAboutData modAboutData)
+        {
             var aboutXmlPath = Path.Combine(targetModDirPath, "About", "About.xml");
             Directory.CreateDirectory(Path.GetDirectoryName(aboutXmlPath)!);
 
@@ -556,13 +568,6 @@ namespace RimworldModTranslator.Helpers
 
             var doc = new XDocument(new XDeclaration("1.0", "utf-8", null), modMetaData);
             doc.Save(aboutXmlPath);
-
-            // Копирование Preview.png
-            if (!string.IsNullOrWhiteSpace(modAboutData.Preview) && File.Exists(Path.GetFullPath(modAboutData.Preview)))
-            {
-                var previewPath = Path.Combine(targetModDirPath, "About", "Preview.png");
-                File.Copy(modAboutData.Preview, previewPath, true);
-            }
         }
     }
 }
