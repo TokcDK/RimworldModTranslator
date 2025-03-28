@@ -8,14 +8,14 @@ using System.Windows;
 
 namespace RimworldModTranslator.Behaviors
 {
-    public static class DataGridBehavior
+    public static class DataGridAutoScrollToSelectedItemBehavior
     {
         // Define the attached property
         public static readonly DependencyProperty AutoScrollToSelectedItemProperty =
             DependencyProperty.RegisterAttached(
                 "AutoScrollToSelectedItem",
                 typeof(bool),
-                typeof(DataGridBehavior),
+                typeof(DataGridAutoScrollToSelectedItemBehavior),
                 new PropertyMetadata(false, OnAutoScrollToSelectedItemChanged));
 
         // Getter for the property
