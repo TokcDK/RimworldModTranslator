@@ -24,6 +24,8 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private Game? selectedGame;
 
+        public string ExtractedLanguageNameToolTip { get => "The name of the folder where the extracted strings will be saved. Default is 'Extracted'."; }
+        
         [ObservableProperty]
         private string? extractedLanguageName = Properties.Settings.Default.ExtractedStringsLanguageFolderName;
         partial void OnExtractedLanguageNameChanged(string? value)
