@@ -526,7 +526,17 @@ namespace RimworldModTranslator.Helpers
 
         internal static void WriteAboutXml(string targetModDirPath, ModAboutData modAboutData)
         {
-            throw new NotImplementedException();
+            var aboutXmlPath = Path.Combine(targetModDirPath, "About", "About.xml");
+
+            var doc = new XDocument(
+                new XElement("ModMetaData",
+                    new XElement("name", modAboutData.Name),
+                    new XElement("packageId", modAboutData.PackageId),
+                    new XElement("author", modAboutData.Author),
+                    new XElement("version", modAboutData.ModVersion),
+                    new XElement("supportedVersions", modAboutData.SupportedVersions)
+                )
+            );
         }
     }
 }
