@@ -234,8 +234,14 @@ namespace RimworldModTranslator.ViewModels
                 targetModDirPath = Path.Combine(game.ModsDirPath!, $"{mod.DirectoryName!}_Translated{index++}");
             }
 
-            string langDir = Path.Combine(game.ModsDirPath!, mod.DirectoryName!, SelectedFolder, "Languages");
-            Directory.CreateDirectory(langDir);
+            SaveTranslations(targetModDirPath);
+        }
+
+        private void SaveTranslations(string targetModDirPath)
+        {
+            string targetModLanguagesPath = Path.Combine(targetModDirPath, "Languages", SelectedFolder == mod!.DirectoryName! ? "" : SelectedFolder!);
+
+
         }
         #endregion
 
