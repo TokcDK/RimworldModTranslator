@@ -268,6 +268,7 @@ namespace RimworldModTranslator.ViewModels
             string description = Properties.Settings.Default.TargetModDescription;
             var modAboutData = new ModAboutData
             {
+                SourceMod = mod,
                 Name = !string.IsNullOrWhiteSpace(name)? name: $"{mod.About?.Name} Translation",
                 PackageId = !string.IsNullOrWhiteSpace(packageId) ? packageId : $"{mod.About?.PackageId}.translation",
                 Author = !string.IsNullOrWhiteSpace(author) ? author : $"{mod.About?.Author},Anonimous",
