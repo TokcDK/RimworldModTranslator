@@ -24,6 +24,22 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private Game? selectedGame;
 
+        [ObservableProperty]
+        private string? extractedLanguageName = Properties.Settings.Default.ExtractedStringsLanguageFolderName;
+        partial void OnExtractedLanguageNameChanged(string? value)
+        {
+            if(!string.IsNullOrWhiteSpace(value))
+            {
+                Properties.Settings.Default.ExtractedStringsLanguageFolderName = value;
+
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.ExtractedStringsLanguageFolderName = "Extracted";
+            }
+        }
+
         partial void OnSelectedGameChanged(Game? value)
         {
             var oldSelectedGame = value; // Save the old value in case the new value is invalid

@@ -46,5 +46,17 @@ namespace RimworldModTranslator.Properties {
                 this["SelectedGameIndex"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Extracted")]
+        public string ExtractedStringsLanguageFolderName {
+            get {
+                return ((string)(this["ExtractedStringsLanguageFolderName"]));
+            }
+            set {
+                this["ExtractedStringsLanguageFolderName"] = value;
+            }
+        }
     }
 }

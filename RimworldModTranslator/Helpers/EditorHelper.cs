@@ -61,7 +61,6 @@ namespace RimworldModTranslator.Helpers
                 "titleshortFemale",
                 "verb"
         ];
-        public static string ExtractedLanguageName { get; private set; } = "Extracted";
 
         public static void GetTranslatableSubDirs(string fullPath, ObservableCollection<string> folders)
         {
@@ -355,7 +354,9 @@ namespace RimworldModTranslator.Helpers
             var defsDir = Path.Combine(selectedLanguageDir, "Defs");
             if (!Directory.Exists(defsDir)) return;
 
-            stringsData.Languages.Add(ExtractedLanguageName);
+            string language = Properties.Settings.Default.ExtractedStringsLanguageFolderName;
+
+            stringsData.Languages.Add(language);
 
             var defsXmlTags = EditorHelper.DefsXmlTags;
 
@@ -415,7 +416,7 @@ namespace RimworldModTranslator.Helpers
                                 langList = new LanguageValuePairsData();
                                 stringsBySubPath.StringIdLanguageValuePairsList[stringId] = langList;
                             }
-                            langList.LanguageValuePairs[ExtractedLanguageName] = stringValue;
+                            langList.LanguageValuePairs[language] = stringValue;
                         }
                     }
                 }
