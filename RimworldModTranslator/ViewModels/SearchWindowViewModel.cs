@@ -23,14 +23,49 @@ namespace RimworldModTranslator.ViewModels
 
         public SearchWindowViewModel(DataTable translationsTable)
         {
-            TranslationsTable = translationsTable;
+            TranslationsTable = translationsTable ?? throw new ArgumentNullException(nameof(translationsTable));
             SearchOptions.Add(new SearchOptionsData()); // Add initial tab
+
+            // Subscribe to collection changes to refresh CanExecute
+            SearchOptions.CollectionChanged += (s, e) =>
+            {
+                SearchCommandsNotifyCanExecuteChanged();
+                RemoveTabCommand.NotifyCanExecuteChanged();
+            };
+
+            // Subscribe to property changes in each SearchOptionsData
+            foreach (var opt in SearchOptions)
+            {
+                opt.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName is nameof(SearchOptionsData.SearchWhat) or nameof(SearchOptionsData.SelectedColumn))
+                    {
+                        SearchCommandsNotifyCanExecuteChanged();
+                    }
+                };
+            }
+        }
+
+        private void SearchCommandsNotifyCanExecuteChanged()
+        {
+            SearchCommand.NotifyCanExecuteChanged();
+            SearchAllCommand.NotifyCanExecuteChanged();
+            ReplaceCommand.NotifyCanExecuteChanged();
+            ReplaceAllCommand.NotifyCanExecuteChanged();
         }
 
         [RelayCommand]
         private void AddTab()
         {
-            SearchOptions.Add(new SearchOptionsData());
+            var newOpt = new SearchOptionsData();
+            newOpt.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName is nameof(SearchOptionsData.SearchWhat) or nameof(SearchOptionsData.SelectedColumn))
+                {
+                    SearchCommandsNotifyCanExecuteChanged();
+                }
+            };
+            SearchOptions.Add(newOpt);
         }
 
         [RelayCommand(CanExecute = nameof(CanRemoveTab))]
@@ -107,7 +142,7 @@ namespace RimworldModTranslator.ViewModels
 
         private bool CanExecuteSearchOrReplace()
         {
-            return SearchOptions.All(opt =>
+            return SearchOptions.Any(opt =>
                 !string.IsNullOrEmpty(opt.SearchWhat) &&
                 !string.IsNullOrEmpty(opt.SelectedColumn));
         }
