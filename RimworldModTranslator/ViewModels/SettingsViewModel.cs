@@ -20,14 +20,14 @@ namespace RimworldModTranslator.ViewModels
         public string Header { get; } = "Settings";
 
         #region Tooltips for settings
-        public string AddNewGameToolTip { get => "Add Mods and Config directory paths of the new game. If Config dir path is not set then will be used default in appdata"; }
-        public string ExtractedLanguageNameToolTip { get => "The name of the folder where the extracted strings will be saved. Default is 'Extracted'."; }
-        public string TargetModNameToolTip { get => "Target mod displaying name. Default: '{Source mode name} Translation'"; }
-        public string TargetModPackageIDToolTip { get => "Target mod PackageID. Default: '{Source mode PackageID}.translation'"; }
-        public string TargetModAuthorToolTip { get => "Target mod Author. Default: '{Source mod authors},Anonimous'"; }
-        public string TargetModVersionToolTip { get => "Target mod version. Default: '1.0'"; }
-        public string TargetModSupportedVersionsToolTip { get => "Target mod supported game version. Default: {Source mod supported versions}"; }
-        public string TargetModDescriptionToolTip { get => "Target mod description. Default: '{Source mode name} Translation'"; }
+        public static string AddNewGameToolTip { get => "Add Mods and Config directory paths of the new game. If Config dir path is not set then will be used default in appdata"; }
+        public static string ExtractedLanguageNameToolTip { get => "The name of the folder where the extracted strings will be saved. Default is 'Extracted'."; }
+        public static string TargetModNameToolTip { get => "Target mod displaying name. Default: '{Source mode name} Translation'"; }
+        public static string TargetModPackageIDToolTip { get => "Target mod PackageID. Default: '{Source mode PackageID}.translation'"; }
+        public static string TargetModAuthorToolTip { get => "Target mod Author. Default: '{Source mod authors},Anonimous'"; }
+        public static string TargetModVersionToolTip { get => "Target mod version. Default: '1.0'"; }
+        public static string TargetModSupportedVersionsToolTip { get => "Target mod supported game version. Default: {Source mod supported versions}"; }
+        public static string TargetModDescriptionToolTip { get => "Target mod description. Default: '{Source mode name} Translation'"; }
         
         #endregion
 
