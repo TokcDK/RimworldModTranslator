@@ -259,6 +259,14 @@ namespace RimworldModTranslator.ViewModels
             }
 
             // write the About.xml and othe required data to the targetModDirPath
+
+            var modAboutData = new ModAboutData();
+            modAboutData.Name = mod.About?.Name;
+            modAboutData.PackageId = mod.About?.PackageId;
+            modAboutData.Author = mod.About?.Author;
+            modAboutData.ModVersion = "1";
+            modAboutData.SupportedVersions = mod.About?.SupportedVersions != null ? string.Join(",", mod.About ?.SupportedVersions!) : "";
+            
         }
         #endregion
 

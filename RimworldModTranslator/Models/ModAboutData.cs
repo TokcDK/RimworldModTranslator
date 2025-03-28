@@ -8,10 +8,10 @@ namespace RimworldModTranslator.Models
 {
     internal class ModAboutData
     {
-        string? Name;
-        string? PackageId;
-        string? Authors;
-        string? ModVersion;
-        string? SupportedVersions;
+        internal string? Name;
+        internal string? PackageId;
+        internal string? Author;
+        internal string? ModVersion;
+        internal string? SupportedVersions;
     }
 }
