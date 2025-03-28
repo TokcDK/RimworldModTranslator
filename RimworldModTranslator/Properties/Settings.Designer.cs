@@ -97,7 +97,7 @@ namespace RimworldModTranslator.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1.0")]
         public string TargetModVersion {
             get {
                 return ((string)(this["TargetModVersion"]));

@@ -21,7 +21,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TargetModVersion" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">1.0</Value>
     </Setting>
     <Setting Name="TargetModSupportedVersions" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
