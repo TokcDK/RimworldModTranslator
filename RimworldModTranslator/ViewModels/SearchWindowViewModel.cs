@@ -111,7 +111,7 @@ namespace RimworldModTranslator.ViewModels
             var matchingRows = TranslationsTable.Rows.Cast<DataRow>()
                 .Where(row => IsRowMatch(row))
                 .ToList();
-            if (matchingRows.Any())
+            if (matchingRows.Count != 0)
             {
                 CurrentSelectedRow = matchingRows[0];
                 _currentRowIndex = TranslationsTable.Rows.IndexOf(CurrentSelectedRow);
@@ -143,13 +143,20 @@ namespace RimworldModTranslator.ViewModels
         private bool CanExecuteSearchOrReplace()
         {
             return SearchOptions.Any(opt =>
-                !string.IsNullOrEmpty(opt.SearchWhat) &&
-                !string.IsNullOrEmpty(opt.SelectedColumn));
+                IsValidSearchOrReplaceOption(opt));
+        }
+
+        private bool IsValidSearchOrReplaceOption(SearchOptionsData opt)
+        {
+            return !string.IsNullOrEmpty(opt.SearchWhat) &&
+                !string.IsNullOrEmpty(opt.SelectedColumn);
         }
 
         private bool IsRowMatch(DataRow row)
         {
-            var groups = SearchOptions.GroupBy(opt => opt.SelectedColumn);
+            var groups = SearchOptions
+                .Where(opt => IsValidSearchOrReplaceOption(opt)) // skip invalid to search tabs
+                .GroupBy(opt => opt.SelectedColumn);
             foreach (var group in groups)
             {
                 string column = group.Key;
