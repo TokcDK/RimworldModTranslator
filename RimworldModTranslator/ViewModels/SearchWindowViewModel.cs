@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Data;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -21,9 +22,15 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private DataRow? _currentSelectedRow;
 
-        public SearchWindowViewModel(DataTable translationsTable)
+        [ObservableProperty]
+        private ObservableCollection<DataRowView> _foundItems = new();
+
+        private readonly TranslationEditorViewModel _parentViewModel;
+
+        public SearchWindowViewModel(DataTable translationsTable, TranslationEditorViewModel parentViewModel)
         {
             TranslationsTable = translationsTable ?? throw new ArgumentNullException(nameof(translationsTable));
+            _parentViewModel = parentViewModel ?? throw new ArgumentNullException(nameof(parentViewModel));
             SearchOptions.Add(new SearchOptionsData()); // Add initial tab
 
             // Subscribe to collection changes to refresh CanExecute
@@ -89,6 +96,7 @@ namespace RimworldModTranslator.ViewModels
                 {
                     CurrentSelectedRow = TranslationsTable.Rows[i];
                     _currentRowIndex = i;
+                    _parentViewModel.SelectedRow = TranslationsTable.DefaultView[_currentRowIndex];
                     return;
                 }
             }
@@ -99,10 +107,12 @@ namespace RimworldModTranslator.ViewModels
                 {
                     CurrentSelectedRow = TranslationsTable.Rows[i];
                     _currentRowIndex = i;
+                    _parentViewModel.SelectedRow = TranslationsTable.DefaultView[_currentRowIndex];
                     return;
                 }
             }
-            CurrentSelectedRow = null; // No match found
+            CurrentSelectedRow = null;
+            _parentViewModel.SelectedRow = null;
         }
 
         [RelayCommand(CanExecute = nameof(CanExecuteSearchOrReplace))]
@@ -111,10 +121,25 @@ namespace RimworldModTranslator.ViewModels
             var matchingRows = TranslationsTable.Rows.Cast<DataRow>()
                 .Where(row => IsRowMatch(row))
                 .ToList();
+
+            FoundItems.Clear();
             if (matchingRows.Count != 0)
             {
                 CurrentSelectedRow = matchingRows[0];
                 _currentRowIndex = TranslationsTable.Rows.IndexOf(CurrentSelectedRow);
+                _parentViewModel.SelectedRow = TranslationsTable.DefaultView[_currentRowIndex];
+
+                // Populate FoundItems with DataRowView objects from DefaultView
+                foreach (var row in matchingRows)
+                {
+                    int index = TranslationsTable.Rows.IndexOf(row);
+                    FoundItems.Add(TranslationsTable.DefaultView[index]);
+                }
+            }
+            else
+            {
+                CurrentSelectedRow = null;
+                _parentViewModel.SelectedRow = null;
             }
         }
 
@@ -138,24 +163,25 @@ namespace RimworldModTranslator.ViewModels
                     PerformReplacement(row);
                 }
             }
+            // Refresh FoundItems after replacement
+            SearchAll();
         }
 
         private bool CanExecuteSearchOrReplace()
         {
-            return SearchOptions.Any(opt =>
-                IsValidSearchOrReplaceOption(opt));
+            return SearchOptions.Any(opt => IsValidSearchOrReplaceOption(opt));
         }
 
-        private bool IsValidSearchOrReplaceOption(SearchOptionsData opt)
+        private static bool IsValidSearchOrReplaceOption(SearchOptionsData opt)
         {
             return !string.IsNullOrEmpty(opt.SearchWhat) &&
-                !string.IsNullOrEmpty(opt.SelectedColumn);
+                   !string.IsNullOrEmpty(opt.SelectedColumn);
         }
 
         private bool IsRowMatch(DataRow row)
         {
             var groups = SearchOptions
-                .Where(opt => IsValidSearchOrReplaceOption(opt)) // skip invalid to search tabs
+                .Where(opt => IsValidSearchOrReplaceOption(opt))
                 .GroupBy(opt => opt.SelectedColumn);
             foreach (var group in groups)
             {
@@ -188,6 +214,17 @@ namespace RimworldModTranslator.ViewModels
                 var regexOptions = opt.IsCaseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
                 string newValue = Regex.Replace(cellValue, pattern, opt.ReplaceWith ?? string.Empty, regexOptions);
                 row[column] = newValue;
+            }
+        }
+
+        // Method to handle selection from the search DataGrid
+        public void OnFoundItemSelected(DataRowView selectedItem)
+        {
+            if (selectedItem != null)
+            {
+                _currentRowIndex = TranslationsTable.Rows.IndexOf(selectedItem.Row);
+                CurrentSelectedRow = selectedItem.Row;
+                _parentViewModel.SelectedRow = selectedItem;
             }
         }
     }

@@ -248,15 +248,9 @@ namespace RimworldModTranslator.ViewModels
                 return;
             }
 
-            var searchViewModel = new SearchWindowViewModel(TranslationsTable);
+            var searchViewModel = new SearchWindowViewModel(TranslationsTable, this);
             var searchWindow = new SearchWindow { DataContext = searchViewModel };
             searchWindow.ShowDialog();
-
-            // Update DataGrid selection if needed after dialog closes
-            if (searchViewModel.CurrentSelectedRow != null)
-            {
-                // Logic to select the row in DataGrid can be added here
-            }
         }
 
         private void SaveTranslations(string targetModDirPath)

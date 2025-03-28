@@ -1,5 +1,7 @@
-﻿using System;
+﻿using RimworldModTranslator.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,16 @@ namespace RimworldModTranslator.Views
         public SearchWindow()
         {
             InitializeComponent();
+        }
+        private void FoundItemsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DataContext is SearchWindowViewModel viewModel && sender is DataGrid dataGrid)
+            {
+                if (dataGrid.SelectedItem is DataRowView selectedRow)
+                {
+                    viewModel.OnFoundItemSelected(selectedRow);
+                }
+            }
         }
     }
 }
