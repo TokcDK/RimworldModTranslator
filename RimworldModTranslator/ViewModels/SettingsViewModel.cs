@@ -27,6 +27,7 @@ namespace RimworldModTranslator.ViewModels
         public string TargetModAuthorToolTip { get => "Target mod Author. Default: '{Source mod authors},Anonimous'"; }
         public string TargetModVersionToolTip { get => "Target mod version. Default: '1.0'"; }
         public string TargetModSupportedVersionsToolTip { get => "Target mod supported game version. Default: {Source mod supported versions}"; }
+        public string TargetModDescriptionToolTip { get => "Target mod description. Default: '{Source mode name} Translation'"; }
         
         #endregion
 
@@ -125,6 +126,21 @@ namespace RimworldModTranslator.ViewModels
             else
             {
                 Properties.Settings.Default.TargetModSupportedVersions = "";
+            }
+        }
+        [ObservableProperty]
+        private string? targetModDescription = Properties.Settings.Default.TargetModDescription;
+        partial void OnTargetModDescriptionChanged(string? value)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                Properties.Settings.Default.TargetModDescription = value;
+
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.TargetModDescription = "";
             }
         }
 

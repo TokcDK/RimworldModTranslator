@@ -13,5 +13,6 @@ namespace RimworldModTranslator.Models
         internal string? Author;
         internal string? ModVersion;
         internal string? SupportedVersions;
+        internal string? Description;
     }
 }

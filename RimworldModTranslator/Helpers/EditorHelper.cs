@@ -534,7 +534,8 @@ namespace RimworldModTranslator.Helpers
                     new XElement("packageId", modAboutData.PackageId),
                     new XElement("author", modAboutData.Author),
                     new XElement("version", modAboutData.ModVersion),
-                    new XElement("supportedVersions", modAboutData.SupportedVersions)
+                    new XElement("supportedVersions", modAboutData.SupportedVersions),
+                    new XElement("description", modAboutData.Description)
                 )
             );
         }

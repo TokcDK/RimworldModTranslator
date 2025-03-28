@@ -118,5 +118,17 @@ namespace RimworldModTranslator.Properties {
                 this["TargetModSupportedVersions"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TargetModDescription {
+            get {
+                return ((string)(this["TargetModDescription"]));
+            }
+            set {
+                this["TargetModDescription"] = value;
+            }
+        }
     }
 }
