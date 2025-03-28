@@ -19,7 +19,7 @@
                   ItemsSource="{Binding ModsList}"
                   AutoGenerateColumns="False"
                   SelectedItem="{Binding SelectedMod}"
-                  bhvrs:DataGridBehavior.AutoScrollToSelectedItem="True"
+                  bhvrs:DataGridAutoScrollToSelectedItemBehavior.AutoScrollToSelectedItem="True"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
                   Margin="1"

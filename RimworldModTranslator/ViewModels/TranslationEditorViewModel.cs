@@ -200,6 +200,8 @@ namespace RimworldModTranslator.ViewModels
         {
             if (game == null) return;
             if (mod == null) return;
+
+            SaveLanguages();
         }
 
         [RelayCommand]
@@ -239,9 +241,91 @@ namespace RimworldModTranslator.ViewModels
 
         private void SaveTranslations(string targetModDirPath)
         {
-            string targetModLanguagesPath = Path.Combine(targetModDirPath, "Languages", SelectedFolder == mod!.DirectoryName! ? "" : SelectedFolder!);
+            // target path for languages: targetModLanguagesPath
+            string targetModLanguagesPath = Path.Combine(targetModDirPath, "Languages", SelectedFolder == mod!.DirectoryName ? "" : SelectedFolder!);
 
+            // Структура: Dictionary<LanguageName, Dictionary<SubPath, Dictionary<StringId, StringValue>>>
+            var translationsData = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
 
+            // Предполагаем, что в TranslationsTable есть столбцы "SubPath" и "StringId",
+            // а остальные столбцы отвечают за языки.
+            if (TranslationsTable == null)
+                return;
+
+            foreach (DataRow row in TranslationsTable.Rows)
+            {
+                string subPath = row["SubPath"]?.ToString() ?? "";
+                string stringId = row["ID"]?.ToString() ?? "";
+
+                foreach (DataColumn column in TranslationsTable.Columns)
+                {
+                    if (column.ColumnName == "SubPath" || column.ColumnName == "ID")
+                        continue;
+
+                    string languageName = column.ColumnName;
+                    string stringValue = row[column]?.ToString() ?? "";
+
+                    if (!translationsData.TryGetValue(languageName, out var files))
+                    {
+                        files = [];
+                        translationsData[languageName] = files;
+                    }
+                    if (!files.TryGetValue(subPath, out var strings))
+                    {
+                        strings = [];
+                        files[subPath] = strings;
+                    }
+
+                    strings[stringId] = stringValue;
+                }
+            }
+
+            // Для каждого языка и каждого под-пути, записываем файлы соответствующим образом
+            foreach (var languagePair in translationsData)
+            {
+                string languageName = languagePair.Key;
+                string languageFolderPath = Path.Combine(targetModLanguagesPath, languageName);
+
+                foreach (var subPathPair in languagePair.Value)
+                {
+                    string subPath = subPathPair.Key;
+                    string filePath = Path.Combine(languageFolderPath, subPath);
+                    string extension = Path.GetExtension(filePath).ToLowerInvariant();
+
+                    // Создать директорию, если не существует
+                    string? fileDirectory = Path.GetDirectoryName(filePath);
+                    if (!string.IsNullOrEmpty(fileDirectory))
+                    {
+                        Directory.CreateDirectory(fileDirectory);
+                    }
+
+                    string content = "";
+
+                    if (extension == ".txt")
+                    {
+                        // Записываем только значения каждой строки, по одному значению в строке
+                        content = string.Join(Environment.NewLine, subPathPair.Value.Values);
+                    }
+                    else if (extension == ".xml")
+                    {
+                        // Создаем XML по заданному шаблону
+                        var sb = new System.Text.StringBuilder();
+                        sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+                        sb.AppendLine("<LanguageData>");
+                        foreach (var kvp in subPathPair.Value)
+                        {
+                            string id = kvp.Key;
+                            string value = kvp.Value;
+                            sb.AppendLine($"  <{id}>{value}</{id}>");
+                        }
+                        sb.AppendLine("</LanguageData>");
+                        content = sb.ToString();
+                    }
+
+                    // Записываем контент в файл
+                    File.WriteAllText(filePath, content);
+                }
+            }
         }
         #endregion
 
