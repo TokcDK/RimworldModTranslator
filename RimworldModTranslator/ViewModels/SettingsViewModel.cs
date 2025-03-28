@@ -28,7 +28,8 @@ namespace RimworldModTranslator.ViewModels
         public static string TargetModVersionToolTip { get => "Target mod version. Default: '1.0'"; }
         public static string TargetModSupportedVersionsToolTip { get => "Target mod supported game version. Default: {Source mod supported versions}"; }
         public static string TargetModDescriptionToolTip { get => "Optional target mod description. Default: '{Source mode name} Translation'"; }
-        public static string TargetModUrlToolTip { get => "Target mod web page URL. Optional web page URL for detailed mod info. Default: No Url"; }
+        public static string TargetModUrlToolTip { get => "Optional target mod web page URL. Default: No Url"; }
+        public static string TargetModPreviewToolTip { get => "Optional target mod preview path. Default: No preview. When empty will try to find 'Preview.png' next to the app exe. "; }
         #endregion
 
         public ObservableCollection<Game> GamesList { get => settingsService.GamesList; }
@@ -148,6 +149,20 @@ namespace RimworldModTranslator.ViewModels
             else
             {
                 Properties.Settings.Default.TargetModUrl = "";
+            }
+        }
+        [ObservableProperty]
+        private string? targetModPreview = Properties.Settings.Default.TargetModPreview;
+        partial void OnTargetModPreviewChanged(string? value)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                Properties.Settings.Default.TargetModPreview = value;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.TargetModPreview = "";
             }
         }
 

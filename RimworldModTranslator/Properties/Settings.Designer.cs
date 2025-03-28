@@ -142,5 +142,17 @@ namespace RimworldModTranslator.Properties {
                 this["TargetModUrl"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TargetModPreview {
+            get {
+                return ((string)(this["TargetModPreview"]));
+            }
+            set {
+                this["TargetModPreview"] = value;
+            }
+        }
     }
 }
