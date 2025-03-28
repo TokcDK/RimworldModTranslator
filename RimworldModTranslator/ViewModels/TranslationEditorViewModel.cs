@@ -15,6 +15,7 @@ using System.Data;
 using RimworldModTranslator.Helpers;
 using System.Windows.Controls;
 using System.Collections.Specialized;
+using RimworldModTranslator.Views;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -237,6 +238,25 @@ namespace RimworldModTranslator.ViewModels
             }
 
             SaveTranslations(targetModDirPath);
+        }
+
+        [RelayCommand]
+        private void OpenSearchWindow()
+        {
+            if(TranslationsTable == null || TranslationsTable.Rows.Count == 0)
+            {
+                return;
+            }
+
+            var searchViewModel = new SearchWindowViewModel(TranslationsTable);
+            var searchWindow = new SearchWindow { DataContext = searchViewModel };
+            searchWindow.ShowDialog();
+
+            // Update DataGrid selection if needed after dialog closes
+            if (searchViewModel.CurrentSelectedRow != null)
+            {
+                // Logic to select the row in DataGrid can be added here
+            }
         }
 
         private void SaveTranslations(string targetModDirPath)

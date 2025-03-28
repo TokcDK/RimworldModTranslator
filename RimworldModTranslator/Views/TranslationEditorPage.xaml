@@ -96,7 +96,7 @@
 
             <!-- Button for loading strings -->
             <Button Grid.Column="2" Content="Load strings"
-                    Command="{Binding LoadStringsCommand}"
+                    Command="{Binding OpenSearchWindowCommand}"
                     VerticalAlignment="Center" Margin="2"/>
 
             <!-- Selected mod name -->
