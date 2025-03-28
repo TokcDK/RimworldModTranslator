@@ -15,6 +15,7 @@ namespace RimworldModTranslator.Models
         internal string? SupportedVersions;
         internal string? Description;
         internal string? Url;
+        internal string? Preview;
 
         public ModData? SourceMod { get; internal set; }
     }

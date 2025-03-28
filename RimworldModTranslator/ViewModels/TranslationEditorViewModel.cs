@@ -277,10 +277,11 @@ namespace RimworldModTranslator.ViewModels
                 SupportedVersions = !string.IsNullOrWhiteSpace(supportedVersions) ? supportedVersions 
                 : mod.About?.SupportedVersions != null ? string.Join(",", mod.About?.SupportedVersions!) : "",
                 Description = !string.IsNullOrWhiteSpace(description) ? description : $"{mod.About?.Name} Translation",
-                Url = !string.IsNullOrWhiteSpace(url) ? url : ""
+                Url = !string.IsNullOrWhiteSpace(url) ? url : "",
+                Preview = Properties.Settings.Default.TargetModPreview
             };
 
-            EditorHelper.WriteAboutXml(targetModDirPath, modAboutData);
+            EditorHelper.WriteAbout(targetModDirPath, modAboutData);
         }
         #endregion
 
