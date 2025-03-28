@@ -19,12 +19,16 @@ namespace RimworldModTranslator.ViewModels
     {
         public string Header { get; } = "Settings";
 
+        #region Tooltips for settings
+        public string AddNewGameToolTip { get => "Add Mods and Config directory paths of the new game. If Config dir path is not set then will be used default in appdata"; }
+        public string ExtractedLanguageNameToolTip { get => "The name of the folder where the extracted strings will be saved. Default is 'Extracted'."; }
+        
+        #endregion
+
         public ObservableCollection<Game> GamesList { get => settingsService.GamesList; }
 
         [ObservableProperty]
         private Game? selectedGame;
-
-        public string ExtractedLanguageNameToolTip { get => "The name of the folder where the extracted strings will be saved. Default is 'Extracted'."; }
         
         [ObservableProperty]
         private string? extractedLanguageName = Properties.Settings.Default.ExtractedStringsLanguageFolderName;
