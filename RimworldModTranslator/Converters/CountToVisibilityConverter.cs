@@ -9,8 +9,10 @@ namespace RimworldModTranslator.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is int count && count > 0)
-                return Visibility.Visible;
+            if (value is int count)
+            {
+                return count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            }
             return Visibility.Collapsed;
         }
 

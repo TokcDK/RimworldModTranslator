@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,16 +10,16 @@ namespace RimworldModTranslator.Extensions
         public static readonly DependencyProperty ColumnsSourceProperty =
             DependencyProperty.RegisterAttached(
                 "ColumnsSource",
-                typeof(ObservableCollection<string>),
+                typeof(IEnumerable<string>),
                 typeof(DataGridExtensions),
                 new PropertyMetadata(null, OnColumnsSourceChanged));
 
-        public static ObservableCollection<string> GetColumnsSource(DependencyObject obj)
+        public static IEnumerable<string> GetColumnsSource(DependencyObject obj)
         {
-            return (ObservableCollection<string>)obj.GetValue(ColumnsSourceProperty);
+            return (IEnumerable<string>)obj.GetValue(ColumnsSourceProperty);
         }
 
-        public static void SetColumnsSource(DependencyObject obj, ObservableCollection<string> value)
+        public static void SetColumnsSource(DependencyObject obj, IEnumerable<string> value)
         {
             obj.SetValue(ColumnsSourceProperty, value);
         }
@@ -34,7 +29,7 @@ namespace RimworldModTranslator.Extensions
             if (d is DataGrid dataGrid)
             {
                 dataGrid.Columns.Clear();
-                if (e.NewValue is ObservableCollection<string> columnNames)
+                if (e.NewValue is IEnumerable<string> columnNames)
                 {
                     foreach (var columnName in columnNames)
                     {

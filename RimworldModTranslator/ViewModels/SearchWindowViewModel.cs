@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
@@ -11,9 +12,8 @@ namespace RimworldModTranslator.ViewModels
 {
     public partial class SearchWindowViewModel : ObservableObject
     {
-        public ObservableCollection<string> ColumnNames =>
-        [.. TranslationsTable.Columns.Cast<DataColumn>().Select(c => c.ColumnName)];
-        
+        public IEnumerable<string> ColumnNames => TranslationsTable.Columns.Cast<DataColumn>().Select(c => c.ColumnName);
+
         [ObservableProperty]
         private DataTable _translationsTable;
 
