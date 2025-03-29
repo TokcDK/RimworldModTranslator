@@ -133,6 +133,14 @@ namespace RimworldModTranslator.ViewModels
         // will not fire with SelectionUnit="CellOrRowHeader" selected cells but still can be used to select row programmatically
         [ObservableProperty]
         private DataRowView? selectedRow;
+        partial void OnSelectedRowChanged(DataRowView? value)
+        {
+        }
+        [ObservableProperty]
+        private int selectedRowIndex;
+        partial void OnSelectedRowIndexChanged(int value)
+        {
+        }
         #endregion
 
         #region Commands

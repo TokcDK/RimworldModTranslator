@@ -228,6 +228,7 @@ namespace RimworldModTranslator.ViewModels
                 _currentRowIndex = TranslationsTable.Rows.IndexOf(selectedItem.Row);
                 CurrentSelectedRow = selectedItem.Row;
                 _parentViewModel.SelectedRow = selectedItem;
+                _parentViewModel.SelectedRowIndex = _currentRowIndex;
             }
         }
     }

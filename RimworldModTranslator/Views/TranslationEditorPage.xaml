@@ -56,6 +56,7 @@
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding TranslationsView}" 
                   SelectedItem="{Binding SelectedRow}"
+                  SelectedIndex="{Binding SelectedRowIndex}"
                   AutoGenerateColumns="True"
                   AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
                   CanUserAddRows="False"
