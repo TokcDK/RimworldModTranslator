@@ -8,7 +8,7 @@
              >
     
     <UserControl.InputBindings>
-        <KeyBinding Key="F" Modifiers="Control" Command="{Binding OpenSearchWindowCommand}" />
+        <KeyBinding Modifiers="Control" Key="F" Command="{Binding OpenSearchWindowCommand}" />
     </UserControl.InputBindings>
 
     <Grid IsEnabled="{Binding IsTranslatorEnabled}">
