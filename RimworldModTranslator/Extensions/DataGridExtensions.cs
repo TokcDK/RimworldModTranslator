@@ -10,7 +10,6 @@ using System.Windows.Data;
 
 namespace RimworldModTranslator.Extensions
 {
-
     public static class DataGridExtensions
     {
         public static readonly DependencyProperty ColumnsSourceProperty =
@@ -39,11 +38,13 @@ namespace RimworldModTranslator.Extensions
                 {
                     foreach (var columnName in columnNames)
                     {
-                        dataGrid.Columns.Add(new DataGridTextColumn
+                        var column = new DataGridTextColumn
                         {
                             Header = columnName,
-                            Binding = new Binding($"[{columnName}]")
-                        });
+                            Binding = new Binding($"[{columnName}]"),
+                            IsReadOnly = columnName == "SubPath" || columnName == "ID" // Set read-only for specific columns
+                        };
+                        dataGrid.Columns.Add(column);
                     }
                 }
             }
