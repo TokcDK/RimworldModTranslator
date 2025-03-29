@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:RimworldModTranslator.ViewModels"
         xmlns:c="clr-namespace:RimworldModTranslator.Converters"
+        xmlns:e="clr-namespace:RimworldModTranslator.Extensions"
         Title="Search and Replace" Width="500" Height="400">
     
     <Window.Resources>
@@ -39,7 +40,8 @@
 
         <DataGrid Grid.Row="1" 
                   ItemsSource="{Binding FoundItems}" 
-                  AutoGenerateColumns="True" 
+                  AutoGenerateColumns="False" 
+                  e:DataGridExtensions.ColumnsSource="{Binding ColumnNames}"
                   Visibility="{Binding FoundItems.Count, Converter={StaticResource CountToVisibilityConverter}}"
                   SelectionMode="Single"
                   SelectionChanged="FoundItemsDataGrid_SelectionChanged"

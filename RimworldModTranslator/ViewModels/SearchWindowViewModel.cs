@@ -11,6 +11,9 @@ namespace RimworldModTranslator.ViewModels
 {
     public partial class SearchWindowViewModel : ObservableObject
     {
+        public ObservableCollection<string> ColumnNames =>
+        [.. TranslationsTable.Columns.Cast<DataColumn>().Select(c => c.ColumnName)];
+        
         [ObservableProperty]
         private DataTable _translationsTable;
 
