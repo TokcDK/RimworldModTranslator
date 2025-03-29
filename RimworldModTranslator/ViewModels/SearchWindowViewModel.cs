@@ -100,6 +100,7 @@ namespace RimworldModTranslator.ViewModels
                     CurrentSelectedRow = TranslationsTable.Rows[i];
                     _currentRowIndex = i;
                     _parentViewModel.SelectedRow = TranslationsTable.DefaultView[_currentRowIndex];
+                    _parentViewModel.SelectedRowIndex = _currentRowIndex;
                     return;
                 }
             }
