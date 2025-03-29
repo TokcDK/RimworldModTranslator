@@ -168,11 +168,11 @@ namespace RimworldModTranslator.ViewModels
                 if (mod == null) return;
             }
 
-            if(!isChangedMod && previousSelectedFolder == SelectedFolder)
-            {
-                // dont need? to reload strings for the same mod folder again
-                return;
-            }
+            //if(!isChangedMod && previousSelectedFolder == SelectedFolder)
+            //{
+            //    // dont need? to reload strings for the same mod folder again
+            //    return;
+            //}
 
             if (isChangedMod || Folders.Count == 0)
             {
