@@ -6,10 +6,6 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:b="clr-namespace:RimworldModTranslator.Behaviors"
              >
-    
-    <UserControl.InputBindings>
-        <KeyBinding Modifiers="Control" Key="F" Command="{Binding OpenSearchWindowCommand}" />
-    </UserControl.InputBindings>
 
     <Grid IsEnabled="{Binding IsTranslatorEnabled}">
         <Grid.RowDefinitions>
@@ -76,6 +72,10 @@
                   dgx:Tools.ApplyInitialSorting="True"
                   b:DataGridAutoScrollToSelectedItemBehavior.AutoScrollToSelectedItem="True"
                   >
+
+            <DataGrid.InputBindings>
+                <KeyBinding Modifiers="Control" Key="F" Command="{Binding OpenSearchWindowCommand}" />
+            </DataGrid.InputBindings>
 
             <i:Interaction.Behaviors>
                 <b:DataGridSelectedCellsBehavior SelectedCells="{Binding SelectedCells, Mode=OneWayToSource}" />
