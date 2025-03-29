@@ -7,6 +7,10 @@
              xmlns:b="clr-namespace:RimworldModTranslator.Behaviors"
              >
     
+    <UserControl.InputBindings>
+        <KeyBinding Key="F" Modifiers="Control" Command="{Binding OpenSearchWindowCommand}" />
+    </UserControl.InputBindings>
+
     <Grid IsEnabled="{Binding IsTranslatorEnabled}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -99,7 +103,7 @@
 
             <!-- Button for loading strings -->
             <Button Grid.Column="2" Content="Load strings"
-                    Command="{Binding OpenSearchWindowCommand}"
+                    Command="{Binding LoadStringsCommand}"
                     VerticalAlignment="Center" Margin="2"/>
 
             <!-- Selected mod name -->
