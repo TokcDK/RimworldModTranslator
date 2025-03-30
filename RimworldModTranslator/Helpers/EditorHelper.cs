@@ -1,4 +1,5 @@
 ﻿using RimworldModTranslator.Models;
+using RimworldModTranslator.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Xml.Linq;
 using static RimworldModTranslator.ViewModels.TranslationEditorViewModel;
 
@@ -62,7 +64,7 @@ namespace RimworldModTranslator.Helpers
                 "verb"
         ];
 
-        public static void GetTranslatableSubDirs(string fullPath, ObservableCollection<string> folders)
+        public static void GetTranslatableSubDirs(string fullPath, ObservableCollection<FolderData> folders)
         {
             foreach (var folder in Directory.GetDirectories(fullPath)
                         .Select(Path.GetFileName)
@@ -71,11 +73,11 @@ namespace RimworldModTranslator.Helpers
                             && HasExtractableStringsDir(Path.Combine(fullPath, d))
                         ))
             {
-                folders.Add(folder!);
+                folders.Add(new FolderData() { Name = folder! });
             }
         }
 
-        public static void GetTranslatableFolders(ObservableCollection<string> folders, string modsPath, string modName)
+        public static void GetTranslatableFolders(ObservableCollection<FolderData> folders, string modsPath, string modName)
         {
             string fullPath = Path.Combine(modsPath, modName);
             if (!Directory.Exists(fullPath)) return;
@@ -86,7 +88,7 @@ namespace RimworldModTranslator.Helpers
 
             if (EditorHelper.HasExtractableStringsDir(fullPath))
             {
-                folders.Add(modName);
+                folders.Add(new FolderData() { Name = modName });
             }
         }
 

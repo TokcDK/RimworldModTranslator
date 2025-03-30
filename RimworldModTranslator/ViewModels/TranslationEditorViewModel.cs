@@ -44,7 +44,6 @@ namespace RimworldModTranslator.ViewModels
 
     // for editor extra functions to insert most often using replacers
     // replacers: https://rimworldwiki.com/wiki/Modding_Tutorials/GrammarResolver
-
     public partial class TranslationEditorViewModel : ViewModelBase
     {
         #region Fields
@@ -75,7 +74,7 @@ namespace RimworldModTranslator.ViewModels
 
         public string? ModDisplayingName => mod != null && Folders.Count > 0 ? mod.ModDisplayingName : settingsService.SelectedMod?.ModDisplayingName;
 
-        public ObservableCollection<string> Folders { get; } = [];
+        public ObservableCollection<FolderData> Folders { get; } = new();
 
         private IList<DataGridCellInfo> selectedCells;
         public IList<DataGridCellInfo> SelectedCells
@@ -84,7 +83,6 @@ namespace RimworldModTranslator.ViewModels
             set
             {
                 SetProperty(ref selectedCells, value);
-
                 // for debug
                 //if (selectedCells != null)
                 //{
@@ -107,12 +105,13 @@ namespace RimworldModTranslator.ViewModels
 
         #region Observable Properties
         [ObservableProperty]
-        private string? selectedFolder;
-        partial void OnSelectedFolderChanged(string? value)
+        private FolderData? selectedFolder;
+        partial void OnSelectedFolderChanged(FolderData? value)
         {
-            if (value == previousSelectedFolder) return;
+            if (value?.Name == previousSelectedFolder) return;
 
-            previousSelectedFolder = value;
+            previousSelectedFolder = value?.Name;
+            TranslationsTable = value?.TranslationsTable;
         }
 
         [ObservableProperty]
@@ -125,8 +124,18 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private ObservableCollection<string> languages = new();
 
-        [ObservableProperty]
-        private DataTable? translationsTable;
+        public DataTable? TranslationsTable 
+        { 
+            get => SelectedFolder?.TranslationsTable;
+            set
+            {
+                if(SelectedFolder== null)
+                {
+                    return;
+                }
+                SelectedFolder.TranslationsTable = value;
+            }
+        }
 
         [ObservableProperty]
         private DataView? translationsView;
@@ -174,17 +183,16 @@ namespace RimworldModTranslator.ViewModels
             //    // dont need? to reload strings for the same mod folder again
             //    return;
             //}
-
             if (isChangedMod || Folders.Count == 0)
             {
                 EditorHelper.GetTranslatableFolders(Folders, game!.ModsDirPath!, mod.DirectoryName!);
             }
 
-            if (Folders.Count == 0) return; // no translatable folders
+            if (Folders.Count == 0) return;
 
             SelectedFolder ??= Folders[0];
 
-            string selectedFolder = SelectedFolder!;
+            string selectedFolder = SelectedFolder!.Name;
 
             var selectedLanguageDir = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, EditorHelper.GetLanguageFolderIfNeed(selectedFolder));
 
@@ -194,15 +202,16 @@ namespace RimworldModTranslator.ViewModels
             EditorHelper.ExtractStrings(selectedLanguageDir, stringsData);
 
             var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
+            SelectedFolder.TranslationsTable = translationsTable;
             InitTranslationsTable(dataTableToRelink: translationsTable);
 
             if (translationsTable == null || translationsTable.Columns.Count == 0)
             {
-                SelectedFolder = previousSelectedFolder;
+                SelectedFolder = Folders.FirstOrDefault(f => f.Name == previousSelectedFolder);
                 return;
             }
 
-            OnPropertyChanged(nameof(ModDisplayingName)); // update current mod for editor
+            OnPropertyChanged(nameof(ModDisplayingName));
         }
 
         [RelayCommand]
@@ -236,23 +245,62 @@ namespace RimworldModTranslator.ViewModels
         {
             if (game == null) return;
             if (mod == null) return;
-            if (SelectedFolder == null) return;
 
             string targetModDirPath = Path.Combine(game.ModsDirPath!, $"{mod.DirectoryName!}_Translated");
 
             int index = 0;
-            while(Directory.Exists(targetModDirPath))
+            while (Directory.Exists(targetModDirPath))
             {
                 targetModDirPath = Path.Combine(game.ModsDirPath!, $"{mod.DirectoryName!}_Translated{index++}");
             }
 
-            SaveTranslations(targetModDirPath);
+            foreach (var folder in Folders)
+            {
+                if (string.IsNullOrEmpty(folder.Name) || folder.TranslationsTable == null) continue;
+
+                string targetModLanguagesPath = Path.Combine(targetModDirPath, "Languages", folder.Name == mod!.DirectoryName ? "" : folder.Name);
+
+                var translationsData = EditorHelper.FillTranslationsData(folder.TranslationsTable, targetModLanguagesPath);
+                if (translationsData == null)
+                    continue;
+
+                bool isAnyFileWrote = EditorHelper.WriteFiles(translationsData, targetModLanguagesPath);
+
+                if (!isAnyFileWrote)
+                {
+                    Directory.Delete(targetModDirPath, true);
+                    return;
+                }
+            }
+
+            string name = Properties.Settings.Default.TargetModName;
+            string packageId = Properties.Settings.Default.TargetModPackageID;
+            string author = Properties.Settings.Default.TargetModAuthor;
+            string version = Properties.Settings.Default.TargetModVersion;
+            string supportedVersions = Properties.Settings.Default.TargetModSupportedVersions;
+            string description = Properties.Settings.Default.TargetModDescription;
+            string url = Properties.Settings.Default.TargetModUrl;
+            var modAboutData = new ModAboutData
+            {
+                SourceMod = mod,
+                Name = !string.IsNullOrWhiteSpace(name) ? name : $"{mod.About?.Name} Translation",
+                PackageId = !string.IsNullOrWhiteSpace(packageId) ? packageId : $"{mod.About?.PackageId}.translation",
+                Author = !string.IsNullOrWhiteSpace(author) ? author : $"{mod.About?.Author},Anonimous",
+                ModVersion = !string.IsNullOrWhiteSpace(version) ? version : "1.0",
+                SupportedVersions = !string.IsNullOrWhiteSpace(supportedVersions) ? supportedVersions
+                : mod.About?.SupportedVersions != null ? string.Join(",", mod.About?.SupportedVersions!) : "",
+                Description = !string.IsNullOrWhiteSpace(description) ? description : $"{mod.About?.Name} Translation",
+                Url = !string.IsNullOrWhiteSpace(url) ? url : "",
+                Preview = Properties.Settings.Default.TargetModPreview
+            };
+
+            EditorHelper.WriteAbout(targetModDirPath, modAboutData);
         }
 
         [RelayCommand]
         private void OpenSearchWindow()
         {
-            if(TranslationsTable == null || TranslationsTable.Rows.Count == 0)
+            if (TranslationsTable == null || TranslationsTable.Rows.Count == 0)
             {
                 return;
             }
@@ -277,7 +325,7 @@ namespace RimworldModTranslator.ViewModels
                 return;
             }
 
-            string[] clipboardLines = clipboardText.Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
+            string[] clipboardLines = clipboardText.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
             int clipboardLineIndex = 0;
 
             foreach (var cell in SelectedCells)
@@ -307,6 +355,7 @@ namespace RimworldModTranslator.ViewModels
                 }
             }
         }
+
         [RelayCommand]
         private void ClearSelectedCells()
         {
@@ -322,7 +371,7 @@ namespace RimworldModTranslator.ViewModels
                     continue;
                 }
 
-                if(column.IsReadOnly) continue;
+                if (column.IsReadOnly) continue;
 
                 rowItem.Row[column.SortMemberPath] = null;
             }
@@ -331,10 +380,10 @@ namespace RimworldModTranslator.ViewModels
         private void SaveTranslations(string targetModDirPath)
         {
             // target path for languages: targetModLanguagesPath
-            string targetModLanguagesPath = Path.Combine(targetModDirPath, "Languages", SelectedFolder == mod!.DirectoryName ? "" : SelectedFolder!);
+            string targetModLanguagesPath = Path.Combine(targetModDirPath, "Languages", SelectedFolder?.Name == mod!.DirectoryName ? "" : SelectedFolder!.Name);
 
             var translationsData = EditorHelper.FillTranslationsData(TranslationsTable, targetModLanguagesPath);
-            if(translationsData == null)
+            if (translationsData == null)
                 return;
 
             // Для каждого языка и каждого под-пути, записываем файлы соответствующим образом
@@ -348,7 +397,6 @@ namespace RimworldModTranslator.ViewModels
             }
 
             // write the About.xml and othe required data to the targetModDirPath
-
             string name = Properties.Settings.Default.TargetModName;
             string packageId = Properties.Settings.Default.TargetModPackageID;
             string author = Properties.Settings.Default.TargetModAuthor;
@@ -359,11 +407,11 @@ namespace RimworldModTranslator.ViewModels
             var modAboutData = new ModAboutData
             {
                 SourceMod = mod,
-                Name = !string.IsNullOrWhiteSpace(name)? name: $"{mod.About?.Name} Translation",
+                Name = !string.IsNullOrWhiteSpace(name) ? name : $"{mod.About?.Name} Translation",
                 PackageId = !string.IsNullOrWhiteSpace(packageId) ? packageId : $"{mod.About?.PackageId}.translation",
                 Author = !string.IsNullOrWhiteSpace(author) ? author : $"{mod.About?.Author},Anonimous",
                 ModVersion = !string.IsNullOrWhiteSpace(version) ? version : "1.0",
-                SupportedVersions = !string.IsNullOrWhiteSpace(supportedVersions) ? supportedVersions 
+                SupportedVersions = !string.IsNullOrWhiteSpace(supportedVersions) ? supportedVersions
                 : mod.About?.SupportedVersions != null ? string.Join(",", mod.About?.SupportedVersions!) : "",
                 Description = !string.IsNullOrWhiteSpace(description) ? description : $"{mod.About?.Name} Translation",
                 Url = !string.IsNullOrWhiteSpace(url) ? url : "",
@@ -411,5 +459,11 @@ namespace RimworldModTranslator.ViewModels
                    && !TranslationsTable.Columns.Contains(NewLanguageName);
         }
         #endregion
+    }
+
+    public class FolderData
+    {
+        public string Name { get; set; }
+        public DataTable? TranslationsTable { get; set; }
     }
 }
