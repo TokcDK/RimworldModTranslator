@@ -254,6 +254,7 @@ namespace RimworldModTranslator.ViewModels
                 targetModDirPath = Path.Combine(game.ModsDirPath!, $"{mod.DirectoryName!}_Translated{index++}");
             }
 
+            bool isAnyFolderFileWrote = false;
             foreach (var folder in Folders)
             {
                 if (string.IsNullOrEmpty(folder.Name) || folder.TranslationsTable == null) continue;
@@ -266,11 +267,16 @@ namespace RimworldModTranslator.ViewModels
 
                 bool isAnyFileWrote = EditorHelper.WriteFiles(translationsData, targetModLanguagesPath);
 
-                if (!isAnyFileWrote)
+                if (isAnyFileWrote)
                 {
-                    Directory.Delete(targetModDirPath, true);
-                    return;
+                    isAnyFolderFileWrote = true;
                 }
+            }
+
+            if(!isAnyFolderFileWrote)
+            {
+                Directory.Delete(targetModDirPath, true);
+                return;
             }
 
             string name = Properties.Settings.Default.TargetModName;
