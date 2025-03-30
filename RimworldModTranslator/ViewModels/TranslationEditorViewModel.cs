@@ -297,8 +297,8 @@ namespace RimworldModTranslator.ViewModels
                     continue;
                 }
 
-                var cellContent = column.GetCellContent(rowItem);
-                if (cellContent == null || string.IsNullOrEmpty(cellContent.GetValue(TextBlock.TextProperty) as string))
+                var cellContent = rowItem.Row[column.SortMemberPath];
+                if (cellContent == null || string.IsNullOrEmpty(cellContent + ""))
                 {
                     // Write the string lines to empty SelectedCells
                     rowItem.Row[column.SortMemberPath] = clipboardLines[clipboardLineIndex++];
