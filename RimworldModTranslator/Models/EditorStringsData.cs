@@ -7,7 +7,7 @@ using static RimworldModTranslator.ViewModels.TranslationEditorViewModel;
 
 namespace RimworldModTranslator.Models
 {
-    internal class EditorStringsData
+    public class EditorStringsData
     {
         internal readonly HashSet<string> Languages = [];
 

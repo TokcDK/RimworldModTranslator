@@ -178,16 +178,14 @@ namespace RimworldModTranslator.ViewModels
 
             SelectedFolder ??= Folders[0];
 
-            string selectedFolder = SelectedFolder!.Name;
+            string selectedFolderName = SelectedFolder!.Name;
 
-            var selectedLanguageDir = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, EditorHelper.GetLanguageFolderName(selectedFolder));
+            var selectedLanguageDir = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, EditorHelper.GetLanguageFolderName(selectedFolderName));
 
-            EditorStringsData stringsData = new();
-
-            EditorHelper.LoadLanguages(selectedLanguageDir, stringsData);
-            EditorHelper.ExtractStrings(selectedLanguageDir, stringsData);
+            var stringsData = EditorHelper.LoadStringsDataFromTheLanguageDir(selectedLanguageDir);
 
             var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
+
             SelectedFolder.TranslationsTable = translationsTable;
             InitTranslationsTable(dataTableToRelink: translationsTable);
 

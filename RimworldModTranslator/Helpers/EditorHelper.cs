@@ -708,5 +708,15 @@ namespace RimworldModTranslator.Helpers
                 yield return (rowItem, column);
             }
         }
+
+        public static EditorStringsData LoadStringsDataFromTheLanguageDir(string selectedLanguageDir)
+        {
+            EditorStringsData stringsData = new();
+
+            EditorHelper.LoadLanguages(selectedLanguageDir, stringsData);
+            EditorHelper.ExtractStrings(selectedLanguageDir, stringsData);
+
+            return stringsData;
+        }
     }
 }
