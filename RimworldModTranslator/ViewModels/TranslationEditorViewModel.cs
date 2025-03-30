@@ -314,7 +314,7 @@ namespace RimworldModTranslator.ViewModels
             return game != null
                    && mod != null
                    && !string.IsNullOrWhiteSpace(NewLanguageName)
-                   && TranslationsTable.Columns.Count > 0
+                   && TranslationsTable?.Columns.Count > 0
                    && !TranslationsTable.Columns.Contains(NewLanguageName);
         }
         #endregion
