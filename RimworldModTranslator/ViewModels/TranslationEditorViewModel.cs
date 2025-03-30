@@ -129,7 +129,7 @@ namespace RimworldModTranslator.ViewModels
             get => SelectedFolder?.TranslationsTable;
             set
             {
-                if(SelectedFolder== null)
+                if(SelectedFolder == null || SelectedFolder.TranslationsTable == value)
                 {
                     return;
                 }
