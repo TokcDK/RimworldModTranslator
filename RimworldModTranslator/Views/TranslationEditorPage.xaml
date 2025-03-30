@@ -34,7 +34,13 @@
                       ItemsSource="{Binding Folders}"
                       SelectedItem="{Binding SelectedFolder}"
                       Margin="2"
-                      VerticalAlignment="Center"/>
+                      VerticalAlignment="Center">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
 
             <!-- StackPanel with TextBox and Button for adding a new translation language -->
             <StackPanel Grid.Column="2"
