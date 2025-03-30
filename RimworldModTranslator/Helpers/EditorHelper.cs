@@ -571,5 +571,67 @@ namespace RimworldModTranslator.Helpers
             var doc = new XDocument(new XDeclaration("1.0", "utf-8", null), modMetaData);
             doc.Save(aboutXmlPath);
         }
+
+        internal static void SaveTranslatedStrings(IEnumerable<FolderData> folders, Game? game, ModData? mod)
+        {
+            if (game == null) return;
+            if (mod == null) return;
+
+            string targetModDirPath = Path.Combine(game.ModsDirPath!, $"{mod.DirectoryName!}_Translated");
+
+            int index = 0;
+            while (Directory.Exists(targetModDirPath))
+            {
+                targetModDirPath = Path.Combine(game.ModsDirPath!, $"{mod.DirectoryName!}_Translated{index++}");
+            }
+
+            bool isAnyFolderFileWrote = false;
+            foreach (var folder in folders)
+            {
+                if (string.IsNullOrEmpty(folder.Name) || folder.TranslationsTable == null) continue;
+
+                string targetModLanguagesPath = Path.Combine(targetModDirPath, "Languages", folder.Name == mod!.DirectoryName ? "" : folder.Name);
+
+                var translationsData = EditorHelper.FillTranslationsData(folder.TranslationsTable, targetModLanguagesPath);
+                if (translationsData == null)
+                    continue;
+
+                bool isAnyFileWrote = EditorHelper.WriteFiles(translationsData, targetModLanguagesPath);
+
+                if (isAnyFileWrote)
+                {
+                    isAnyFolderFileWrote = true;
+                }
+            }
+
+            if (!isAnyFolderFileWrote)
+            {
+                Directory.Delete(targetModDirPath, true);
+                return;
+            }
+
+            string name = Properties.Settings.Default.TargetModName;
+            string packageId = Properties.Settings.Default.TargetModPackageID;
+            string author = Properties.Settings.Default.TargetModAuthor;
+            string version = Properties.Settings.Default.TargetModVersion;
+            string supportedVersions = Properties.Settings.Default.TargetModSupportedVersions;
+            string description = Properties.Settings.Default.TargetModDescription;
+            string url = Properties.Settings.Default.TargetModUrl;
+            var modAboutData = new ModAboutData
+            {
+                SourceMod = mod,
+                Name = !string.IsNullOrWhiteSpace(name) ? name : $"{mod.About?.Name} Translation",
+                PackageId = !string.IsNullOrWhiteSpace(packageId) ? packageId : $"{mod.About?.PackageId}.translation",
+                Author = !string.IsNullOrWhiteSpace(author) ? author : $"{mod.About?.Author},Anonimous",
+                ModVersion = !string.IsNullOrWhiteSpace(version) ? version : "1.0",
+                SupportedVersions = !string.IsNullOrWhiteSpace(supportedVersions) ? supportedVersions
+                : mod.About?.SupportedVersions != null ? string.Join(",", mod.About?.SupportedVersions!) : "",
+                Description = !string.IsNullOrWhiteSpace(description) ? description : $"{mod.About?.Name} Translation",
+                Url = !string.IsNullOrWhiteSpace(url) ? url : "",
+                Preview = Properties.Settings.Default.TargetModPreview
+            };
+
+            EditorHelper.WriteAbout(targetModDirPath, modAboutData);
+        }
     }
 }
