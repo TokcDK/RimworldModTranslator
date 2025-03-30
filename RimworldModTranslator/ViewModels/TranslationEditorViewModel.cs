@@ -277,7 +277,7 @@ namespace RimworldModTranslator.ViewModels
                 return;
             }
 
-            string[] clipboardLines = clipboardText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] clipboardLines = clipboardText.Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
             int clipboardLineIndex = 0;
 
             foreach (var cell in SelectedCells)
