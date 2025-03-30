@@ -111,7 +111,7 @@ namespace RimworldModTranslator.ViewModels
             if (value?.Name == previousSelectedFolder) return;
 
             previousSelectedFolder = value?.Name;
-            TranslationsTable = value?.TranslationsTable;
+            InitTranslationsTable(dataTableToRelink: value?.TranslationsTable);
         }
 
         [ObservableProperty]
