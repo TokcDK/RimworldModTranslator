@@ -242,7 +242,7 @@ namespace RimworldModTranslator.ViewModels
 
             var searchViewModel = new SearchWindowViewModel(TranslationsTable, this);
             var searchWindow = new SearchWindow { DataContext = searchViewModel };
-            searchWindow.ShowDialog();
+            searchWindow.Show();
         }
 
         [RelayCommand]

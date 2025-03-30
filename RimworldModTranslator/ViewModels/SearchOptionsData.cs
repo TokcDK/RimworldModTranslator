@@ -12,10 +12,10 @@ namespace RimworldModTranslator.ViewModels
     public partial class SearchOptionsData : ObservableObject
     {
         [ObservableProperty]
-        private string _searchWhat;
+        private string? _searchWhat;
 
         [ObservableProperty]
-        private string _replaceWith;
+        private string? _replaceWith;
 
         [ObservableProperty]
         private bool _isRegexSearch;
@@ -24,6 +24,6 @@ namespace RimworldModTranslator.ViewModels
         private bool _isCaseSensitive;
 
         [ObservableProperty]
-        private string _selectedColumn;
+        private string? _selectedColumn;
     }
 }
