@@ -87,6 +87,19 @@ namespace RimworldModTranslator.ViewModels
             }
         }
 
+        public DataTable? TranslationsTable
+        {
+            get => SelectedFolder?.TranslationsTable;
+            set
+            {
+                if (SelectedFolder == null || SelectedFolder.TranslationsTable == value)
+                {
+                    return;
+                }
+                SelectedFolder.TranslationsTable = value;
+            }
+        }
+
         #endregion
 
         #region Observable Properties
@@ -109,19 +122,6 @@ namespace RimworldModTranslator.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<string> languages = new();
-
-        public DataTable? TranslationsTable 
-        { 
-            get => SelectedFolder?.TranslationsTable;
-            set
-            {
-                if(SelectedFolder == null || SelectedFolder.TranslationsTable == value)
-                {
-                    return;
-                }
-                SelectedFolder.TranslationsTable = value;
-            }
-        }
 
         [ObservableProperty]
         private DataView? translationsView;
