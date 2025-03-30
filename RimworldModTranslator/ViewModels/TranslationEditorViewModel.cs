@@ -414,50 +414,6 @@ namespace RimworldModTranslator.ViewModels
 
             Clipboard.SetText(string.Join("\r\n", strings));
         }
-
-        private void SaveTranslations(string targetModDirPath)
-        {
-            // target path for languages: targetModLanguagesPath
-            string targetModLanguagesPath = Path.Combine(targetModDirPath, "Languages", SelectedFolder?.Name == mod!.DirectoryName ? "" : SelectedFolder!.Name);
-
-            var translationsData = EditorHelper.FillTranslationsData(TranslationsTable, targetModLanguagesPath);
-            if (translationsData == null)
-                return;
-
-            // Для каждого языка и каждого под-пути, записываем файлы соответствующим образом
-            bool isAnyFileWrote = EditorHelper.WriteFiles(translationsData, targetModLanguagesPath);
-
-            if (!isAnyFileWrote)
-            {
-                // no files to write and dont need the mod dir
-                Directory.Delete(targetModDirPath, true);
-                return;
-            }
-
-            // write the About.xml and othe required data to the targetModDirPath
-            string name = Properties.Settings.Default.TargetModName;
-            string packageId = Properties.Settings.Default.TargetModPackageID;
-            string author = Properties.Settings.Default.TargetModAuthor;
-            string version = Properties.Settings.Default.TargetModVersion;
-            string supportedVersions = Properties.Settings.Default.TargetModSupportedVersions;
-            string description = Properties.Settings.Default.TargetModDescription;
-            string url = Properties.Settings.Default.TargetModUrl;
-            var modAboutData = new ModAboutData
-            {
-                SourceMod = mod,
-                Name = !string.IsNullOrWhiteSpace(name) ? name : $"{mod.About?.Name} Translation",
-                PackageId = !string.IsNullOrWhiteSpace(packageId) ? packageId : $"{mod.About?.PackageId}.translation",
-                Author = !string.IsNullOrWhiteSpace(author) ? author : $"{mod.About?.Author},Anonimous",
-                ModVersion = !string.IsNullOrWhiteSpace(version) ? version : "1.0",
-                SupportedVersions = !string.IsNullOrWhiteSpace(supportedVersions) ? supportedVersions
-                : mod.About?.SupportedVersions != null ? string.Join(",", mod.About?.SupportedVersions!) : "",
-                Description = !string.IsNullOrWhiteSpace(description) ? description : $"{mod.About?.Name} Translation",
-                Url = !string.IsNullOrWhiteSpace(url) ? url : "",
-                Preview = Properties.Settings.Default.TargetModPreview
-            };
-
-            EditorHelper.WriteAbout(targetModDirPath, modAboutData);
-        }
         #endregion
 
         #region Private Methods
