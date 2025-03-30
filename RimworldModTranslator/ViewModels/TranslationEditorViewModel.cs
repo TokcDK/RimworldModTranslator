@@ -189,7 +189,6 @@ namespace RimworldModTranslator.ViewModels
             if (translationsTable == null || translationsTable.Columns.Count == 0)
             {
                 SelectedFolder = Folders.FirstOrDefault(f => f.Name == previousSelectedFolder);
-                return;
             }
 
             SelectedFolder.TranslationsTable = translationsTable;
