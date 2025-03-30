@@ -266,7 +266,7 @@ namespace RimworldModTranslator.Helpers
             }
         }
 
-        internal static string GetLanguageFolderIfNeed(string selectedFolder)
+        internal static string GetLanguageFolderName(string selectedFolder)
         {
             return VersionDirRegex.IsMatch(selectedFolder) ? selectedFolder : "";
         }

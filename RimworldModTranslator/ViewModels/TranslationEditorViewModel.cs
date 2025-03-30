@@ -180,7 +180,7 @@ namespace RimworldModTranslator.ViewModels
 
             string selectedFolder = SelectedFolder!.Name;
 
-            var selectedLanguageDir = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, EditorHelper.GetLanguageFolderIfNeed(selectedFolder));
+            var selectedLanguageDir = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, EditorHelper.GetLanguageFolderName(selectedFolder));
 
             EditorStringsData stringsData = new();
 
