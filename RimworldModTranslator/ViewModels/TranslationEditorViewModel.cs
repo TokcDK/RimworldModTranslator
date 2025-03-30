@@ -84,21 +84,6 @@ namespace RimworldModTranslator.ViewModels
             set
             {
                 SetProperty(ref selectedCells, value);
-                // for debug
-                //if (selectedCells != null)
-                //{
-                //    foreach (var cell in selectedCells)
-                //    {
-                //        var rowItem = cell.Item as DataRowView;
-                //        int index = rowItem == null ? -1 : rowItem.Row.Table.Rows.IndexOf(rowItem.Row);
-                //        var column = cell.Column as DataGridColumn;
-                //        if (rowItem != null && column != null)
-                //        {
-                //            var cellValue = column.GetCellContent(rowItem)?.GetValue(TextBlock.TextProperty);
-                //            //System.Diagnostics.Debug.WriteLine($"Selected Cell: Row={rowItem.Name}, Value={cellValue}");
-                //        }
-                //    }
-                //}
             }
         }
 
