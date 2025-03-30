@@ -34,8 +34,7 @@ namespace RimworldModTranslator.ViewModels
         {
             TranslationsTable = translationsTable ?? throw new ArgumentNullException(nameof(translationsTable));
             _parentViewModel = parentViewModel ?? throw new ArgumentNullException(nameof(parentViewModel));
-            SearchOptions.Add(new SearchOptionsData()); // Add initial tab
-
+            
             // Subscribe to collection changes to refresh CanExecute
             SearchOptions.CollectionChanged += (s, e) =>
             {
@@ -43,17 +42,7 @@ namespace RimworldModTranslator.ViewModels
                 RemoveTabCommand.NotifyCanExecuteChanged();
             };
 
-            // Subscribe to property changes in each SearchOptionsData
-            foreach (var opt in SearchOptions)
-            {
-                opt.PropertyChanged += (s, e) =>
-                {
-                    if (e.PropertyName is nameof(SearchOptionsData.SearchWhat) or nameof(SearchOptionsData.SelectedColumn))
-                    {
-                        SearchCommandsNotifyCanExecuteChanged();
-                    }
-                };
-            }
+            AddSearchOption();
         }
 
         private void SearchCommandsNotifyCanExecuteChanged()
@@ -66,6 +55,11 @@ namespace RimworldModTranslator.ViewModels
 
         [RelayCommand]
         private void AddTab()
+        {
+            AddSearchOption();
+        }
+
+        private void AddSearchOption()
         {
             var newOpt = new SearchOptionsData();
             newOpt.PropertyChanged += (s, e) =>
