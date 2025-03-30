@@ -186,14 +186,14 @@ namespace RimworldModTranslator.ViewModels
 
             var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
 
-            SelectedFolder.TranslationsTable = translationsTable;
-            InitTranslationsTable(dataTableToRelink: translationsTable);
-
             if (translationsTable == null || translationsTable.Columns.Count == 0)
             {
                 SelectedFolder = Folders.FirstOrDefault(f => f.Name == previousSelectedFolder);
                 return;
             }
+
+            SelectedFolder.TranslationsTable = translationsTable;
+            InitTranslationsTable(dataTableToRelink: translationsTable);
 
             OnPropertyChanged(nameof(ModDisplayingName));
         }
