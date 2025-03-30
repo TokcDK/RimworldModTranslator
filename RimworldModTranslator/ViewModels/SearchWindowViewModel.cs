@@ -23,6 +23,9 @@ namespace RimworldModTranslator.ViewModels
         private ObservableCollection<SearchOptionsData> _searchOptions = new();
 
         [ObservableProperty]
+        private SearchOptionsData? _selectedSearchOption;
+
+        [ObservableProperty]
         private DataRow? _currentSelectedRow;
 
         [ObservableProperty]
@@ -70,6 +73,7 @@ namespace RimworldModTranslator.ViewModels
                 }
             };
             SearchOptions.Add(newOpt);
+            SelectedSearchOption = newOpt;
         }
 
         [RelayCommand(CanExecute = nameof(CanRemoveTab))]

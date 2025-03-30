@@ -17,7 +17,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TabControl Grid.Row="0" ItemsSource="{Binding SearchOptions}">
+        <TabControl Grid.Row="0" ItemsSource="{Binding SearchOptions}"
+                    SelectedItem="{Binding SelectedSearchOption}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding SelectedColumn, StringFormat='Search in {0}'}"/>
