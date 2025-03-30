@@ -83,6 +83,7 @@
                 <KeyBinding Modifiers="Control" Key="F" Command="{Binding OpenSearchWindowCommand}" />
                 <KeyBinding Modifiers="Control" Key="V" Command="{Binding PasteStringsInSelectedCellsCommand}" />
                 <KeyBinding Modifiers="Control" Key="D" Command="{Binding ClearSelectedCellsCommand}" />
+                <KeyBinding Modifiers="Control" Key="X" Command="{Binding CutSelectedCellsCommand}" />
             </DataGrid.InputBindings>
 
             <i:Interaction.Behaviors>

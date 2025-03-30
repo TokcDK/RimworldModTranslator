@@ -17,6 +17,7 @@ using System.Windows.Controls;
 using System.Collections.Specialized;
 using RimworldModTranslator.Views;
 using System.Windows;
+using System.Data.Common;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -381,6 +382,37 @@ namespace RimworldModTranslator.ViewModels
 
                 rowItem.Row[column.SortMemberPath] = null;
             }
+        }
+
+        [RelayCommand]
+        private void CutSelectedCells()
+        {
+            List<string> strings = new();
+            foreach (var cell in SelectedCells)
+            {
+                if (cell.Item is not DataRowView rowItem)
+                {
+                    continue;
+                }
+
+                if (cell.Column is not DataGridColumn column)
+                {
+                    continue;
+                }
+
+                if (column.IsReadOnly) continue;
+
+                string rowValue = rowItem.Row[column.SortMemberPath] + "";
+                strings.Add(rowValue);
+                rowItem.Row[column.SortMemberPath] = null;
+            }
+
+            if(strings.Count == 0)
+            {
+                return;
+            }
+
+            Clipboard.SetText(string.Join("\r\n", strings));
         }
 
         private void SaveTranslations(string targetModDirPath)
