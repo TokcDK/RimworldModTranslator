@@ -261,6 +261,17 @@ namespace RimworldModTranslator.ViewModels
             searchWindow.ShowDialog();
         }
 
+        [RelayCommand]
+        private void PasteStringsInSelectedCells()
+        {
+            if(TranslationsTable == null || SelectedCells.Count == 0)
+            {
+                return;
+            }
+
+            
+        }
+
         private void SaveTranslations(string targetModDirPath)
         {
             // target path for languages: targetModLanguagesPath
