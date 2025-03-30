@@ -74,6 +74,7 @@ namespace RimworldModTranslator.ViewModels
             };
             SearchOptions.Add(newOpt);
             SelectedSearchOption = newOpt;
+            newOpt.SelectedColumnIndex = 0;
         }
 
         [RelayCommand(CanExecute = nameof(CanRemoveTab))]

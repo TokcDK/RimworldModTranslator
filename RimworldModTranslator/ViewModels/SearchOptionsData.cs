@@ -25,5 +25,7 @@ namespace RimworldModTranslator.ViewModels
 
         [ObservableProperty]
         private string? _selectedColumn;
+        [ObservableProperty]
+        private int _selectedColumnIndex;
     }
 }

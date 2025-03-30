@@ -32,6 +32,7 @@
                         <CheckBox IsChecked="{Binding IsRegexSearch}" Content="Regex Search"/>
                         <CheckBox IsChecked="{Binding IsCaseSensitive}" Content="Case Sensitive"/>
                         <ComboBox SelectedItem="{Binding SelectedColumn}" 
+                                  SelectedIndex="{Binding SelectedColumnIndex}"
                                   ItemsSource="{Binding DataContext.TranslationsTable.Columns, RelativeSource={RelativeSource AncestorType=Window}}"
                                   DisplayMemberPath="ColumnName"/>
                     </StackPanel>
