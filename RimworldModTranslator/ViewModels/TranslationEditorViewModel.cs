@@ -77,8 +77,8 @@ namespace RimworldModTranslator.ViewModels
 
         public ObservableCollection<FolderData> Folders { get; } = new();
 
-        private IList<DataGridCellInfo> selectedCells;
-        public IList<DataGridCellInfo> SelectedCells
+        private IList<DataGridCellInfo>? selectedCells;
+        public IList<DataGridCellInfo>? SelectedCells
         {
             get => selectedCells;
             set
@@ -217,7 +217,7 @@ namespace RimworldModTranslator.ViewModels
 
             if (string.IsNullOrEmpty(NewLanguageName)) return;
             string newLang = NewLanguageName!.Trim();
-            if (TranslationsTable.Columns.Contains(newLang)) return;
+            if (TranslationsTable!.Columns.Contains(newLang)) return;
 
             TranslationsTable.Columns.Add(newLang, typeof(string));
 

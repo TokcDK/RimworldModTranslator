@@ -637,6 +637,8 @@ namespace RimworldModTranslator.Helpers
 
         internal static void ClearSelectedCells(IList<DataGridCellInfo> selectedCells)
         {
+            if (selectedCells == null || selectedCells.Count == 0) return;
+
             foreach (var (rowItem, column) in EnumerateValidSelectedCells(selectedCells))
             {
                 rowItem.Row[column.SortMemberPath] = null;
@@ -644,10 +646,7 @@ namespace RimworldModTranslator.Helpers
         }
         internal static void PasteStringsInSelectedCells(IList<DataGridCellInfo> selectedCells)
         {
-            if (selectedCells.Count == 0)
-            {
-                return;
-            }
+            if (selectedCells == null || selectedCells.Count == 0) return;
 
             // Read string lines from the clipboard
             string clipboardText = Clipboard.GetText();
@@ -672,6 +671,8 @@ namespace RimworldModTranslator.Helpers
 
         internal static void CutSelectedCells(IList<DataGridCellInfo> selectedCells)
         {
+            if (selectedCells == null || selectedCells.Count == 0) return;
+
             List<string> strings = new();
             foreach (var (rowItem, column) in EnumerateValidSelectedCells(selectedCells))
             {
