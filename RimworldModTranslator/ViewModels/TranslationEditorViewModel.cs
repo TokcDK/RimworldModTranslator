@@ -263,99 +263,21 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void PasteStringsInSelectedCells()
         {
-            if (TranslationsTable == null || SelectedCells.Count == 0)
-            {
-                return;
-            }
+            if (TranslationsTable == null) return;
 
-            // Read string lines from the clipboard
-            string clipboardText = Clipboard.GetText();
-            if (string.IsNullOrEmpty(clipboardText))
-            {
-                return;
-            }
-
-            string[] clipboardLines = clipboardText.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-            int clipboardLineIndex = 0;
-
-            foreach (var cell in SelectedCells)
-            {
-                if (clipboardLineIndex >= clipboardLines.Length)
-                {
-                    break;
-                }
-
-                if (cell.Item is not DataRowView rowItem)
-                {
-                    continue;
-                }
-
-                if (cell.Column is not DataGridColumn column)
-                {
-                    continue;
-                }
-
-                if (column.IsReadOnly) continue;
-
-                var cellContent = rowItem.Row[column.SortMemberPath];
-                if (cellContent == null || string.IsNullOrEmpty(cellContent + ""))
-                {
-                    // Write the string lines to empty SelectedCells
-                    rowItem.Row[column.SortMemberPath] = clipboardLines[clipboardLineIndex++];
-                }
-            }
+            EditorHelper.PasteStringsInSelectedCells(SelectedCells);
         }
 
         [RelayCommand]
         private void ClearSelectedCells()
         {
-            foreach (var cell in SelectedCells)
-            {
-                if (cell.Item is not DataRowView rowItem)
-                {
-                    continue;
-                }
-
-                if (cell.Column is not DataGridColumn column)
-                {
-                    continue;
-                }
-
-                if (column.IsReadOnly) continue;
-
-                rowItem.Row[column.SortMemberPath] = null;
-            }
+            EditorHelper.ClearSelectedCells(SelectedCells);
         }
 
         [RelayCommand]
         private void CutSelectedCells()
         {
-            List<string> strings = new();
-            foreach (var cell in SelectedCells)
-            {
-                if (cell.Item is not DataRowView rowItem)
-                {
-                    continue;
-                }
-
-                if (cell.Column is not DataGridColumn column)
-                {
-                    continue;
-                }
-
-                if (column.IsReadOnly) continue;
-
-                string rowValue = rowItem.Row[column.SortMemberPath] + "";
-                strings.Add(rowValue);
-                rowItem.Row[column.SortMemberPath] = null;
-            }
-
-            if(strings.Count == 0)
-            {
-                return;
-            }
-
-            Clipboard.SetText(string.Join("\r\n", strings));
+            EditorHelper.CutSelectedCells(SelectedCells);
         }
         #endregion
 
