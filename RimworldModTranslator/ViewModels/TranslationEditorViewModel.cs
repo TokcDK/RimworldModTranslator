@@ -16,6 +16,7 @@ using RimworldModTranslator.Helpers;
 using System.Windows.Controls;
 using System.Collections.Specialized;
 using RimworldModTranslator.Views;
+using System.Windows;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -264,12 +265,45 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void PasteStringsInSelectedCells()
         {
-            if(TranslationsTable == null || SelectedCells.Count == 0)
+            if (TranslationsTable == null || SelectedCells.Count == 0)
             {
                 return;
             }
 
-            
+            // Read string lines from the clipboard
+            string clipboardText = Clipboard.GetText();
+            if (string.IsNullOrEmpty(clipboardText))
+            {
+                return;
+            }
+
+            string[] clipboardLines = clipboardText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            int clipboardLineIndex = 0;
+
+            foreach (var cell in SelectedCells)
+            {
+                if (clipboardLineIndex >= clipboardLines.Length)
+                {
+                    break;
+                }
+
+                if (cell.Item is not DataRowView rowItem)
+                {
+                    continue;
+                }
+
+                if (cell.Column is not DataGridColumn column)
+                {
+                    continue;
+                }
+
+                var cellContent = column.GetCellContent(rowItem);
+                if (cellContent == null || string.IsNullOrEmpty(cellContent.GetValue(TextBlock.TextProperty) as string))
+                {
+                    // Write the string lines to empty SelectedCells
+                    rowItem.Row[column.SortMemberPath] = clipboardLines[clipboardLineIndex++];
+                }
+            }
         }
 
         private void SaveTranslations(string targetModDirPath)
