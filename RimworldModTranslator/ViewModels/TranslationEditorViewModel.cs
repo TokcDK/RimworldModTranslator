@@ -297,12 +297,34 @@ namespace RimworldModTranslator.ViewModels
                     continue;
                 }
 
+                if (column.IsReadOnly) continue;
+
                 var cellContent = rowItem.Row[column.SortMemberPath];
                 if (cellContent == null || string.IsNullOrEmpty(cellContent + ""))
                 {
                     // Write the string lines to empty SelectedCells
                     rowItem.Row[column.SortMemberPath] = clipboardLines[clipboardLineIndex++];
                 }
+            }
+        }
+        [RelayCommand]
+        private void ClearSelectedCells()
+        {
+            foreach (var cell in SelectedCells)
+            {
+                if (cell.Item is not DataRowView rowItem)
+                {
+                    continue;
+                }
+
+                if (cell.Column is not DataGridColumn column)
+                {
+                    continue;
+                }
+
+                if(column.IsReadOnly) continue;
+
+                rowItem.Row[column.SortMemberPath] = null;
             }
         }
 
