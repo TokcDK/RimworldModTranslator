@@ -4,7 +4,7 @@
         xmlns:vm="clr-namespace:RimworldModTranslator.ViewModels"
         xmlns:c="clr-namespace:RimworldModTranslator.Converters"
         xmlns:e="clr-namespace:RimworldModTranslator.Extensions"
-        Title="Search and Replace" Width="500" Height="400">
+        Title="Search and Replace" Width="500" Height="{Binding SearchWindowHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
     
     <Window.Resources>
         <c:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>

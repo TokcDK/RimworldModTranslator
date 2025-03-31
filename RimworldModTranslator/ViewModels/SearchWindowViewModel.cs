@@ -17,6 +17,9 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private DataTable _translationsTable;
 
+        [ObservableProperty]
+        private int _searchWindowHeight = 230;
+
         private int _currentRowIndex = -1;
 
         [ObservableProperty]
@@ -138,11 +141,15 @@ namespace RimworldModTranslator.ViewModels
                     int index = TranslationsTable.Rows.IndexOf(row);
                     FoundItems.Add(TranslationsTable.DefaultView[index]);
                 }
+
+                SearchWindowHeight = SearchWindowHeight < 300 ? SearchWindowHeight + 300 : SearchWindowHeight;
             }
             else
             {
                 CurrentSelectedRow = null;
                 _parentViewModel.SelectedRow = null;
+
+                SearchWindowHeight = 230;
             }
         }
 
