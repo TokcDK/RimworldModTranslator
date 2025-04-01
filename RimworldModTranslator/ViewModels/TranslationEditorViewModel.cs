@@ -234,6 +234,8 @@ namespace RimworldModTranslator.ViewModels
 
             var stringsData = EditorHelper.LoadStringsDataFromTheLanguageDir(selectedTranslatableDir);
 
+            LoadStringsCache();
+
             var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
 
             if (translationsTable == null || translationsTable.Columns.Count == 0)

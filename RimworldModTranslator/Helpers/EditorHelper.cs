@@ -730,7 +730,7 @@ namespace RimworldModTranslator.Helpers
                 {
                     var selectedTranslatableDir = Path.Combine(modDirPath, EditorHelper.GetTranslatableFolderName(folder.Name));
 
-                    if (EditorHelper.HaveTranslatableDirs(selectedTranslatableDir))
+                    if (Directory.Exists(Path.Combine(selectedTranslatableDir, "Languages")))
                     {
                         EditorHelper.LoadDefKeyedLanguageStrings(selectedTranslatableDir, stringsData);
                     }
