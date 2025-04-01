@@ -65,7 +65,7 @@ namespace RimworldModTranslator.Helpers
                 "verb"
         ];
 
-        public static void GetTranslatableSubDirs(string fullPath, ObservableCollection<FolderData> folders)
+        public static void GetTranslatableSubDirs(string fullPath, IList<FolderData> folders)
         {
             foreach (var folder in Directory.GetDirectories(fullPath)
                         .Select(Path.GetFileName)
@@ -78,18 +78,13 @@ namespace RimworldModTranslator.Helpers
             }
         }
 
-        public static void GetTranslatableFolders(ObservableCollection<FolderData> folders, string modsPath, string modName)
+        public static void GetTranslatableFolders(IList<FolderData> folders, string modPath)
         {
-            string fullPath = Path.Combine(modsPath, modName);
-            if (!Directory.Exists(fullPath)) return;
+            EditorHelper.GetTranslatableSubDirs(modPath, folders);
 
-            folders.Clear();
-
-            EditorHelper.GetTranslatableSubDirs(fullPath, folders);
-
-            if (EditorHelper.HasExtractableStringsDir(fullPath))
+            if (EditorHelper.HasExtractableStringsDir(modPath))
             {
-                folders.Add(new FolderData() { Name = modName });
+                folders.Add(new FolderData() { Name = Path.GetFileName(modPath) });
             }
         }
 
@@ -266,7 +261,7 @@ namespace RimworldModTranslator.Helpers
             }
         }
 
-        internal static string GetLanguageFolderName(string selectedFolder)
+        internal static string GetTranslatableFolderName(string selectedFolder)
         {
             return VersionDirRegex.IsMatch(selectedFolder) ? selectedFolder : "";
         }
@@ -323,11 +318,11 @@ namespace RimworldModTranslator.Helpers
             return stringsData.Languages;
         }
 
-        public static bool LoadDefKeyedLanguageStrings(string selectedLanguageDir, EditorStringsData stringsData)
+        public static bool LoadDefKeyedLanguageStrings(string selectedTranslatableDir, EditorStringsData stringsData)
         {
             List<string> languages = [];
 
-            string languagesDirPath = Path.Combine(selectedLanguageDir, "Languages");
+            string languagesDirPath = Path.Combine(selectedTranslatableDir, "Languages");
             if (!Directory.Exists(languagesDirPath)) return false;
 
             var langDirNames = Directory.GetDirectories(languagesDirPath)
@@ -709,12 +704,38 @@ namespace RimworldModTranslator.Helpers
             }
         }
 
-        public static EditorStringsData LoadStringsDataFromTheLanguageDir(string selectedLanguageDir)
+        public static EditorStringsData LoadStringsDataFromTheLanguageDir(string selectedTranslatableDir)
         {
             EditorStringsData stringsData = new();
 
-            EditorHelper.LoadDefKeyedLanguageStrings(selectedLanguageDir, stringsData);
-            EditorHelper.ExtractStrings(selectedLanguageDir, stringsData);
+            EditorHelper.LoadDefKeyedLanguageStrings(selectedTranslatableDir, stringsData);
+            EditorHelper.ExtractStrings(selectedTranslatableDir, stringsData);
+
+            return stringsData;
+        }
+
+        internal static EditorStringsData? LoadEditorsCache(Game? selectedGame)
+        {
+            if(selectedGame == null) return null;
+
+            EditorStringsData stringsData = new();
+
+            foreach(var modDirPath in Directory.GetDirectories(selectedGame!.ModsDirPath!))
+            {
+                List<FolderData> folders = new();
+
+                EditorHelper.GetTranslatableFolders(folders, modDirPath);
+
+                foreach (var folder in folders)
+                {
+                    var selectedTranslatableDir = Path.Combine(modDirPath, EditorHelper.GetTranslatableFolderName(folder.Name));
+
+                    if (EditorHelper.HaveTranslatableDirs(selectedTranslatableDir))
+                    {
+                        EditorHelper.LoadDefKeyedLanguageStrings(selectedTranslatableDir, stringsData);
+                    }
+                }
+            }
 
             return stringsData;
         }

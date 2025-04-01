@@ -146,6 +146,14 @@ namespace RimworldModTranslator.ViewModels
             LoadTheSelectedModStrings();
         }
 
+        [RelayCommand]
+        private void LoadStringsCache()
+        {
+            var stringsData = EditorHelper.LoadEditorsCache(settingsService.SelectedGame);
+
+
+        }
+
         public void LoadTheSelectedModStrings()
         {
             if (game == null || game != settingsService.SelectedGame)
@@ -171,7 +179,12 @@ namespace RimworldModTranslator.ViewModels
             //}
             if (isChangedMod || Folders.Count == 0)
             {
-                EditorHelper.GetTranslatableFolders(Folders, game!.ModsDirPath!, mod.DirectoryName!);
+                string modPath = Path.Combine(game!.ModsDirPath!, mod.DirectoryName!);
+                if (!Directory.Exists(modPath)) return;
+
+                Folders.Clear();
+
+                EditorHelper.GetTranslatableFolders(Folders, modPath);
             }
 
             if (Folders.Count == 0) return;
@@ -180,9 +193,9 @@ namespace RimworldModTranslator.ViewModels
 
             string selectedFolderName = SelectedFolder!.Name;
 
-            var selectedLanguageDir = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, EditorHelper.GetLanguageFolderName(selectedFolderName));
+            var selectedTranslatableDir = Path.Combine(game!.ModsDirPath!, mod!.DirectoryName!, EditorHelper.GetTranslatableFolderName(selectedFolderName));
 
-            var stringsData = EditorHelper.LoadStringsDataFromTheLanguageDir(selectedLanguageDir);
+            var stringsData = EditorHelper.LoadStringsDataFromTheLanguageDir(selectedTranslatableDir);
 
             var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
 
