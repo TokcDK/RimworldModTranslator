@@ -714,7 +714,7 @@ namespace RimworldModTranslator.Helpers
             return stringsData;
         }
 
-        internal static EditorStringsData? LoadEditorsCache(Game? selectedGame)
+        internal static EditorStringsData? LoadAllModsStringsData(Game? selectedGame)
         {
             if(selectedGame == null) return null;
 
@@ -738,6 +738,34 @@ namespace RimworldModTranslator.Helpers
             }
 
             return stringsData;
+        }
+
+        internal static Dictionary<string, Dictionary<string, string>> FillCache(EditorStringsData stringsData)
+        {
+            var cache = new Dictionary<string, Dictionary<string, string>>();
+
+            foreach (var subPathStringIds in stringsData.SubPathStringIdsList.Values)
+            {
+                foreach (var stringIdLanguageValuePairs in subPathStringIds.StringIdLanguageValuePairsList)
+                {
+                    var cacheStringId = stringIdLanguageValuePairs.Key;
+                    if (!cache.TryGetValue(cacheStringId, out var cacheLanguageValuePairs))
+                    {
+                        cacheLanguageValuePairs = [];
+                        cache[cacheStringId] = cacheLanguageValuePairs;
+                    }
+
+                    foreach (var languageValuePair in stringIdLanguageValuePairs.Value.LanguageValuePairs)
+                    {
+                        if (string.IsNullOrEmpty(languageValuePair.Key)
+                            || string.IsNullOrEmpty(languageValuePair.Value)) continue;
+
+                        cacheLanguageValuePairs[languageValuePair.Key] = languageValuePair.Value;
+                    }
+                }
+            }
+
+            return cache;
         }
     }
 }

@@ -149,9 +149,46 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void LoadStringsCache()
         {
-            var stringsData = EditorHelper.LoadEditorsCache(settingsService.SelectedGame);
+            var stringsData = EditorHelper.LoadAllModsStringsData(settingsService.SelectedGame);
 
+            if (stringsData == null) return;
 
+            var cache = EditorHelper.FillCache(stringsData);
+
+            foreach (var folder in Folders)
+            {
+                if (folder.TranslationsTable == null) continue;
+
+                foreach (DataRow row in folder.TranslationsTable.Rows)
+                {
+                    var stringId = row.Field<string>("ID");
+                    if (string.IsNullOrEmpty(stringId) 
+                        || !cache.ContainsKey(stringId)) continue;
+
+                    var cacheLanguageValuePairs = cache[stringId];
+
+                    foreach (DataColumn column in folder.TranslationsTable.Columns)
+                    {
+                        if (column.ReadOnly) continue; // skip readonly columns
+
+                        if (!row.IsNull(column) 
+                            && !string.IsNullOrEmpty(row.Field<string>(column)))
+                        {
+                            // need only empty rows
+                            continue;
+                        }
+
+                        var language = column.ColumnName;
+                        if (!cacheLanguageValuePairs.TryGetValue(language, out var stringValue)
+                            || string.IsNullOrEmpty(stringValue))
+                        {
+                            continue;
+                        }
+
+                        row[column] = stringValue;
+                    }
+                }
+            }
         }
 
         public void LoadTheSelectedModStrings()
