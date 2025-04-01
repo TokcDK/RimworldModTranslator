@@ -323,7 +323,7 @@ namespace RimworldModTranslator.Helpers
             return stringsData.Languages;
         }
 
-        public static bool LoadLanguages(string selectedLanguageDir, EditorStringsData stringsData)
+        public static bool LoadDefKeyedLanguageStrings(string selectedLanguageDir, EditorStringsData stringsData)
         {
             List<string> languages = [];
 
@@ -713,7 +713,7 @@ namespace RimworldModTranslator.Helpers
         {
             EditorStringsData stringsData = new();
 
-            EditorHelper.LoadLanguages(selectedLanguageDir, stringsData);
+            EditorHelper.LoadDefKeyedLanguageStrings(selectedLanguageDir, stringsData);
             EditorHelper.ExtractStrings(selectedLanguageDir, stringsData);
 
             return stringsData;
