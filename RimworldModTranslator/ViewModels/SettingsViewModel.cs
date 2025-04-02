@@ -240,7 +240,13 @@ namespace RimworldModTranslator.ViewModels
 
                 // Setup game dir path for already exist game
                 foundGame!.GameDirPath = NewGameDirPath;
-                SelectedGame = foundGame;
+
+                if(foundGame != SelectedGame)
+                {
+                    SelectedGame = foundGame;
+                    GameHelper.UpdateSharedModList(settingsService.ModsList, SelectedGame!.ModsList);
+                    settingsService.SaveGamesList();
+                }
 
                 return;
             }
