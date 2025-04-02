@@ -663,6 +663,17 @@ namespace RimworldModTranslator.Helpers
             };
 
             EditorHelper.WriteAbout(targetModDirPath, modAboutData);
+
+            EditorHelper.WriteLoadFolders(targetModDirPath, modAboutData, folders);
+        }
+
+        private static void WriteLoadFolders(string targetModDirPath, ModAboutData modAboutData, IEnumerable<FolderData> folders)
+        {
+            if(folders.Count() == 1) return;
+
+            var loadFoldersPath = Path.Combine(targetModDirPath, "LoadFolders.xml");
+
+            
         }
 
         internal static void ClearSelectedCells(IList<DataGridCellInfo> selectedCells)
