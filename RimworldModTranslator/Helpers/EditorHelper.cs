@@ -95,11 +95,26 @@ namespace RimworldModTranslator.Helpers
 
         private static bool IsLoadedFromLoadFolders(IList<FolderData> folders, string modPath)
         {
-            if(!Directory.Exists(Path.Combine(modPath, "LoadFolders.xml"))) return false;
+            string loadFoldersPath = Path.Combine(modPath, "LoadFolders.xml");
+            if (!File.Exists(loadFoldersPath)) return false;
 
-            var loadFoldersDoc = XDocument.Load(Path.Combine(modPath, "LoadFolders.xml"));
+            try
+            {
+                var loadFoldersDoc = XDocument.Load(loadFoldersPath);
+                var loadFolders = loadFoldersDoc.Descendants("li").Select(li => li.Value);
 
-
+                foreach (var folder in loadFolders)
+                {
+                    if (Directory.Exists(Path.Combine(modPath, folder)))
+                    {
+                        folders.Add(new FolderData() { Name = folder });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
 
             return true;
         }
