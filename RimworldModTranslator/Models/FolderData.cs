@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Windows.Documents;
 
 namespace RimworldModTranslator.Models
 {
@@ -6,5 +8,7 @@ namespace RimworldModTranslator.Models
     {
         public string Name { get; set; }
         public DataTable? TranslationsTable { get; set; }
+
+        public List<string> SupportedVersion { get; set; } = new();
     }
 }
