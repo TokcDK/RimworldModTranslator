@@ -339,7 +339,8 @@ namespace RimworldModTranslator.ViewModels
                    && mod != null
                    && !string.IsNullOrWhiteSpace(NewLanguageName)
                    && TranslationsTable?.Columns.Count > 0
-                   && !TranslationsTable.Columns.Contains(NewLanguageName);
+                   && !TranslationsTable.Columns.Contains(NewLanguageName)
+                   && EditorHelper.IsValidFolderName(NewLanguageName);
         }
         #endregion
     }

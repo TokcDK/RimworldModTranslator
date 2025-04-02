@@ -1015,5 +1015,12 @@ namespace RimworldModTranslator.Helpers
 
             return Task.CompletedTask;
         }
+
+        static readonly HashSet<char> invalidChars = [.. Path.GetInvalidPathChars()];
+        internal static bool IsValidFolderName(string folderName)
+        {
+            // Check if the folder name contains any invalid characters
+            return !folderName.Any(c => invalidChars.Contains(c));
+        }
     }
 }
