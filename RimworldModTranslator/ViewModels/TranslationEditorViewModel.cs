@@ -18,6 +18,7 @@ using System.Collections.Specialized;
 using RimworldModTranslator.Views;
 using System.Windows;
 using System.Data.Common;
+using System.Threading.Tasks;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -150,7 +151,7 @@ namespace RimworldModTranslator.ViewModels
         }
 
         [RelayCommand]
-        private void LoadStringsCache()
+        private async Task LoadStringsCache()
         {
             var stringsData = EditorHelper.LoadAllModsStringsData(settingsService.SelectedGame);
 
@@ -158,12 +159,12 @@ namespace RimworldModTranslator.ViewModels
 
             if(IdCache == null || ValueCache == null)
             {
-                (IdCache, ValueCache) = EditorHelper.FillCache(stringsData);
+                (IdCache, ValueCache) = await EditorHelper.FillCache(stringsData);
             }
 
-            foreach (var folder in Folders)
+            Parallel.ForEach(Folders, folder =>
             {
-                if (folder.TranslationsTable == null) continue;
+                if (folder.TranslationsTable == null) return;
 
                 foreach (DataRow row in folder.TranslationsTable.Rows)
                 {
@@ -172,7 +173,7 @@ namespace RimworldModTranslator.ViewModels
                         EditorHelper.TrySetTranslationByStringValue(ValueCache, row, folder.TranslationsTable.Columns);
                     }
                 }
-            }
+            });
         }
 
         public void LoadTheSelectedModStrings()

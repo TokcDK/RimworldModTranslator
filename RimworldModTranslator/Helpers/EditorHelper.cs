@@ -774,7 +774,7 @@ namespace RimworldModTranslator.Helpers
             return stringsData;
         }
 
-        internal static (Dictionary<string, LanguageValuePairsData> cacheByStringId, Dictionary<string, LanguageValuePairsData> cacheByStringValue) FillCache(EditorStringsData stringsData)
+        internal static Task<(Dictionary<string, LanguageValuePairsData> cacheByStringId, Dictionary<string, LanguageValuePairsData> cacheByStringValue)> FillCache(EditorStringsData stringsData)
         {
             // Dictionary<string id, Dictionary<language name, string value>>
             var idCache = new Dictionary<string, LanguageValuePairsData>();
@@ -814,7 +814,7 @@ namespace RimworldModTranslator.Helpers
                 }
             }
 
-            return (idCache, valueCache);
+            return Task.FromResult((idCache, valueCache));
         }
 
         internal static bool IsReadOnlyColumn(string columnName)
