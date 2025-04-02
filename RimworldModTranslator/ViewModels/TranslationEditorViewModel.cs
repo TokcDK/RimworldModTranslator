@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using RimworldModTranslator.ViewModels;
 using RimworldModTranslator.Services;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
@@ -153,7 +152,7 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private async Task LoadStringsCache()
         {
-            var stringsData = EditorHelper.LoadAllModsStringsData(settingsService.SelectedGame);
+            var stringsData = await EditorHelper.LoadAllModsStringsData(settingsService.SelectedGame);
 
             if (stringsData == null) return;
 
@@ -337,11 +336,5 @@ namespace RimworldModTranslator.ViewModels
                    && !TranslationsTable.Columns.Contains(NewLanguageName);
         }
         #endregion
-    }
-
-    public class FolderData
-    {
-        public string Name { get; set; }
-        public DataTable? TranslationsTable { get; set; }
     }
 }

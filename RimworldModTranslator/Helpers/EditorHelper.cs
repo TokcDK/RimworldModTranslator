@@ -1,5 +1,4 @@
 ﻿using RimworldModTranslator.Models;
-using RimworldModTranslator.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -748,15 +747,18 @@ namespace RimworldModTranslator.Helpers
             return stringsData;
         }
 
-        internal static EditorStringsData? LoadAllModsStringsData(Game? selectedGame)
+        internal static Task<EditorStringsData?> LoadAllModsStringsData(Game? selectedGame)
         {
-            if(selectedGame == null) return null;
+            if (selectedGame == null) return Task.FromResult<EditorStringsData?>(null);
 
-            EditorStringsData stringsData = new();
+            EditorStringsData overallStringsData = new();
 
-            foreach(var modDirPath in Directory.GetDirectories(selectedGame!.ModsDirPath!))
+            var modDirPaths = Directory.GetDirectories(selectedGame.ModsDirPath!);
+
+            Parallel.ForEach(modDirPaths, modDirPath =>
             {
-                List<FolderData> folders = new();
+                EditorStringsData modStringsData = new();
+                List<FolderData> folders = [];
 
                 EditorHelper.GetTranslatableFolders(folders, modDirPath);
 
@@ -766,12 +768,46 @@ namespace RimworldModTranslator.Helpers
 
                     if (Directory.Exists(Path.Combine(selectedTranslatableDir, "Languages")))
                     {
-                        EditorHelper.LoadDefKeyedLanguageStrings(selectedTranslatableDir, stringsData);
+                        EditorHelper.LoadDefKeyedLanguageStrings(selectedTranslatableDir, modStringsData);
                     }
                 }
-            }
 
-            return stringsData;
+                lock (overallStringsData)
+                {
+                    foreach (var kvp in modStringsData.SubPathStringIdsList)
+                    {
+                        if (!overallStringsData.SubPathStringIdsList.ContainsKey(kvp.Key))
+                        {
+                            overallStringsData.SubPathStringIdsList[kvp.Key] = kvp.Value;
+                        }
+                        else
+                        {
+                            var stringIds = overallStringsData.SubPathStringIdsList[kvp.Key];
+                            foreach (var innerKvp in kvp.Value.StringIdLanguageValuePairsList)
+                            {
+                                if (!stringIds.StringIdLanguageValuePairsList.TryGetValue(innerKvp.Key, out LanguageValuePairsData? value))
+                                {
+                                    stringIds.StringIdLanguageValuePairsList[innerKvp.Key] = innerKvp.Value;
+                                }
+                                else
+                                {
+                                    foreach (var langKvp in innerKvp.Value.LanguageValuePairs)
+                                    {
+                                        value.LanguageValuePairs[langKvp.Key] = langKvp.Value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    foreach (var lang in modStringsData.Languages)
+                    {
+                        overallStringsData.Languages.Add(lang);
+                    }
+                }
+            });
+
+            return Task.FromResult<EditorStringsData?>(overallStringsData);
         }
 
         internal static Task<(Dictionary<string, LanguageValuePairsData> cacheByStringId, Dictionary<string, LanguageValuePairsData> cacheByStringValue)> FillCache(EditorStringsData stringsData)
