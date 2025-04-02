@@ -101,25 +101,31 @@
         <Grid Grid.Row="2" Margin="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-
-            <!-- Button for saving strings -->
-            <Button Grid.Column="1" Content="Save strings"
-                    Command="{Binding SaveStringsCommand}"
-                    VerticalAlignment="Center" Margin="2"/>
-
-            <!-- Button for loading strings -->
-            <Button Grid.Column="2" Content="Load strings"
-                    Command="{Binding LoadStringsCommand}"
-                    VerticalAlignment="Center" Margin="2"/>
 
             <!-- Selected mod name -->
             <TextBlock Grid.Column="0"
                        Text="{Binding ModDisplayingName}"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left" Margin="2"/>
+
+            <!-- Button for load translations cache from all exist mods -->
+            <Button Grid.Column="1" Content="DB"
+                    Command="{Binding LoadStringsCacheCommand}"
+                    VerticalAlignment="Center" Margin="2"/>
+
+            <!-- Button for saving strings -->
+            <Button Grid.Column="2" Content="Save strings"
+                    Command="{Binding SaveStringsCommand}"
+                    VerticalAlignment="Center" Margin="2"/>
+
+            <!-- Button for loading strings -->
+            <Button Grid.Column="3" Content="Load strings"
+                    Command="{Binding LoadStringsCommand}"
+                    VerticalAlignment="Center" Margin="2"/>
         </Grid>
     </Grid>
 </UserControl>
