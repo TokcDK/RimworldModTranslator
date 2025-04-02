@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Data.Common;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -475,7 +476,7 @@ namespace RimworldModTranslator.Helpers
 
                 foreach (DataColumn column in translationsTable.Columns)
                 {
-                    if (column.ColumnName == "SubPath" || column.ColumnName == "ID")
+                    if (EditorHelper.IsReadOnlyColumn(column.ColumnName))
                         continue;
 
                     string stringValue = row[column]?.ToString() ?? "";
@@ -799,6 +800,11 @@ namespace RimworldModTranslator.Helpers
             }
 
             return cache;
+        }
+
+        internal static bool IsReadOnlyColumn(string columnName)
+        {
+            return columnName == "ID" || columnName == "SubPath";
         }
     }
 }

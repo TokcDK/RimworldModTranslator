@@ -169,7 +169,8 @@ namespace RimworldModTranslator.ViewModels
 
                     foreach (DataColumn column in folder.TranslationsTable.Columns)
                     {
-                        if (column.ReadOnly) continue; // skip readonly columns
+                        if (EditorHelper.IsReadOnlyColumn(column.ColumnName)) 
+                            continue; // skip readonly columns
 
                         if (!row.IsNull(column) 
                             && !string.IsNullOrEmpty(row.Field<string>(column)))

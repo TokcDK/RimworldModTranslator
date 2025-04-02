@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RimworldModTranslator.Helpers;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -37,7 +38,7 @@ namespace RimworldModTranslator.Extensions
                         {
                             Header = columnName,
                             Binding = new Binding($"[{columnName}]"),
-                            IsReadOnly = columnName == "SubPath" || columnName == "ID" // Set read-only for specific columns
+                            IsReadOnly = EditorHelper.IsReadOnlyColumn(columnName) // Set read-only for specific columns
                         };
                         dataGrid.Columns.Add(column);
                     }
