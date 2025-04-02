@@ -223,25 +223,19 @@ namespace RimworldModTranslator.ViewModels
                 return;
             }
 
-            if (IsAlreadyAddedGame())
+            if (IsAlreadyAddedGame(out var foundGame))
             {
+                if(string.IsNullOrWhiteSpace(foundGame!.GameDirPath)
+                    && Directory.Exists(NewGameDirPath))
+
+                // Setup game dir path for already exist game
+                foundGame!.GameDirPath = NewGameDirPath;
+                SelectedGame = foundGame;
+
                 return;
             }
 
             NewModsDirPath = GameHelper.CheckCorrectModsPath(NewModsDirPath!);
-
-            // equal mods and config dir path but empty game dir path
-            var foundGame = GamesList
-                .FirstOrDefault(g => g.ModsDirPath == NewModsDirPath 
-                && g.ConfigDirPath == NewConfigDirPath
-                && g.GameDirPath == "");
-
-            if (foundGame != null && Directory.Exists(NewGameDirPath)) 
-            {
-                foundGame.GameDirPath = NewGameDirPath;
-                SelectedGame = foundGame;
-                return;
-            }
 
             var newGame = new Game
             {
@@ -256,17 +250,22 @@ namespace RimworldModTranslator.ViewModels
             SelectedGame = newGame;
         }
 
-        private bool IsAlreadyAddedGame()
+        private bool IsAlreadyAddedGame(out Game? game)
         {
             bool isInvalidConfigDirPath = string.IsNullOrWhiteSpace(NewConfigDirPath) || !Directory.Exists(NewConfigDirPath);
             string defaultConfigDirPath = Path.GetDirectoryName(settingsService.DefaultModsConfigXmlPath)!;
             NewConfigDirPath = isInvalidConfigDirPath ? defaultConfigDirPath : NewConfigDirPath;
 
-            if (GamesList.Any(g => g.ModsDirPath == NewModsDirPath
-                                && g.ConfigDirPath == NewConfigDirPath 
-                                && g.GameDirPath == NewGameDirPath
-                            )
-            )
+
+            game = GamesList.FirstOrDefault(g => (g.ModsDirPath == NewModsDirPath 
+                                || g.ModsDirPath == Path.GetFullPath(NewModsDirPath))
+                                && (g.ConfigDirPath == NewConfigDirPath 
+                                || g.ConfigDirPath == Path.GetFullPath(NewConfigDirPath))
+                                && (string.IsNullOrWhiteSpace(g.GameDirPath) && Directory.Exists(NewGameDirPath) 
+                                || g.GameDirPath == NewGameDirPath 
+                                || g.GameDirPath == Path.GetFullPath(NewGameDirPath))
+                            );
+            if (game != default)
             {
                 return true;
             }
