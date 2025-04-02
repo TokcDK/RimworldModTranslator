@@ -1016,7 +1016,7 @@ namespace RimworldModTranslator.Helpers
             return Task.CompletedTask;
         }
 
-        static readonly HashSet<char> invalidChars = [.. Path.GetInvalidPathChars()];
+        static readonly HashSet<char> invalidChars = ['\\', '/', ':', '<', '>', '|', '*', '?', '\"'];
         internal static bool IsValidFolderName(string folderName)
         {
             // Check if the folder name contains any invalid characters
