@@ -100,6 +100,9 @@ namespace RimworldModTranslator.ViewModels
             }
         }
 
+        public Dictionary<string, LanguageValuePairsData> IdCache { get; private set; }
+        public Dictionary<string, LanguageValuePairsData> ValueCache { get; private set; }
+
         #endregion
 
         #region Observable Properties
@@ -153,7 +156,10 @@ namespace RimworldModTranslator.ViewModels
 
             if (stringsData == null) return;
 
-            var (idCache, valueCache) = EditorHelper.FillCache(stringsData);
+            if(IdCache == null || ValueCache == null)
+            {
+                (IdCache, ValueCache) = EditorHelper.FillCache(stringsData);
+            }
 
             foreach (var folder in Folders)
             {
@@ -161,9 +167,9 @@ namespace RimworldModTranslator.ViewModels
 
                 foreach (DataRow row in folder.TranslationsTable.Rows)
                 {
-                    if (!EditorHelper.TrySetTranslationByStringID(idCache, row, folder.TranslationsTable.Columns))
+                    if (!EditorHelper.TrySetTranslationByStringID(IdCache, row, folder.TranslationsTable.Columns))
                     {
-                        EditorHelper.TrySetTranslationByStringValue(valueCache, row, folder.TranslationsTable.Columns);
+                        EditorHelper.TrySetTranslationByStringValue(ValueCache, row, folder.TranslationsTable.Columns);
                     }
                 }
             }
