@@ -618,6 +618,7 @@ namespace RimworldModTranslator.Helpers
                 new XElement("name", modAboutData.Name ?? string.Empty),
                 new XElement("author", modAboutData.Author ?? string.Empty),
                 new XElement("url", modAboutData.Url ?? string.Empty),
+                new XElement("modVersion", modAboutData.ModVersion ?? string.Empty),
                 new XElement("packageId", modAboutData.PackageId ?? string.Empty),
                 new XElement("supportedVersions", supportedVersionsList),
                 new XElement("modDependencies"),
