@@ -153,7 +153,7 @@ namespace RimworldModTranslator.ViewModels
 
             if (stringsData == null) return;
 
-            var cache = EditorHelper.FillCache(stringsData);
+            var (idCache, valueCache) = EditorHelper.FillCache(stringsData);
 
             foreach (var folder in Folders)
             {
@@ -161,32 +161,9 @@ namespace RimworldModTranslator.ViewModels
 
                 foreach (DataRow row in folder.TranslationsTable.Rows)
                 {
-                    var stringId = row.Field<string>("ID");
-                    if (string.IsNullOrEmpty(stringId) 
-                        || !cache.ContainsKey(stringId)) continue;
-
-                    var cacheLanguageValuePairs = cache[stringId];
-
-                    foreach (DataColumn column in folder.TranslationsTable.Columns)
+                    if (!EditorHelper.TrySetTranslationByStringID(idCache, row, folder.TranslationsTable.Columns))
                     {
-                        if (EditorHelper.IsReadOnlyColumn(column.ColumnName)) 
-                            continue; // skip readonly columns
-
-                        if (!row.IsNull(column) 
-                            && !string.IsNullOrEmpty(row.Field<string>(column)))
-                        {
-                            // need only empty rows
-                            continue;
-                        }
-
-                        var language = column.ColumnName;
-                        if (!cacheLanguageValuePairs.TryGetValue(language, out var stringValue)
-                            || string.IsNullOrEmpty(stringValue))
-                        {
-                            continue;
-                        }
-
-                        row[column] = stringValue;
+                        EditorHelper.TrySetTranslationByStringValue(valueCache, row, folder.TranslationsTable.Columns);
                     }
                 }
             }

@@ -774,19 +774,23 @@ namespace RimworldModTranslator.Helpers
             return stringsData;
         }
 
-        internal static Dictionary<string, Dictionary<string, string>> FillCache(EditorStringsData stringsData)
+        internal static (Dictionary<string, LanguageValuePairsData> cacheByStringId, Dictionary<string, LanguageValuePairsData> cacheByStringValue) FillCache(EditorStringsData stringsData)
         {
-            var cache = new Dictionary<string, Dictionary<string, string>>();
+            // Dictionary<string id, Dictionary<language name, string value>>
+            var idCache = new Dictionary<string, LanguageValuePairsData>();
+
+            // Dictionary<string value any language, Dictionary<language name, string value>>
+            var valueCache = new Dictionary<string, LanguageValuePairsData>();
 
             foreach (var subPathStringIds in stringsData.SubPathStringIdsList.Values)
             {
                 foreach (var stringIdLanguageValuePairs in subPathStringIds.StringIdLanguageValuePairsList)
                 {
-                    var cacheStringId = stringIdLanguageValuePairs.Key;
-                    if (!cache.TryGetValue(cacheStringId, out var cacheLanguageValuePairs))
+                    var stringId = stringIdLanguageValuePairs.Key;
+                    if (!idCache.TryGetValue(stringId, out var idCachePairs))
                     {
-                        cacheLanguageValuePairs = [];
-                        cache[cacheStringId] = cacheLanguageValuePairs;
+                        idCachePairs = new();
+                        idCache[stringId] = idCachePairs;
                     }
 
                     foreach (var languageValuePair in stringIdLanguageValuePairs.Value.LanguageValuePairs)
@@ -794,17 +798,98 @@ namespace RimworldModTranslator.Helpers
                         if (string.IsNullOrEmpty(languageValuePair.Key)
                             || string.IsNullOrEmpty(languageValuePair.Value)) continue;
 
-                        cacheLanguageValuePairs[languageValuePair.Key] = languageValuePair.Value;
+                        string stringValue = languageValuePair.Value;
+
+                        // add language pir by string value
+                        if (!valueCache.TryGetValue(stringValue, out var valueCachePairs))
+                        {
+                            valueCachePairs = new();
+                            valueCache[stringValue] = valueCachePairs;
+                        }
+
+                        idCachePairs.LanguageValuePairs[languageValuePair.Key] = languageValuePair.Value;
+                        valueCachePairs.LanguageValuePairs[languageValuePair.Key] = languageValuePair.Value;
+
                     }
                 }
             }
 
-            return cache;
+            return (idCache, valueCache);
         }
 
         internal static bool IsReadOnlyColumn(string columnName)
         {
             return columnName == "ID" || columnName == "SubPath";
+        }
+
+        internal static void TrySetTranslationByStringValue(Dictionary<string, LanguageValuePairsData> valueCache, DataRow row, DataColumnCollection columns)
+        {
+            var pairs = new LanguageValuePairsData();
+            foreach (DataColumn column in columns)
+            {
+                if (EditorHelper.IsReadOnlyColumn(column.ColumnName))
+                    continue; // skip readonly columns
+
+                string? stringValue = row.Field<string>(column) + "";
+                string language = column.ColumnName;
+
+                pairs.LanguageValuePairs.Add(language, stringValue);
+            }
+
+            foreach (var pair in pairs.LanguageValuePairs)
+            {
+                if (!string.IsNullOrEmpty(pair.Value)) continue;
+
+                // try get language pairs by string value
+                if (!valueCache.TryGetValue(pair.Value, out var valueCachePairs)) continue;
+
+                // try get exist translation by language
+                if (valueCachePairs.LanguageValuePairs.TryGetValue(pair.Key, out var stringValue))
+                {
+                    row[pair.Key] = stringValue;
+                    continue;
+                }
+
+                // try get english translation
+                if (valueCachePairs.LanguageValuePairs.TryGetValue("English", out var enStringValue))
+                {
+                    row[pair.Key] = enStringValue;
+                }
+            }
+        }
+
+        internal static bool TrySetTranslationByStringID(Dictionary<string, LanguageValuePairsData> idCache, DataRow row, DataColumnCollection columns)
+        {
+            string? stringId = row.Field<string>("ID");
+            if (string.IsNullOrEmpty(stringId) || !idCache.TryGetValue(stringId, out var idCachePairs))
+            {
+                return false;
+            }
+
+            bool isAllFound = true; // by default is true but if there is some missing translation it will be false
+            foreach (DataColumn column in columns)
+            {
+                if (EditorHelper.IsReadOnlyColumn(column.ColumnName))
+                    continue; // skip readonly columns
+
+                if (!row.IsNull(column)
+                    && !string.IsNullOrEmpty(row.Field<string>(column)))
+                {
+                    // need only empty rows
+                    continue;
+                }
+
+                var language = column.ColumnName;
+                if (!idCachePairs.LanguageValuePairs.TryGetValue(language, out var stringValue))
+                {
+                    isAllFound = false;
+                    continue;
+                }
+
+                row[column] = stringValue;
+            }
+
+            return isAllFound;
         }
     }
 }
