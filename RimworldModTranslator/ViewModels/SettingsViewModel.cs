@@ -216,6 +216,16 @@ namespace RimworldModTranslator.ViewModels
         }
 
         [RelayCommand]
+        private void CopySelectedGamePaths()
+        {
+            if(SelectedGame == null) return;
+
+            NewModsDirPath = SelectedGame.ModsDirPath;
+            NewConfigDirPath = SelectedGame.ConfigDirPath;
+            NewGameDirPath = SelectedGame.GameDirPath;
+        }
+
+        [RelayCommand]
         private void AddNewGame()
         {
             if (NewModsDirPath == null)
