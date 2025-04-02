@@ -89,7 +89,7 @@ namespace RimworldModTranslator.Helpers
 
             if (EditorHelper.HasExtractableStringsDir(modPath))
             {
-                folders.Add(new FolderData() { Name = Path.GetFileName(modPath) });
+                folders.Add(new FolderData() { Name = "/" });
             }
         }
 
