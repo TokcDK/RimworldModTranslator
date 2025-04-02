@@ -62,14 +62,15 @@ namespace RimworldModTranslator.Services
                     try
                     {
                         var gameParts = game.Split(_gamesListTheGamePathsSeparator);
-                        if (gameParts.Length != 2) continue;
+                        if (gameParts.Length < 2 || gameParts.Length > 2) continue;
 
                         gameParts[0] = GameHelper.CheckCorrectModsPath(gameParts[0]);
 
                         var newGame = new Game
                         {
                             ModsDirPath = gameParts[0],
-                            ConfigDirPath = gameParts[1]
+                            ConfigDirPath = gameParts[1],
+                            GameDirPath = gameParts.Length == 2 ? "" : gameParts[2]
                         };
 
                         if (GameHelper.IsValidGame(newGame, this))
@@ -103,7 +104,10 @@ namespace RimworldModTranslator.Services
         public void SaveGamesList()
         {
             var gamesListString = string.Join(_gamesListPathsSeparator,
-                GamesList.Select(g => $"{g.ModsDirPath}{_gamesListTheGamePathsSeparator}{g.ConfigDirPath}"));
+                GamesList.Select(g => 
+                $"{g.ModsDirPath}{_gamesListTheGamePathsSeparator}" +
+                $"{g.ConfigDirPath}{_gamesListTheGamePathsSeparator}" +
+                $"{g.GameDirPath}"));
             Properties.Settings.Default.GamesList = gamesListString;
             Properties.Settings.Default.SelectedGameIndex = SelectedGame != null ? GamesList.IndexOf(SelectedGame) : -1;
             Properties.Settings.Default.Save();
