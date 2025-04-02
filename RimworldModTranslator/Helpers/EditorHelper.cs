@@ -628,7 +628,7 @@ namespace RimworldModTranslator.Helpers
             {
                 if (string.IsNullOrEmpty(folder.Name) || folder.TranslationsTable == null) continue;
 
-                string targetModLanguagesPath = Path.Combine(targetModDirPath, "Languages", folder.Name == mod!.DirectoryName ? "" : folder.Name);
+                string targetModLanguagesPath = Path.Combine(targetModDirPath, EditorHelper.GetTranslatableFolderName(folder.Name), "Languages");
 
                 var translationsData = EditorHelper.FillTranslationsData(folder.TranslationsTable, targetModLanguagesPath);
                 if (translationsData == null)
@@ -684,8 +684,6 @@ namespace RimworldModTranslator.Helpers
 
         private static void WriteLoadFolders(string targetModDirPath, ModAboutData modAboutData, IEnumerable<FolderData> folders)
         {
-            if (folders.Count() == 1) return;
-
             var loadFoldersPath = Path.Combine(targetModDirPath, "LoadFolders.xml");
 
             var loadFoldersElement = new XElement("loadFolders");
