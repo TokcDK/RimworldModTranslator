@@ -684,11 +684,31 @@ namespace RimworldModTranslator.Helpers
 
         private static void WriteLoadFolders(string targetModDirPath, ModAboutData modAboutData, IEnumerable<FolderData> folders)
         {
-            if(folders.Count() == 1) return;
+            if (folders.Count() == 1) return;
 
             var loadFoldersPath = Path.Combine(targetModDirPath, "LoadFolders.xml");
 
-            
+            var loadFoldersElement = new XElement("loadFolders");
+
+            foreach (var folder in folders)
+            {
+                foreach (var version in folder.SupportedVersions)
+                {
+                    string v = (version.StartsWith('v') ? "" : "v");
+
+                    var versionElement = loadFoldersElement.Element($"{v}{version}");
+                    if (versionElement == null)
+                    {
+                        versionElement = new XElement($"{v}{version}");
+                        loadFoldersElement.Add(versionElement);
+                    }
+
+                    versionElement.Add(new XElement("li", folder.Name));
+                }
+            }
+
+            var doc = new XDocument(new XDeclaration("1.0", "utf-8", null), loadFoldersElement);
+            doc.Save(loadFoldersPath);
         }
 
         internal static void ClearSelectedCells(IList<DataGridCellInfo> selectedCells)
