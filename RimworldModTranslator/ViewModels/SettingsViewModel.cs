@@ -230,6 +230,19 @@ namespace RimworldModTranslator.ViewModels
 
             NewModsDirPath = GameHelper.CheckCorrectModsPath(NewModsDirPath!);
 
+            // equal mods and config dir path but empty game dir path
+            var foundGame = GamesList
+                .FirstOrDefault(g => g.ModsDirPath == NewModsDirPath 
+                && g.ConfigDirPath == NewConfigDirPath
+                && g.GameDirPath == "");
+
+            if (foundGame != null && Directory.Exists(NewGameDirPath)) 
+            {
+                foundGame.GameDirPath = NewGameDirPath;
+                SelectedGame = foundGame;
+                return;
+            }
+
             var newGame = new Game
             {
                 ModsDirPath = NewModsDirPath,
