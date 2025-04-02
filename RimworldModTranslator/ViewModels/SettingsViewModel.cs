@@ -250,7 +250,10 @@ namespace RimworldModTranslator.ViewModels
             NewConfigDirPath = isInvalidConfigDirPath ? defaultConfigDirPath : NewConfigDirPath;
 
             if (GamesList.Any(g => g.ModsDirPath == NewModsDirPath
-                && g.ConfigDirPath == NewConfigDirPath))
+                                && g.ConfigDirPath == NewConfigDirPath 
+                                && g.GameDirPath == NewGameDirPath
+                            )
+            )
             {
                 return true;
             }
