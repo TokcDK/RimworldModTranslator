@@ -101,25 +101,44 @@ namespace RimworldModTranslator.Helpers
             try
             {
                 var loadFoldersDoc = XDocument.Load(loadFoldersPath);
-                var loadFolders = loadFoldersDoc
-                    .Descendants("li").Select(li => (li.Parent!.Name, li.Value))
-                    .Where(d => EditorHelper.HasExtractableStringsDir(Path.Combine(modPath, EditorHelper.GetTranslatableFolderName(d.Value))));
 
-                HashSet<string> folderNames = new();
-                foreach (var (ParentName, FolderName) in loadFolders)
+                var supportedVersions = loadFoldersDoc.Element("loadFolders")?.Elements();
+
+                if(supportedVersions == null) return false;
+
+                Dictionary<string, FolderData> folderNames = new();
+                foreach (var versionElement in supportedVersions)
                 {
-                    if (Directory.Exists(Path.Combine(modPath, FolderName)) && !folderNames.Contains(FolderName))
-                    {
-                        var folder = new FolderData() { Name = FolderName };
-                        string versionName = ParentName.ToString();
-                        if (!folder.SupportedVersions.Contains(versionName))
-                        {
-                            folder.SupportedVersions.Add(versionName);
-                        }
+                    string versionName = versionElement.Name.LocalName;
 
-                        folders.Add(folder);
-                        folderNames.Add(FolderName);
+                    foreach (var li in versionElement.Elements("li"))
+                    {
+                        string folderName = li.Value;
+                        if (!folderNames.TryGetValue(folderName, out var folderData))
+                        {
+                            string folderPath = Path.Combine(modPath, EditorHelper.GetTranslatableFolderName(folderName));
+                            if (!EditorHelper.HasExtractableStringsDir(folderPath))
+                            {
+                                continue;
+                            }
+
+                            folderData = new FolderData() { Name = folderName };
+                            folderNames[folderName] = folderData;
+                        }
+                        else
+                        {
+                            if (folderData.SupportedVersions.Contains(versionName))
+                            {
+                                continue;
+                            }
+                        }
+                        folderData.SupportedVersions.Add(versionName);
                     }
+                }
+
+                foreach (var folderData in folderNames.Values)
+                {
+                    folders.Add(folderData);
                 }
             }
             catch (Exception ex)
