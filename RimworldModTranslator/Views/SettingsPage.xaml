@@ -43,6 +43,16 @@
                          Text="{Binding NewConfigDirPath}" 
                          HorizontalAlignment="Stretch" />
             </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Game dir path (optional):" Width="Auto" />
+                <TextBox Grid.Column="1" 
+                         Text="{Binding NewGameDirPath}" 
+                         HorizontalAlignment="Stretch" />
+            </Grid>
             <Button Grid.Column="1" Content="Add game" Command="{Binding AddNewGameCommand}" />
         </StackPanel>
         <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />

@@ -66,7 +66,7 @@ namespace RimworldModTranslator.ViewModels
             }
         }
 
-        // target mod data
+        #region Target mod data
         [ObservableProperty]
         private string? targetModName = Properties.Settings.Default.TargetModName;
         partial void OnTargetModNameChanged(string? value)
@@ -179,6 +179,7 @@ namespace RimworldModTranslator.ViewModels
                 Properties.Settings.Default.TargetModPreview = "";
             }
         }
+        #endregion
 
         partial void OnSelectedGameChanged(Game? value)
         {
@@ -201,6 +202,8 @@ namespace RimworldModTranslator.ViewModels
         private string? newModsDirPath;
         [ObservableProperty]
         private string? newConfigDirPath;
+        [ObservableProperty]
+        private string? newGameDirPath;
         private readonly SettingsService settingsService;
 
         public SettingsViewModel(SettingsService settingsService)
@@ -230,7 +233,8 @@ namespace RimworldModTranslator.ViewModels
             var newGame = new Game
             {
                 ModsDirPath = NewModsDirPath,
-                ConfigDirPath = NewConfigDirPath
+                ConfigDirPath = NewConfigDirPath,
+                GameDirPath = NewGameDirPath
             };
 
             if (!GameHelper.IsValidGame(newGame, settingsService)) return;
