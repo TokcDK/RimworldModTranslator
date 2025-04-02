@@ -149,8 +149,6 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void LoadStringsCache()
         {
-            if(!settingsService.TryLoadTranslationsCache) return;
-
             var stringsData = EditorHelper.LoadAllModsStringsData(settingsService.SelectedGame);
 
             if (stringsData == null) return;
@@ -236,7 +234,7 @@ namespace RimworldModTranslator.ViewModels
 
             var stringsData = EditorHelper.LoadStringsDataFromTheLanguageDir(selectedTranslatableDir);
 
-            LoadStringsCache();
+            if (settingsService.TryLoadTranslationsCache) LoadStringsCache();
 
             var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
 
