@@ -21,7 +21,7 @@ namespace RimworldModTranslator.Helpers
         public static string[] TransatableLanguageDirs { get; } = ["DefInjected", "Keyed", "Strings"];
         public static string[] ExtractableModSubDirs { get; } = ["Defs", "Languages"];
 
-        public static readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+", RegexOptions.Compiled);
+        public static readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+$", RegexOptions.Compiled);
 
         public static List<string> DefsXmlTags { get; } =
         [
@@ -673,7 +673,12 @@ namespace RimworldModTranslator.Helpers
             string author = Properties.Settings.Default.TargetModAuthor;
             string version = Properties.Settings.Default.TargetModVersion;
             string supportedVersions = Properties.Settings.Default.TargetModSupportedVersions;
-            string supportedVersionsFromFolders = string.Join(",", folders.SelectMany(f => f.SupportedVersions).Select(s => s.StartsWith('v') ? s[1..] : s).Distinct());
+            string supportedVersionsFromFolders = string.Join(",", folders
+                .SelectMany(f => f.SupportedVersions)
+                .Select(s => s.StartsWith('v') ? s[1..] : s)
+                .Where(s => EditorHelper.IsVersionDir(s))
+                .Distinct()
+                );
             string description = Properties.Settings.Default.TargetModDescription;
             string url = Properties.Settings.Default.TargetModUrl;
             var modAboutData = new ModAboutData
@@ -700,6 +705,11 @@ namespace RimworldModTranslator.Helpers
             EditorHelper.WriteAbout(targetModDirPath, modAboutData);
 
             EditorHelper.WriteLoadFolders(targetModDirPath, modAboutData, folders);
+        }
+
+        internal static bool IsVersionDir(string s)
+        {
+            return VersionDirRegex.IsMatch(s);
         }
 
         private static void WriteLoadFolders(string targetModDirPath, ModAboutData modAboutData, IEnumerable<FolderData> folders)
