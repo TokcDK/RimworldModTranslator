@@ -16,6 +16,11 @@ namespace RimworldModTranslator.ViewModels
     {
         public string Header { get; } = "Mods";
 
+        #region ToolTips
+        public string LoadStringsToolTip { get => settingsService.LoadStringsToolTip; }
+        public string RefreshModListToolTip { get; } = "Refresh mod list";
+        #endregion
+
         [ObservableProperty]
         private ModData? selectedMod;
 

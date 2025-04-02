@@ -51,11 +51,13 @@
             <Button Grid.Column="1" 
                     VerticalAlignment="Center"
                     Content="Load strings" 
+                    ToolTip="{Binding LoadStringsToolTip}"
                     Command="{Binding LoadStringsCommand}" 
                     Margin="2" />
             <Button Grid.Column="2" 
                     VerticalAlignment="Center"
                     Content="Refresh" 
+                    ToolTip="{Binding RefreshModListToolTip}"
                     Command="{Binding RefreshModListCommand}" 
                     Margin="2" />
             <TextBlock Grid.Column="3" 

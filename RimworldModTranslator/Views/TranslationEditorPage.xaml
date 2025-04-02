@@ -15,7 +15,8 @@
         </Grid.RowDefinitions>
         
         <!-- Top section with ComboBox for FoldersList and language addition controls -->
-        <Grid Grid.Row="0" Margin="1">
+        <Grid Grid.Row="0" Margin="1"
+              >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="2*"/>
@@ -30,6 +31,7 @@
 
             <!-- ComboBox bound to FoldersList -->
             <ComboBox Grid.Column="1"
+                      ToolTip="{Binding FolderSelectionToolTip}"
                       IsEnabled="{Binding IsFoldersEnabled}"
                       ItemsSource="{Binding Folders}"
                       SelectedItem="{Binding SelectedFolder}"
@@ -44,6 +46,7 @@
 
             <!-- StackPanel with TextBox and Button for adding a new translation language -->
             <StackPanel Grid.Column="2"
+                        ToolTip="{Binding AddNewLanguageToolTip}"
                         Orientation="Horizontal"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
@@ -77,6 +80,7 @@
                   dataGrid2D:Index.StartAt="1"
                   dgx:Tools.ApplyInitialSorting="True"
                   b:DataGridAutoScrollToSelectedItemBehavior.AutoScrollToSelectedItem="True"
+                  ToolTip="{Binding EditorTableToolTip}"
                   >
 
             <DataGrid.InputBindings>
@@ -114,16 +118,19 @@
 
             <!-- Button for load translations cache from all exist mods -->
             <Button Grid.Column="1" Content="DB"
+                    ToolTip="{Binding LoadStringsCacheToolTip}"
                     Command="{Binding LoadStringsCacheCommand}"
                     VerticalAlignment="Center" Margin="2"/>
 
             <!-- Button for saving strings -->
             <Button Grid.Column="2" Content="Save strings"
+                    ToolTip="{Binding SaveStringsToolTip}"
                     Command="{Binding SaveStringsCommand}"
                     VerticalAlignment="Center" Margin="2"/>
 
             <!-- Button for loading strings -->
             <Button Grid.Column="3" Content="Load strings"
+                    ToolTip="{Binding LoadStringsToolTip}"
                     Command="{Binding LoadStringsCommand}"
                     VerticalAlignment="Center" Margin="2"/>
         </Grid>

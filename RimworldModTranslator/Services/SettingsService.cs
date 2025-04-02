@@ -13,6 +13,11 @@ namespace RimworldModTranslator.Services
 {
     public partial class SettingsService : ObservableObject
     {
+        #region Shared ToolTips
+        // Editor tab
+        public string LoadStringsToolTip { get; } = "Load strings from the selected mod"; // Modlist,
+        #endregion
+
         // Set default ModsConfig.xml path to the Windows LocalLow directory.
         public readonly string DefaultModsConfigXmlPath =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),

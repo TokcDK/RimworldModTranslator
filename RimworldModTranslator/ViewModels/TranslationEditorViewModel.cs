@@ -54,6 +54,23 @@ namespace RimworldModTranslator.ViewModels
         string? previousSelectedFolder;
         #endregion
 
+        #region ToolTips
+        public string EditorTableToolTip { get; } =
+            "Help.\r\r" +
+            "Move the mouse cursor over any elements to get the tooltip for it\r" +
+            "\r\r" +
+            "HotKeys:\r" +
+            "Ctrl+C - Copy selected cells value\r" +
+            "Ctrl+X - Cut selected cells value\r" +
+            "Ctrl+V - Paste clipboard string lines into selected empty cells\r" +
+            "Ctrl+D - Clear selected cells";
+        public string FolderSelectionToolTip { get; } = "Select folder to translate.";
+        public string AddNewLanguageToolTip { get; } = "Enter the new language folder name and press add to add the new column.";
+        public string LoadStringsCacheToolTip { get; } = "Load strings from exist mods";
+        public string LoadStringsToolTip { get => settingsService.LoadStringsToolTip; }
+        public string SaveStringsToolTip { get; } = "Save strings from of selected mod to a new mod";
+        #endregion
+
         #region Constructors
         public TranslationEditorViewModel(SettingsService settingsService)
         {
