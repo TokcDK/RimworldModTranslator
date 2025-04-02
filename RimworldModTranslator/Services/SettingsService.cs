@@ -62,7 +62,7 @@ namespace RimworldModTranslator.Services
                     try
                     {
                         var gameParts = game.Split(_gamesListTheGamePathsSeparator);
-                        if (gameParts.Length < 2 || gameParts.Length > 2) continue;
+                        if (gameParts.Length < 2 || gameParts.Length > 3) continue;
 
                         gameParts[0] = GameHelper.CheckCorrectModsPath(gameParts[0]);
 
