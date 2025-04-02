@@ -704,7 +704,7 @@ namespace RimworldModTranslator.Helpers
 
             EditorHelper.WriteAbout(targetModDirPath, modAboutData);
 
-            EditorHelper.WriteLoadFolders(targetModDirPath, modAboutData, folders);
+            EditorHelper.WriteLoadFoldersXml(targetModDirPath, modAboutData, folders);
         }
 
         internal static bool IsVersionDir(string s)
@@ -712,7 +712,7 @@ namespace RimworldModTranslator.Helpers
             return VersionDirRegex.IsMatch(s);
         }
 
-        private static void WriteLoadFolders(string targetModDirPath, ModAboutData modAboutData, IEnumerable<FolderData> folders)
+        private static void WriteLoadFoldersXml(string targetModDirPath, ModAboutData modAboutData, IEnumerable<FolderData> folders)
         {
             var loadFoldersPath = Path.Combine(targetModDirPath, "LoadFolders.xml");
 
