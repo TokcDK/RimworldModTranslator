@@ -101,7 +101,9 @@ namespace RimworldModTranslator.Helpers
             try
             {
                 var loadFoldersDoc = XDocument.Load(loadFoldersPath);
-                var loadFolders = loadFoldersDoc.Descendants("li").Select(li => li.Value).Where(d=>EditorHelper.HasExtractableStringsDir(d));
+                var loadFolders = loadFoldersDoc
+                    .Descendants("li").Select(li => li.Value)
+                    .Where(d=>EditorHelper.HasExtractableStringsDir(Path.Combine(modPath, EditorHelper.GetTranslatableFolderName(d))));
 
                 foreach (var folder in loadFolders)
                 {
@@ -294,7 +296,7 @@ namespace RimworldModTranslator.Helpers
 
         internal static string GetTranslatableFolderName(string selectedFolder)
         {
-            return VersionDirRegex.IsMatch(selectedFolder) ? selectedFolder : "";
+            return selectedFolder != "/" ? selectedFolder : "";
         }
 
         public static DataTable? CreateTranslationsTable(EditorStringsData stringsData)
