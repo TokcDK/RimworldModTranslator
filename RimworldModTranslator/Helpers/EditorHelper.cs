@@ -849,12 +849,6 @@ namespace RimworldModTranslator.Helpers
                     row[pair.Key] = stringValue;
                     continue;
                 }
-
-                // try get english translation
-                if (valueCachePairs.LanguageValuePairs.TryGetValue("English", out var enStringValue))
-                {
-                    row[pair.Key] = enStringValue;
-                }
             }
         }
 
