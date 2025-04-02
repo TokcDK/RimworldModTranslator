@@ -101,7 +101,7 @@ namespace RimworldModTranslator.Helpers
             try
             {
                 var loadFoldersDoc = XDocument.Load(loadFoldersPath);
-                var loadFolders = loadFoldersDoc.Descendants("li").Select(li => li.Value);
+                var loadFolders = loadFoldersDoc.Descendants("li").Select(li => li.Value).Where(d=>EditorHelper.HasExtractableStringsDir(d));
 
                 foreach (var folder in loadFolders)
                 {
