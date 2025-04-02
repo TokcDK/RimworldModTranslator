@@ -653,6 +653,7 @@ namespace RimworldModTranslator.Helpers
             string author = Properties.Settings.Default.TargetModAuthor;
             string version = Properties.Settings.Default.TargetModVersion;
             string supportedVersions = Properties.Settings.Default.TargetModSupportedVersions;
+            string supportedVersionsFromFolders = string.Join(",", folders.Select(f => f.SupportedVersion).Distinct());
             string description = Properties.Settings.Default.TargetModDescription;
             string url = Properties.Settings.Default.TargetModUrl;
             var modAboutData = new ModAboutData
@@ -662,8 +663,15 @@ namespace RimworldModTranslator.Helpers
                 PackageId = !string.IsNullOrWhiteSpace(packageId) ? packageId : $"{mod.About?.PackageId}.translation",
                 Author = !string.IsNullOrWhiteSpace(author) ? author : $"{mod.About?.Author},Anonimous",
                 ModVersion = !string.IsNullOrWhiteSpace(version) ? version : "1.0",
-                SupportedVersions = !string.IsNullOrWhiteSpace(supportedVersions) ? supportedVersions
-                : mod.About?.SupportedVersions != null ? string.Join(",", mod.About?.SupportedVersions!) : "",
+                SupportedVersions = 
+                supportedVersionsFromFolders.Length > 0 
+                    ? supportedVersionsFromFolders 
+                    : !string.IsNullOrWhiteSpace(supportedVersions) 
+                        ? supportedVersions
+                        : mod.About?.SupportedVersions != null 
+                            ? string.Join(",", mod.About?.SupportedVersions!) 
+                            : "",
+                
                 Description = !string.IsNullOrWhiteSpace(description) ? description : $"{mod.About?.Name} Translation",
                 Url = !string.IsNullOrWhiteSpace(url) ? url : "",
                 Preview = Properties.Settings.Default.TargetModPreview
