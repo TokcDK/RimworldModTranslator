@@ -102,16 +102,23 @@ namespace RimworldModTranslator.Helpers
             {
                 var loadFoldersDoc = XDocument.Load(loadFoldersPath);
                 var loadFolders = loadFoldersDoc
-                    .Descendants("li").Select(li => li.Value)
-                    .Where(d => EditorHelper.HasExtractableStringsDir(Path.Combine(modPath, EditorHelper.GetTranslatableFolderName(d))));
+                    .Descendants("li").Select(li => (li.Parent!.Name, li.Value))
+                    .Where(d => EditorHelper.HasExtractableStringsDir(Path.Combine(modPath, EditorHelper.GetTranslatableFolderName(d.Value))));
 
                 HashSet<string> folderNames = new();
-                foreach (var folderName in loadFolders)
+                foreach (var (ParentName, FolderName) in loadFolders)
                 {
-                    if (Directory.Exists(Path.Combine(modPath, folderName)) && !folderNames.Contains(folderName))
+                    if (Directory.Exists(Path.Combine(modPath, FolderName)) && !folderNames.Contains(FolderName))
                     {
-                        folders.Add(new FolderData() { Name = folderName });
-                        folderNames.Add(folderName);
+                        var folder = new FolderData() { Name = FolderName };
+                        string versionName = ParentName.ToString();
+                        if (!folder.SupportedVersion.Contains(versionName))
+                        {
+                            folder.SupportedVersion.Add(versionName);
+                        }
+
+                        folders.Add(folder);
+                        folderNames.Add(FolderName);
                     }
                 }
             }
