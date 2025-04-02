@@ -112,9 +112,9 @@ namespace RimworldModTranslator.Helpers
                     {
                         var folder = new FolderData() { Name = FolderName };
                         string versionName = ParentName.ToString();
-                        if (!folder.SupportedVersion.Contains(versionName))
+                        if (!folder.SupportedVersions.Contains(versionName))
                         {
-                            folder.SupportedVersion.Add(versionName);
+                            folder.SupportedVersions.Add(versionName);
                         }
 
                         folders.Add(folder);
@@ -653,7 +653,7 @@ namespace RimworldModTranslator.Helpers
             string author = Properties.Settings.Default.TargetModAuthor;
             string version = Properties.Settings.Default.TargetModVersion;
             string supportedVersions = Properties.Settings.Default.TargetModSupportedVersions;
-            string supportedVersionsFromFolders = string.Join(",", folders.Select(f => f.SupportedVersion).Distinct());
+            string supportedVersionsFromFolders = string.Join(",", folders.Select(f => f.SupportedVersions).Distinct());
             string description = Properties.Settings.Default.TargetModDescription;
             string url = Properties.Settings.Default.TargetModUrl;
             var modAboutData = new ModAboutData

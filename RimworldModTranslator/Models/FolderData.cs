@@ -9,6 +9,6 @@ namespace RimworldModTranslator.Models
         public string Name { get; set; }
         public DataTable? TranslationsTable { get; set; }
 
-        public List<string> SupportedVersion { get; set; } = new();
+        public List<string> SupportedVersions { get; set; } = new();
     }
 }
