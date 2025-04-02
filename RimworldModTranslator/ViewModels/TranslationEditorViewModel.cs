@@ -152,12 +152,12 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private async Task LoadStringsCache()
         {
-            var stringsData = await EditorHelper.LoadAllModsStringsData(settingsService.SelectedGame);
-
-            if (stringsData == null) return;
-
             if(settingsService.ForceLoadTranslationsCache || IdCache == null || ValueCache == null)
             {
+                var stringsData = await EditorHelper.LoadAllModsStringsData(settingsService.SelectedGame);
+
+                if (stringsData == null) return;
+
                 (IdCache, ValueCache) = await EditorHelper.FillCache(stringsData);
             }
 
