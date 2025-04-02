@@ -38,6 +38,13 @@ namespace RimworldModTranslator.ViewModels
         private Game? selectedGame;
 
         [ObservableProperty]
+        private bool tryLoadTranslationsCache = false;
+        partial void OnTryLoadTranslationsCacheChanged(bool value)
+        {
+            settingsService.TryLoadTranslationsCache = value;
+        }
+
+        [ObservableProperty]
         private string? extractedLanguageName = Properties.Settings.Default.ExtractedStringsLanguageFolderName;
         partial void OnExtractedLanguageNameChanged(string? value)
         {

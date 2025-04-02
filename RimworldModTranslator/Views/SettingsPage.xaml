@@ -87,5 +87,6 @@
             </StackPanel>
         </StackPanel>
         <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
+        <CheckBox Content="Try load translations from exist mods:" IsChecked="{Binding TryLoadTranslationsCache}"/>
     </StackPanel>
 </UserControl>

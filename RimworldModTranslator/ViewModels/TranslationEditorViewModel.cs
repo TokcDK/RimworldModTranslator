@@ -149,6 +149,8 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void LoadStringsCache()
         {
+            if(!settingsService.TryLoadTranslationsCache) return;
+
             var stringsData = EditorHelper.LoadAllModsStringsData(settingsService.SelectedGame);
 
             if (stringsData == null) return;

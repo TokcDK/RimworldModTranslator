@@ -30,6 +30,7 @@ namespace RimworldModTranslator.Services
         /// Shared modlist for Mod list tab
         /// </summary>
         public ObservableCollection<ModData> ModsList { get; } = [];
+        public bool TryLoadTranslationsCache { get; internal set; } = false;
 
         [ObservableProperty]
         private ModData? selectedMod;
