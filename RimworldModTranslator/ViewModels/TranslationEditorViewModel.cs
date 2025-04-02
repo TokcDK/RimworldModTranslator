@@ -161,18 +161,7 @@ namespace RimworldModTranslator.ViewModels
                 (IdCache, ValueCache) = await EditorHelper.FillCache(stringsData);
             }
 
-            Parallel.ForEach(Folders, folder =>
-            {
-                if (folder.TranslationsTable == null) return;
-
-                foreach (DataRow row in folder.TranslationsTable.Rows)
-                {
-                    if (!EditorHelper.TrySetTranslationByStringID(IdCache, row, folder.TranslationsTable.Columns))
-                    {
-                        EditorHelper.TrySetTranslationByStringValue(ValueCache, row, folder.TranslationsTable.Columns);
-                    }
-                }
-            });
+            await EditorHelper.SetTranslationsbyCache(IdCache, ValueCache, Folders);
         }
 
         public void LoadTheSelectedModStrings()

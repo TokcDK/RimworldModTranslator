@@ -921,5 +921,23 @@ namespace RimworldModTranslator.Helpers
 
             return isAllFound;
         }
+
+        internal static Task SetTranslationsbyCache(Dictionary<string, LanguageValuePairsData> idCache, Dictionary<string, LanguageValuePairsData> valueCache, ObservableCollection<FolderData> folders)
+        {
+            Parallel.ForEach(folders, folder =>
+            {
+                if (folder.TranslationsTable == null) return;
+
+                foreach (DataRow row in folder.TranslationsTable.Rows)
+                {
+                    if (!EditorHelper.TrySetTranslationByStringID(idCache, row, folder.TranslationsTable.Columns))
+                    {
+                        EditorHelper.TrySetTranslationByStringValue(valueCache, row, folder.TranslationsTable.Columns);
+                    }
+                }
+            });
+
+            return Task.CompletedTask;
+        }
     }
 }
