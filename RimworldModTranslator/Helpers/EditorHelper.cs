@@ -80,12 +80,28 @@ namespace RimworldModTranslator.Helpers
 
         public static void GetTranslatableFolders(IList<FolderData> folders, string modPath)
         {
+            if(IsLoadedFromLoadFolders(folders, modPath))
+            {
+                return;
+            }
+
             EditorHelper.GetTranslatableSubDirs(modPath, folders);
 
             if (EditorHelper.HasExtractableStringsDir(modPath))
             {
                 folders.Add(new FolderData() { Name = Path.GetFileName(modPath) });
             }
+        }
+
+        private static bool IsLoadedFromLoadFolders(IList<FolderData> folders, string modPath)
+        {
+            if(!Directory.Exists(Path.Combine(modPath, "LoadFolders.xml"))) return false;
+
+            var loadFoldersDoc = XDocument.Load(Path.Combine(modPath, "LoadFolders.xml"));
+
+
+
+            return true;
         }
 
         public static bool HasExtractableStringsDir(string dir)
