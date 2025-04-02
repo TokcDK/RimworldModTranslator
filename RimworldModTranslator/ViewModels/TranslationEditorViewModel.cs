@@ -156,7 +156,7 @@ namespace RimworldModTranslator.ViewModels
 
             if (stringsData == null) return;
 
-            if(IdCache == null || ValueCache == null)
+            if(settingsService.ForceLoadTranslationsCache || IdCache == null || ValueCache == null)
             {
                 (IdCache, ValueCache) = await EditorHelper.FillCache(stringsData);
             }

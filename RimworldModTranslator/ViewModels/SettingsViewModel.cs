@@ -45,6 +45,13 @@ namespace RimworldModTranslator.ViewModels
         }
 
         [ObservableProperty]
+        private bool forceLoadTranslationsCache = false;
+        partial void OnForceLoadTranslationsCacheChanged(bool value)
+        {
+            settingsService.ForceLoadTranslationsCache = value;
+        }
+
+        [ObservableProperty]
         private string? extractedLanguageName = Properties.Settings.Default.ExtractedStringsLanguageFolderName;
         partial void OnExtractedLanguageNameChanged(string? value)
         {
