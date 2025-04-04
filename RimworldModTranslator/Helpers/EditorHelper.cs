@@ -159,44 +159,48 @@ namespace RimworldModTranslator.Helpers
             return TransatableLanguageDirs.Any(d => Directory.Exists(Path.Combine(languageDir, d)));
         }
 
+        private static readonly string[] xmlDirNames = ["DefInjected", "Keyed"];
         /// <summary>
         /// Variant: Each language xml file is parsed as txt file with xml tags
         /// because some xml structures are broken and usual parsing fails.
         /// Refactored to fill stringsData directly.
         /// </summary>
-        public static void LoadStringsFromTheXmlAsTxtDir(string xmlDirName, List<string?> langDirNames, string languagesDirPath, EditorStringsData stringsData)
+        public static void LoadStringsFromXmlsAsTxtDir(List<string?> langDirNames, string languagesDirPath, EditorStringsData stringsData)
         {
-            foreach (var language in langDirNames)
+            foreach (var xmlDirName in xmlDirNames)
             {
-                if (language == null)
-                    continue;
-
-                stringsData.Languages.Add(language);
-
-                string langPath = Path.Combine(languagesDirPath, language);
-                string langXmlDirPath = Path.Combine(langPath, xmlDirName);
-                if (!Directory.Exists(langXmlDirPath))
-                    continue;
-
-                foreach (var file in Directory.GetFiles(langXmlDirPath, "*.xml", SearchOption.AllDirectories))
+                foreach (var language in langDirNames)
                 {
-                    // Вычисляем подкаталог относительно текущей папки языка
-                    string xmlSubPath = Path.GetRelativePath(langPath, file);
-                    // Получаем или создаем список для данного xmlSubPath
-                    if (!stringsData.SubPathStringIdsList.TryGetValue(xmlSubPath, out StringsIdsBySubPath? stringIdsList))
-                    {
-                        stringIdsList = new();
-                        stringsData.SubPathStringIdsList[xmlSubPath] = stringIdsList;
-                    }
+                    if (language == null)
+                        continue;
 
-                    try
+                    stringsData.Languages.Add(language);
+
+                    string langPath = Path.Combine(languagesDirPath, language);
+                    string langXmlDirPath = Path.Combine(langPath, xmlDirName);
+                    if (!Directory.Exists(langXmlDirPath))
+                        continue;
+
+                    foreach (var file in Directory.GetFiles(langXmlDirPath, "*.xml", SearchOption.AllDirectories))
                     {
-                        var lines = File.ReadAllLines(file);
-                        ReadFromTheStringsArray(lines, language, stringIdsList);
-                    }
-                    catch (Exception ex)
-                    {
-                        // Ошибка чтения файла как текстового, можно добавить логирование при необходимости
+                        // Вычисляем подкаталог относительно текущей папки языка
+                        string xmlSubPath = Path.GetRelativePath(langPath, file);
+                        // Получаем или создаем список для данного xmlSubPath
+                        if (!stringsData.SubPathStringIdsList.TryGetValue(xmlSubPath, out StringsIdsBySubPath? stringIdsList))
+                        {
+                            stringIdsList = new();
+                            stringsData.SubPathStringIdsList[xmlSubPath] = stringIdsList;
+                        }
+
+                        try
+                        {
+                            var lines = File.ReadAllLines(file);
+                            ReadFromTheStringsArray(lines, language, stringIdsList);
+                        }
+                        catch (Exception ex)
+                        {
+                            // Ошибка чтения файла как текстового, можно добавить логирование при необходимости
+                        }
                     }
                 }
             }
@@ -393,11 +397,7 @@ namespace RimworldModTranslator.Helpers
                                         .Select(Path.GetFileName)
                                         .ToList();
 
-            var xmlDirNames = new string[2] { "DefInjected", "Keyed" };
-            foreach (var xmlDirName in xmlDirNames)
-            {
-                EditorHelper.LoadStringsFromTheXmlAsTxtDir(xmlDirName, langDirNames, languagesDirPath, stringsData);
-            }
+            EditorHelper.LoadStringsFromXmlsAsTxtDir(langDirNames, languagesDirPath, stringsData);
 
             EditorHelper.LoadStringsFromStringsDir(langDirNames, languagesDirPath, stringsData);
 
