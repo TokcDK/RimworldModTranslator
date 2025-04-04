@@ -861,39 +861,44 @@ namespace RimworldModTranslator.Helpers
 
                 lock (overallStringsData)
                 {
-                    foreach (var kvp in modStringsData.SubPathStringIdsList)
-                    {
-                        if (!overallStringsData.SubPathStringIdsList.TryGetValue(kvp.Key, out StringsIdsBySubPath? stringIds))
-                        {
-                            overallStringsData.SubPathStringIdsList[kvp.Key] = kvp.Value;
-                        }
-                        else
-                        {
-                            foreach (var innerKvp in kvp.Value.StringIdLanguageValuePairsList)
-                            {
-                                if (!stringIds.StringIdLanguageValuePairsList.TryGetValue(innerKvp.Key, out LanguageValuePairsData? value))
-                                {
-                                    stringIds.StringIdLanguageValuePairsList[innerKvp.Key] = innerKvp.Value;
-                                }
-                                else
-                                {
-                                    foreach (var langKvp in innerKvp.Value.LanguageValuePairs)
-                                    {
-                                        value.LanguageValuePairs[langKvp.Key] = langKvp.Value;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    foreach (var lang in modStringsData.Languages)
-                    {
-                        overallStringsData.Languages.Add(lang);
-                    }
+                    LoadToOverallStringsData(modStringsData, overallStringsData);
                 }
             });
 
             return Task.FromResult<EditorStringsData?>(overallStringsData);
+        }
+
+        private static void LoadToOverallStringsData(EditorStringsData modStringsData, EditorStringsData overallStringsData)
+        {
+            foreach (var kvp in modStringsData.SubPathStringIdsList)
+            {
+                if (!overallStringsData.SubPathStringIdsList.TryGetValue(kvp.Key, out StringsIdsBySubPath? stringIds))
+                {
+                    overallStringsData.SubPathStringIdsList[kvp.Key] = kvp.Value;
+                }
+                else
+                {
+                    foreach (var innerKvp in kvp.Value.StringIdLanguageValuePairsList)
+                    {
+                        if (!stringIds.StringIdLanguageValuePairsList.TryGetValue(innerKvp.Key, out LanguageValuePairsData? value))
+                        {
+                            stringIds.StringIdLanguageValuePairsList[innerKvp.Key] = innerKvp.Value;
+                        }
+                        else
+                        {
+                            foreach (var langKvp in innerKvp.Value.LanguageValuePairs)
+                            {
+                                value.LanguageValuePairs[langKvp.Key] = langKvp.Value;
+                            }
+                        }
+                    }
+                }
+            }
+
+            foreach (var lang in modStringsData.Languages)
+            {
+                overallStringsData.Languages.Add(lang);
+            }
         }
 
         internal static Task<(Dictionary<string, LanguageValuePairsData> cacheByStringId, Dictionary<string, LanguageValuePairsData> cacheByStringValue)> FillCache(EditorStringsData stringsData)
