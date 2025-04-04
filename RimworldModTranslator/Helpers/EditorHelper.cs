@@ -387,7 +387,7 @@ namespace RimworldModTranslator.Helpers
             return stringsData.Languages;
         }
 
-        public static bool LoadDefKeyedLanguageStrings(string selectedTranslatableDir, EditorStringsData stringsData, bool loadStringsTxt = true)
+        public static bool LoadDefKeyedStringsFromTheDir(string selectedTranslatableDir, EditorStringsData stringsData, bool loadStringsTxt = true)
         {
             string languagesDirPath = Path.Combine(selectedTranslatableDir, "Languages");
             if (!Directory.Exists(languagesDirPath)) return false;
@@ -399,7 +399,10 @@ namespace RimworldModTranslator.Helpers
 
             EditorHelper.LoadStringsFromXmlsAsTxtDir(langDirNames, languagesDirPath, stringsData);
 
-            EditorHelper.LoadStringsFromStringsDir(langDirNames, languagesDirPath, stringsData);
+            if(loadStringsTxt)
+            {
+                EditorHelper.LoadStringsFromStringsDir(langDirNames, languagesDirPath, stringsData);
+            }
 
             return stringsData.SubPathStringIdsList.Count > 0;
         }
@@ -813,7 +816,7 @@ namespace RimworldModTranslator.Helpers
         {
             EditorStringsData stringsData = new();
 
-            EditorHelper.LoadDefKeyedLanguageStrings(selectedTranslatableDir, stringsData);
+            EditorHelper.LoadDefKeyedStringsFromTheDir(selectedTranslatableDir, stringsData);
             EditorHelper.ExtractStrings(selectedTranslatableDir, stringsData);
 
             return stringsData;
@@ -828,7 +831,7 @@ namespace RimworldModTranslator.Helpers
             if (Directory.Exists(selectedGame.GameDirPath)) {
                 foreach(var dlcDir in Directory.EnumerateDirectories(selectedGame.GameDirPath, "Data"))
                 {
-                    EditorHelper.LoadDefKeyedLanguageStrings(dlcDir, overallStringsData, false);
+                    EditorHelper.LoadDefKeyedStringsFromTheDir(dlcDir, overallStringsData, false);
                 }
             }
 
@@ -847,7 +850,7 @@ namespace RimworldModTranslator.Helpers
 
                     if (Directory.Exists(Path.Combine(selectedTranslatableDir, "Languages")))
                     {
-                        EditorHelper.LoadDefKeyedLanguageStrings(selectedTranslatableDir, modStringsData, false);
+                        EditorHelper.LoadDefKeyedStringsFromTheDir(selectedTranslatableDir, modStringsData, false);
                     }
                 }
 
