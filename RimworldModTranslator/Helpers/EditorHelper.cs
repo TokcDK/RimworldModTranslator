@@ -870,25 +870,25 @@ namespace RimworldModTranslator.Helpers
 
         private static void LoadToOverallStringsData(EditorStringsData modStringsData, EditorStringsData overallStringsData)
         {
-            foreach (var kvp in modStringsData.SubPathStringIdsList)
+            foreach (var stringIdLanguagesList in modStringsData.SubPathStringIdsList)
             {
-                if (!overallStringsData.SubPathStringIdsList.TryGetValue(kvp.Key, out StringsIdsBySubPath? stringIds))
+                if (!overallStringsData.SubPathStringIdsList.TryGetValue(stringIdLanguagesList.Key, out StringsIdsBySubPath? stringIds))
                 {
-                    overallStringsData.SubPathStringIdsList[kvp.Key] = kvp.Value;
+                    overallStringsData.SubPathStringIdsList[stringIdLanguagesList.Key] = stringIdLanguagesList.Value;
                 }
                 else
                 {
-                    foreach (var innerKvp in kvp.Value.StringIdLanguageValuePairsList)
+                    foreach (var stringIdLanguagePair in stringIdLanguagesList.Value.StringIdLanguageValuePairsList)
                     {
-                        if (!stringIds.StringIdLanguageValuePairsList.TryGetValue(innerKvp.Key, out LanguageValuePairsData? value))
+                        if (!stringIds.StringIdLanguageValuePairsList.TryGetValue(stringIdLanguagePair.Key, out LanguageValuePairsData? languagePairs))
                         {
-                            stringIds.StringIdLanguageValuePairsList[innerKvp.Key] = innerKvp.Value;
+                            stringIds.StringIdLanguageValuePairsList[stringIdLanguagePair.Key] = stringIdLanguagePair.Value;
                         }
                         else
                         {
-                            foreach (var langKvp in innerKvp.Value.LanguageValuePairs)
+                            foreach (var langValuePair in stringIdLanguagePair.Value.LanguageValuePairs)
                             {
-                                value.LanguageValuePairs[langKvp.Key] = langKvp.Value;
+                                languagePairs.LanguageValuePairs[langValuePair.Key] = langValuePair.Value;
                             }
                         }
                     }
