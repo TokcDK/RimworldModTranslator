@@ -834,9 +834,9 @@ namespace RimworldModTranslator.Helpers
             EditorStringsData overallStringsData = new();
 
             if (Directory.Exists(selectedGame.GameDirPath)) {
-                foreach(var dlcDIr in Directory.EnumerateDirectories(selectedGame.GameDirPath, "Data"))
+                foreach(var dlcDir in Directory.EnumerateDirectories(selectedGame.GameDirPath, "Data"))
                 {
-                    EditorHelper.LoadDefKeyedLanguageStrings(dlcDIr, overallStringsData, false);
+                    EditorHelper.LoadDefKeyedLanguageStrings(dlcDir, overallStringsData, false);
                 }
             }
 
@@ -863,13 +863,12 @@ namespace RimworldModTranslator.Helpers
                 {
                     foreach (var kvp in modStringsData.SubPathStringIdsList)
                     {
-                        if (!overallStringsData.SubPathStringIdsList.ContainsKey(kvp.Key))
+                        if (!overallStringsData.SubPathStringIdsList.TryGetValue(kvp.Key, out StringsIdsBySubPath? stringIds))
                         {
                             overallStringsData.SubPathStringIdsList[kvp.Key] = kvp.Value;
                         }
                         else
                         {
-                            var stringIds = overallStringsData.SubPathStringIdsList[kvp.Key];
                             foreach (var innerKvp in kvp.Value.StringIdLanguageValuePairsList)
                             {
                                 if (!stringIds.StringIdLanguageValuePairsList.TryGetValue(innerKvp.Key, out LanguageValuePairsData? value))
