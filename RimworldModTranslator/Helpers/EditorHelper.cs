@@ -829,6 +829,10 @@ namespace RimworldModTranslator.Helpers
 
             EditorStringsData overallStringsData = new();
 
+            if (Directory.Exists(selectedGame.GameDirPath)) {
+                EditorHelper.LoadDefKeyedLanguageStrings(selectedGame.GameDirPath, overallStringsData);
+            }
+
             var modDirPaths = Directory.GetDirectories(selectedGame.ModsDirPath!);
 
             Parallel.ForEach(modDirPaths, modDirPath =>
