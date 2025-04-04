@@ -379,7 +379,7 @@ namespace RimworldModTranslator.Helpers
             return stringsData.Languages;
         }
 
-        public static bool LoadDefKeyedLanguageStrings(string selectedTranslatableDir, EditorStringsData stringsData)
+        public static bool LoadDefKeyedLanguageStrings(string selectedTranslatableDir, EditorStringsData stringsData, bool loadStringsTxt = true)
         {
             List<string> languages = [];
 
@@ -832,7 +832,7 @@ namespace RimworldModTranslator.Helpers
             if (Directory.Exists(selectedGame.GameDirPath)) {
                 foreach(var dir in Directory.EnumerateDirectories(selectedGame.GameDirPath, "Data"))
                 {
-                    EditorHelper.LoadDefKeyedLanguageStrings(dir, overallStringsData);
+                    EditorHelper.LoadDefKeyedLanguageStrings(dir, overallStringsData, false);
                 }
             }
 
@@ -851,7 +851,7 @@ namespace RimworldModTranslator.Helpers
 
                     if (Directory.Exists(Path.Combine(selectedTranslatableDir, "Languages")))
                     {
-                        EditorHelper.LoadDefKeyedLanguageStrings(selectedTranslatableDir, modStringsData);
+                        EditorHelper.LoadDefKeyedLanguageStrings(selectedTranslatableDir, modStringsData, false);
                     }
                 }
 
