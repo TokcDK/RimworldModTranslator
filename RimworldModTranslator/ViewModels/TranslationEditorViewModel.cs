@@ -161,9 +161,9 @@ namespace RimworldModTranslator.ViewModels
 
         #region Commands
         [RelayCommand]
-        private void LoadStrings()
+        private async Task LoadStrings()
         {
-            LoadTheSelectedModStrings();
+            await LoadTheSelectedModStrings();
         }
 
         [RelayCommand]
@@ -181,7 +181,7 @@ namespace RimworldModTranslator.ViewModels
             await EditorHelper.SetTranslationsbyCache(IdCache, ValueCache, Folders);
         }
 
-        public void LoadTheSelectedModStrings()
+        public async Task LoadTheSelectedModStrings()
         {
             if (game == null || game != settingsService.SelectedGame)
             {
@@ -224,7 +224,7 @@ namespace RimworldModTranslator.ViewModels
 
             var stringsData = EditorHelper.LoadStringsDataFromTheLanguageDir(selectedTranslatableDir);
 
-            if (settingsService.TryLoadTranslationsCache) LoadStringsCache();
+            if (settingsService.TryLoadTranslationsCache) await LoadStringsCache();
 
             var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
 

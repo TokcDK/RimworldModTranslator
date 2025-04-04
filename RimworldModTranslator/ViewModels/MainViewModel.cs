@@ -32,7 +32,7 @@ namespace RimworldModTranslator.ViewModels
             WeakReferenceMessenger.Default.Register<LoadSelectedModStringsMessage>(this);
         }
 
-        void IRecipient<LoadSelectedModStringsMessage>.Receive(LoadSelectedModStringsMessage message)
+        async void IRecipient<LoadSelectedModStringsMessage>.Receive(LoadSelectedModStringsMessage message)
         {
             if (TabViewModels[1] is not TranslationEditorViewModel editor) return;
 
@@ -40,7 +40,7 @@ namespace RimworldModTranslator.ViewModels
             SelectedTab = editor;
 
             // load strings in editor
-            editor.LoadTheSelectedModStrings();
+            await editor.LoadTheSelectedModStrings();
         }
     }
 }
