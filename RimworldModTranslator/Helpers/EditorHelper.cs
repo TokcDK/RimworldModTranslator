@@ -385,8 +385,6 @@ namespace RimworldModTranslator.Helpers
 
         public static bool LoadDefKeyedLanguageStrings(string selectedTranslatableDir, EditorStringsData stringsData, bool loadStringsTxt = true)
         {
-            List<string> languages = [];
-
             string languagesDirPath = Path.Combine(selectedTranslatableDir, "Languages");
             if (!Directory.Exists(languagesDirPath)) return false;
 
@@ -394,12 +392,6 @@ namespace RimworldModTranslator.Helpers
                                         .Where(d => EditorHelper.HaveTranslatableDirs(d))
                                         .Select(Path.GetFileName)
                                         .ToList();
-            foreach (var langDirName in langDirNames)
-            {
-                if (langDirName == null) continue;
-
-                languages.Add(langDirName);
-            }
 
             var xmlDirNames = new string[2] { "DefInjected", "Keyed" };
             foreach (var xmlDirName in xmlDirNames)
