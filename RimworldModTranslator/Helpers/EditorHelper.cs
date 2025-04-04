@@ -834,9 +834,9 @@ namespace RimworldModTranslator.Helpers
             EditorStringsData overallStringsData = new();
 
             if (Directory.Exists(selectedGame.GameDirPath)) {
-                foreach(var dir in Directory.EnumerateDirectories(selectedGame.GameDirPath, "Data"))
+                foreach(var dlcDIr in Directory.EnumerateDirectories(selectedGame.GameDirPath, "Data"))
                 {
-                    EditorHelper.LoadDefKeyedLanguageStrings(dir, overallStringsData, false);
+                    EditorHelper.LoadDefKeyedLanguageStrings(dlcDIr, overallStringsData, false);
                 }
             }
 
