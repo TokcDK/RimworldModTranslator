@@ -166,10 +166,6 @@ namespace RimworldModTranslator.Helpers
         /// </summary>
         public static void LoadStringsFromTheXmlAsTxtDir(string xmlDirName, List<string?> langDirNames, string languagesDirPath, EditorStringsData stringsData)
         {
-            // Регулярное выражение для поиска строк с xml тегами, которые начинаются и заканчиваются одинаково.
-            // Пример: <OvipositorF.stages.5.label>Бездна</OvipositorF.stages.5.label>
-            var regex = new Regex(@"^\s*<(?<tag>[^>]+)>(?<value>.*)</\k<tag>>\s*$", RegexOptions.Compiled);
-
             foreach (var language in langDirNames)
             {
                 if (language == null)
@@ -196,30 +192,38 @@ namespace RimworldModTranslator.Helpers
                     try
                     {
                         var lines = File.ReadAllLines(file);
-                        foreach (var line in lines)
-                        {
-                            if (string.IsNullOrWhiteSpace(line))
-                                continue;
-
-                            var match = regex.Match(line);
-                            if (match.Success)
-                            {
-                                string key = match.Groups["tag"].Value;
-                                string value = match.Groups["value"].Value;
-
-                                if (!stringIdsList.StringIdLanguageValuePairsList.TryGetValue(key, out LanguageValuePairsData? langList))
-                                {
-                                    langList = new();
-                                    stringIdsList.StringIdLanguageValuePairsList[key] = langList;
-                                }
-                                langList.LanguageValuePairs[language] = value;
-                            }
-                        }
+                        ReadFromTheStringsArray(lines, language, stringIdsList);
                     }
                     catch (Exception ex)
                     {
                         // Ошибка чтения файла как текстового, можно добавить логирование при необходимости
                     }
+                }
+            }
+        }
+
+        // Регулярное выражение для поиска строк с xml тегами, которые начинаются и заканчиваются одинаково.
+        // Пример: <OvipositorF.stages.5.label>Бездна</OvipositorF.stages.5.label>
+        static Regex regex = new Regex(@"^\s*<(?<tag>[^>]+)>(?<value>.*)</\k<tag>>\s*$", RegexOptions.Compiled);
+        private static void ReadFromTheStringsArray(string[] lines, string language, StringsIdsBySubPath stringIdsList)
+        {
+            foreach (var line in lines)
+            {
+                if (string.IsNullOrWhiteSpace(line))
+                    continue;
+
+                var match = regex.Match(line);
+                if (match.Success)
+                {
+                    string key = match.Groups["tag"].Value;
+                    string value = match.Groups["value"].Value;
+
+                    if (!stringIdsList.StringIdLanguageValuePairsList.TryGetValue(key, out LanguageValuePairsData? langList))
+                    {
+                        langList = new();
+                        stringIdsList.StringIdLanguageValuePairsList[key] = langList;
+                    }
+                    langList.LanguageValuePairs[language] = value;
                 }
             }
         }
