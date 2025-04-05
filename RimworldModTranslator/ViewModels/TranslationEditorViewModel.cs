@@ -165,6 +165,11 @@ namespace RimworldModTranslator.ViewModels
         {
             await LoadTheSelectedModStrings();
         }
+        [RelayCommand]
+        private void Test111()
+        {
+           var d = EditorHelper.GetValidTarFileNames(Path.Combine(settingsService.SelectedGame.GameDirPath, "Data", "Core", "Languages")).ToArray();
+        }
 
         [RelayCommand]
         private async Task LoadStringsCache()

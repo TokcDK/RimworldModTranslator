@@ -1,9 +1,11 @@
 ﻿using RimworldModTranslator.Models;
+using SharpCompress.Archives.Tar;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Common;
+using System.Formats.Tar;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -394,7 +396,7 @@ namespace RimworldModTranslator.Helpers
 
             var langDirNames = Directory.GetDirectories(languagesDirPath)
                                         .Where(d => EditorHelper.HaveTranslatableDirs(d))
-                                        .Select(Path.GetFileName)
+                                        .Select(Path.GetFileNameWithoutExtension)
                                         .Concat(GetValidTarFileNames(languagesDirPath))
                                         .ToList();
 
@@ -408,9 +410,20 @@ namespace RimworldModTranslator.Helpers
             return stringsData.SubPathStringIdsList.Count > 0;
         }
 
-        private static IEnumerable<string> GetValidTarFileNames(string languagesDirPath)
+        internal static IEnumerable<string> GetValidTarFileNames(string languagesDirPath)
         {
-            throw new NotImplementedException();
+            foreach (var file in Directory.GetFiles(languagesDirPath, "*.tar"))
+            {
+                using var tarArchive = TarArchive.Open(file);
+                foreach (var entry in tarArchive.Entries)
+                {
+                    if (entry.IsDirectory && entry.Key != null && entry.Key == "DefInjected/" || entry.Key! == "Keyed/")
+                    {
+                        yield return Path.GetFileNameWithoutExtension(file);
+                        break;
+                    }
+                }
+            }
         }
 
         public static void ExtractStrings(string selectedLanguageDir, EditorStringsData stringsData)

@@ -105,6 +105,7 @@
         <Grid Grid.Row="2" Margin="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="100"/>
@@ -117,19 +118,24 @@
                        HorizontalAlignment="Left" Margin="2"/>
 
             <!-- Button for load translations cache from all exist mods -->
-            <Button Grid.Column="1" Content="DB"
+            <Button Grid.Column="1" Content="TEST"
+                    Command="{Binding Test111Command}"
+                    VerticalAlignment="Center" Margin="2"/>
+            
+            <!-- Button for load translations cache from all exist mods -->
+            <Button Grid.Column="2" Content="DB"
                     ToolTip="{Binding LoadStringsCacheToolTip}"
                     Command="{Binding LoadStringsCacheCommand}"
                     VerticalAlignment="Center" Margin="2"/>
 
             <!-- Button for saving strings -->
-            <Button Grid.Column="2" Content="Save strings"
+            <Button Grid.Column="3" Content="Save strings"
                     ToolTip="{Binding SaveStringsToolTip}"
                     Command="{Binding SaveStringsCommand}"
                     VerticalAlignment="Center" Margin="2"/>
 
             <!-- Button for loading strings -->
-            <Button Grid.Column="3" Content="Load strings"
+            <Button Grid.Column="4" Content="Load strings"
                     ToolTip="{Binding LoadStringsToolTip}"
                     Command="{Binding LoadStringsCommand}"
                     VerticalAlignment="Center" Margin="2"/>
