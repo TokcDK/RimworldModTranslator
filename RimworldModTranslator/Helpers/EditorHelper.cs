@@ -395,6 +395,7 @@ namespace RimworldModTranslator.Helpers
             var langDirNames = Directory.GetDirectories(languagesDirPath)
                                         .Where(d => EditorHelper.HaveTranslatableDirs(d))
                                         .Select(Path.GetFileName)
+                                        .Concat(GetValidTarFileNames(languagesDirPath))
                                         .ToList();
 
             EditorHelper.LoadStringsFromXmlsAsTxtDir(langDirNames, languagesDirPath, stringsData);
@@ -405,6 +406,11 @@ namespace RimworldModTranslator.Helpers
             }
 
             return stringsData.SubPathStringIdsList.Count > 0;
+        }
+
+        private static IEnumerable<string> GetValidTarFileNames(string languagesDirPath)
+        {
+            throw new NotImplementedException();
         }
 
         public static void ExtractStrings(string selectedLanguageDir, EditorStringsData stringsData)
