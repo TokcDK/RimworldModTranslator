@@ -162,46 +162,41 @@ namespace RimworldModTranslator.Helpers
             return TransatableLanguageDirs.Any(d => Directory.Exists(Path.Combine(languageDir, d)));
         }
 
-        private static readonly string[] xmlDirNames = ["DefInjected", "Keyed"];
         public static void LoadStringsFromXmlsAsTxtDir(List<string?> languageNames, string languagesDirPath, EditorStringsData stringsData)
         {
-            foreach (var xmlDirName in xmlDirNames)
+            foreach (var languageName in languageNames)
             {
-                foreach (var languageName in languageNames)
+                if (languageName == null)
+                    continue;
+
+                stringsData.Languages.Add(languageName);
+
+                string languageDirPath = Path.Combine(languagesDirPath, languageName);
+
+                if (Directory.Exists(languageDirPath))
                 {
-                    if (languageName == null)
-                        continue;
-
-                    stringsData.Languages.Add(languageName);
-
-                    string languageDirPath = Path.Combine(languagesDirPath, languageName);
-                    string langXmlDirPath = Path.Combine(languageDirPath, xmlDirName);
-
-                    if (Directory.Exists(langXmlDirPath))
+                    foreach (var file in Directory.GetFiles(languageDirPath, "*.xml", SearchOption.AllDirectories))
                     {
-                        foreach (var file in Directory.GetFiles(langXmlDirPath, "*.xml", SearchOption.AllDirectories))
-                        {
-                            ProcessXmlFile(file, languageName, languageDirPath, stringsData);
-                        }
+                        ProcessXmlFile(file, languageName, languageDirPath, stringsData);
                     }
-                    else if (File.Exists(languageDirPath + ".tar"))
+                }
+                else if (File.Exists(languageDirPath + ".tar"))
+                {
+                    using var tarArchive = TarArchive.Open(languageDirPath + ".tar");
+                    foreach (var entry in tarArchive.Entries
+                        .Where(e => !e.IsDirectory
+                                    && e.Key != null
+                                    && e.Key.EndsWith(".xml")
+                              )
+                            )
                     {
-                        using var tarArchive = TarArchive.Open(languageDirPath + ".tar");
-                        foreach (var entry in tarArchive.Entries
-                            .Where(e => !e.IsDirectory 
-                                        && e.Key != null
-                                        && e.Key.EndsWith(".xml")
-                                  )
-                                )
-                        {
-                            ProcessXmlFromTheTarEntry(entry, xmlDirName, languageName, stringsData);
-                        }
+                        ProcessXmlFromTheTarEntry(entry, languageName, stringsData);
                     }
                 }
             }
         }
 
-        private static void ProcessXmlFromTheTarEntry(TarArchiveEntry entry, string xmlDirName, string languageName, EditorStringsData stringsData)
+        private static void ProcessXmlFromTheTarEntry(TarArchiveEntry entry, string languageName, EditorStringsData stringsData)
         {
             using var entryStream = entry.OpenEntryStream();
             using var reader = new StreamReader(entryStream);
