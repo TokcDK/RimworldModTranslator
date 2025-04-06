@@ -175,66 +175,66 @@ namespace RimworldModTranslator.Helpers
 
                 if (Directory.Exists(languageDirPath))
                 {
-                    foreach (var file in Directory.GetFiles(languageDirPath, "*.xml", SearchOption.AllDirectories))
-                    {
-                        ProcessXmlFile(file, languageName, languageDirPath, stringsData);
-                    }
+                    ProcessDirXmlFiles(languageName, languageDirPath, stringsData);
                 }
                 else if (File.Exists(languageDirPath + ".tar"))
                 {
-                    using var tarArchive = TarArchive.Open(languageDirPath + ".tar");
-                    foreach (var entry in tarArchive.Entries
-                        .Where(e => !e.IsDirectory
-                                    && e.Key != null
-                                    && e.Key.EndsWith(".xml")
-                              )
-                            )
-                    {
-                        ProcessXmlFromTheTarEntry(entry, languageName, stringsData);
-                    }
+                    ProcessXmlFromTheTar(languageDirPath, languageName, stringsData);
                 }
             }
         }
 
-        private static void ProcessXmlFromTheTarEntry(TarArchiveEntry entry, string languageName, EditorStringsData stringsData)
+        private static void ProcessXmlFromTheTar(string languageDirPath, string languageName, EditorStringsData stringsData)
         {
-            using var entryStream = entry.OpenEntryStream();
-            using var reader = new StreamReader(entryStream);
-            string xmlSubPath = entry.Key!.Replace('/', '\\');
-            if (!stringsData.SubPathStringIdsList.TryGetValue(xmlSubPath, out StringsIdsBySubPath? stringIdsList))
+            using var tarArchive = TarArchive.Open(languageDirPath + ".tar");
+            foreach (var entry in tarArchive.Entries
+                .Where(e => !e.IsDirectory
+                            && e.Key != null
+                            && e.Key.EndsWith(".xml")
+                      )
+                    )
             {
-                stringIdsList = new();
-                stringsData.SubPathStringIdsList[xmlSubPath] = stringIdsList;
-            }
+                using var entryStream = entry.OpenEntryStream();
+                using var reader = new StreamReader(entryStream);
+                string xmlSubPath = entry.Key!.Replace('/', '\\');
+                if (!stringsData.SubPathStringIdsList.TryGetValue(xmlSubPath, out StringsIdsBySubPath? stringIdsList))
+                {
+                    stringIdsList = new();
+                    stringsData.SubPathStringIdsList[xmlSubPath] = stringIdsList;
+                }
 
-            try
-            {
-                var lines = reader.ReadToEnd().Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
-                ReadFromTheStringsArray(lines, languageName, stringIdsList);
-            }
-            catch (Exception ex)
-            {
-                // Ошибка чтения файла как текстового, можно добавить логирование при необходимости
+                try
+                {
+                    var lines = reader.ReadToEnd().Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
+                    ReadFromTheStringsArray(lines, languageName, stringIdsList);
+                }
+                catch (Exception ex)
+                {
+                    // Ошибка чтения файла как текстового, можно добавить логирование при необходимости
+                }
             }
         }
 
-        private static void ProcessXmlFile(string file, string languageName, string languageDirPath, EditorStringsData stringsData)
+        private static void ProcessDirXmlFiles(string languageName, string languageDirPath, EditorStringsData stringsData)
         {
-            string xmlSubPath = Path.GetRelativePath(languageDirPath, file);
-            if (!stringsData.SubPathStringIdsList.TryGetValue(xmlSubPath, out StringsIdsBySubPath? stringIdsList))
+            foreach (var file in Directory.GetFiles(languageDirPath, "*.xml", SearchOption.AllDirectories))
             {
-                stringIdsList = new();
-                stringsData.SubPathStringIdsList[xmlSubPath] = stringIdsList;
-            }
+                string xmlSubPath = Path.GetRelativePath(languageDirPath, file);
+                if (!stringsData.SubPathStringIdsList.TryGetValue(xmlSubPath, out StringsIdsBySubPath? stringIdsList))
+                {
+                    stringIdsList = new();
+                    stringsData.SubPathStringIdsList[xmlSubPath] = stringIdsList;
+                }
 
-            try
-            {
-                var lines = File.ReadAllLines(file);
-                ReadFromTheStringsArray(lines, languageName, stringIdsList);
-            }
-            catch (Exception ex)
-            {
-                // Ошибка чтения файла как текстового, можно добавить логирование при необходимости
+                try
+                {
+                    var lines = File.ReadAllLines(file);
+                    ReadFromTheStringsArray(lines, languageName, stringIdsList);
+                }
+                catch (Exception ex)
+                {
+                    // Ошибка чтения файла как текстового, можно добавить логирование при необходимости
+                }
             }
         }
 
