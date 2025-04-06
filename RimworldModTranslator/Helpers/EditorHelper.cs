@@ -336,34 +336,68 @@ namespace RimworldModTranslator.Helpers
                 if (!Directory.Exists(langTxtDirPath))
                     continue;
 
-                foreach (var file in Directory.GetFiles(langTxtDirPath, "*.txt", SearchOption.AllDirectories))
+                if (Directory.Exists(langTxtDirPath))
                 {
-                    string txtSubPath = Path.GetRelativePath(langPath, file);
-                    // Получить или создать список для данного txtSubPath
-                    if (!stringsData.SubPathStringIdsList.TryGetValue(txtSubPath, out StringsIdsBySubPath? stringIdsList))
-                    {
-                        stringIdsList = new();
-                        stringsData.SubPathStringIdsList[txtSubPath] = stringIdsList;
-                    }
 
-                    var lines = File.ReadAllLines(file);
-                    var fileName = Path.GetFileNameWithoutExtension(file);
-                    int idIndex = 0;
-                    foreach (var line in lines)
+                    foreach (var file in Directory.GetFiles(langTxtDirPath, "*.txt", SearchOption.AllDirectories))
                     {
-                        if (string.IsNullOrWhiteSpace(line))
-                            continue;
-
-                        string key = $"{fileName}.{idIndex++}";
-                        if (!stringIdsList.StringIdLanguageValuePairsList.TryGetValue(key, out LanguageValuePairsData? langList))
+                        string txtSubPath = Path.GetRelativePath(langPath, file);
+                        // Получить или создать список для данного txtSubPath
+                        if (!stringsData.SubPathStringIdsList.TryGetValue(txtSubPath, out StringsIdsBySubPath? stringIdsList))
                         {
-                            langList = new();
-                            stringIdsList.StringIdLanguageValuePairsList[key] = langList;
+                            stringIdsList = new();
+                            stringsData.SubPathStringIdsList[txtSubPath] = stringIdsList;
                         }
 
-                        langList.LanguageValuePairs[language] = line;
+                        var lines = File.ReadAllLines(file);
+                        var fileName = Path.GetFileNameWithoutExtension(file);
+                        ReadTxtStringsFile(lines, fileName, language, stringIdsList);
                     }
                 }
+                else if (File.Exists(langTxtDirPath + ".tar"))
+                {
+                    using var tarArchive = TarArchive.Open(langTxtDirPath + ".tar");
+                    foreach (var entry in tarArchive.Entries
+                        .Where(e => !e.IsDirectory
+                                    && e.Key != null
+                                    && e.Key.EndsWith(".txt")
+                              )
+                            )
+                    {
+                        using var entryStream = entry.OpenEntryStream();
+                        using var reader = new StreamReader(entryStream);
+                        string txtSubPath = entry.Key!;
+                        // Получить или создать список для данного txtSubPath
+                        if (!stringsData.SubPathStringIdsList.TryGetValue(txtSubPath, out StringsIdsBySubPath? stringIdsList))
+                        {
+                            stringIdsList = new();
+                            stringsData.SubPathStringIdsList[txtSubPath] = stringIdsList;
+                        }
+
+                        var lines = reader.ReadToEnd().Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
+                        var fileName = entry.Key!;
+                        ReadTxtStringsFile(lines, fileName, language, stringIdsList);
+                    }
+                }
+            }
+        }
+
+        private static void ReadTxtStringsFile(string[] lines, string fileName, string language, StringsIdsBySubPath stringIdsList)
+        {
+            int idIndex = 0;
+            foreach (var line in lines)
+            {
+                if (string.IsNullOrWhiteSpace(line))
+                    continue;
+
+                string key = $"{fileName}.{idIndex++}";
+                if (!stringIdsList.StringIdLanguageValuePairsList.TryGetValue(key, out LanguageValuePairsData? langList))
+                {
+                    langList = new();
+                    stringIdsList.StringIdLanguageValuePairsList[key] = langList;
+                }
+
+                langList.LanguageValuePairs[language] = line;
             }
         }
 
