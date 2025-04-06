@@ -167,18 +167,18 @@ namespace RimworldModTranslator.Helpers
         /// because some xml structures are broken and usual parsing fails.
         /// Refactored to fill stringsData directly.
         /// </summary>
-        public static void LoadStringsFromXmlsAsTxtDir(List<string?> langDirNames, string languagesDirPath, EditorStringsData stringsData)
+        public static void LoadStringsFromXmlsAsTxtDir(List<string?> languageNames, string languagesDirPath, EditorStringsData stringsData)
         {
             foreach (var xmlDirName in xmlDirNames)
             {
-                foreach (var language in langDirNames)
+                foreach (var languageName in languageNames)
                 {
-                    if (language == null)
+                    if (languageName == null)
                         continue;
 
-                    stringsData.Languages.Add(language);
+                    stringsData.Languages.Add(languageName);
 
-                    string langPath = Path.Combine(languagesDirPath, language);
+                    string langPath = Path.Combine(languagesDirPath, languageName);
                     string langXmlDirPath = Path.Combine(langPath, xmlDirName);
                     if (!Directory.Exists(langXmlDirPath))
                         continue;
@@ -197,7 +197,7 @@ namespace RimworldModTranslator.Helpers
                         try
                         {
                             var lines = File.ReadAllLines(file);
-                            ReadFromTheStringsArray(lines, language, stringIdsList);
+                            ReadFromTheStringsArray(lines, languageName, stringIdsList);
                         }
                         catch (Exception ex)
                         {
