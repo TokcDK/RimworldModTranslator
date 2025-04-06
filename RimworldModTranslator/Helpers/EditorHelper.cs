@@ -205,7 +205,7 @@ namespace RimworldModTranslator.Helpers
         {
             using var entryStream = entry.OpenEntryStream();
             using var reader = new StreamReader(entryStream);
-            string xmlSubPath = entry.Key!.Substring(xmlDirName.Length + 1);
+            string xmlSubPath = entry.Key!.Replace('/', '\\');
             if (!stringsData.SubPathStringIdsList.TryGetValue(xmlSubPath, out StringsIdsBySubPath? stringIdsList))
             {
                 stringIdsList = new();
@@ -366,7 +366,7 @@ namespace RimworldModTranslator.Helpers
                     {
                         using var entryStream = entry.OpenEntryStream();
                         using var reader = new StreamReader(entryStream);
-                        string txtSubPath = entry.Key!;
+                        string txtSubPath = entry.Key!.Replace('/', '\\');
                         // Получить или создать список для данного txtSubPath
                         if (!stringsData.SubPathStringIdsList.TryGetValue(txtSubPath, out StringsIdsBySubPath? stringIdsList))
                         {
@@ -375,7 +375,7 @@ namespace RimworldModTranslator.Helpers
                         }
 
                         var lines = reader.ReadToEnd().Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
-                        var fileName = entry.Key!;
+                        var fileName = Path.GetFileNameWithoutExtension(txtSubPath);
                         ReadTxtStringsFile(lines, fileName, language, stringIdsList);
                     }
                 }
@@ -917,7 +917,7 @@ namespace RimworldModTranslator.Helpers
             EditorStringsData overallStringsData = new();
 
             if (Directory.Exists(selectedGame.GameDirPath)) {
-                foreach(var dlcDir in Directory.EnumerateDirectories(selectedGame.GameDirPath, "Data"))
+                foreach(var dlcDir in Directory.EnumerateDirectories(Path.Combine(selectedGame.GameDirPath, "Data")))
                 {
                     EditorHelper.LoadDefKeyedStringsFromTheDir(dlcDir, overallStringsData, false);
                 }
