@@ -238,6 +238,8 @@ namespace RimworldModTranslator.ViewModels
                 SelectedFolder = Folders.FirstOrDefault(f => f.Name == previousSelectedFolder);
             }
 
+            if (SelectedFolder == null) return;
+
             SelectedFolder.TranslationsTable = translationsTable;
             InitTranslationsTable(dataTableToRelink: translationsTable);
 
