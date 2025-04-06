@@ -1,7 +1,6 @@
 ﻿using RimworldModTranslator.Models;
 using System;
 using System.Collections.Generic;
-using static RimworldModTranslator.ViewModels.TranslationEditorViewModel;
 
 namespace RimworldModTranslator.Helpers
 {
@@ -22,7 +21,7 @@ namespace RimworldModTranslator.Helpers
 
                     try
                     {
-                        ReadFromTheStringsArray(lines, languageName, stringIdsList);
+                        EditorHelper.ReadFromTheStringsArray(lines, languageName, stringIdsList);
                     }
                     catch (Exception ex) { }
                 }
