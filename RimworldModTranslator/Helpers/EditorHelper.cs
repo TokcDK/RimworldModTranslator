@@ -19,7 +19,7 @@ using static RimworldModTranslator.ViewModels.TranslationEditorViewModel;
 
 namespace RimworldModTranslator.Helpers
 {
-    internal class EditorHelper
+    internal partial class EditorHelper
     {
         public static string[] TransatableLanguageDirs { get; } = ["DefInjected", "Keyed", "Strings"];
         public static string[] ExtractableModSubDirs { get; } = ["Defs", "Languages"];
@@ -182,76 +182,6 @@ namespace RimworldModTranslator.Helpers
                     using var tar = new TarXmlReader(languageName, languageDirPath, stringsData);
                     tar.ProcessXmlFiles();
                 }
-            }
-        }
-
-        internal abstract class XmlReaderBase(string languageName, string languageDirPath, EditorStringsData stringsData)
-        {
-            internal void ProcessXmlFiles()
-            {
-                foreach (var entry in GetEntries())
-                {
-                    var (xmlSubPath, lines) = GetSubPathLines(entry);
-                    if (!stringsData.SubPathStringIdsList.TryGetValue(xmlSubPath, out StringsIdsBySubPath? stringIdsList))
-                    {
-                        stringIdsList = new();
-                        stringsData.SubPathStringIdsList[xmlSubPath] = stringIdsList;
-                    }
-
-                    try
-                    {
-                        ReadFromTheStringsArray(lines, languageName, stringIdsList);
-                    }
-                    catch (Exception ex) { }
-                }
-            }
-
-            protected abstract (string, string[]) GetSubPathLines(object entry);
-
-            protected abstract IEnumerable<object> GetEntries();
-        }
-
-        class TarXmlReader(string languageName, string languageDirPath, EditorStringsData stringsData) : XmlReaderBase(languageName, languageDirPath, stringsData) , IDisposable
-        {
-            TarArchive? tarArchive;
-
-            public void Dispose()
-            {
-                tarArchive?.Dispose();
-            }
-
-            protected override IEnumerable<object> GetEntries()
-            {
-                tarArchive = TarArchive.Open(languageDirPath + ".tar");
-
-                return tarArchive.Entries
-                    .Where(e => !e.IsDirectory && e.Key != null && e.Key.EndsWith(".xml"));
-            }
-            protected override (string, string[]) GetSubPathLines(object entry)
-            {
-                TarArchiveEntry tarArchiveEntry = (TarArchiveEntry)entry;
-
-                using var entryStream = tarArchiveEntry.OpenEntryStream();
-                using var reader = new StreamReader(entryStream);
-                string subPath = tarArchiveEntry.Key!.Replace('/', '\\');
-                string[] lines = reader.ReadToEnd().Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
-
-                return (subPath, lines);
-            }
-        }
-
-        class DirXmlReader(string languageName, string languageDirPath, EditorStringsData stringsData) : XmlReaderBase(languageName, languageDirPath, stringsData)
-        {
-            protected override IEnumerable<object> GetEntries()
-            {
-                return Directory.EnumerateFiles(languageDirPath, "*.xml", SearchOption.AllDirectories);
-            }
-            protected override (string, string[]) GetSubPathLines(object entry)
-            {
-                string file = (string)entry;
-                string subPath = Path.GetRelativePath(languageDirPath, file);
-                string[] lines = File.ReadAllLines(file);
-                return (subPath, lines);
             }
         }
 
