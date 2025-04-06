@@ -757,7 +757,7 @@ namespace RimworldModTranslator.Helpers
             doc.Save(loadFoldersPath);
         }
 
-        internal static void ClearSelectedCells(IList<DataGridCellInfo> selectedCells)
+        internal static void ClearSelectedCells(IList<DataGridCellInfo>? selectedCells)
         {
             if (selectedCells == null || selectedCells.Count == 0) return;
 
@@ -766,7 +766,7 @@ namespace RimworldModTranslator.Helpers
                 rowItem.Row[column.SortMemberPath] = null;
             }
         }
-        internal static void PasteStringsInSelectedCells(IList<DataGridCellInfo> selectedCells)
+        internal static void PasteStringsInSelectedCells(IList<DataGridCellInfo>? selectedCells)
         {
             if (selectedCells == null || selectedCells.Count == 0) return;
 
@@ -791,7 +791,7 @@ namespace RimworldModTranslator.Helpers
             }
         }
 
-        internal static void CutSelectedCells(IList<DataGridCellInfo> selectedCells)
+        internal static void CutSelectedCells(IList<DataGridCellInfo>? selectedCells)
         {
             if (selectedCells == null || selectedCells.Count == 0) return;
 
