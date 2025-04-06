@@ -1,5 +1,6 @@
 ﻿using RimworldModTranslator.Models;
 using SharpCompress.Archives.Tar;
+using SharpCompress.Common;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -162,11 +163,6 @@ namespace RimworldModTranslator.Helpers
         }
 
         private static readonly string[] xmlDirNames = ["DefInjected", "Keyed"];
-        /// <summary>
-        /// Variant: Each language xml file is parsed as txt file with xml tags
-        /// because some xml structures are broken and usual parsing fails.
-        /// Refactored to fill stringsData directly.
-        /// </summary>
         public static void LoadStringsFromXmlsAsTxtDir(List<string?> languageNames, string languagesDirPath, EditorStringsData stringsData)
         {
             foreach (var xmlDirName in xmlDirNames)
@@ -180,31 +176,70 @@ namespace RimworldModTranslator.Helpers
 
                     string languageDirPath = Path.Combine(languagesDirPath, languageName);
                     string langXmlDirPath = Path.Combine(languageDirPath, xmlDirName);
-                    if (!Directory.Exists(langXmlDirPath))
-                        continue;
 
-                    foreach (var file in Directory.GetFiles(langXmlDirPath, "*.xml", SearchOption.AllDirectories))
+                    if (Directory.Exists(langXmlDirPath))
                     {
-                        // Вычисляем подкаталог относительно текущей папки языка
-                        string xmlSubPath = Path.GetRelativePath(languageDirPath, file);
-                        // Получаем или создаем список для данного xmlSubPath
-                        if (!stringsData.SubPathStringIdsList.TryGetValue(xmlSubPath, out StringsIdsBySubPath? stringIdsList))
+                        foreach (var file in Directory.GetFiles(langXmlDirPath, "*.xml", SearchOption.AllDirectories))
                         {
-                            stringIdsList = new();
-                            stringsData.SubPathStringIdsList[xmlSubPath] = stringIdsList;
+                            ProcessXmlFile(file, languageName, languageDirPath, stringsData);
                         }
-
-                        try
+                    }
+                    else if (File.Exists(languageDirPath + ".tar"))
+                    {
+                        using var tarArchive = TarArchive.Open(languageDirPath + ".tar");
+                        foreach (var entry in tarArchive.Entries
+                            .Where(e => !e.IsDirectory 
+                                        && e.Key != null
+                                        && e.Key.EndsWith(".xml")
+                                  )
+                                )
                         {
-                            var lines = File.ReadAllLines(file);
-                            ReadFromTheStringsArray(lines, languageName, stringIdsList);
-                        }
-                        catch (Exception ex)
-                        {
-                            // Ошибка чтения файла как текстового, можно добавить логирование при необходимости
+                            ProcessXmlFromTheTarEntry(entry, xmlDirName, languageName, stringsData);
                         }
                     }
                 }
+            }
+        }
+
+        private static void ProcessXmlFromTheTarEntry(TarArchiveEntry entry, string xmlDirName, string languageName, EditorStringsData stringsData)
+        {
+            using var entryStream = entry.OpenEntryStream();
+            using var reader = new StreamReader(entryStream);
+            string xmlSubPath = entry.Key!.Substring(xmlDirName.Length + 1);
+            if (!stringsData.SubPathStringIdsList.TryGetValue(xmlSubPath, out StringsIdsBySubPath? stringIdsList))
+            {
+                stringIdsList = new();
+                stringsData.SubPathStringIdsList[xmlSubPath] = stringIdsList;
+            }
+
+            try
+            {
+                var lines = reader.ReadToEnd().Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
+                ReadFromTheStringsArray(lines, languageName, stringIdsList);
+            }
+            catch (Exception ex)
+            {
+                // Ошибка чтения файла как текстового, можно добавить логирование при необходимости
+            }
+        }
+
+        private static void ProcessXmlFile(string file, string languageName, string languageDirPath, EditorStringsData stringsData)
+        {
+            string xmlSubPath = Path.GetRelativePath(languageDirPath, file);
+            if (!stringsData.SubPathStringIdsList.TryGetValue(xmlSubPath, out StringsIdsBySubPath? stringIdsList))
+            {
+                stringIdsList = new();
+                stringsData.SubPathStringIdsList[xmlSubPath] = stringIdsList;
+            }
+
+            try
+            {
+                var lines = File.ReadAllLines(file);
+                ReadFromTheStringsArray(lines, languageName, stringIdsList);
+            }
+            catch (Exception ex)
+            {
+                // Ошибка чтения файла как текстового, можно добавить логирование при необходимости
             }
         }
 
