@@ -117,8 +117,8 @@ namespace RimworldModTranslator.ViewModels
             }
         }
 
-        public Dictionary<string, LanguageValuePairsData> IdCache { get; private set; }
-        public Dictionary<string, LanguageValuePairsData> ValueCache { get; private set; }
+        public Dictionary<string, LanguageValuePairsData>? IdCache { get; private set; }
+        public Dictionary<string, LanguageValuePairsData>? ValueCache { get; private set; }
 
         #endregion
 
