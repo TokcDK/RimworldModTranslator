@@ -178,15 +178,15 @@ namespace RimworldModTranslator.Helpers
 
                     stringsData.Languages.Add(languageName);
 
-                    string langPath = Path.Combine(languagesDirPath, languageName);
-                    string langXmlDirPath = Path.Combine(langPath, xmlDirName);
+                    string languageDirPath = Path.Combine(languagesDirPath, languageName);
+                    string langXmlDirPath = Path.Combine(languageDirPath, xmlDirName);
                     if (!Directory.Exists(langXmlDirPath))
                         continue;
 
                     foreach (var file in Directory.GetFiles(langXmlDirPath, "*.xml", SearchOption.AllDirectories))
                     {
                         // Вычисляем подкаталог относительно текущей папки языка
-                        string xmlSubPath = Path.GetRelativePath(langPath, file);
+                        string xmlSubPath = Path.GetRelativePath(languageDirPath, file);
                         // Получаем или создаем список для данного xmlSubPath
                         if (!stringsData.SubPathStringIdsList.TryGetValue(xmlSubPath, out StringsIdsBySubPath? stringIdsList))
                         {
