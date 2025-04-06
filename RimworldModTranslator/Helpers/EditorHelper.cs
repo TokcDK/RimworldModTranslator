@@ -175,12 +175,12 @@ namespace RimworldModTranslator.Helpers
 
                 if (Directory.Exists(languageDirPath))
                 {
-                    new DirXmlReader(languageName, languageDirPath, stringsData).ProcessXmlFiles();
+                    new DirXmlReader(languageName, languageDirPath, stringsData).ProcessFiles();
                 }
                 else if (File.Exists(languageDirPath + ".tar"))
                 {
                     using var tar = new TarXmlReader(languageName, languageDirPath, stringsData);
-                    tar.ProcessXmlFiles();
+                    tar.ProcessFiles();
                 }
             }
         }
@@ -280,46 +280,12 @@ namespace RimworldModTranslator.Helpers
 
                 if (Directory.Exists(langTxtDirPath))
                 {
-
-                    foreach (var file in Directory.GetFiles(langTxtDirPath, "*.txt", SearchOption.AllDirectories))
-                    {
-                        string txtSubPath = Path.GetRelativePath(langPath, file);
-                        // Получить или создать список для данного txtSubPath
-                        if (!stringsData.SubPathStringIdsList.TryGetValue(txtSubPath, out StringsIdsBySubPath? stringIdsList))
-                        {
-                            stringIdsList = new();
-                            stringsData.SubPathStringIdsList[txtSubPath] = stringIdsList;
-                        }
-
-                        var lines = File.ReadAllLines(file);
-                        var fileName = Path.GetFileNameWithoutExtension(file);
-                        ReadTxtStringsFile(lines, fileName, language, stringIdsList);
-                    }
+                    new DirTxtReader(language, langTxtDirPath, stringsData).ProcessFiles();
                 }
                 else if (File.Exists(langTxtDirPath + ".tar"))
                 {
-                    using var tarArchive = TarArchive.Open(langTxtDirPath + ".tar");
-                    foreach (var entry in tarArchive.Entries
-                        .Where(e => !e.IsDirectory
-                                    && e.Key != null
-                                    && e.Key.EndsWith(".txt")
-                              )
-                            )
-                    {
-                        using var entryStream = entry.OpenEntryStream();
-                        using var reader = new StreamReader(entryStream);
-                        string txtSubPath = entry.Key!.Replace('/', '\\');
-                        // Получить или создать список для данного txtSubPath
-                        if (!stringsData.SubPathStringIdsList.TryGetValue(txtSubPath, out StringsIdsBySubPath? stringIdsList))
-                        {
-                            stringIdsList = new();
-                            stringsData.SubPathStringIdsList[txtSubPath] = stringIdsList;
-                        }
-
-                        var lines = reader.ReadToEnd().Split(["\r\n", "\r", "\n"], StringSplitOptions.None);
-                        var fileName = Path.GetFileNameWithoutExtension(txtSubPath);
-                        ReadTxtStringsFile(lines, fileName, language, stringIdsList);
-                    }
+                    using var tar = new TarTxtReader(language, langTxtDirPath, stringsData);
+                    tar.ProcessFiles();
                 }
             }
         }

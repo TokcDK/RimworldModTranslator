@@ -24,7 +24,7 @@ namespace RimworldModTranslator.Helpers
                 tarArchive = TarArchive.Open(languageDirPath + ".tar");
 
                 return tarArchive.Entries
-                    .Where(e => !e.IsDirectory && e.Key != null && e.Key.EndsWith(".xml"));
+                    .Where(e => !e.IsDirectory && e.Key != null && e.Key.EndsWith(Ext));
             }
             protected override (string, string[]) GetSubPathLines(object entry)
             {

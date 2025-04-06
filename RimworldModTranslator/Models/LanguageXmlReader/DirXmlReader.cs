@@ -10,7 +10,7 @@ namespace RimworldModTranslator.Helpers
         {
             protected override IEnumerable<object> GetEntries()
             {
-                return Directory.EnumerateFiles(languageDirPath, "*.xml", SearchOption.AllDirectories);
+                return Directory.EnumerateFiles(languageDirPath, $"*{Ext}", SearchOption.AllDirectories);
             }
             protected override (string, string[]) GetSubPathLines(object entry)
             {

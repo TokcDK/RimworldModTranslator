@@ -1,6 +1,7 @@
 ﻿using RimworldModTranslator.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace RimworldModTranslator.Helpers
 {
@@ -8,28 +9,35 @@ namespace RimworldModTranslator.Helpers
     {
         internal abstract class XmlReaderBase(string languageName, string languageDirPath, EditorStringsData stringsData)
         {
-            internal void ProcessXmlFiles()
+            internal void ProcessFiles()
             {
                 foreach (var entry in GetEntries())
                 {
-                    var (xmlSubPath, lines) = GetSubPathLines(entry);
-                    if (!stringsData.SubPathStringIdsList.TryGetValue(xmlSubPath, out StringsIdsBySubPath? stringIdsList))
+                    var (subPath, lines) = GetSubPathLines(entry);
+                    if (!stringsData.SubPathStringIdsList.TryGetValue(subPath, out StringsIdsBySubPath? stringIdsList))
                     {
                         stringIdsList = new();
-                        stringsData.SubPathStringIdsList[xmlSubPath] = stringIdsList;
+                        stringsData.SubPathStringIdsList[subPath] = stringIdsList;
                     }
 
                     try
                     {
-                        EditorHelper.ReadFromTheStringsArray(lines, languageName, stringIdsList);
+                        ReadStrings(lines, subPath, stringIdsList);
                     }
                     catch (Exception ex) { }
                 }
             }
 
+            protected virtual void ReadStrings(string[] lines, string subPath, StringsIdsBySubPath stringIdsList)
+            {
+                EditorHelper.ReadFromTheStringsArray(lines, languageName, stringIdsList);
+            }
             protected abstract (string, string[]) GetSubPathLines(object entry);
 
             protected abstract IEnumerable<object> GetEntries();
+
+            protected virtual string Ext { get => ".xml"; }
+
         }
     }
 }
