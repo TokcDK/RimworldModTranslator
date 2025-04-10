@@ -40,8 +40,6 @@ namespace RimworldModTranslator.ViewModels
 
         partial void OnSelectedGameChanged(Game? value)
         {
-            if(SelectedGame == value) return; // No change
-
             var oldSelectedGame = value; // Save the old value in case the new value is invalid
 
             if (!GameHelper.LoadGameData(value) && value != null)
