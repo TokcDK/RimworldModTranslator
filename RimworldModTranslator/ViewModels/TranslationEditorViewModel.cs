@@ -66,7 +66,7 @@ namespace RimworldModTranslator.ViewModels
             "Ctrl+D - Clear selected cells";
         public string FolderSelectionToolTip { get; } = "Select folder to translate.";
         public string AddNewLanguageToolTip { get; } = "Enter the new language folder name and press add to add the new column.";
-        public string LoadStringsCacheToolTip { get; } = "Load strings from exist mods";
+        public string LoadStringsCacheToolTip { get; } = "Load strings from all exist game(when the game dir path is set) dlcs and mods";
         public string LoadStringsToolTip { get => _settingsService.LoadStringsToolTip; }
         public string SaveStringsToolTip { get; } = "Save strings from of selected mod to a new mod";
         #endregion
