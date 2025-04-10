@@ -38,6 +38,23 @@ namespace RimworldModTranslator.ViewModels
         [ObservableProperty]
         private Game? selectedGame;
 
+        partial void OnSelectedGameChanged(Game? value)
+        {
+            var oldSelectedGame = value; // Save the old value in case the new value is invalid
+
+            if (!GameHelper.LoadGameData(value, settingsService) && value != null)
+            {
+                settingsService.GamesList.Remove(value);
+                SelectedGame = oldSelectedGame;
+            }
+            else
+            {
+                settingsService.SelectedGame = value;
+                GameHelper.UpdateSharedModList(settingsService.ModsList, value!.ModsList);
+                settingsService.SaveGamesList();
+            }
+        }
+
         [ObservableProperty]
         private bool tryLoadTranslationsCache = false;
         partial void OnTryLoadTranslationsCacheChanged(bool value)
@@ -181,23 +198,6 @@ namespace RimworldModTranslator.ViewModels
             }
         }
         #endregion
-
-        partial void OnSelectedGameChanged(Game? value)
-        {
-            var oldSelectedGame = value; // Save the old value in case the new value is invalid
-
-            if (!GameHelper.LoadGameData(value, settingsService) && value != null)
-            {
-                settingsService.GamesList.Remove(value);
-                SelectedGame = oldSelectedGame;
-            }
-            else
-            {
-                settingsService.SelectedGame = value;
-                GameHelper.UpdateSharedModList(settingsService.ModsList, value!.ModsList);
-                settingsService.SaveGamesList();
-            }
-        }
 
         [ObservableProperty]
         private string? newModsDirPath;
