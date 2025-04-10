@@ -27,6 +27,16 @@ namespace RimworldModTranslator.Helpers
             return modsPathToCheck; // seems to be correct
         }
 
+        internal static string? GetSelectedModPath(Game? selectedGame, ModData? selectedMod)
+        {
+            if (selectedGame == null) return null;
+            if (selectedGame.ModsDirPath == null) return null;
+            if (selectedMod == null) return null;
+            if (selectedMod.DirectoryName == null) return null;
+
+            return Path.Combine(selectedGame.ModsDirPath, selectedMod.DirectoryName);
+        }
+
         internal static bool IsValidGame(Game? game, SettingsService settings)
         {
             if (game == null) return false;
@@ -75,9 +85,24 @@ namespace RimworldModTranslator.Helpers
             return true;
         }
 
-        internal static void TryLoadSettings(SettingsService settingsService)
+        internal static bool TryExploreDirectory(string? directoryName)
         {
-            throw new NotImplementedException();
+            if (directoryName != null && System.IO.Directory.Exists(directoryName))
+            {
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = directoryName,
+                    UseShellExecute = true,
+                    Verb = "open"
+                });
+
+                return true;
+            }
+            else
+            {
+                //System.Windows.MessageBox.Show("Mod directory does not exist.");
+                return false;
+            }
         }
 
         internal static void UpdateSharedModList(ObservableCollection<ModData> modlistToUpdate, ObservableCollection<ModData> modlistSource)

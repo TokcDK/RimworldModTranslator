@@ -53,26 +53,8 @@ namespace RimworldModTranslator.ViewModels
         }
         [RelayCommand]
         private void OpenModDir()
-        {
-            if(settingsService.SelectedGame == null) return;
-            if(settingsService.SelectedGame.ModsDirPath == null) return;
-            if(SelectedMod == null) return;
-            if(SelectedMod.DirectoryName == null) return;
-
-            string modPath = Path.Combine(settingsService.SelectedGame.ModsDirPath, SelectedMod.DirectoryName);
-            if (System.IO.Directory.Exists(modPath))
-            {
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = modPath,
-                    UseShellExecute = true,
-                    Verb = "open"
-                });
-            }
-            else
-            {
-                //System.Windows.MessageBox.Show("Mod directory does not exist.");
-            }
+        {            
+            GameHelper.TryExploreDirectory(GameHelper.GetSelectedModPath(settingsService.SelectedGame, SelectedMod));
         }
     }
 }
