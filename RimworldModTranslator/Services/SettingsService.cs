@@ -18,11 +18,6 @@ namespace RimworldModTranslator.Services
         public string LoadStringsToolTip { get; } = "Load strings from the selected mod"; // Modlist,
         #endregion
 
-        // Set default ModsConfig.xml path to the Windows LocalLow directory.
-        public readonly string DefaultModsConfigXmlPath =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                         "..", "LocalLow", "Ludeon Studios", "RimWorld by Ludeon Studios", "Config", "ModsConfig.xml");
-        
         readonly char _gamesListPathsSeparator = '*';
         readonly char _gamesListTheGamePathsSeparator = '|';
 
@@ -71,7 +66,7 @@ namespace RimworldModTranslator.Services
                             GameDirPath = gameParts.Length == 2 ? "" : gameParts[2]
                         };
 
-                        if (GameHelper.IsValidGame(newGame, this))
+                        if (GameHelper.IsValidGame(newGame))
                         {
                             GamesList.Add(newGame);
                         }

@@ -12,6 +12,11 @@ namespace RimworldModTranslator.Helpers
 {
     class GameHelper
     {
+
+        // Set default ModsConfig.xml path to the Windows LocalLow directory.
+        public static string DefaultModsConfigXmlPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                         "..", "LocalLow", "Ludeon Studios", "RimWorld by Ludeon Studios", "Config", "ModsConfig.xml");
+
         internal static string CheckCorrectModsPath(string modsPathToCheck)
         {
             if (Directory.Exists(Path.Combine(modsPathToCheck, "RimWorldWin64_Data")))
@@ -37,7 +42,7 @@ namespace RimworldModTranslator.Helpers
             return Path.Combine(selectedGame.ModsDirPath, selectedMod.DirectoryName);
         }
 
-        internal static bool IsValidGame(Game? game, SettingsService settings)
+        internal static bool IsValidGame(Game? game)
         {
             if (game == null) return false;
 
@@ -51,15 +56,15 @@ namespace RimworldModTranslator.Helpers
             // Use the default ModsConfig.xml path located in LocalLow
             if (string.IsNullOrEmpty(game.ConfigDirPath) || !Directory.Exists(game.ConfigDirPath))
             {
-                game.ConfigDirPath = Path.GetDirectoryName(settings.DefaultModsConfigXmlPath);
+                game.ConfigDirPath = Path.GetDirectoryName(DefaultModsConfigXmlPath);
             }
 
             return true;
         }
 
-        internal static bool LoadGameData(Game? game, SettingsService settings)
+        internal static bool LoadGameData(Game? game)
         {
-            if (!IsValidGame(game, settings)) return false;
+            if (!IsValidGame(game)) return false;
 
             game.ModsList.Clear();
 

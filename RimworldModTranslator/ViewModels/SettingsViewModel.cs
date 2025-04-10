@@ -44,7 +44,7 @@ namespace RimworldModTranslator.ViewModels
 
             var oldSelectedGame = value; // Save the old value in case the new value is invalid
 
-            if (!GameHelper.LoadGameData(value, settingsService) && value != null)
+            if (!GameHelper.LoadGameData(value) && value != null)
             {
                 settingsService.GamesList.Remove(value);
                 SelectedGame = oldSelectedGame;
@@ -263,7 +263,7 @@ namespace RimworldModTranslator.ViewModels
                 GameDirPath = NewGameDirPath
             };
 
-            if (!GameHelper.IsValidGame(newGame, settingsService)) return;
+            if (!GameHelper.IsValidGame(newGame)) return;
 
             GamesList.Add(newGame);
             SelectedGame = newGame;
@@ -272,17 +272,21 @@ namespace RimworldModTranslator.ViewModels
         private bool IsAlreadyAddedGame(out Game? game)
         {
             bool isInvalidConfigDirPath = string.IsNullOrWhiteSpace(NewConfigDirPath) || !Directory.Exists(NewConfigDirPath);
-            string defaultConfigDirPath = Path.GetDirectoryName(settingsService.DefaultModsConfigXmlPath)!;
+            string defaultConfigDirPath = Path.GetDirectoryName(GameHelper.DefaultModsConfigXmlPath)!;
             NewConfigDirPath = isInvalidConfigDirPath ? defaultConfigDirPath : NewConfigDirPath;
 
 
-            game = GamesList.FirstOrDefault(g => (g.ModsDirPath == NewModsDirPath 
-                                || g.ModsDirPath == Path.GetFullPath(NewModsDirPath))
-                                && (g.ConfigDirPath == NewConfigDirPath 
-                                || g.ConfigDirPath == Path.GetFullPath(NewConfigDirPath))
+            game = GamesList.FirstOrDefault(g => 
+                                    NewModsDirPath != null 
+                                && 
+                                    (g.ModsDirPath == NewModsDirPath 
+                                    || g.ModsDirPath == Path.GetFullPath(NewModsDirPath))
+                                && 
+                                    (g.ConfigDirPath == NewConfigDirPath 
+                                    || g.ConfigDirPath == Path.GetFullPath(NewConfigDirPath!))
                                 && (string.IsNullOrWhiteSpace(g.GameDirPath) && Directory.Exists(NewGameDirPath) 
-                                || g.GameDirPath == NewGameDirPath 
-                                || g.GameDirPath == Path.GetFullPath(NewGameDirPath))
+                                    || g.GameDirPath == NewGameDirPath 
+                                    || g.GameDirPath == Path.GetFullPath(NewGameDirPath!))
                             );
             if (game != default)
             {
