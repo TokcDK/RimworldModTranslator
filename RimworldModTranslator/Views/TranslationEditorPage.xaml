@@ -116,11 +116,6 @@
                        Text="{Binding ModDisplayingName}"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left" Margin="2"/>
-
-            <!-- Button for load translations cache from all exist mods -->
-            <Button Grid.Column="1" Content="TEST"
-                    Command="{Binding Test111Command}"
-                    VerticalAlignment="Center" Margin="2"/>
             
             <!-- Button for load translations cache from all exist mods -->
             <Button Grid.Column="2" Content="DB"
