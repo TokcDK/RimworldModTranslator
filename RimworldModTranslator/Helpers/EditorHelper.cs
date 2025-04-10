@@ -759,6 +759,8 @@ namespace RimworldModTranslator.Helpers
 
             foreach (var (rowItem, column) in EnumerateValidSelectedCells(selectedCells))
             {
+                if (clipboardLineIndex >= clipboardLines.Length) break;
+
                 var cellContent = rowItem.Row[column.SortMemberPath];
                 if (cellContent == null || string.IsNullOrEmpty(cellContent + ""))
                 {
