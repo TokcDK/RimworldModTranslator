@@ -99,6 +99,10 @@
             </StackPanel>
         </StackPanel>
         <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
-        <CheckBox Content="Force load translations from exist mods (Default: only once)" IsChecked="{Binding ForceLoadTranslationsCache}"/>
+        <CheckBox 
+            ToolTip="{Binding ForceLoadTranslationsCacheToolTip}"
+            Content="Force load translations from exist mods (Default: only once)" 
+            IsChecked="{Binding ForceLoadTranslationsCache}"
+            />
     </StackPanel>
 </UserControl>

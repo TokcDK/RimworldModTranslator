@@ -69,6 +69,7 @@ namespace RimworldModTranslator.ViewModels
         public string LoadStringsCacheToolTip { get; } = "Load strings from exist mods";
         public string LoadStringsToolTip { get => settingsService.LoadStringsToolTip; }
         public string SaveStringsToolTip { get; } = "Save strings from of selected mod to a new mod";
+        public string ForceLoadTranslationsCacheToolTip { get; } = "When enabled the translations of all dlcs and mods will be load each time. (slower, default: only 1st time and dont unload before the app restart)";
         #endregion
 
         #region Constructors
