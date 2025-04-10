@@ -768,7 +768,7 @@ namespace RimworldModTranslator.Helpers
             }
         }
 
-        internal static void CutSelectedCells(IList<DataGridCellInfo>? selectedCells)
+        internal static void CutSelectedCells(IList<DataGridCellInfo>? selectedCells, bool onlyCopy = false)
         {
             if (selectedCells == null || selectedCells.Count == 0) return;
 
@@ -777,7 +777,7 @@ namespace RimworldModTranslator.Helpers
             {
                 string rowValue = rowItem.Row[column.SortMemberPath] + "";
                 strings.Add(rowValue);
-                rowItem.Row[column.SortMemberPath] = null;
+                if(!onlyCopy) rowItem.Row[column.SortMemberPath] = null;
             }
 
             if (strings.Count == 0)

@@ -82,6 +82,14 @@
                   b:DataGridAutoScrollToSelectedItemBehavior.AutoScrollToSelectedItem="True"
                   ToolTip="{Binding EditorTableToolTip}"
                   >
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Cut" Command="{Binding CutSelectedCellsCommand}" />
+                    <MenuItem Header="Copy" Command="{Binding CopySelectedCellsCommand}" />
+                    <MenuItem Header="Paste" Command="{Binding PasteStringsInSelectedCellsCommand}" />
+                    <MenuItem Header="Clear" Command="{Binding ClearSelectedCellsCommand}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
 
             <DataGrid.InputBindings>
                 <KeyBinding Modifiers="Control" Key="F" Command="{Binding OpenSearchWindowCommand}" />

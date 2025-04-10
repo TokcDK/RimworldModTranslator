@@ -299,6 +299,12 @@ namespace RimworldModTranslator.ViewModels
         }
 
         [RelayCommand]
+        private void CopySelectedCells()
+        {
+            EditorHelper.CutSelectedCells(SelectedCells, true);
+        }
+
+        [RelayCommand]
         private void CutSelectedCells()
         {
             EditorHelper.CutSelectedCells(SelectedCells);
