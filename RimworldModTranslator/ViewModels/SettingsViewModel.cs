@@ -30,6 +30,7 @@ namespace RimworldModTranslator.ViewModels
         public static string TargetModDescriptionToolTip { get => "Optional target mod description. Default: '{Source mode name} Translation'"; }
         public static string TargetModUrlToolTip { get => "Optional target mod web page URL. Default: No Url"; }
         public static string TargetModPreviewToolTip { get => "Optional target mod preview path. Default: No preview. When empty will try to find 'Preview.png' next to the app exe. "; }
+        public static string ForceLoadTranslationsCacheToolTip { get; } = "When enabled the translations of all dlcs and mods will be load each time. (slower, default: only 1st time and dont unload before the app restart)";
         #endregion
 
         public ObservableCollection<Game> GamesList { get => settingsService.GamesList; }
