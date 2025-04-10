@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace RimworldModTranslator.Services
 {
-    public partial class SettingsService : ObservableObject
+    public partial class SettingsService
     {
         #region Shared ToolTips
         // Editor tab
@@ -26,8 +26,9 @@ namespace RimworldModTranslator.Services
         readonly char _gamesListPathsSeparator = '*';
         readonly char _gamesListTheGamePathsSeparator = '|';
 
-        [ObservableProperty]
-        private Game? selectedGame;
+        public Game? SelectedGame { get; internal set; }
+
+        public ModData? SelectedMod { get; internal set; }
 
         public ObservableCollection<Game> GamesList { get; internal set; } = [];
 
@@ -37,9 +38,6 @@ namespace RimworldModTranslator.Services
         public ObservableCollection<ModData> ModsList { get; } = [];
         public bool TryLoadTranslationsCache { get; internal set; } = false;
         public bool ForceLoadTranslationsCache { get; internal set; } = false;
-
-        [ObservableProperty]
-        private ModData? selectedMod;
 
         public SettingsService()
         {
