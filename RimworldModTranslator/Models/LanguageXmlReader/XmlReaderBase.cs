@@ -20,7 +20,7 @@ namespace RimworldModTranslator.Helpers
                     var (subPath, lines) = GetSubPathLines(entry);
 
                     bool isDefInjected = isXml && subPath.StartsWith("DefInjected");
-                    if (isXml && !isDefInjected && subPath.StartsWith("Keyed"))
+                    if (isXml && !isDefInjected && !subPath.StartsWith("Keyed"))
                     {
                         // was About.xml in language dir
                         continue;
