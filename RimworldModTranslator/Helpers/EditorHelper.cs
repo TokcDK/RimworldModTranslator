@@ -209,9 +209,23 @@ namespace RimworldModTranslator.Helpers
                         langList = new();
                         stringIdsList.StringIdLanguageValuePairsList[key] = langList;
                     }
-                    langList.LanguageValuePairs[language] = value;
+                    langList.LanguageValuePairs[language] = NormalizeNewLines(value);
                 }
             }
+        }
+
+        /// <summary>
+        /// Replace new line symbols with "\\n" in the string if found.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string NormalizeNewLines(string value)
+        {
+            return value
+                .Replace("\r\n", "\\n")
+                .Replace("\r", "\\n")
+                .Replace("\n", "\\n")
+                ;
         }
 
         public static void LoadStringsFromTheXmlDir(string xmlDirName, ObservableCollection<string?> langDirNames, string languagesDirPath, EditorStringsData stringsData)
@@ -256,7 +270,7 @@ namespace RimworldModTranslator.Helpers
                                 stringByKeyForEachLanguage[key] = value;
                             }
 
-                            value[language] = pair.Value;
+                            value[language] = NormalizeNewLines(pair.Value);
                         }
                     }
                     catch (Exception ex)
@@ -473,7 +487,7 @@ namespace RimworldModTranslator.Helpers
                                 langList = new LanguageValuePairsData();
                                 stringsBySubPath.StringIdLanguageValuePairsList[stringId] = langList;
                             }
-                            langList.LanguageValuePairs[language] = stringValue;
+                            langList.LanguageValuePairs[language] = NormalizeNewLines(stringValue);
                         }
                     }
                 }
