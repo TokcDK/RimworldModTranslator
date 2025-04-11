@@ -154,5 +154,17 @@ namespace RimworldModTranslator.Properties {
                 this["TargetModPreview"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LoadOnlyStringsForExtractedIds {
+            get {
+                return ((bool)(this["LoadOnlyStringsForExtractedIds"]));
+            }
+            set {
+                this["LoadOnlyStringsForExtractedIds"] = value;
+            }
+        }
     }
 }

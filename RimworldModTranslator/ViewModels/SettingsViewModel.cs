@@ -31,6 +31,7 @@ namespace RimworldModTranslator.ViewModels
         public static string TargetModUrlToolTip { get => "Optional target mod web page URL. Default: No Url"; }
         public static string TargetModPreviewToolTip { get => "Optional target mod preview path. Default: No preview. When empty will try to find 'Preview.png' next to the app exe. "; }
         public static string ForceLoadTranslationsCacheToolTip { get; } = "When enabled the translations of all dlcs and mods will be load each time. (slower, default: only 1st time and dont unload before the app restart)";
+        public static string LoadOnlyStringsForExtractedIdsToolTip { get; } = "When enabled Load strings will load definjected strings from language dir for only ids which was extracted from defs.";
         #endregion
 
         public ObservableCollection<Game> GamesList { get => settingsService.GamesList; }
@@ -67,6 +68,13 @@ namespace RimworldModTranslator.ViewModels
         partial void OnForceLoadTranslationsCacheChanged(bool value)
         {
             settingsService.ForceLoadTranslationsCache = value;
+        }
+
+        [ObservableProperty]
+        private bool _loadOnlyStringsForExtractedIds = Properties.Settings.Default.LoadOnlyStringsForExtractedIds;
+        partial void OnLoadOnlyStringsForExtractedIdsChanged(bool value)
+        {
+            Properties.Settings.Default.LoadOnlyStringsForExtractedIds = value;
         }
 
         [ObservableProperty]

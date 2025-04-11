@@ -104,5 +104,10 @@
             Content="Force load translations from exist mods (Default: only once)" 
             IsChecked="{Binding ForceLoadTranslationsCache}"
             />
+        <CheckBox 
+            ToolTip="{Binding LoadOnlyStringsForExtractedIdsToolTip}"
+            Content="Force load translations from exist mods (Default: only once)" 
+            IsChecked="{Binding LoadOnlyStringsForExtractedIds}"
+            />
     </StackPanel>
 </UserControl>
