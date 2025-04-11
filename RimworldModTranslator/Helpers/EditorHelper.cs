@@ -1,4 +1,5 @@
 ﻿using RimworldModTranslator.Models;
+using RimworldModTranslator.Properties;
 using SharpCompress.Archives.Tar;
 using SharpCompress.Common;
 using System;
@@ -188,7 +189,7 @@ namespace RimworldModTranslator.Helpers
         // Регулярное выражение для поиска строк с xml тегами, которые начинаются и заканчиваются одинаково.
         // Пример: <OvipositorF.stages.5.label>Бездна</OvipositorF.stages.5.label>
         static Regex regex = new Regex(@"^\s*<(?<tag>[^>]+)>(?<value>.*)</\k<tag>>\s*$", RegexOptions.Compiled);
-        private static void ReadFromTheStringsArray(string[] lines, string language, StringsIdsBySubPath stringIdsList)
+        private static void ReadFromTheStringsArray(string[] lines, string language, StringsIdsBySubPath stringIdsList, bool skipMissingIds = false)
         {
             foreach (var line in lines)
             {
@@ -203,6 +204,8 @@ namespace RimworldModTranslator.Helpers
 
                     if (!stringIdsList.StringIdLanguageValuePairsList.TryGetValue(key, out LanguageValuePairsData? langList))
                     {
+                        if(skipMissingIds) continue;
+
                         langList = new();
                         stringIdsList.StringIdLanguageValuePairsList[key] = langList;
                     }
@@ -814,8 +817,8 @@ namespace RimworldModTranslator.Helpers
         {
             EditorStringsData stringsData = new();
 
-            EditorHelper.LoadDefKeyedStringsFromTheDir(selectedTranslatableDir, stringsData);
             EditorHelper.ExtractStrings(selectedTranslatableDir, stringsData);
+            EditorHelper.LoadDefKeyedStringsFromTheDir(selectedTranslatableDir, stringsData);
 
             return stringsData;
         }

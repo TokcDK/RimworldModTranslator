@@ -17,7 +17,7 @@ namespace RimworldModTranslator.Helpers
                 get => ".txt";
             }
 
-            protected override void ReadStrings(string[] lines, string subPath, StringsIdsBySubPath stringIdsList)
+            protected override void ReadStrings(string[] lines, string subPath, StringsIdsBySubPath stringIdsList, bool skipMissingIds = false)
             {
                 var fileName = Path.GetFileNameWithoutExtension(subPath);
                 EditorHelper.ReadTxtStringsFile(lines, fileName, languageName, stringIdsList);

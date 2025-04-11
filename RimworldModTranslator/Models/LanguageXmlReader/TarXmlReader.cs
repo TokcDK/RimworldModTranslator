@@ -12,18 +12,18 @@ namespace RimworldModTranslator.Helpers
     {
         class TarXmlReader(string languageName, string languageDirPath, EditorStringsData stringsData) : XmlReaderBase(languageName, languageDirPath, stringsData) , IDisposable
         {
-            TarArchive? tarArchive;
+            TarArchive? _tarArchive;
 
             public void Dispose()
             {
-                tarArchive?.Dispose();
+                _tarArchive?.Dispose();
             }
 
             protected override IEnumerable<object> GetEntries()
             {
-                tarArchive = TarArchive.Open(languageDirPath + ".tar");
+                _tarArchive = TarArchive.Open(languageDirPath + ".tar");
 
-                return tarArchive.Entries
+                return _tarArchive.Entries
                     .Where(e => !e.IsDirectory && e.Key != null && e.Key.EndsWith(Ext));
             }
             protected override (string, string[]) GetSubPathLines(object entry)
