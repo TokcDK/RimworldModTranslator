@@ -18,6 +18,12 @@ namespace RimworldModTranslator.Helpers
                 foreach (var entry in GetEntries())
                 {
                     var (subPath, lines) = GetSubPathLines(entry);
+
+                    if (subPath == "About.xml")
+                    {
+                        continue;
+                    }
+
                     bool isDefInjected = isXml && subPath.StartsWith("DefInjected");
                     if (!stringsData.SubPathStringIdsList.TryGetValue(subPath, out StringsIdsBySubPath? stringIdsList))
                     {
