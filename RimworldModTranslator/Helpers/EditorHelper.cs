@@ -221,11 +221,13 @@ namespace RimworldModTranslator.Helpers
         /// <returns></returns>
         public static string NormalizeNewLines(string value)
         {
+            if (!value.Contains('\n') && !value.Contains('\r'))
+                return value;
+
             return value
                 .Replace("\r\n", "\\n")
                 .Replace("\r", "\\n")
-                .Replace("\n", "\\n")
-                ;
+                .Replace("\n", "\\n");
         }
 
         public static void LoadStringsFromTheXmlDir(string xmlDirName, ObservableCollection<string?> langDirNames, string languagesDirPath, EditorStringsData stringsData)
