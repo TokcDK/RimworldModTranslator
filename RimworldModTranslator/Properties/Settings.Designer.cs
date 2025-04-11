@@ -166,5 +166,17 @@ namespace RimworldModTranslator.Properties {
                 this["LoadOnlyStringsForExtractedIds"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ForceLoadTranslationsCache {
+            get {
+                return ((bool)(this["ForceLoadTranslationsCache"]));
+            }
+            set {
+                this["ForceLoadTranslationsCache"] = value;
+            }
+        }
     }
 }

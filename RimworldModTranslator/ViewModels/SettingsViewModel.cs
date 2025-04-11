@@ -75,6 +75,7 @@ namespace RimworldModTranslator.ViewModels
         partial void OnLoadOnlyStringsForExtractedIdsChanged(bool value)
         {
             Properties.Settings.Default.LoadOnlyStringsForExtractedIds = value;
+            Properties.Settings.Default.Save();
         }
 
         [ObservableProperty]

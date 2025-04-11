@@ -32,7 +32,20 @@ namespace RimworldModTranslator.Services
         /// </summary>
         public ObservableCollection<ModData> ModsList { get; } = [];
         public bool TryLoadTranslationsCache { get; internal set; } = false;
-        public bool ForceLoadTranslationsCache { get; internal set; } = false;
+        
+        public bool _forceLoadTranslationsCache = Properties.Settings.Default.ForceLoadTranslationsCache;
+        public bool ForceLoadTranslationsCache 
+        { 
+            get => _forceLoadTranslationsCache; 
+            internal set
+            {
+                if(value != _forceLoadTranslationsCache)
+                {
+                    Properties.Settings.Default.ForceLoadTranslationsCache = _forceLoadTranslationsCache = value;
+                    Properties.Settings.Default.Save();
+                }
+            }
+        }
 
         public SettingsService()
         {
