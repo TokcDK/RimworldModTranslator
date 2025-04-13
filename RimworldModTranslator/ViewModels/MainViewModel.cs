@@ -28,6 +28,8 @@ namespace RimworldModTranslator.ViewModels
         {
             _settingsService = settingsService;
 
+            _logger.Info("Application started");
+
             // TabViewModels.Add(new WelcomeViewModel(settingsService)); // Not implemented yet, add there some info possibly
             TabViewModels.Add(new ModListViewModel(settingsService));
             TabViewModels.Add(new TranslationEditorViewModel(settingsService));
@@ -36,8 +38,6 @@ namespace RimworldModTranslator.ViewModels
             _selectedTab = TabViewModels[2]; // Select the settings tab by default
 
             WeakReferenceMessenger.Default.Register<LoadSelectedModStringsMessage>(this);
-
-            _logger.Info("Application started");
         }
 
         async void IRecipient<LoadSelectedModStringsMessage>.Receive(LoadSelectedModStringsMessage message)

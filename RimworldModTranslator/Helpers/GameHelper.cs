@@ -1,4 +1,5 @@
-﻿using RimworldModTranslator.Models;
+﻿using NLog;
+using RimworldModTranslator.Models;
 using RimworldModTranslator.Services;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace RimworldModTranslator.Helpers
 {
     class GameHelper
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         // Set default ModsConfig.xml path to the Windows LocalLow directory.
         public static string DefaultModsConfigXmlPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -86,6 +88,8 @@ namespace RimworldModTranslator.Helpers
             }
 
             game.ModsList = [.. game.ModsList.OrderBy(g => modsConfig.ActiveMods.IndexOf((g.About == null || g.About.PackageId == null ? "" : g.About.PackageId).ToLowerInvariant()))];
+
+            _logger.Info($"Loaded {game.ModsList.Count} mods from {game.ModsDirPath}.");
 
             return true;
         }
