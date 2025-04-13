@@ -36,6 +36,8 @@ namespace RimworldModTranslator.ViewModels
             _selectedTab = TabViewModels[2]; // Select the settings tab by default
 
             WeakReferenceMessenger.Default.Register<LoadSelectedModStringsMessage>(this);
+
+            _logger.Info("Application started");
         }
 
         async void IRecipient<LoadSelectedModStringsMessage>.Receive(LoadSelectedModStringsMessage message)
