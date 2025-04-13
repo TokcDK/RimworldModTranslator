@@ -6,6 +6,7 @@ using RimworldModTranslator.Models;
 using System.Windows;
 using RimworldModTranslator.ViewModels;
 using RimworldModTranslator.Views;
+using RimworldModTranslator.Services;
 
 namespace RimworldModTranslator;
 
@@ -14,13 +15,13 @@ namespace RimworldModTranslator;
 /// </summary>  
 public partial class App
 {
+    private readonly SettingsService settingsService;
+
     public App()
     {
-        var mainViewModel = new MainViewModel();
-        var view = new MainView
-        {
-            DataContext = mainViewModel
-        };
+        settingsService = new SettingsService();
+
+        var view = new MainView();
 
         var uiTarget = new UILogTarget
         {
@@ -28,11 +29,11 @@ public partial class App
             {
                 view.Dispatcher.Invoke(() =>
                 {
-                    if (mainViewModel.Messages.Count > 100)
+                    if (settingsService.Messages.Count > 100)
                     {
-                        mainViewModel.Messages.RemoveAt(0);
+                        settingsService.Messages.RemoveAt(0);
                     }
-                    mainViewModel.Messages.Add(message);
+                    settingsService.Messages.Add(message);
                 });
             },
             Layout = "${message}" // Fix: Add Layout
@@ -50,6 +51,9 @@ public partial class App
         config.AddRule(LogLevel.Info, LogLevel.Fatal, "ui");
         config.AddRule(LogLevel.Debug, LogLevel.Fatal, "file");
         LogManager.Configuration = config;
+
+        var mainViewModel = new MainViewModel(settingsService);
+        view.DataContext = mainViewModel;
 
         var logger = LogManager.GetCurrentClassLogger();
         logger.Info("!!!"); // Test message

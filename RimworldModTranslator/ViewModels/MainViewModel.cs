@@ -15,24 +15,25 @@ namespace RimworldModTranslator.ViewModels
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public ObservableCollection<string> Messages { get; } = [];
+        public ObservableCollection<string> Messages { get => _settingsService!.Messages; }
 
         public ObservableCollection<ViewModelBase> TabViewModels { get; } = []; 
-        
-        private readonly SettingsService settingsService;
 
         [ObservableProperty]
-        private ViewModelBase selectedTab;
+        private ViewModelBase _selectedTab;
 
-        public MainViewModel()
+        private readonly SettingsService? _settingsService;
+
+        public MainViewModel(SettingsService settingsService)
         {
-            settingsService = new SettingsService();
+            _settingsService = settingsService;
+
             // TabViewModels.Add(new WelcomeViewModel(settingsService)); // Not implemented yet, add there some info possibly
             TabViewModels.Add(new ModListViewModel(settingsService));
             TabViewModels.Add(new TranslationEditorViewModel(settingsService));
             TabViewModels.Add(new SettingsViewModel(settingsService));
 
-            selectedTab = TabViewModels[2]; // Select the settings tab by default
+            _selectedTab = TabViewModels[2]; // Select the settings tab by default
 
             WeakReferenceMessenger.Default.Register<LoadSelectedModStringsMessage>(this);
 

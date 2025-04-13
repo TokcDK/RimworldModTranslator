@@ -13,6 +13,8 @@ namespace RimworldModTranslator.Services
 {
     public partial class SettingsService
     {
+        public ObservableCollection<string> Messages { get; } = [];
+
         #region Shared ToolTips
         // Editor tab
         public string LoadStringsToolTip { get; } = "Load strings from the selected mod"; // Modlist,
