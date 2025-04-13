@@ -36,7 +36,7 @@ public partial class App
                     settingsService.Messages.Add(message);
                 });
             },
-            Layout = "${longdate} ${level} ${message}"
+            Layout = "${longdate}: (${level}) ${message}"
         };
 
         var fileTarget = new FileTarget("file")
