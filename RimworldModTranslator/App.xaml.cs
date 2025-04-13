@@ -42,7 +42,7 @@ public partial class App
         var fileTarget = new FileTarget("file")
         {
             FileName = "log.txt",
-            Layout = "${longdate} ${level} ${message}"
+            Layout = "${longdate}: (${level}) ${message}"
         };
 
         var config = new LoggingConfiguration();
