@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:RimworldModTranslator.ViewModels"
         xmlns:local="clr-namespace:RimworldModTranslator.Views" 
+        xmlns:bh="clr-namespace:RimworldModTranslator.Behaviors" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         Title="Rimworld Mod Translator" Height="450" Width="800">
     <Window.Resources>
@@ -17,6 +18,10 @@
         </DataTemplate>
     </Window.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <TabControl ItemsSource="{Binding TabViewModels}" SelectedItem="{Binding SelectedTab}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
@@ -24,5 +29,16 @@
                 </DataTemplate>
             </TabControl.ItemTemplate>
         </TabControl>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Messages}"
+                 bh:ListBoxBehavior.AutoScrollToBottom="True"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Bottom"
+                 Height="100">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

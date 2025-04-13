@@ -7,11 +7,16 @@ using RimworldModTranslator.Services;
 using System.Collections.ObjectModel;
 using RimworldModTranslator.Helpers;
 using RimworldModTranslator.Messages;
+using NLog;
 
 namespace RimworldModTranslator.ViewModels
 {
     public partial class MainViewModel : ViewModelBase, IRecipient<LoadSelectedModStringsMessage>
     {
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
+        public ObservableCollection<string> Messages { get; } = [];
+
         public ObservableCollection<ViewModelBase> TabViewModels { get; } = []; 
         
         private readonly SettingsService settingsService;
@@ -30,6 +35,8 @@ namespace RimworldModTranslator.ViewModels
             selectedTab = TabViewModels[2]; // Select the settings tab by default
 
             WeakReferenceMessenger.Default.Register<LoadSelectedModStringsMessage>(this);
+
+            _logger.Info("Application started");
         }
 
         async void IRecipient<LoadSelectedModStringsMessage>.Receive(LoadSelectedModStringsMessage message)
