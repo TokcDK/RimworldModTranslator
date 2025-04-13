@@ -55,9 +55,6 @@ public partial class App
         var mainViewModel = new MainViewModel(settingsService);
         view.DataContext = mainViewModel;
 
-        var logger = LogManager.GetCurrentClassLogger();
-        logger.Info("!!!"); // Test message
-
         view.Show();
     }
 }
