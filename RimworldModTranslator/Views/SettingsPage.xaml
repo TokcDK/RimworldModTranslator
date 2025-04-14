@@ -85,7 +85,7 @@
        <TabItem Header="Target Mod Data">
            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                <StackPanel Orientation="Vertical" Margin="2" ToolTip="{Binding ExtractedLanguageNameToolTip, Mode=OneWay}">
-                   <TextBlock Text="Target Mod data" HorizontalAlignment="Center" />
+                   <TextBlock Text="Target Mod data (for About.xml)" HorizontalAlignment="Center" />
                    <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModNameToolTip, Mode=OneWay}">
                        <TextBlock Text="Displaying name:" Width="150" HorizontalAlignment="Right" />
                        <TextBox Text="{Binding TargetModName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
