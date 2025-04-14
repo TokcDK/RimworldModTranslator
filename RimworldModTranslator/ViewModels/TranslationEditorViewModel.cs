@@ -190,7 +190,11 @@ namespace RimworldModTranslator.ViewModels
             {
                 // load only when game was not set or changed
                 _game = _settingsService.SelectedGame;
-                if (_game == null) return;
+                if (_game == null)
+                {
+                    _logger.Warn("Game is not set. Please select the game.");
+                    return;
+                }
             }
 
             bool isChangedMod = _mod != _settingsService.SelectedMod;
@@ -199,7 +203,11 @@ namespace RimworldModTranslator.ViewModels
             {
                 // load only when mod was not set or changed
                 _mod = _settingsService.SelectedMod;
-                if (_mod == null) return;
+                if (_mod == null)
+                {
+                    _logger.Warn("Mod is not set. Please select the mod.");
+                    return;
+                }
             }
 
             //if(!isChangedMod && previousSelectedFolder == SelectedFolder)
