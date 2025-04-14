@@ -1049,6 +1049,7 @@ namespace RimworldModTranslator.Helpers
                 }
             });
 
+            _logger.Info($"Set translations by cache. {folders.Count} folders.");
             return Task.CompletedTask;
         }
 

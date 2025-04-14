@@ -179,6 +179,12 @@ namespace RimworldModTranslator.ViewModels
                 if (stringsData == null) return;
 
                 (IdCache, ValueCache) = await EditorHelper.FillCache(stringsData);
+
+                if(Directory.Exists(_settingsService.SelectedGame?.GameDirPath))
+                {
+                    _logger.Info($"Loaded strings cache from {_settingsService.SelectedGame?.GameDirPath}.");
+                }
+                _logger.Info($"Loaded strings cache from {_settingsService.SelectedGame?.ModsDirPath}.");
             }
 
             await EditorHelper.SetTranslationsbyCache(IdCache, ValueCache, Folders);
