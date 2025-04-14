@@ -18,6 +18,7 @@ using RimworldModTranslator.Views;
 using System.Windows;
 using System.Data.Common;
 using System.Threading.Tasks;
+using NLog;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -83,6 +84,8 @@ namespace RimworldModTranslator.ViewModels
 
         #region Properties
         public string Header { get; } = "Editor";
+
+        private static Logger _logger { get; } = LogManager.GetCurrentClassLogger();
 
         public bool IsTranslatorEnabled { get => IsTheTranslatorEnabled(); }
 
@@ -237,6 +240,8 @@ namespace RimworldModTranslator.ViewModels
             InitTranslationsTable(dataTableToRelink: translationsTable);
 
             OnPropertyChanged(nameof(ModDisplayingName));
+
+            _logger.Info($"Loaded strings from {selectedTranslatableDir}.");
         }
 
         [RelayCommand]
