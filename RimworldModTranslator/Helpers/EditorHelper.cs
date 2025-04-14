@@ -1,4 +1,5 @@
-﻿using RimworldModTranslator.Models;
+﻿using NLog;
+using RimworldModTranslator.Models;
 using RimworldModTranslator.Properties;
 using SharpCompress.Archives.Tar;
 using SharpCompress.Common;
@@ -22,6 +23,8 @@ namespace RimworldModTranslator.Helpers
 {
     internal partial class EditorHelper
     {
+        private static Logger _logger { get; } = LogManager.GetCurrentClassLogger();
+
         public static string[] TransatableLanguageDirs { get; } = ["DefInjected", "Keyed", "Strings"];
         public static string[] ExtractableModSubDirs { get; } = ["Defs", "Languages"];
 
@@ -29,7 +32,7 @@ namespace RimworldModTranslator.Helpers
 
         public static List<string> DefsXmlTags { get; } =
         [
-            "adjective",
+                "adjective",
                 "baseDesc",
                 "baseInspectLine",
                 "commandDesc",
@@ -761,6 +764,7 @@ namespace RimworldModTranslator.Helpers
             {
                 rowItem.Row[column.SortMemberPath] = null;
             }
+            _logger.Info($"Cleared {selectedCells.Count} selected cells.");
         }
         internal static void PasteStringsInSelectedCells(IList<DataGridCellInfo>? selectedCells)
         {
@@ -787,6 +791,8 @@ namespace RimworldModTranslator.Helpers
                     rowItem.Row[column.SortMemberPath] = clipboardLines[clipboardLineIndex++];
                 }
             }
+
+            _logger.Info($"Pasted {clipboardLineIndex} strings in selected cells.");
         }
 
         internal static void CutSelectedCells(IList<DataGridCellInfo>? selectedCells, bool onlyCopy = false)
@@ -807,6 +813,9 @@ namespace RimworldModTranslator.Helpers
             }
 
             Clipboard.SetText(string.Join("\r\n", strings));
+
+            string actionName = onlyCopy ? "Copy" : "Cut";
+            _logger.Info($"{actionName} {strings.Count} selected cells.");
         }
 
         internal static IEnumerable<(DataRowView row, DataGridColumn column)> EnumerateValidSelectedCells(IList<DataGridCellInfo> selectedCells)
