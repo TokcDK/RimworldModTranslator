@@ -38,7 +38,7 @@
         <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
 
         <ListBox Grid.Row="2" ItemsSource="{Binding Messages}"
-                bh:ListBoxBehavior.AutoScrollToBottom="True"
+                bh:ListBoxAutoScrollToBottomBehavior.AutoScrollToBottom="True"
                 SelectionMode="Multiple"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
