@@ -21,6 +21,7 @@ namespace RimworldModTranslator.ViewModels
         #region Names and Tooltips
         public static string LoadStringsName { get => Translation.LoadStringsName; }
         public static string LoadStringsToolTip { get => Translation.LoadStringsToolTip; }
+        public static string RefreshModListName { get => Translation.RefreshModListName; }
         public static string RefreshModListToolTip { get => Translation.RefreshModListName; }
         #endregion
 

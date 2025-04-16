@@ -10,7 +10,7 @@ namespace RimworldModTranslator.Translations
     internal static class Translation
     {
         internal static string ModsName { get; } = T._("Mods");
-        internal static string RefreshModListName { get; } = T._("Refresh mod list");
+        internal static string RefreshModListName { get; } = T._("Refresh");
 
         internal static string EditorName { get; } = T._("Editor");
         internal static string LoadStringsName { get; } = T._("Load strings"); // Modlist, Editor

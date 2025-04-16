@@ -63,7 +63,7 @@
                    Margin="2" />
            <Button Grid.Column="2" 
                    VerticalAlignment="Center"
-                   Content="Refresh" 
+                   Content="{Binding RefreshModListName}" 
                    ToolTip="{Binding RefreshModListToolTip}"
                    Command="{Binding RefreshModListCommand}" 
                    Margin="2" />
