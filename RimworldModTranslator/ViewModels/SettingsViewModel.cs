@@ -21,23 +21,41 @@ namespace RimworldModTranslator.ViewModels
         public static string Header { get => Translation.SettingsName; }
 
         #region Names and Tooltips
-        public static string GameDirPathName { get => Translation.GameDirPathName; }
+        // General
+        public static string GeneralName { get => Translation.GeneralName; }
+        public static string GameName { get => Translation.GameName; }
+        public static string ModsDirPathName { get => Translation.ModsDirPathName; }
+        public static string ConfigDirPathName { get => $"{Translation.ConfigDirPathName} {Translation.SuffixOptionallName}"; }
+        public static string GameDirPathName { get => $"{Translation.GameDirPathName} {Translation.SuffixOptionallName}"; }
         public static string AddGameName { get => Translation.AddGameName; }
         public static string AddNewGameToolTip { get => Translation.AddNewGameToolTip; }
-        public static string ExtractedLanguageName { get => Translation.ExtractedLanguageName; }
+        public static string ExtractedLanguageNameName { get => Translation.ExtractedLanguageNameName; }
         public static string ExtractedLanguageNameToolTip { get => Translation.ExtractedLanguageNameToolTip; }
-        public static string TargetModNameToolTip { get => Translation.TargetModNameToolTip; }
-        public static string TargetModPackageIDToolTip { get => Translation.TargetModPackageIDToolTip; }
-        public static string TargetModAuthorToolTip { get => Translation.TargetModAuthorToolTip; }
-        public static string TargetModVersionToolTip { get => Translation.TargetModVersionToolTip; }
-        public static string TargetModSupportedVersionsToolTip { get => Translation.TargetModSupportedVersionsToolTip; }
-        public static string TargetModDescriptionToolTip { get => Translation.TargetModDescriptionToolTip; }
-        public static string TargetModUrlToolTip { get => Translation.TargetModUrlToolTip; }
-        public static string TargetModPreviewToolTip { get => Translation.TargetModPreviewToolTip; }
         public static string ForceLoadTranslationsCacheName { get => Translation.ForceLoadTranslationsCacheName; }
         public static string ForceLoadTranslationsCacheToolTip { get => Translation.ForceLoadTranslationsCacheToolTip; }
         public static string LoadOnlyStringsForExtractedIdsName { get => Translation.LoadOnlyStringsForExtractedIdsName; }
         public static string LoadOnlyStringsForExtractedIdsToolTip { get => Translation.LoadOnlyStringsForExtractedIdsToolTip; }
+        // Target mod data
+        public static string TargetModDataName { get => Translation.TargetModDataName; }
+        public static string TargetModDataTitleName { get => Translation.TargetModDataTitleName; }
+        public static string TargetModDataToolTip { get => Translation.TargetModDataToolTip; }
+        public static string TargetModNameToolTip { get => Translation.TargetModNameToolTip; }
+        public static string TargetModNameName { get => Translation.TargetModNameName; }
+        public static string TargetModPackageIDName { get => Translation.TargetModPackageIDName; }
+        public static string TargetModPackageIDToolTip { get => Translation.TargetModPackageIDToolTip; }
+        public static string TargetModAuthorName { get => Translation.TargetModAuthorName; }
+        public static string TargetModAuthorToolTip { get => Translation.TargetModAuthorToolTip; }
+        public static string TargetModVersionName { get => Translation.TargetModVersionName; }
+        public static string TargetModVersionToolTip { get => Translation.TargetModVersionToolTip; }
+        public static string TargetModSupportedVersionsName { get => Translation.TargetModSupportedVersionsName; }
+        public static string TargetModSupportedVersionsToolTip { get => Translation.TargetModSupportedVersionsToolTip; }
+        public static string TargetModDescriptionName { get => Translation.TargetModDescriptionName; }
+        public static string TargetModDescriptionToolTip { get => Translation.TargetModDescriptionToolTip; }
+        public static string TargetModUrlName { get => Translation.TargetModUrlName; }
+        public static string TargetModUrlToolTip { get => Translation.TargetModUrlToolTip; }
+        public static string TargetModPreviewName { get => Translation.TargetModPreviewName; }
+        public static string TargetModPreviewToolTip { get => Translation.TargetModPreviewToolTip; }
+
         #endregion
 
         public ObservableCollection<Game> GamesList { get => settingsService.GamesList; }

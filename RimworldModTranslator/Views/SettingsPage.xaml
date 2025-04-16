@@ -5,7 +5,7 @@
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
    <TabControl>
        <!-- General Settings Tab -->
-       <TabItem Header="General">
+        <TabItem Header="{Binding GeneralName}">
            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                <StackPanel>
                    <Grid>
@@ -14,7 +14,7 @@
                            <ColumnDefinition Width="*" />
                            <ColumnDefinition Width="Auto" />
                        </Grid.ColumnDefinitions>
-                       <TextBlock Text="Game:" Width="Auto" />
+                        <TextBlock Text="{Binding GameName}" Width="Auto" />
                        <ComboBox Grid.Column="1" 
                                  ItemsSource="{Binding GamesList}" 
                                  SelectedItem="{Binding SelectedGame}"
@@ -34,7 +34,7 @@
                                <ColumnDefinition Width="Auto" />
                                <ColumnDefinition Width="*" />
                            </Grid.ColumnDefinitions>
-                           <TextBlock Text="Mods dir path:" Width="Auto" />
+                            <TextBlock Text="{Binding ModsDirPathName}" Width="Auto" />
                            <TextBox Grid.Column="1" 
                                     Text="{Binding NewModsDirPath}" 
                                     HorizontalAlignment="Stretch"/>
@@ -44,7 +44,7 @@
                                <ColumnDefinition Width="Auto" />
                                <ColumnDefinition Width="*" />
                            </Grid.ColumnDefinitions>
-                           <TextBlock Text="Config dir path (optional):" Width="Auto" />
+                            <TextBlock Text="{Binding ConfigDirPathName}" Width="Auto" />
                            <TextBox Grid.Column="1" 
                                     Text="{Binding NewConfigDirPath}" 
                                     HorizontalAlignment="Stretch" />
@@ -63,7 +63,7 @@
                    </StackPanel>
                    <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
                    <StackPanel Orientation="Horizontal" Margin="2" ToolTip="{Binding ExtractedLanguageNameToolTip, Mode=OneWay}">
-                        <TextBlock Text="{Binding ExtractedLanguageName}" />
+                        <TextBlock Text="{Binding ExtractedLanguageNameName}" />
                        <TextBox Text="{Binding ExtractedLanguageName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
                    </StackPanel>
                    <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
@@ -82,40 +82,40 @@
        </TabItem>
 
        <!-- Target Mod Data Tab -->
-       <TabItem Header="Target Mod Data">
+        <TabItem Header="{Binding TargetModDataName}">
            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-               <StackPanel Orientation="Vertical" Margin="2" ToolTip="{Binding ExtractedLanguageNameToolTip, Mode=OneWay}">
-                   <TextBlock Text="Target Mod data (for About.xml)" HorizontalAlignment="Center" />
-                   <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModNameToolTip, Mode=OneWay}">
-                       <TextBlock Text="Displaying name:" Width="150" HorizontalAlignment="Right" />
+                <StackPanel Orientation="Vertical" Margin="2" ToolTip="{Binding TargetModDataToolTip, Mode=OneWay}">
+                    <TextBlock Text="{Binding TargetModDataTitleName}" HorizontalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModNameToolTip, Mode=OneWay}">
+                        <TextBlock Text="{Binding TargetModNameName}" Width="150" HorizontalAlignment="Right" />
                        <TextBox Text="{Binding TargetModName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
                    </StackPanel>
                    <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModPackageIDToolTip, Mode=OneWay}">
-                       <TextBlock Text="PackageId:" Width="150" HorizontalAlignment="Right" />
+                        <TextBlock Text="{Binding TargetModPackageIDName}" Width="150" HorizontalAlignment="Right" />
                        <TextBox Text="{Binding TargetModPackageID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
                    </StackPanel>
                    <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModAuthorToolTip, Mode=OneWay}">
-                       <TextBlock Text="Author:" Width="150" HorizontalAlignment="Right" />
+                        <TextBlock Text="{Binding TargetModAuthorName}" Width="150" HorizontalAlignment="Right" />
                        <TextBox Text="{Binding TargetModAuthor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
                    </StackPanel>
                    <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModVersionToolTip, Mode=OneWay}">
-                       <TextBlock Text="ModVersion:" Width="150" HorizontalAlignment="Right" />
+                        <TextBlock Text="{Binding TargetModVersionName}" Width="150" HorizontalAlignment="Right" />
                        <TextBox Text="{Binding TargetModVersion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
                    </StackPanel>
                    <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModSupportedVersionsToolTip, Mode=OneWay}">
-                       <TextBlock Text="Supported versions:" Width="150" HorizontalAlignment="Right" />
+                        <TextBlock Text="{Binding TargetModSupportedVersionsName}" Width="150" HorizontalAlignment="Right" />
                        <TextBox Text="{Binding TargetModSupportedVersions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
                    </StackPanel>
                    <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModDescriptionToolTip, Mode=OneWay}">
-                       <TextBlock Text="Description:" Width="150" HorizontalAlignment="Right" />
+                        <TextBlock Text="{Binding TargetModDescriptionName}" Width="150" HorizontalAlignment="Right" />
                        <TextBox Text="{Binding TargetModDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
                    </StackPanel>
                    <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModUrlToolTip, Mode=OneWay}">
-                       <TextBlock Text="Url:" Width="150" HorizontalAlignment="Right" />
+                        <TextBlock Text="{Binding TargetModUrlName}" Width="150" HorizontalAlignment="Right" />
                        <TextBox Text="{Binding TargetModUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
                    </StackPanel>
                    <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding TargetModPreviewToolTip, Mode=OneWay}">
-                       <TextBlock Text="Preview path:" Width="150" HorizontalAlignment="Right" />
+                        <TextBlock Text="{Binding TargetModPreviewName}" Width="150" HorizontalAlignment="Right" />
                        <TextBox Text="{Binding TargetModPreview, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="400" Margin="5,0,0,0" />
                    </StackPanel>
                </StackPanel>
