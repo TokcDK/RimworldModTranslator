@@ -37,7 +37,7 @@ namespace RimworldModTranslator.Translations
         internal static string GameName { get; } = T._("Game");
         internal static string GeneralName { get; } = T._("General");
         internal static string SuffixOptionallName { get => T._("(optional)"); }
-        internal static string ModsDirPathName { get => T._("Game dir path"); }
+        internal static string ModsDirPathName { get => T._("Mods dir path"); }
         internal static string ConfigDirPathName { get => T._("Config dir path"); }
         internal static string GameDirPathName { get => T._("Game dir path"); }
         internal static string AddGameName { get => T._("Add game"); }
