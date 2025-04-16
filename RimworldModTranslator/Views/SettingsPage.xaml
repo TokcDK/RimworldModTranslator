@@ -54,27 +54,27 @@
                                <ColumnDefinition Width="Auto" />
                                <ColumnDefinition Width="*" />
                            </Grid.ColumnDefinitions>
-                           <TextBlock Text="Game dir path (optional):" Width="Auto" />
+                           <TextBlock Text="{Binding GameDirPathName}" Width="Auto" />
                            <TextBox Grid.Column="1" 
                                     Text="{Binding NewGameDirPath}" 
                                     HorizontalAlignment="Stretch" />
                        </Grid>
-                       <Button Grid.Column="1" Content="Add game" Command="{Binding AddNewGameCommand}" />
+                       <Button Grid.Column="1" Content="{Binding AddGameName}" Command="{Binding AddNewGameCommand}" />
                    </StackPanel>
                    <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
                    <StackPanel Orientation="Horizontal" Margin="2" ToolTip="{Binding ExtractedLanguageNameToolTip, Mode=OneWay}">
-                       <TextBlock Text="Extracted strings language name:" />
+                        <TextBlock Text="{Binding ExtractedLanguageName}" />
                        <TextBox Text="{Binding ExtractedLanguageName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
                    </StackPanel>
                    <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
                    <CheckBox 
                        ToolTip="{Binding ForceLoadTranslationsCacheToolTip}"
-                       Content="Force load translations from exist mods (Default: only once)" 
+                       Content="" 
                        IsChecked="{Binding ForceLoadTranslationsCache}"
                        />
                    <CheckBox 
                        ToolTip="{Binding LoadOnlyStringsForExtractedIdsToolTip}"
-                       Content="Load DefInjected strings only for exist extracted string ids" 
+                       Content="{Binding LoadOnlyStringsForExtractedIdsName}" 
                        IsChecked="{Binding LoadOnlyStringsForExtractedIds}"
                        />
                </StackPanel>

@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using RimworldModTranslator.ViewModels;
 using RimworldModTranslator.Helpers;
 using RimworldModTranslator.Services;
+using RimworldModTranslator.Translations;
 
 
 
@@ -17,21 +18,26 @@ namespace RimworldModTranslator.ViewModels
 {
     public partial class SettingsViewModel : ViewModelBase
     {
-        public string Header { get; } = "Settings";
+        public static string Header { get => Translation.SettingsName; }
 
-        #region Tooltips for settings
-        public static string AddNewGameToolTip { get => "Add Mods and Config directory paths of the new game. If Config dir path is not set then will be used default in appdata"; }
-        public static string ExtractedLanguageNameToolTip { get => "The name of the folder where the extracted strings will be saved. Default is 'Extracted'."; }
-        public static string TargetModNameToolTip { get => "Target mod displaying name. Default: '{Source mode name} Translation'"; }
-        public static string TargetModPackageIDToolTip { get => "Target mod PackageID. Default: '{Source mode PackageID}.translation'"; }
-        public static string TargetModAuthorToolTip { get => "Target mod Author. Default: '{Source mod authors},Anonimous'"; }
-        public static string TargetModVersionToolTip { get => "Target mod version. Default: '1.0'"; }
-        public static string TargetModSupportedVersionsToolTip { get => "Target mod supported game version. Default: {Source mod supported versions}"; }
-        public static string TargetModDescriptionToolTip { get => "Optional target mod description. Default: '{Source mode name} Translation'"; }
-        public static string TargetModUrlToolTip { get => "Optional target mod web page URL. Default: No Url"; }
-        public static string TargetModPreviewToolTip { get => "Optional target mod preview path. Default: No preview. When empty will try to find 'Preview.png' next to the app exe. "; }
-        public static string ForceLoadTranslationsCacheToolTip { get; } = "When enabled the translations of all dlcs and mods will be load each time. (slower, default: only 1st time and dont unload before the app restart)";
-        public static string LoadOnlyStringsForExtractedIdsToolTip { get; } = "When enabled Load strings will load definjected strings from language dir for only ids which was extracted from defs.";
+        #region Names and Tooltips
+        public static string GameDirPathName { get => Translation.GameDirPathName; }
+        public static string AddGameName { get => Translation.AddGameName; }
+        public static string AddNewGameToolTip { get => Translation.AddNewGameToolTip; }
+        public static string ExtractedLanguageName { get => Translation.ExtractedLanguageName; }
+        public static string ExtractedLanguageNameToolTip { get => Translation.ExtractedLanguageNameToolTip; }
+        public static string TargetModNameToolTip { get => Translation.TargetModNameToolTip; }
+        public static string TargetModPackageIDToolTip { get => Translation.TargetModPackageIDToolTip; }
+        public static string TargetModAuthorToolTip { get => Translation.TargetModAuthorToolTip; }
+        public static string TargetModVersionToolTip { get => Translation.TargetModVersionToolTip; }
+        public static string TargetModSupportedVersionsToolTip { get => Translation.TargetModSupportedVersionsToolTip; }
+        public static string TargetModDescriptionToolTip { get => Translation.TargetModDescriptionToolTip; }
+        public static string TargetModUrlToolTip { get => Translation.TargetModUrlToolTip; }
+        public static string TargetModPreviewToolTip { get => Translation.TargetModPreviewToolTip; }
+        public static string ForceLoadTranslationsCacheName { get => Translation.ForceLoadTranslationsCacheName; }
+        public static string ForceLoadTranslationsCacheToolTip { get => Translation.ForceLoadTranslationsCacheToolTip; }
+        public static string LoadOnlyStringsForExtractedIdsName { get => Translation.LoadOnlyStringsForExtractedIdsName; }
+        public static string LoadOnlyStringsForExtractedIdsToolTip { get => Translation.LoadOnlyStringsForExtractedIdsToolTip; }
         #endregion
 
         public ObservableCollection<Game> GamesList { get => settingsService.GamesList; }
