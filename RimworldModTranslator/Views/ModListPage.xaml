@@ -34,8 +34,8 @@
                </ContextMenu>
            </DataGrid.ContextMenu>
            <DataGrid.Columns>
-               <DataGridCheckBoxColumn Header="Active" Binding="{Binding IsActive}" Width="Auto" IsReadOnly="True" />
-               <DataGridTextColumn Header="Name" Binding="{Binding ModDisplayingName}" Width="*" IsReadOnly="True"/>
+               <DataGridCheckBoxColumn Header="{Binding ActiveName}" Binding="{Binding IsActive}" Width="Auto" IsReadOnly="True" />
+                <DataGridTextColumn Header="{Binding NameName}" Binding="{Binding ModDisplayingName}" Width="*" IsReadOnly="True"/>
            </DataGrid.Columns>
            <DataGrid.RowHeaderStyle>
                <Style TargetType="{x:Type DataGridRowHeader}">
