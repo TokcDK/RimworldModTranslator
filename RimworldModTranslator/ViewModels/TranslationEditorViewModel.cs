@@ -63,6 +63,7 @@ namespace RimworldModTranslator.ViewModels
         public static string LoadStringsCacheToolTip { get => Translation.LoadStringsCacheToolTip; }
         public static string LoadStringsToolTip { get => Translation.LoadStringsToolTip; }
         public static string SaveStringsToolTip { get => Translation.SaveStringsName; }
+        public static string FolderName { get => Translation.FolderName; }
         #endregion
 
         #region Constructors
