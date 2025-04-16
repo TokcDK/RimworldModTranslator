@@ -15,11 +15,11 @@ namespace RimworldModTranslator.ViewModels
 {
     public partial class ModListViewModel(SettingsService settingsService) : ViewModelBase
     {
-        public string Header { get; } = "Mods";
+        public string Header { get; } = T._("Mods");
 
         #region ToolTips
         public string LoadStringsToolTip { get => settingsService.LoadStringsToolTip; }
-        public string RefreshModListToolTip { get; } = "Refresh mod list";
+        public string RefreshModListToolTip { get; } = T._("Refresh mod list");
         #endregion
 
         [ObservableProperty]
