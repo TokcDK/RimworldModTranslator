@@ -9,7 +9,7 @@ using NGettext;
 
 namespace RimworldModTranslator.Services
 {
-    internal class T
+    internal static class T
     {
         static Catalog GetGlobal()
         {
@@ -19,20 +19,20 @@ namespace RimworldModTranslator.Services
 
         private static readonly Catalog _catalog = GetGlobal();
 
-        public static string _(string text) => _catalog.GetString(text);
+        internal static string _(string text) => _catalog.GetString(text);
 
-        public static string _(string text, params object[] args) => _catalog.GetString(text, args);
+        internal static string _(string text, params object[] args) => _catalog.GetString(text, args);
 
-        public static string _n(string text, string pluralText, long n) => _catalog.GetPluralString(text, pluralText, n);
+        internal static string _n(string text, string pluralText, long n) => _catalog.GetPluralString(text, pluralText, n);
 
-        public static string _n(string text, string pluralText, long n, params object[] args) => _catalog.GetPluralString(text, pluralText, n, args);
+        internal static string _n(string text, string pluralText, long n, params object[] args) => _catalog.GetPluralString(text, pluralText, n, args);
 
-        public static string _p(string context, string text) => _catalog.GetParticularString(context, text);
+        internal static string _p(string context, string text) => _catalog.GetParticularString(context, text);
 
-        public static string _p(string context, string text, params object[] args) => _catalog.GetParticularString(context, text, args);
+        internal static string _p(string context, string text, params object[] args) => _catalog.GetParticularString(context, text, args);
 
-        public static string _pn(string context, string text, string pluralText, long n) => _catalog.GetParticularPluralString(context, text, pluralText, n);
+        internal static string _pn(string context, string text, string pluralText, long n) => _catalog.GetParticularPluralString(context, text, pluralText, n);
 
-        public static string _pn(string context, string text, string pluralText, long n, params object[] args) => _catalog.GetParticularPluralString(context, text, pluralText, n, args);
+        internal static string _pn(string context, string text, string pluralText, long n, params object[] args) => _catalog.GetParticularPluralString(context, text, pluralText, n, args);
     }
 }

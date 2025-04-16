@@ -57,19 +57,19 @@ namespace RimworldModTranslator.ViewModels
 
         #region ToolTips
         public string EditorTableToolTip { get; } =
-            "Help.\r\r" +
-            "Move the mouse cursor over any elements to get the tooltip for it\r" +
-            "\r\r" +
-            "HotKeys:\r" +
-            "Ctrl+C - Copy selected cells value\r" +
-            "Ctrl+X - Cut selected cells value\r" +
-            "Ctrl+V - Paste clipboard string lines into selected empty cells\r" +
-            "Ctrl+D - Clear selected cells";
-        public string FolderSelectionToolTip { get; } = "Select folder to translate.";
-        public string AddNewLanguageToolTip { get; } = "Enter the new language folder name and press add to add the new column.";
-        public string LoadStringsCacheToolTip { get; } = "Load strings from all exist game(when the game dir path is set) dlcs and mods";
+            T._("Help.\n\n" +
+            "Move the mouse cursor over any elements to get the tooltip for it\n" +
+            "\n\n" +
+            "HotKeys:\n" +
+            "Ctrl+C - Copy selected cells value\n" +
+            "Ctrl+X - Cut selected cells value\n" +
+            "Ctrl+V - Paste clipboard string lines into selected empty cells\n" +
+            "Ctrl+D - Clear selected cells");
+        public string FolderSelectionToolTip { get; } = T._("Select folder to translate.");
+        public string AddNewLanguageToolTip { get; } = T._("Enter the new language folder name and press add to add the new column.");
+        public string LoadStringsCacheToolTip { get; } = T._("Load strings from all exist game(when the game dir path is set) dlcs and mods");
         public string LoadStringsToolTip { get => _settingsService.LoadStringsToolTip; }
-        public string SaveStringsToolTip { get; } = "Save strings from of selected mod to a new mod";
+        public string SaveStringsToolTip { get; } = T._("Save strings from of selected mod to a new mod");
         #endregion
 
         #region Constructors
