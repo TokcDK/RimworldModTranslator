@@ -61,9 +61,12 @@ namespace RimworldModTranslator.ViewModels
         public static string FolderSelectionToolTip { get => Translation.FolderSelectionToolTip; }
         public static string AddNewLanguageToolTip { get => Translation.AddNewLanguageToolTip; }
         public static string LoadStringsCacheToolTip { get => Translation.LoadStringsCacheToolTip; }
+        public static string LoadStringsName { get => Translation.LoadStringsName; }
         public static string LoadStringsToolTip { get => Translation.LoadStringsToolTip; }
-        public static string SaveStringsToolTip { get => Translation.SaveStringsName; }
+        public static string SaveStringsName { get => Translation.SaveStringsName; }
+        public static string SaveStringsToolTip { get => Translation.SaveStringsTooltip; }
         public static string FolderName { get => Translation.FolderName; }
+        public static string AddLanguageName { get => Translation.AddLanguageName; }
         #endregion
 
         #region Constructors
@@ -77,7 +80,7 @@ namespace RimworldModTranslator.ViewModels
         #endregion
 
         #region Properties
-        public static string Header { get => Translation.Header; }
+        public static string Header { get => Translation.EditorName; }
 
         private static Logger _logger { get; } = LogManager.GetCurrentClassLogger();
 

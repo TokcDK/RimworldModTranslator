@@ -12,10 +12,11 @@ namespace RimworldModTranslator.Translations
         internal static string ModsName { get; } = T._("Mods");
         public static string RefreshModListName { get; } = T._("Refresh mod list");
 
-        internal static string Header { get; } = T._("Editor");
+        internal static string EditorName { get; } = T._("Editor");
         internal static string LoadStringsName { get; } = T._("Load strings"); // Modlist, Editor
         internal static string LoadStringsToolTip { get; } = T._("Load strings from the selected mod"); // Modlist, Editor
-        internal static string SaveStringsName { get; } = T._("Save strings from of selected mod to a new mod");
+        internal static string SaveStringsName { get; } = T._("Save strings");
+        internal static string SaveStringsTooltip { get; } = T._("Save strings from of selected mod to a new mod");
         internal static string EditorTableToolTip { get; } =
             T._("Help.\n\n" +
             "Move the mouse cursor over any elements to get the tooltip for it\n" +
@@ -28,5 +29,9 @@ namespace RimworldModTranslator.Translations
         internal static string FolderSelectionToolTip { get; } = T._("Select folder to translate.");
         internal static string AddNewLanguageToolTip { get; } = T._("Enter the new language folder name and press add to add the new column.");
         internal static string LoadStringsCacheToolTip { get; } = T._("Load strings from all exist game(when the game dir path is set) dlcs and mods");
+        internal static string FolderName { get; } = T._("Folder");
+        internal static string AddLanguageName { get; } = T._("Add new language");
+
+        internal static string SettingsName { get; } = T._("Settings");
     }
 }

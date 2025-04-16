@@ -5,6 +5,7 @@
              xmlns:dataGrid2D="http://gu.se/DataGrid2D"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:b="clr-namespace:RimworldModTranslator.Behaviors"
+             xmlns:t="clr-namespace:RimworldModTranslator.Translations"
              >
 
     <Grid IsEnabled="{Binding IsTranslatorEnabled}">
@@ -54,7 +55,7 @@
                 <TextBox Width="200" Margin="0,0,10,0"
                          VerticalAlignment="Center"
                          Text="{Binding NewLanguageName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button Content="Add Language"
+                <Button Content="{Binding AddLanguageName}"
                         IsEnabled="{Binding IsAddNewLanguageEnabled}"
                         Command="{Binding AddNewLanguageCommand}"
                         VerticalAlignment="Center"/>
@@ -132,13 +133,13 @@
                     VerticalAlignment="Center" Margin="2"/>
 
             <!-- Button for saving strings -->
-            <Button Grid.Column="3" Content="Save strings"
+            <Button Grid.Column="3" Content="{Binding SaveStringsName}"
                     ToolTip="{Binding SaveStringsToolTip}"
                     Command="{Binding SaveStringsCommand}"
                     VerticalAlignment="Center" Margin="2"/>
 
             <!-- Button for loading strings -->
-            <Button Grid.Column="4" Content="Load strings"
+            <Button Grid.Column="4" Content="{Binding LoadStringsName}"
                     ToolTip="{Binding LoadStringsToolTip}"
                     Command="{Binding LoadStringsCommand}"
                     VerticalAlignment="Center" Margin="2"/>
