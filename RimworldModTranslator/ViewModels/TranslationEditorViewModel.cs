@@ -19,6 +19,7 @@ using System.Windows;
 using System.Data.Common;
 using System.Threading.Tasks;
 using NLog;
+using RimworldModTranslator.Translations;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -56,20 +57,12 @@ namespace RimworldModTranslator.ViewModels
         #endregion
 
         #region ToolTips
-        public string EditorTableToolTip { get; } =
-            T._("Help.\n\n" +
-            "Move the mouse cursor over any elements to get the tooltip for it\n" +
-            "\n\n" +
-            "HotKeys:\n" +
-            "Ctrl+C - Copy selected cells value\n" +
-            "Ctrl+X - Cut selected cells value\n" +
-            "Ctrl+V - Paste clipboard string lines into selected empty cells\n" +
-            "Ctrl+D - Clear selected cells");
-        public string FolderSelectionToolTip { get; } = T._("Select folder to translate.");
-        public string AddNewLanguageToolTip { get; } = T._("Enter the new language folder name and press add to add the new column.");
-        public string LoadStringsCacheToolTip { get; } = T._("Load strings from all exist game(when the game dir path is set) dlcs and mods");
-        public string LoadStringsToolTip { get => _settingsService.LoadStringsToolTip; }
-        public string SaveStringsToolTip { get; } = T._("Save strings from of selected mod to a new mod");
+        public static string EditorTableToolTip { get => Translation.EditorTableToolTip; }
+        public static string FolderSelectionToolTip { get => Translation.FolderSelectionToolTip; }
+        public static string AddNewLanguageToolTip { get => Translation.AddNewLanguageToolTip; }
+        public static string LoadStringsCacheToolTip { get => Translation.LoadStringsCacheToolTip; }
+        public static string LoadStringsToolTip { get => Translation.LoadStringsToolTip; }
+        public static string SaveStringsToolTip { get => Translation.SaveStringsName; }
         #endregion
 
         #region Constructors
@@ -83,7 +76,7 @@ namespace RimworldModTranslator.ViewModels
         #endregion
 
         #region Properties
-        public string Header { get; } = "Editor";
+        public static string Header { get => Translation.Header; }
 
         private static Logger _logger { get; } = LogManager.GetCurrentClassLogger();
 

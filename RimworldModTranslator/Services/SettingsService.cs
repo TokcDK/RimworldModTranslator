@@ -15,11 +15,6 @@ namespace RimworldModTranslator.Services
     {
         public ObservableCollection<string> Messages { get; } = [];
 
-        #region Shared ToolTips
-        // Editor tab
-        public string LoadStringsToolTip { get; } = "Load strings from the selected mod"; // Modlist,
-        #endregion
-
         readonly char _gamesListPathsSeparator = '*';
         readonly char _gamesListTheGamePathsSeparator = '|';
 

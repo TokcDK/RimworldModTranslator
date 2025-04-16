@@ -9,17 +9,19 @@ using System.Collections.Generic;
 using RimworldModTranslator.Helpers;
 using System;
 using RimworldModTranslator.Messages;
+using RimworldModTranslator.Translations;
 using System.IO;
 
 namespace RimworldModTranslator.ViewModels
 {
     public partial class ModListViewModel(SettingsService settingsService) : ViewModelBase
     {
-        public string Header { get; } = T._("Mods");
+        public static string Header { get => Translation.ModsName; }
 
-        #region ToolTips
-        public string LoadStringsToolTip { get => settingsService.LoadStringsToolTip; }
-        public string RefreshModListToolTip { get; } = T._("Refresh mod list");
+        #region Names and Tooltips
+        public static string LoadStringsName { get => Translation.LoadStringsName; }
+        public static string LoadStringsToolTip { get => Translation.LoadStringsToolTip; }
+        public static string RefreshModListToolTip { get => Translation.RefreshModListName; }
         #endregion
 
         [ObservableProperty]
