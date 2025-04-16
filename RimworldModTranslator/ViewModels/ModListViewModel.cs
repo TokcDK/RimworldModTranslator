@@ -22,6 +22,7 @@ namespace RimworldModTranslator.ViewModels
         public static string NameName { get => Translation.NameName; }
         public static string ActiveName { get => Translation.ActiveName; }
         public static string LoadStringsName { get => Translation.LoadStringsName; }
+        public static string OpenModDirName { get => Translation.OpenModDirName; }
         public static string LoadStringsToolTip { get => Translation.LoadStringsToolTip; }
         public static string RefreshModListName { get => Translation.RefreshModListName; }
         public static string RefreshModListToolTip { get => Translation.RefreshModListName; }

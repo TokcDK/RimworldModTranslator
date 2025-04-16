@@ -11,7 +11,7 @@ namespace RimworldModTranslator.Translations
     {
         public static string NameName { get; } = T._("Name");
         public static string ActiveName { get; } = T._("Active");
-
+        public static string OpenModDirName { get; } = T._("Open mod dir");
         internal static string ModsName { get; } = T._("Mods");
         internal static string RefreshModListName { get; } = T._("Refresh");
 

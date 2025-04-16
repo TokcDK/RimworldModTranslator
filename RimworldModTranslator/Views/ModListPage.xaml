@@ -29,8 +29,8 @@
                  >
            <DataGrid.ContextMenu>
                <ContextMenu>
-                   <MenuItem Header="Open mod dir" Command="{Binding OpenModDirCommand}" />
-                   <MenuItem Header="Load strings" Command="{Binding LoadStringsCommand}" />
+                   <MenuItem Header="{Binding OpenModDirName}" Command="{Binding OpenModDirCommand}" />
+                   <MenuItem Header="{Binding LoadStringsName}" Command="{Binding LoadStringsCommand}" />
                </ContextMenu>
            </DataGrid.ContextMenu>
            <DataGrid.Columns>
