@@ -34,6 +34,12 @@
         <Generator>SettingsSingleFileGenerator</Generator>
         <LastGenOutput>Settings.Designer.cs</LastGenOutput>
       </None>
+      <None Update="RES\locale\ru-RU\LC_MESSAGES\rmt.mo">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="RES\locale\ru-RU\LC_MESSAGES\rmt.po">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

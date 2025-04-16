@@ -1,0 +1,1023 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2025-04-16 23:51+0500\n"
+"PO-Revision-Date: 2025-04-16 23:51+0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: ../../../../../..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: GetString;GetPluralString:1,2;"
+"GetParticularString:1c,2;GetParticularPluralString:1c,2,3;_;_n:1,2;_p:1c,2;"
+"_pn:1c,2,3;T_;Gettext\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: Translations/Translation.cs:12 Translations/Translation.cs:59
+msgid "Name"
+msgstr "Имя"
+
+#: Translations/Translation.cs:13
+msgid "Active"
+msgstr "Активен"
+
+#: Translations/Translation.cs:14
+msgid "Open mod dir"
+msgstr "Открыть папку мода"
+
+#: Translations/Translation.cs:15
+msgid "Mods"
+msgstr "Моды"
+
+#: Translations/Translation.cs:16
+msgid "Refresh"
+msgstr "Обновить"
+
+#: Translations/Translation.cs:18
+msgid "Editor"
+msgstr "Редактор"
+
+#: Translations/Translation.cs:19
+msgid "Load strings"
+msgstr "Загрузка строк"
+
+#: Translations/Translation.cs:20
+msgid "Load strings from the selected mod"
+msgstr "Загрузка строк из выбранного мода"
+
+#: Translations/Translation.cs:21
+msgid "Save strings"
+msgstr "Сохранить строки"
+
+#: Translations/Translation.cs:22
+msgid "Save strings from of selected mod to a new mod"
+msgstr "Сохранить строки выбранного мода в новый мод"
+
+#: Translations/Translation.cs:24
+msgid ""
+"Help.\n"
+"\n"
+"Move the mouse cursor over any elements to get the tooltip for it\n"
+"\n"
+"\n"
+"HotKeys:\n"
+"Ctrl+C - Copy selected cells value\n"
+"Ctrl+X - Cut selected cells value\n"
+"Ctrl+V - Paste clipboard string lines into selected empty cells\n"
+"Ctrl+D - Clear selected cells"
+msgstr ""
+"Горячие клавиши:\n"
+"Ctrl+C - Копировать значения выбранных ячеек\n"
+"Ctrl+X - Вырезать значения выбранных ячеек\n"
+"Ctrl+V - Вставить строки из буфера обмена в выбранные пустые ячейки\n"
+"Ctrl+D - Очистить выбранные ячейки"
+
+#: Translations/Translation.cs:32
+msgid "Select folder to translate."
+msgstr "Выбор папки для перевода"
+
+#: Translations/Translation.cs:33
+msgid "Enter the new language folder name and press add to add the new column."
+msgstr ""
+"Введите имя новой папки языка и нажмите Добавить для добавления новой колонки"
+
+#: Translations/Translation.cs:34
+msgid ""
+"Load strings from all exist game(when the game dir path is set) dlcs and mods"
+msgstr ""
+"Загрузка строк из всех существующих dlc(когда указан путь к игре) и модов"
+
+#: Translations/Translation.cs:35
+msgid "Folder"
+msgstr "Папка"
+
+#: Translations/Translation.cs:36
+msgid "Add new language"
+msgstr "Добавить язык"
+
+#: Translations/Translation.cs:38
+msgid "Settings"
+msgstr "Настройки"
+
+#: Translations/Translation.cs:40
+msgid "Game"
+msgstr "Игра"
+
+#: Translations/Translation.cs:41
+msgid "General"
+msgstr "Основные"
+
+#: Translations/Translation.cs:42
+msgid "(optional)"
+msgstr "(опионально)"
+
+#: Translations/Translation.cs:43
+msgid "Mods dir path"
+msgstr "Путь к модам"
+
+#: Translations/Translation.cs:44
+msgid "Config dir path"
+msgstr "Путь к папке конфига"
+
+#: Translations/Translation.cs:45
+msgid "Game dir path"
+msgstr "Путь к игре"
+
+#: Translations/Translation.cs:46
+msgid "Add game"
+msgstr "Добавить игру"
+
+#: Translations/Translation.cs:47
+msgid ""
+"Add Mods and Config directory paths of the new game. If Config dir path is "
+"not set then will be used default in appdata"
+msgstr ""
+"Добавить пути к папкам Mods и Config новой игры. Если путь к папке Config не "
+"задан, то будет использован путь по умолчанию в appdata"
+
+#: Translations/Translation.cs:48
+msgid "Extracted strings dir name"
+msgstr "Имя папки извлеченных строк"
+
+#: Translations/Translation.cs:49
+msgid ""
+"The name of the folder where the extracted strings will be saved. Default is "
+"'Extracted'."
+msgstr ""
+"Имя папки, в которой будут сохранены извлеченные строки. По умолчанию - "
+"'Extracted'."
+
+#: Translations/Translation.cs:50
+msgid ""
+"Optional target mod preview path. Default: No preview. When empty will try "
+"to find 'Preview.png' next to the app exe. "
+msgstr ""
+"Опциональный путь к превью целевого мода. По умолчанию: Без превью. В случае "
+"отсутствия будет пытаться найти 'Preview.png' рядом с exe-файлом приложения. "
+
+#: Translations/Translation.cs:51
+msgid "Force load translations from exist mods (Default: only once)"
+msgstr ""
+"Принудительная загрузка переводов из существующих модов (По умолчанию: "
+"только один раз)"
+
+#: Translations/Translation.cs:52
+msgid ""
+"When enabled the translations of all dlcs and mods will be load each time. "
+"(slower, default: only 1st time and dont unload before the app restart)"
+msgstr ""
+"При включении этой опции переводы всех dlcs и модов будут загружаться каждый "
+"раз. (медленнее, по умолчанию: только в первый раз и не выгружаться до "
+"перезапуска приложения)"
+
+#: Translations/Translation.cs:53
+msgid "Load DefInjected strings only for exist extracted string ids"
+msgstr ""
+"Загрузка строк DefInjected только для существующих извлеченных id строк"
+
+#: Translations/Translation.cs:54
+msgid ""
+"When enabled Load strings will load definjected strings from language dir "
+"for only ids which was extracted from defs."
+msgstr ""
+"При включении Загрузка строк будет загружать definjected строки из папки "
+"языка только для тех id, которые были извлечены из defs."
+
+#: Translations/Translation.cs:56
+msgid "Target mod data"
+msgstr "Данные целевого мода"
+
+#: Translations/Translation.cs:57
+msgid "Target mod data (for About.xml)"
+msgstr "Данные целевого мода (для About.xml)"
+
+#: Translations/Translation.cs:58
+msgid "Target mod data for About.xml file of the new target mod"
+msgstr "Данные целевого мода для About.xml файла нового мода с переводом"
+
+#: Translations/Translation.cs:60
+msgid "Target mod displaying name. Default: '{Source mode name} Translation'"
+msgstr ""
+"Отображаемое имя целевого мода. По умолчанию: '{Имя исходного мода} перевод'"
+
+#: Translations/Translation.cs:61
+msgid "PackageID"
+msgstr "PackageID"
+
+#: Translations/Translation.cs:62
+msgid "Target mod PackageID. Default: '{Source mode PackageID}.translation'"
+msgstr "PackageID целевого мода. Умолч: '{Source mode PackageID}.translation'"
+
+#: Translations/Translation.cs:63
+msgid "Author"
+msgstr "Автор"
+
+#: Translations/Translation.cs:64
+msgid "Target mod Author. Default: '{Source mod authors},Anonimous'"
+msgstr "Автор целевого мода. Умолч: '{Source mod authors},Anonimous'"
+
+#: Translations/Translation.cs:65
+msgid "Version"
+msgstr "Версия"
+
+#: Translations/Translation.cs:66
+msgid "Target mod version. Default: '1.0'"
+msgstr "Версия целевого мода. Умолч: '1.0'"
+
+#: Translations/Translation.cs:67
+msgid "Supported versions"
+msgstr "Поддерживаемые версии"
+
+#: Translations/Translation.cs:68
+msgid ""
+"Target mod supported game versions. Default: {Source mod supported versions}"
+msgstr ""
+"Поддерживаемые версии игр для целевого мода. По умолчанию: {Поддерживаемые "
+"версии исходного мода}"
+
+#: Translations/Translation.cs:69
+msgid "Description"
+msgstr "Описание"
+
+#: Translations/Translation.cs:70
+msgid ""
+"Optional target mod description. Default: '{Source mode name} Translation'"
+msgstr ""
+"Опциональное описание целевого мода. По умолчанию: '{Имя исходного мода} "
+"Перевод'."
+
+#: Translations/Translation.cs:71
+msgid "Url"
+msgstr "Url"
+
+#: Translations/Translation.cs:72
+msgid "Optional target mod web page URL. Default: No Url"
+msgstr ""
+"Опциональный URL-адрес веб-страницы целевого мода. По умолчанию: Нет Url"
+
+#: Translations/Translation.cs:73
+msgid "Preview path"
+msgstr "Путь к преаью"
+
+#~ msgid "Refresh mod list"
+#~ msgstr "Обновить список модов"
+
+#~ msgid "Supported versions}"
+#~ msgstr "Поддерживаемые версии"
+
+#~ msgid "Last group"
+#~ msgstr "Последняя группа"
+
+#~ msgid "Extracted with"
+#~ msgstr "Извлечено с помощью"
+
+#~ msgid "Variable>Must be Identical in all files>Only A-Za-z0-9"
+#~ msgstr "Переменная>Должно быть Идентично во всех файлах>Только A-Za-z0-9"
+
+#~ msgid "Found already extracted files in work dir. Continue with them?"
+#~ msgstr "Найдены уже распакованные файлы в рабочей папке. Продолжить с ними?"
+
+#~ msgid "Found extracted files"
+#~ msgstr "Найдены распакованные файлы"
+
+#~ msgid ""
+#~ "GameFont.\n"
+#~ "Value in Translation field must be exist font css file name or path.\n"
+#~ "If it is exists, it will be copied into %GAME%\\www\\fonts\\.\n"
+#~ "If value is font file name, it will be searching in system fonts folder "
+#~ "location.Useful to change font when need to reduce size of text in game "
+#~ "if need.Examples:browa.ttf\n"
+#~ "c:/windows/fonts/browa.ttf\n"
+#~ "%LocalAppData%/Microsoft/Windows/Fonts/browa.ttf"
+#~ msgstr ""
+#~ "Игровой шрифт\n"
+#~ "Значение в поле Перевод должно быть именем существующего файла шрифта или "
+#~ "путем к нему.\n"
+#~ "Если шрифт найден, он будет скопирован в папку %GAME%\\www\\fonts\\.\n"
+#~ "Если значение это имя файла, будет поиск его в папках шрифтов системы.\n"
+#~ "Полезно изменять шрифт, когда нужно уменьшить размер текста в игре.\n"
+#~ "Примеры:\n"
+#~ "browa.ttf\n"
+#~ "c:/windows/fonts/browa.ttf\n"
+#~ "%LocalAppData%/Microsoft/Windows/Fonts/browa.ttf\n"
+#~ "--------------"
+
+#~ msgid "Warning"
+#~ msgstr "Внимание"
+
+#~ msgid "Parameter: translation of some parameters can break the game."
+#~ msgstr "Параметр: перевод некоторых параметров может сломать игру."
+
+#~ msgid "Writing"
+#~ msgstr "Запись"
+
+#~ msgid "games"
+#~ msgstr "игры"
+
+#~ msgid "Translation Helper by DenisK (c) ????(pregit)-2019-2020"
+#~ msgstr "Translation Helper от DenisK (c) ????(pregit)-2019-2023"
+
+#~ msgid "Utility which helps in translation of some RPGMaker and other games."
+#~ msgstr ""
+#~ "Утилита, которая помогает в переводе некоторых RPGMaker и прочих игр."
+
+#~ msgid ""
+#~ "It is merge of some my utilities which was made for help with games "
+#~ "translation."
+#~ msgstr "Утилита для помощи в переводе."
+
+#~ msgid "Currently can help to translate:"
+#~ msgstr "В настоящее время может помочь с переводом:"
+
+#~ msgid "RPG Maker Trans Patch and supported games by it"
+#~ msgstr "RPG Maker Trans Patch и игры поддерживаемые им"
+
+#~ msgid "Some standalone"
+#~ msgstr "Некоторые другие"
+
+#~ msgid "Credits"
+#~ msgstr "Благодарности"
+
+#~ msgid "Resets filters and tab sorting"
+#~ msgstr "Сбрасывает фильтры и сортировку столбцов"
+
+#~ msgid "Filters for columns of main table"
+#~ msgstr "Фильтры для колонок главной таблицы"
+
+#~ msgid ""
+#~ "Shows overal number of completed lines.\n"
+#~ "Click to show first untranslated."
+#~ msgstr ""
+#~ "Отображает общее число переведенных строк.\n"
+#~ "Нажмите для выбора первой непереведенной."
+
+#~ msgid "rowinfo:"
+#~ msgstr "информация о строке:"
+
+#~ msgid "Selected bytes length"
+#~ msgstr "Длина выбранного в байтах"
+
+#~ msgid ""
+#~ "Several strings also can be in Plugins.js in 'www\\js' folder and "
+#~ "referred plugins in plugins folder."
+#~ msgstr ""
+#~ "Некоторые строки также могут быть в файле Plugins.js в папке 'www\\js' и "
+#~ "ссылаемых плагинах папки plugins."
+
+#~ msgid "working.."
+#~ msgstr "работаю.."
+
+#~ msgid "Saving"
+#~ msgstr "Сохранение"
+
+#~ msgid "DB not found. Try to load from all exist?"
+#~ msgstr "БД не найдена. Попробовать загрузить все существующие?"
+
+#~ msgid "DB not found"
+#~ msgstr "БД не найдена."
+
+#~ msgid "Reading DB File"
+#~ msgstr "Чтение файла БД"
+
+#~ msgid "Find and Replace"
+#~ msgstr "Поиск и замена"
+
+#~ msgid "Search Mode"
+#~ msgstr "Режим поиска"
+
+#~ msgid "Normal"
+#~ msgstr "Нормальный"
+
+#~ msgid "Range"
+#~ msgstr "Диапазон"
+
+#~ msgid "Table"
+#~ msgstr "Таблица"
+
+#~ msgid "Anywhere"
+#~ msgstr "Везде"
+
+#~ msgid "Method"
+#~ msgstr "Метод"
+
+#~ msgid "Find in Original and Paste to Translation"
+#~ msgstr "Поиск в Оригинале и вставка в Перевод"
+
+#~ msgid "Find and Replace in Translation"
+#~ msgstr "Поиск и замена в переводе"
+
+#~ msgid "Match Case"
+#~ msgstr "Учитывать регистр"
+
+#~ msgid "Find All"
+#~ msgstr "Искать все"
+
+#~ msgid "Find Next"
+#~ msgstr "Искать далее"
+
+#~ msgid "Replace"
+#~ msgstr "Заменить"
+
+#~ msgid "Replace All"
+#~ msgstr "Заменить все"
+
+#~ msgid "Find what:"
+#~ msgstr "Искать:"
+
+#~ msgid "Replace with:"
+#~ msgstr "Заменить на:"
+
+#~ msgid "Found "
+#~ msgstr "Найдено "
+
+#~ msgid " records"
+#~ msgstr " записей"
+
+#~ msgid "Nothing Found"
+#~ msgstr "Ничего не найдено"
+
+#~ msgid "Invalid regex"
+#~ msgstr "Неверный регекс"
+
+#~ msgid "Nothing Found."
+#~ msgstr "Ничего не найдено"
+
+#~ msgid "Confirmation"
+#~ msgstr "Подтверждение"
+
+#~ msgid "Full recursive scan while translation DB loading (slower)"
+#~ msgstr "Рекурсивное сканирование при загрузке БД перевода (медленнее)"
+
+#~ msgid "char limit of line length (for line split functions)"
+#~ msgstr "Лимит букв для строки (для разбиения строк)"
+
+#~ msgid "Optimizations"
+#~ msgstr "Оптимизация"
+
+#~ msgid "Compression for DB files:"
+#~ msgstr "Сжатие для файлов БД:"
+
+#~ msgid "Do not load string if it has more of next romaji percent - "
+#~ msgstr "Не грузить строку, если процент romaji больше - "
+
+#~ msgid "Tools"
+#~ msgstr "Инструменты"
+
+#~ msgid "Autotranslation for simular"
+#~ msgstr "Автоперевод для похожих"
+
+#~ msgid "Enable online translation cache."
+#~ msgstr "Кеш онлайн-перевода."
+
+#~ msgid "Web service link for manual translation (F12):"
+#~ msgstr "Ссылка на Web-сервис для ручного перевода (F12):"
+
+#~ msgid ""
+#~ "In time of DB loading will be checked all DB lines for each line of table "
+#~ "for translation."
+#~ msgstr ""
+#~ "При загрузке перевода будет проверяться вся БД для каждой строки "
+#~ "таблицы.\n"
+#~ "Полезно, к примеру, при загрузке перевода из других БД."
+
+#~ msgid ""
+#~ "String will not be loaded for translation if this string contains romaji "
+#~ "characters in text more of specified percent."
+#~ msgstr ""
+#~ "Строка не будет загружена для перевода, если содержит ромаджи символы "
+#~ "более указанного процента."
+
+#~ msgid ""
+#~ "Format for DB files: standard not compressed xml and compressed xml for "
+#~ "both other"
+#~ msgstr "Формат файлов БД: xml без сжатия и сжатый xml для двух других"
+
+#~ msgid ""
+#~ "Automatically will be translated all almost identical cells with same "
+#~ "original."
+#~ msgstr ""
+#~ "Автоматически будут переведены все наиболее похожие строки с таким же "
+#~ "оригиналом."
+
+#~ msgid ""
+#~ "Will save online translation result in cache db to use it in next time "
+#~ "for same values instead of attemp to connect to service."
+#~ msgstr ""
+#~ "Сохранит онлайн-перевод в БД кеша для использования в следующий раз для "
+#~ "таких же строк, вместо попыток подключиться к сервису."
+
+#~ msgid ""
+#~ "Web site which wil be opened by pressing F12 key with added selected "
+#~ "table cells values. Can be any here Google, Yandex, DeepL or other."
+#~ msgstr ""
+#~ "Веб-сайт, который будет открыт нажатием F12, с добавлением выбранных "
+#~ "значений ячеек. Можно добавить что угодно здесь^ Google, Yandex, DeepL и "
+#~ "прочие."
+
+#~ msgid "Error in"
+#~ msgstr "Ошибка в"
+
+#~ msgid ""
+#~ "Translation cache disabled but load all DB enabled. While all DB loading "
+#~ "cache can be enabled in settings. Load all DB?"
+#~ msgstr ""
+#~ "Кеш перевода отключен но загрузка всех БД включена. Пока все БД грузятся, "
+#~ "кеш может быть включен в настройках. Загрузить все БД?"
+
+#~ msgid "Translation cache disabled"
+#~ msgstr "Кеш перевода отключен"
+
+#~ msgid "Project"
+#~ msgstr "Проект"
+
+#~ msgid "Select cell first"
+#~ msgstr "Сначала выберете ячейки"
+
+#~ msgid "Paste"
+#~ msgstr "Вставить"
+
+#~ msgid "Loading"
+#~ msgstr "Загрузка"
+
+#~ msgid "Load"
+#~ msgstr "Загрузка"
+
+#~ msgid "Found translation DB. Load it?"
+#~ msgstr "Найдена БД перевода. Загрузить?"
+
+#~ msgid "Load translation DB"
+#~ msgstr "Загрузить БД перевода"
+
+#~ msgid "Try to find translations in all avalaible DB? (Can take some time)"
+#~ msgstr "Попробовать найти перевод во всех доступных БД? (Займет время)"
+
+#~ msgid "Load all DB"
+#~ msgstr "Загрузка всех БД"
+
+#~ msgid "getting translation: "
+#~ msgstr "получение перевода: "
+
+#~ msgid "getting translation"
+#~ msgstr "получение перевода"
+
+#~ msgid "Failed to open project"
+#~ msgstr "Не удалось открыть проект"
+
+#~ msgid "contains"
+#~ msgstr "содержит"
+
+#~ msgid "Copy name"
+#~ msgstr "Копировать имя"
+
+#~ msgid "Copy name of selected tables"
+#~ msgstr "Копировать имена выбранных файлов"
+
+#~ msgid "Edit"
+#~ msgstr "Правка"
+
+#~ msgid "Case Morph"
+#~ msgstr "Изменение регистра"
+
+#~ msgid "To lower"
+#~ msgstr "нижний"
+
+#~ msgid "Change case of rows chars to lower"
+#~ msgstr "Изменение регистра строки на нижний"
+
+#~ msgid "To Upper"
+#~ msgstr "Верхний"
+
+#~ msgid "Change first case of row string to Upper"
+#~ msgstr "Изменение регистра первой буквы на Верхний"
+
+#~ msgid "Change case of row string chars to UPPER"
+#~ msgstr "Изменение регистра строки на ВЕРХНИЙ"
+
+#~ msgid "Cell Fixes"
+#~ msgstr "Фиксы строк"
+
+#~ msgid "Fix cells by regex rules"
+#~ msgstr "Исправления строк по правилам регек, заданным в файле"
+
+#~ msgid "Cell Fixes (Force)"
+#~ msgstr "Фиксы строк (принудительно)"
+
+#~ msgid "Force fix cells by regex rules"
+#~ msgstr "Принудительный фикс строк, даже для переведенных"
+
+#~ msgid "En Quotes To Jp"
+#~ msgstr "Конвертация кавычек в японские кавычки"
+
+#~ msgid "Run"
+#~ msgstr "Запуск"
+
+#~ msgid "Original=Translation"
+#~ msgstr "Перевод=Оригинал"
+
+#~ msgid "Open in Web"
+#~ msgstr "Открыть в Web"
+
+#~ msgid "Search"
+#~ msgstr "Поиск"
+
+#~ msgid "Clear"
+#~ msgstr "Очистка"
+
+#~ msgid "All"
+#~ msgstr "Все"
+
+#~ msgid "Selected"
+#~ msgstr "Выбраное"
+
+#~ msgid "Copy"
+#~ msgstr "Копировать"
+
+#~ msgid "Copy original"
+#~ msgstr "Копировать оригинал"
+
+#~ msgid "Cut"
+#~ msgstr "Вырезать"
+
+#~ msgid "Translate online"
+#~ msgstr "Онлайн перевод"
+
+#~ msgid "Translate all rows"
+#~ msgstr "Онлайн перевод всех строк"
+
+#~ msgid "Interupt"
+#~ msgstr "Прервать"
+
+#~ msgid "Interupt translation"
+#~ msgstr "Прервать перевод"
+
+#~ msgid "Export"
+#~ msgstr "Экспорт"
+
+#~ msgid "Import"
+#~ msgstr "Импорт"
+
+#~ msgid "File"
+#~ msgstr "Файл"
+
+#~ msgid "Load DB"
+#~ msgstr "Загрузка БД"
+
+#~ msgid "Load DB as"
+#~ msgstr "Загрузка БД как"
+
+#~ msgid "Load DB as (forced)"
+#~ msgstr "Загрузка БД как (с перезаписью)"
+
+#~ msgid "Open"
+#~ msgstr "Открыть"
+
+#~ msgid "Select game exe or file to try to open"
+#~ msgstr "Выбрать exe игры или файл для открытия"
+
+#~ msgid "Recent"
+#~ msgstr "Недавнее"
+
+#~ msgid "Save DB"
+#~ msgstr "Сохранить БД"
+
+#~ msgid "Save translated strings into database file"
+#~ msgstr "Сохранить переведенные строки в файл БД"
+
+#~ msgid "Save DB to"
+#~ msgstr "Сохранить БД в"
+
+#~ msgid "Save translated strings into database file into selected locatin"
+#~ msgstr "Сохранить переведенные строки в файл БД по выбранному пути"
+
+#~ msgid "Write translation"
+#~ msgstr "Записать перевод"
+
+#~ msgid "Write traslated strings back into source files"
+#~ msgstr "Записать переведенные строки обратно в исходные файлы"
+
+#~ msgid "Other"
+#~ msgstr "Другое"
+
+#~ msgid "Static translations"
+#~ msgstr "Статический перевод"
+
+#~ msgid "Help"
+#~ msgstr "Помощь"
+
+#~ msgid "About"
+#~ msgstr "О программе"
+
+#~ msgid "View"
+#~ msgstr "Вид"
+
+#~ msgid "OpenTranslationRulesFile"
+#~ msgstr "Открыть файл с правилами перевода"
+
+#~ msgid "OpenProjectsDir"
+#~ msgstr "Открыть папку проекта"
+
+#~ msgid "Open Settings"
+#~ msgstr "Открыть настройки"
+
+#~ msgid "ReloadRules"
+#~ msgstr "Перезагрузить правила"
+
+#~ msgid "Reset column sorting"
+#~ msgstr "Сброс сортировки колонок"
+
+#~ msgid "Out ain file creation was failed"
+#~ msgstr "Создание выходного ain файла не удалось"
+
+#~ msgid "Try to run 'write.bat' manually and check console for errors"
+#~ msgstr ""
+#~ "Попробуйте запустить файл 'write.bat' вручную и проверьте консоль на "
+#~ "ошибки"
+
+#~ msgid "Errors was occcured while packing"
+#~ msgstr "Произошла ошибка при упаковке"
+
+#~ msgid "Will be opened log and work dir"
+#~ msgstr "Будет открыта рабочая папка"
+
+#~ msgid "Creating translation patch"
+#~ msgstr "Создание патча перевода"
+
+#~ msgid "Extraction"
+#~ msgstr "Извлечение"
+
+#~ msgid "Proceed"
+#~ msgstr "Запуск"
+
+#~ msgid "Calculate control crc"
+#~ msgstr "Посчитать crc32"
+
+#~ msgid "Skipped:"
+#~ msgstr "Пропущен:"
+
+#~ msgid "Found already extracted files"
+#~ msgstr "Найдены уже извлеченные файлы"
+
+#~ msgid "Skip already extracted?"
+#~ msgstr "Пропустить уже узвлеченные?"
+
+#~ msgid "Extract files from"
+#~ msgstr "Извлечение файлов из"
+
+#~ msgid "Nothing to add"
+#~ msgstr "Нечего добавлять"
+
+#~ msgid "finished"
+#~ msgstr "завершено"
+
+#~ msgid "Resource extraction"
+#~ msgstr "Извлечение ресурсов"
+
+#~ msgid "text extraction in csv"
+#~ msgstr "извлечение текста из csv"
+
+#~ msgid "menu text extraction in csv"
+#~ msgstr "извлечение текста меню из csv"
+
+#~ msgid "scripts extraction in lns"
+#~ msgstr "Извлечение скриптов из lns"
+
+#~ msgid "write text"
+#~ msgstr "запись текста"
+
+#~ msgid "write menus"
+#~ msgstr "запись меню"
+
+#~ msgid "write scripts"
+#~ msgstr "запись скриптов"
+
+#~ msgid "Copy lsb for insertion"
+#~ msgstr "копирование lsb для вставки"
+
+#~ msgid "Inserting lsb in game"
+#~ msgstr "вставка lsb в игру"
+
+#~ msgid "Opening"
+#~ msgstr "Открытие"
+
+#~ msgid "restore"
+#~ msgstr "восстановление"
+
+#~ msgid "backup"
+#~ msgstr "резервная копия"
+
+#~ msgid "Skip JS"
+#~ msgstr "Пропуск JS"
+
+#~ msgid "Add selected item to Skip.js file"
+#~ msgstr ""
+#~ "Добавить выбранный файл в файл Skip.js для его пропуска при следующем "
+#~ "открытии"
+
+#~ msgid " Open SkipCodesList"
+#~ msgstr "Открыть список кодов команд для пропуска"
+
+#~ msgid "write file: "
+#~ msgstr "запись файла:"
+
+#~ msgid "opening file: "
+#~ msgstr "открытие файла: "
+
+#~ msgid "Writing: "
+#~ msgstr "Запись: "
+
+#~ msgid "saving file: "
+#~ msgstr "сохранение файла: "
+
+#~ msgid "Writing "
+#~ msgstr "Запись "
+
+#~ msgid "Restore baks"
+#~ msgstr "Восстановление bak"
+
+#~ msgid "Patching"
+#~ msgstr "Патч"
+
+#~ msgid "Error occured while patch execution. Error "
+#~ msgstr "Произошла ошибка при выполнении патча. Ошибка "
+
+#~ msgid "Patching failed"
+#~ msgstr "Патч не удался"
+
+#~ msgid "Somethig wrong"
+#~ msgstr "Что то случилось"
+
+#~ msgid "Trying 2nd variant"
+#~ msgstr "Пробуем 2й вариант"
+
+#~ msgid "Last try"
+#~ msgstr "Последняя попытка"
+
+#~ msgid "Extracting"
+#~ msgstr "Извлечение"
+
+#~ msgid "Error occured while patch execution."
+#~ msgstr "Произошла ошибка при выполнении патча."
+
+#~ msgid "Patch creation finished unsuccesfully."
+#~ msgstr "Создание патча не удалось"
+
+#~ msgid "Work folder will be opened."
+#~ msgstr "Будет открыта рабочая папка"
+
+#~ msgid "Try to run Patch.cmd manually and check it for errors."
+#~ msgstr ""
+#~ "Попробуйте запустить файл 'Patch.cmd' вручную и проверьте консоль на "
+#~ "ошибки"
+
+#~ msgid "Create patch"
+#~ msgstr "Создание патча"
+
+#~ msgid "Write patch"
+#~ msgstr "Запись патча"
+
+#~ msgid "Extract"
+#~ msgstr "Извлечение"
+
+#~ msgid "Trying again"
+#~ msgstr "Повторная попытка"
+
+#~ msgid "Create buckup of original files"
+#~ msgstr "Создание резервных копий переведенных файлов"
+
+#~ msgid "Replace translated files"
+#~ msgstr "Замена переведенных файлов"
+
+#~ msgid "Found similar files. Open them too?"
+#~ msgstr "Найдены похожие файлы. Открыть их тоже?"
+
+#~ msgid "Found files with same extension"
+#~ msgstr "Найдены файлы с тем же расширением"
+
+#~ msgid "Save translation"
+#~ msgstr "Сохранить перевод"
+
+#~ msgid "Save Translation as"
+#~ msgstr "Сохранить перевод как"
+
+#~ msgid "Load Translation"
+#~ msgstr "Загрузить перевод"
+
+#~ msgid "Load Translation as"
+#~ msgstr "Загрузить перевод как"
+
+#~ msgid "forced"
+#~ msgstr "принудительно"
+
+#~ msgid "Test"
+#~ msgstr "Тест"
+
+#~ msgid "Translate Online"
+#~ msgstr "Онлайн-перевод"
+
+#~ msgid "Fix cell special symbols"
+#~ msgstr "Исправить спецсимволы"
+
+#~ msgid "Translation=Original"
+#~ msgstr "Перевод=Оригинал"
+
+#~ msgid "Complete Romaji/Other lines"
+#~ msgstr "Завершить ромаджи/прочие строки"
+
+#~ msgid "Force same for simular"
+#~ msgstr "Автоперевод для похожих (все)"
+
+#~ msgid "Clear selected cells"
+#~ msgstr "Очистить выбранные"
+
+#~ msgid "UPPERCASE"
+#~ msgstr "ВЕРХНИЙ"
+
+#~ msgid "Uppercase"
+#~ msgstr "Верхний"
+
+#~ msgid "lowercase"
+#~ msgstr "нижний"
+
+#~ msgid "Options"
+#~ msgstr "Опции"
+
+#~ msgid "Open in web"
+#~ msgstr "Открыть в Web"
+
+#~ msgid "Original"
+#~ msgstr "Оригинал"
+
+#~ msgid "Translation"
+#~ msgstr "Перевод"
+
+#~ msgid "Translation Helper by DenisK (c) 2019"
+#~ msgstr "Translation Helper от DenisK (c) 2019"
+
+#~ msgid "RPG Maker Trans Patch and all games with it"
+#~ msgstr "RPG Maker Trans Patch и все поддерживаемые им игры"
+
+#~ msgid "RPG Maker MV games or they json files with string"
+#~ msgstr "RPG Maker MV игры и их json файлы"
+
+#~ msgid "Not encrypted games on KiriKiri engine and they files"
+#~ msgstr "Незашифрованные игры на движке KiriKiri и их файлы"
+
+#~ msgid "Aleph Fell(Habisain) for RPGMakerTrans"
+#~ msgstr "Aleph Fell(Habisain) за RPGMakerTrans"
+
+#~ msgid "Save"
+#~ msgstr "Сохранить"
+
+#~ msgid "Save As"
+#~ msgstr "Сохранить как"
+
+#~ msgid "Save complete!"
+#~ msgstr "Сохранение завершено!"
+
+#~ msgid "Finished"
+#~ msgstr "Завершено"
+
+#~ msgid "Run Test RPGMaker MV Game"
+#~ msgstr "Тестовый запуск игры RPGMaker MV"
+
+#~ msgid "opening.."
+#~ msgstr "открытие.."
+
+#~ msgid "Problem with source opening. Try to report to devs about it."
+#~ msgstr ""
+#~ "Проблема с открытием источника. Попробуйте сообщить разработчикам об этом."
+
+#~ msgid " loaded"
+#~ msgstr " загружено"
+
+#~ msgid "contains: "
+#~ msgstr "содержит: "
+
+#~ msgid "loading translation"
+#~ msgstr "загрузка перевода"
+
+#~ msgid "Already in process.."
+#~ msgstr "Уже в процессе.."
+
+#~ msgid "translating"
+#~ msgstr "переводится"
+
+#~ msgid "loading"
+#~ msgstr "загрузка"
+
+#~ msgid "Problem with loading"
+#~ msgstr "Проблема при загрузке"
+
+#~ msgid "Translation  Helper support:"
+#~ msgstr "Поддержка Translation  Helper:"
+
+#~ msgid ""
+#~ "Is true while online translating. Will be used both with other chars "
+#~ "like .!/? and other same"
+#~ msgstr ""
+#~ "Включить при переводе. Будет использовано вместе с такими символами "
+#~ "как .!/? и прочими такого рода"
