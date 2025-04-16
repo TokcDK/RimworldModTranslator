@@ -69,7 +69,7 @@
                    <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
                    <CheckBox 
                        ToolTip="{Binding ForceLoadTranslationsCacheToolTip}"
-                       Content="" 
+                       Content="{Binding ForceLoadTranslationsCacheName}" 
                        IsChecked="{Binding ForceLoadTranslationsCache}"
                        />
                    <CheckBox 

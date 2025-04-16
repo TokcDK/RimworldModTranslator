@@ -61,7 +61,7 @@ namespace RimworldModTranslator.Translations
         internal static string TargetModAuthorToolTip { get => T._("Target mod Author. Default: '{Source mod authors},Anonimous'"); }
         internal static string TargetModVersionName { get => T._("Version"); }
         internal static string TargetModVersionToolTip { get => T._("Target mod version. Default: '1.0'"); }
-        internal static string TargetModSupportedVersionsName { get => T._("Supported versions}"); }
+        internal static string TargetModSupportedVersionsName { get => T._("Supported versions"); }
         internal static string TargetModSupportedVersionsToolTip { get => T._("Target mod supported game versions. Default: {Source mod supported versions}"); }
         internal static string TargetModDescriptionName { get => T._("Description"); }
         internal static string TargetModDescriptionToolTip { get => T._("Optional target mod description. Default: '{Source mode name} Translation'"); }
