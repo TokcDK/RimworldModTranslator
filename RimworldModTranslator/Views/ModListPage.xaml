@@ -33,11 +33,30 @@
                    <MenuItem Header="{Binding LoadStringsName}" Command="{Binding LoadStringsCommand}" />
                </ContextMenu>
            </DataGrid.ContextMenu>
-           <DataGrid.Columns>
-               <DataGridCheckBoxColumn Header="{Binding ActiveName}" Binding="{Binding IsActive}" Width="Auto" IsReadOnly="True" />
-                <DataGridTextColumn Header="{Binding NameName}" Binding="{Binding ModDisplayingName}" Width="*" IsReadOnly="True"/>
-           </DataGrid.Columns>
-           <DataGrid.RowHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{Binding DataContext.ActiveColumnName, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsActive}" IsEnabled="False"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{Binding DataContext.NameColumnName, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ModDisplayingName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.RowHeaderStyle>
                <Style TargetType="{x:Type DataGridRowHeader}">
                    <Setter Property="Content" Value="{Binding Path=(dataGrid2D:Index.OfRow), RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"/>
                </Style>
