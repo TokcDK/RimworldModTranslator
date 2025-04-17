@@ -11,7 +11,7 @@ namespace RimworldModTranslator.Translations
     {
         #region ui names and tooltips
         internal static string NameName { get; } = T._("Name");
-        internal static string ActiveName { get; } = T._("Active");
+        internal static string ActiveName { get; } = T._("☑");
         internal static string OpenModDirName { get; } = T._("Open mod dir");
         internal static string ModsName { get; } = T._("Mods");
         internal static string RefreshModListName { get; } = T._("Refresh");
