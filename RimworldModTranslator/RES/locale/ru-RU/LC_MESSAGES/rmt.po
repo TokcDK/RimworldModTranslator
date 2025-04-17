@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-04-17 17:53+0500\n"
-"PO-Revision-Date: 2025-04-17 18:01+0500\n"
+"POT-Creation-Date: 2025-04-17 20:37+0500\n"
+"PO-Revision-Date: 2025-04-17 20:39+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -298,8 +298,8 @@ msgstr "Приложение запущено"
 
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:84
 #, csharp-format
-msgid "Loaded strings from {0}."
-msgstr "Загружены строки из {0}."
+msgid "Loaded {0} strings from {1}."
+msgstr "Загружено {0} строк из {1}."
 
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:85
 #, csharp-format
@@ -310,6 +310,28 @@ msgstr "Загружен кеш строк из {0}."
 #, csharp-format
 msgid "Cleared {0} selected cells."
 msgstr "Очищено {0} выбранных ячеек."
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:87
+#, csharp-format
+msgid "Log file not found: {0}"
+msgstr "Файл лога не найден: {0}"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:88
+msgid "Mod is not set. Please select mod to load strings."
+msgstr "Мод не выбран. Выберете мод для загрузки строк."
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:89
+msgid "Mods path is not set. Please select the mods path."
+msgstr "Путь к модам не выбран. Выберете путь к модам для загрузки строк."
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:90
+msgid "No translatable folders found."
+msgstr "Переводимых папок не найдено"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:91
+#, csharp-format
+msgid "Nothing to load from {0}."
+msgstr "Нечего не найдено в {0}."
 
 #~ msgid "Active"
 #~ msgstr "Активен"
@@ -817,9 +839,6 @@ msgstr "Очищено {0} выбранных ячеек."
 
 #~ msgid "Extract files from"
 #~ msgstr "Извлечение файлов из"
-
-#~ msgid "Nothing to add"
-#~ msgstr "Нечего добавлять"
 
 #~ msgid "finished"
 #~ msgstr "завершено"
