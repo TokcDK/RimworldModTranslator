@@ -7,11 +7,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RimworldModTranslator.Translations;
+using System.IO;
 
 namespace RimworldModTranslator.Helpers
 {
     class AppHelper
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        internal static void OpenLogFile()
+        {
+            var logFilePath = Logger.Factory.Configuration.FindTargetByName<FileTarget>("file")?.FileName.Render(new LogEventInfo());
+            if (logFilePath != null && File.Exists(logFilePath))
+            {
+                System.Diagnostics.Process.Start("explorer.exe", logFilePath);
+            }
+            else
+            {
+                Logger.Error(Translation.LogFileNotFound, logFilePath);
+            }
+        }
+
         internal static void SetupLogger(Views.MainView view, Services.SettingsService settingsService)
         {
             var uiTarget = new UILogTarget

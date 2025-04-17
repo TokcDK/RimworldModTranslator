@@ -57,15 +57,7 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private static void OpenLogFile()
         {
-            var logFilePath = Logger.Factory.Configuration.FindTargetByName<FileTarget>("file")?.FileName.Render(new LogEventInfo());
-            if (logFilePath != null && File.Exists(logFilePath))
-            {
-                System.Diagnostics.Process.Start("explorer.exe", logFilePath);
-            }
-            else
-            {
-                Logger.Error(Translation.LogFileNotFound, logFilePath);
-            }
+            AppHelper.OpenLogFile();
         }
     }
 }
