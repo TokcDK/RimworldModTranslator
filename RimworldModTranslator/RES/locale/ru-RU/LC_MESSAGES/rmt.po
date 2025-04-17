@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-04-17 17:40+0500\n"
-"PO-Revision-Date: 2025-04-17 17:41+0500\n"
+"POT-Creation-Date: 2025-04-17 17:53+0500\n"
+"PO-Revision-Date: 2025-04-17 17:53+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -20,11 +20,6 @@ msgstr ""
 #, csharp-format
 msgid "{0} {1} selected cells."
 msgstr "{0} {1} выбранных ячеек."
-
-#: RimworldModTranslator/RimworldModTranslator/Helpers/GameHelper.cs:92
-#, csharp-format
-msgid "Loaded {0} mods from {1}."
-msgstr "Загружено {0} модов из {1}."
 
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:13
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:60
@@ -276,37 +271,42 @@ msgstr "Путь к преаью"
 
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:78
 #, csharp-format
+msgid "Loaded {0} mods from {1}."
+msgstr "Загружено {0} модов из {1}."
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:79
+#, csharp-format
 msgid "Pasted {0} strings to selected cells."
 msgstr "Вставлено {0} строк в выбранные пустые ячейки."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:79
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:80
 msgid "Copied"
 msgstr "Скопировано"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:80
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:81
 msgid "Cut out"
 msgstr "Вырезано"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:81
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:82
 #, csharp-format
 msgid "Set translations by cache. {0} folders."
 msgstr "Применен перевод из кеша. {0} папок."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:82
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:83
 msgid "Application started"
 msgstr "Приложение запущено"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:83
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:84
 #, csharp-format
 msgid "Loaded strings from {0}."
 msgstr "Загружены строки из {0}."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:84
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:85
 #, csharp-format
 msgid "Loaded strings cache from {0}."
 msgstr "Загружен кеш строк из {0}."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:85
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:86
 #, csharp-format
 msgid "Cleared {0} selected cells."
 msgstr "Очищено {0} выбранных ячеек."
