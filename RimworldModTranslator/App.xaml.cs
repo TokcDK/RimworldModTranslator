@@ -9,10 +9,7 @@ using RimworldModTranslator.Views;
 using RimworldModTranslator.Services;
 
 namespace RimworldModTranslator;
-
-/// <summary>  
-/// Interaction logic for App.xaml  
-/// </summary>  
+ 
 public partial class App
 {
     private readonly SettingsService settingsService;
@@ -20,6 +17,11 @@ public partial class App
     public App()
     {
         settingsService = new SettingsService();
+    }
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
 
         var view = new MainView();
 
