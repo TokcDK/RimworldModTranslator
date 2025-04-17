@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-04-17 13:57+0500\n"
-"PO-Revision-Date: 2025-04-17 14:01+0500\n"
+"POT-Creation-Date: 2025-04-17 17:40+0500\n"
+"PO-Revision-Date: 2025-04-17 17:41+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -32,8 +32,8 @@ msgid "Name"
 msgstr "Имя"
 
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:14
-msgid "Active"
-msgstr "Активен"
+msgid "☑"
+msgstr "☑"
 
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:15
 msgid "Open mod dir"
@@ -310,6 +310,9 @@ msgstr "Загружен кеш строк из {0}."
 #, csharp-format
 msgid "Cleared {0} selected cells."
 msgstr "Очищено {0} выбранных ячеек."
+
+#~ msgid "Active"
+#~ msgstr "Активен"
 
 #~ msgid "Refresh mod list"
 #~ msgstr "Обновить список модов"
