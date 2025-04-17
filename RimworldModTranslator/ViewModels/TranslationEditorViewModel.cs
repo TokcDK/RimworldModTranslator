@@ -56,6 +56,16 @@ namespace RimworldModTranslator.ViewModels
         private string? _previousSelectedFolder;
         #endregion
 
+        #region Constructors
+        public TranslationEditorViewModel(SettingsService settingsService)
+        {
+            this._settingsService = settingsService;
+            Folders.CollectionChanged += (s, e) => OnPropertyChanged(nameof(IsFoldersEnabled));
+
+            InitTranslationsTable();
+        }
+        #endregion
+
         #region ToolTips
         public static string EditorTableToolTip { get => Translation.EditorTableToolTip; }
         public static string FolderSelectionToolTip { get => Translation.FolderSelectionToolTip; }
@@ -67,16 +77,6 @@ namespace RimworldModTranslator.ViewModels
         public static string SaveStringsToolTip { get => Translation.SaveStringsTooltip; }
         public static string FolderName { get => Translation.FolderName; }
         public static string AddLanguageName { get => Translation.AddLanguageName; }
-        #endregion
-
-        #region Constructors
-        public TranslationEditorViewModel(SettingsService settingsService)
-        {
-            this._settingsService = settingsService;
-            Folders.CollectionChanged += (s, e) => OnPropertyChanged(nameof(IsFoldersEnabled));
-
-            InitTranslationsTable();
-        }
         #endregion
 
         #region Properties
