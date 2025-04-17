@@ -35,10 +35,10 @@
         <LastGenOutput>Settings.Designer.cs</LastGenOutput>
       </None>
       <None Update="RES\locale\ru-RU\LC_MESSAGES\rmt.mo">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="RES\locale\ru-RU\LC_MESSAGES\rmt.po">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
 

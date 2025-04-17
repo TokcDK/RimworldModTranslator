@@ -13,7 +13,7 @@ namespace RimworldModTranslator.Services
     {
         static Catalog GetGlobal()
         {
-            var localesDir = Path.Combine(Path.GetFullPath(".\\"), "Locale");
+            var localesDir = Path.Combine(Path.GetFullPath(".\\"), "RES", "Locale");
             return new Catalog("rmt", localesDir);
         }
 
