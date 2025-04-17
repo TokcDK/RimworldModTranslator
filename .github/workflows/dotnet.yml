@@ -5,24 +5,40 @@ name: .NET
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - master
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  build-and-test:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: ./    # adjust if your .sln/.csproj lives in a subfolder
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0-windows
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Setup .NET 8.0 SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore **/*.sln
+
+      - name: Build solution
+        run: dotnet build **/*.sln --no-restore --configuration Release
+
+      - name: Run unit tests
+        run: dotnet test **/*Tests/*.csproj --no-build --configuration Release --verbosity normal
