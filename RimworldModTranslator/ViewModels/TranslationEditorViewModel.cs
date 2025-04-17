@@ -82,7 +82,7 @@ namespace RimworldModTranslator.ViewModels
         #region Properties
         public static string Header { get => Translation.EditorName; }
 
-        private static Logger _logger { get; } = LogManager.GetCurrentClassLogger();
+        private static Logger Logger { get; } = LogManager.GetCurrentClassLogger();
 
         public bool IsTranslatorEnabled { get => IsTheTranslatorEnabled(); }
 
@@ -180,9 +180,9 @@ namespace RimworldModTranslator.ViewModels
                 string message = Translation.LoadedStringsCacheFromXLogMessage;
                 if (Directory.Exists(_settingsService.SelectedGame?.GameDirPath))
                 {
-                    _logger.Info(message, _settingsService.SelectedGame?.GameDirPath);
+                    Logger.Info(message, _settingsService.SelectedGame?.GameDirPath);
                 }
-                _logger.Info(message, _settingsService.SelectedGame?.ModsDirPath);
+                Logger.Info(message, _settingsService.SelectedGame?.ModsDirPath);
             }
 
             await EditorHelper.SetTranslationsbyCache(IdCache, ValueCache, Folders);
@@ -196,7 +196,7 @@ namespace RimworldModTranslator.ViewModels
                 _game = _settingsService.SelectedGame;
                 if (_game == null)
                 {
-                    _logger.Warn("Game is not set. Please select the game.");
+                    Logger.Warn("Game is not set. Please select the game.");
                     return;
                 }
             }
@@ -209,7 +209,7 @@ namespace RimworldModTranslator.ViewModels
                 _mod = _settingsService.SelectedMod;
                 if (_mod == null)
                 {
-                    _logger.Warn("Mod is not set. Please select the mod.");
+                    Logger.Warn("Mod is not set. Please select the mod.");
                     return;
                 }
             }
@@ -253,7 +253,7 @@ namespace RimworldModTranslator.ViewModels
 
             OnPropertyChanged(nameof(ModDisplayingName));
 
-            _logger.Info(Translation.LoadedStringsFromXLogMessage, selectedTranslatableDir);
+            Logger.Info(Translation.LoadedStringsFromXLogMessage, selectedTranslatableDir);
         }
 
         [RelayCommand]
