@@ -37,16 +37,23 @@
 
         <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
 
-        <ListBox Grid.Row="2" ItemsSource="{Binding Messages}"
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="15" />
+            </Grid.ColumnDefinitions>
+            <ListBox ItemsSource="{Binding Messages}"
                 bh:ListBoxAutoScrollToBottomBehavior.AutoScrollToBottom="True"
                 SelectionMode="Multiple"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding}" TextWrapping="Wrap" />
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button Grid.Column="1" Content=">" Command="{Binding OpenLogFileCommand}"/>
+        </Grid>
     </Grid>
 </Window>

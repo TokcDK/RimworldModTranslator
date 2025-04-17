@@ -9,6 +9,8 @@ using RimworldModTranslator.Helpers;
 using RimworldModTranslator.Messages;
 using NLog;
 using RimworldModTranslator.Translations;
+using System.IO;
+using NLog.Targets;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -50,6 +52,20 @@ namespace RimworldModTranslator.ViewModels
 
             // load strings in editor
             await editor.LoadTheSelectedModStrings();
+        }
+
+        [RelayCommand]
+        private void OpenLogFile()
+        {
+            var logFilePath = Logger.Factory.Configuration.FindTargetByName<FileTarget>("file")?.FileName.Render(new LogEventInfo());
+            if (logFilePath != null && File.Exists(logFilePath))
+            {
+                System.Diagnostics.Process.Start("explorer.exe", logFilePath);
+            }
+            else
+            {
+                Logger.Error(Translation.LogFileNotFound, logFilePath);
+            }
         }
     }
 }

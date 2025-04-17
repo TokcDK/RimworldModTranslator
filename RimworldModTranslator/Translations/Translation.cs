@@ -84,6 +84,8 @@ namespace RimworldModTranslator.Translations
         internal static string LoadedStringsFromXLogMessage { get; } = T._("Loaded strings from {0}.");
         internal static string LoadedStringsCacheFromXLogMessage { get; } = T._("Loaded strings cache from {0}.");
         internal static string ClearXSelectedCellsLogMessage { get; } = T._("Cleared {0} selected cells.");
+        internal static string LogFileNotFound { get; } = T._("Log file not found: {0}");
+
         #endregion
     }
 }
