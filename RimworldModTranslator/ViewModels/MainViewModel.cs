@@ -14,7 +14,7 @@ namespace RimworldModTranslator.ViewModels
 {
     public partial class MainViewModel : ViewModelBase, IRecipient<LoadSelectedModStringsMessage>
     {
-        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public ObservableCollection<string> Messages { get => _settingsService!.Messages; }
 
@@ -29,7 +29,7 @@ namespace RimworldModTranslator.ViewModels
         {
             _settingsService = settingsService;
 
-            _logger.Info(Translation.AppStartedLogMessage);
+            Logger.Info(Translation.AppStartedLogMessage);
 
             // TabViewModels.Add(new WelcomeViewModel(settingsService)); // Not implemented yet, add there some info possibly
             TabViewModels.Add(new ModListViewModel(settingsService));
