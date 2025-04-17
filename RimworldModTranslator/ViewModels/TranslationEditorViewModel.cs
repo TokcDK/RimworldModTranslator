@@ -149,14 +149,9 @@ namespace RimworldModTranslator.ViewModels
         // will not fire with SelectionUnit="CellOrRowHeader" selected cells but still can be used to select row programmatically
         [ObservableProperty]
         private DataRowView? selectedRow;
-        partial void OnSelectedRowChanged(DataRowView? value)
-        {
-        }
+
         [ObservableProperty]
         private int selectedRowIndex;
-        partial void OnSelectedRowIndexChanged(int value)
-        {
-        }
         #endregion
 
         #region Commands
@@ -214,11 +209,6 @@ namespace RimworldModTranslator.ViewModels
                 }
             }
 
-            //if(!isChangedMod && previousSelectedFolder == SelectedFolder)
-            //{
-            //    // dont need? to reload strings for the same mod folder again
-            //    return;
-            //}
             if (isChangedMod || Folders.Count == 0)
             {
                 string modPath = Path.Combine(_game!.ModsDirPath!, _mod.DirectoryName!);
