@@ -1,6 +1,7 @@
 # Rimworld Mod Translator
 
-[![License](https://img.shields.io/github/license/TokcDK/RimworldModTranslator)](LICENSE) [![Build Status](https://img.shields.io/github/actions/workflow/status/TokcDK/RimworldModTranslator/ci.yml)](https://github.com/TokcDK/RimworldModTranslator/actions) [![GitHub issues](https://img.shields.io/github/issues/TokcDK/RimworldModTranslator)](https://github.com/TokcDK/RimworldModTranslator/issues) [![Stars](https://img.shields.io/github/stars/TokcDK/RimworldModTranslator)](https://github.com/TokcDK/RimworldModTranslator/stargazers)
+[![License](https://img.shields.io/github/license/TokcDK/RimworldModTranslator
+)](LICENSE) [![Build Status](https://img.shields.io/github/actions/workflow/status/TokcDK/RimworldModTranslator/ci.yml)](https://github.com/TokcDK/RimworldModTranslator/actions) [![GitHub issues](https://img.shields.io/github/issues/TokcDK/RimworldModTranslator)](https://github.com/TokcDK/RimworldModTranslator/issues) [![Stars](https://img.shields.io/github/stars/TokcDK/RimworldModTranslator)](https://github.com/TokcDK/RimworldModTranslator/stargazers)
 
 ---
 
