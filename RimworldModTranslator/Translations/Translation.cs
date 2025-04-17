@@ -75,6 +75,7 @@ namespace RimworldModTranslator.Translations
         #endregion
 
         #region log messages
+        internal static string Loaded0ModsFrom1 { get; } = T._("Loaded {0} mods from {1}.");
         internal static string PastedXStringsToSelectedCellsLogMessage { get; } = T._("Pasted {0} strings to selected cells.");
         internal static string PrefixCopiedText { get; } = T._("Copied");
         internal static string PrefixCutOutText { get; } = T._("Cut out");

@@ -1,6 +1,7 @@
 ﻿using NLog;
 using RimworldModTranslator.Models;
 using RimworldModTranslator.Services;
+using RimworldModTranslator.Translations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -89,7 +90,7 @@ namespace RimworldModTranslator.Helpers
 
             game.ModsList = [.. game.ModsList.OrderBy(g => modsConfig.ActiveMods.IndexOf((g.About == null || g.About.PackageId == null ? "" : g.About.PackageId).ToLowerInvariant()))];
 
-            _logger.Info(T._("Loaded {0} mods from {1}."), game.ModsList.Count, game.ModsDirPath);
+            _logger.Info(Translation.Loaded0ModsFrom1, game.ModsList.Count, game.ModsDirPath);
 
             return true;
         }
