@@ -183,7 +183,7 @@ namespace RimworldModTranslator.ViewModels
             await EditorHelper.SetTranslationsbyCache(IdCache, ValueCache, Folders);
         }
 
-        public async Task LoadTheSelectedModStrings()
+        public Task LoadTheSelectedModStrings()
         {
             if (_game == null || _game != _settingsService.SelectedGame)
             {
@@ -191,8 +191,8 @@ namespace RimworldModTranslator.ViewModels
                 _game = _settingsService.SelectedGame;
                 if (_game == null)
                 {
-                    Logger.Warn("Game is not set. Please select the game.");
-                    return;
+                    Logger.Warn(Translation.ModsPathIsNotSetWarnLogMessage);
+                    return Task.CompletedTask;
                 }
             }
 
@@ -204,22 +204,30 @@ namespace RimworldModTranslator.ViewModels
                 _mod = _settingsService.SelectedMod;
                 if (_mod == null)
                 {
-                    Logger.Warn("Mod is not set. Please select the mod.");
-                    return;
+                    Logger.Warn(Translation.ModIsNotSetWarnLogMessage);
+                    return Task.CompletedTask;
                 }
             }
 
             if (isChangedMod || Folders.Count == 0)
             {
                 string modPath = Path.Combine(_game!.ModsDirPath!, _mod.DirectoryName!);
-                if (!Directory.Exists(modPath)) return;
+                if (!Directory.Exists(modPath))
+                {
+                    Logger.Warn(Translation.ModsPathIsNotSetWarnLogMessage);
+                    return Task.CompletedTask;
+                }
 
                 Folders.Clear();
 
                 EditorHelper.GetTranslatableFolders(Folders, modPath);
             }
 
-            if (Folders.Count == 0) return;
+            if (Folders.Count == 0)
+            {
+                Logger.Warn(Translation.NoTranslatableFoldersFoundLogMessage);
+                return Task.CompletedTask;
+            }
 
             SelectedFolder ??= Folders[0];
 
@@ -236,7 +244,19 @@ namespace RimworldModTranslator.ViewModels
                 SelectedFolder = Folders.FirstOrDefault(f => f.Name == _previousSelectedFolder);
             }
 
-            if (SelectedFolder == null) return;
+            if (SelectedFolder == null)
+            {
+                if (Folders.Count > 0)
+                {
+                    SelectedFolder = Folders[0];
+                }
+                else
+                {
+                    Logger.Warn(Translation.NoTranslatableFoldersFoundLogMessage);
+
+                    return Task.CompletedTask;
+                }
+            }
 
             SelectedFolder.TranslationsTable = translationsTable;
             InitTranslationsTable(dataTableToRelink: translationsTable);
