@@ -7,16 +7,17 @@ using System.Windows;
 using RimworldModTranslator.ViewModels;
 using RimworldModTranslator.Views;
 using RimworldModTranslator.Services;
+using RimworldModTranslator.Helpers;
 
 namespace RimworldModTranslator;
  
 public partial class App
 {
-    private readonly SettingsService settingsService;
+    private readonly SettingsService _settingsService;
 
     public App()
     {
-        settingsService = new SettingsService();
+        _settingsService = new SettingsService();
     }
 
     protected override void OnStartup(StartupEventArgs e)
@@ -25,36 +26,9 @@ public partial class App
 
         var view = new MainView();
 
-        var uiTarget = new UILogTarget
-        {
-            LogAction = message =>
-            {
-                view.Dispatcher.Invoke(() =>
-                {
-                    if (settingsService.Messages.Count > 100)
-                    {
-                        settingsService.Messages.RemoveAt(0);
-                    }
-                    settingsService.Messages.Add(message);
-                });
-            },
-            Layout = "${longdate}: (${level}) ${message}"
-        };
+        AppHelper.SetupLogger(view, _settingsService);
 
-        var fileTarget = new FileTarget("file")
-        {
-            FileName = "log.txt",
-            Layout = "${longdate}: (${level}) ${message}"
-        };
-
-        var config = new LoggingConfiguration();
-        config.AddTarget("ui", uiTarget);
-        config.AddTarget("file", fileTarget);
-        config.AddRule(LogLevel.Info, LogLevel.Fatal, "ui");
-        config.AddRule(LogLevel.Debug, LogLevel.Fatal, "file");
-        LogManager.Configuration = config;
-
-        var mainViewModel = new MainViewModel(settingsService);
+        var mainViewModel = new MainViewModel(_settingsService);
         view.DataContext = mainViewModel;
 
         view.Show();
