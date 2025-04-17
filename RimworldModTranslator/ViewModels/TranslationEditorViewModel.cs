@@ -20,6 +20,7 @@ using System.Data.Common;
 using System.Threading.Tasks;
 using NLog;
 using RimworldModTranslator.Translations;
+using NLog.Fluent;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -263,7 +264,14 @@ namespace RimworldModTranslator.ViewModels
 
             OnPropertyChanged(nameof(ModDisplayingName));
 
-            Logger.Info(Translation.LoadedStringsFromXLogMessage, selectedTranslatableDir);
+            if (translationsTable == null || translationsTable.Rows.Count == 0)
+            {
+                Logger.Info(Translation.NothingToLoadFromXLogMessage, selectedTranslatableDir);
+            }
+            else
+            {
+                Logger.Info(Translation.LoadedStringsFromXLogMessage, selectedTranslatableDir);
+            }
 
             return Task.CompletedTask;
         }

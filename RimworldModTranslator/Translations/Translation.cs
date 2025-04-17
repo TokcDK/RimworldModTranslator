@@ -9,10 +9,6 @@ namespace RimworldModTranslator.Translations
 {
     internal static class Translation
     {
-        public static object ModIsNotSetWarnLogMessage { get; } = T._("Mod is not set. Please select mod to load strings.");
-        public static object ModsPathIsNotSetWarnLogMessage { get; } = T._("Mods path is not set. Please select the mods path.");
-        public static object NoTranslatableFoldersFoundLogMessage { get; } = T._("No translatable folders found.");
-
         #region ui names and tooltips
         internal static string NameName { get; } = T._("Name");
         internal static string ActiveName { get; } = T._("☑");
@@ -89,7 +85,10 @@ namespace RimworldModTranslator.Translations
         internal static string LoadedStringsCacheFromXLogMessage { get; } = T._("Loaded strings cache from {0}.");
         internal static string ClearXSelectedCellsLogMessage { get; } = T._("Cleared {0} selected cells.");
         internal static string LogFileNotFound { get; } = T._("Log file not found: {0}");
-
+        internal static string ModIsNotSetWarnLogMessage { get; } = T._("Mod is not set. Please select mod to load strings.");
+        internal static string ModsPathIsNotSetWarnLogMessage { get; } = T._("Mods path is not set. Please select the mods path.");
+        internal static string NoTranslatableFoldersFoundLogMessage { get; } = T._("No translatable folders found.");
+        internal static string NothingToLoadFromXLogMessage { get; } = T._("Nothing to load from {0}.");
         #endregion
     }
 }
