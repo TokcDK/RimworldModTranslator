@@ -89,7 +89,7 @@ namespace RimworldModTranslator.Helpers
 
             game.ModsList = [.. game.ModsList.OrderBy(g => modsConfig.ActiveMods.IndexOf((g.About == null || g.About.PackageId == null ? "" : g.About.PackageId).ToLowerInvariant()))];
 
-            _logger.Info($"Loaded {game.ModsList.Count} mods from {game.ModsDirPath}.");
+            _logger.Info(T._("Loaded {0} mods from {1}."), game.ModsList.Count, game.ModsDirPath);
 
             return true;
         }

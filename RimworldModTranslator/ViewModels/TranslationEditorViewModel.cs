@@ -177,11 +177,12 @@ namespace RimworldModTranslator.ViewModels
 
                 (IdCache, ValueCache) = await EditorHelper.FillCache(stringsData);
 
-                if(Directory.Exists(_settingsService.SelectedGame?.GameDirPath))
+                string message = Translation.LoadedStringsCacheFromXLogMessage;
+                if (Directory.Exists(_settingsService.SelectedGame?.GameDirPath))
                 {
-                    _logger.Info($"Loaded strings cache from {_settingsService.SelectedGame?.GameDirPath}.");
+                    _logger.Info(message, _settingsService.SelectedGame?.GameDirPath);
                 }
-                _logger.Info($"Loaded strings cache from {_settingsService.SelectedGame?.ModsDirPath}.");
+                _logger.Info(message, _settingsService.SelectedGame?.ModsDirPath);
             }
 
             await EditorHelper.SetTranslationsbyCache(IdCache, ValueCache, Folders);
@@ -252,7 +253,7 @@ namespace RimworldModTranslator.ViewModels
 
             OnPropertyChanged(nameof(ModDisplayingName));
 
-            _logger.Info($"Loaded strings from {selectedTranslatableDir}.");
+            _logger.Info(Translation.LoadedStringsFromXLogMessage, selectedTranslatableDir);
         }
 
         [RelayCommand]

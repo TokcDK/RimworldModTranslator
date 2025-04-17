@@ -1,6 +1,8 @@
 ﻿using NLog;
 using RimworldModTranslator.Models;
 using RimworldModTranslator.Properties;
+using RimworldModTranslator.Services;
+using RimworldModTranslator.Translations;
 using SharpCompress.Archives.Tar;
 using SharpCompress.Common;
 using System;
@@ -764,7 +766,7 @@ namespace RimworldModTranslator.Helpers
             {
                 rowItem.Row[column.SortMemberPath] = null;
             }
-            _logger.Info($"Cleared {selectedCells.Count} selected cells.");
+            _logger.Info(Translation.ClearXSelectedCellsLogMessage, selectedCells.Count);
         }
         internal static void PasteStringsInSelectedCells(IList<DataGridCellInfo>? selectedCells)
         {
@@ -792,7 +794,7 @@ namespace RimworldModTranslator.Helpers
                 }
             }
 
-            _logger.Info($"Pasted {clipboardLineIndex} strings in selected cells.");
+            _logger.Info(Translation.PastedXStringsToSelectedCellsLogMessage, clipboardLineIndex);
         }
 
         internal static void CutSelectedCells(IList<DataGridCellInfo>? selectedCells, bool onlyCopy = false)
@@ -814,8 +816,8 @@ namespace RimworldModTranslator.Helpers
 
             Clipboard.SetText(string.Join("\r\n", strings));
 
-            string actionName = onlyCopy ? "Copy" : "Cut";
-            _logger.Info($"{actionName} {strings.Count} selected cells.");
+            string actionName = onlyCopy ? Translation.PrefixCopiedText : Translation.PrefixCutOutText;
+            _logger.Info(T._("{0} {1} selected cells."), actionName, strings.Count);
         }
 
         internal static IEnumerable<(DataRowView row, DataGridColumn column)> EnumerateValidSelectedCells(IList<DataGridCellInfo> selectedCells)
@@ -1049,7 +1051,7 @@ namespace RimworldModTranslator.Helpers
                 }
             });
 
-            _logger.Info($"Set translations by cache. {folders.Count} folders.");
+            _logger.Info(Translation.SetTanslationsByCacheXFoldersLogMessage, folders.Count);
             return Task.CompletedTask;
         }
 

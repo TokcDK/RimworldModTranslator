@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using RimworldModTranslator.Helpers;
 using RimworldModTranslator.Messages;
 using NLog;
+using RimworldModTranslator.Translations;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -28,7 +29,7 @@ namespace RimworldModTranslator.ViewModels
         {
             _settingsService = settingsService;
 
-            _logger.Info("Application started");
+            _logger.Info(Translation.AppStartedLogMessage);
 
             // TabViewModels.Add(new WelcomeViewModel(settingsService)); // Not implemented yet, add there some info possibly
             TabViewModels.Add(new ModListViewModel(settingsService));

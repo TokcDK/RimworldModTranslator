@@ -9,6 +9,7 @@ namespace RimworldModTranslator.Translations
 {
     internal static class Translation
     {
+        #region ui names and tooltips
         internal static string NameName { get; } = T._("Name");
         internal static string ActiveName { get; } = T._("Active");
         internal static string OpenModDirName { get; } = T._("Open mod dir");
@@ -71,5 +72,17 @@ namespace RimworldModTranslator.Translations
         internal static string TargetModUrlName { get => T._("Url"); }
         internal static string TargetModUrlToolTip { get => T._("Optional target mod web page URL. Default: No Url"); }
         internal static string TargetModPreviewName { get => T._("Preview path"); }
+        #endregion
+
+        #region log messages
+        internal static string PastedXStringsToSelectedCellsLogMessage { get; } = T._("Pasted {0} strings to selected cells.");
+        internal static string PrefixCopiedText { get; } = T._("Copied");
+        internal static string PrefixCutOutText { get; } = T._("Cut out");
+        internal static string SetTanslationsByCacheXFoldersLogMessage { get; } = T._("Set translations by cache. {0} folders.");
+        internal static object AppStartedLogMessage { get; } = T._("Application started");
+        internal static string LoadedStringsFromXLogMessage { get; } = T._("Loaded strings from {0}.");
+        internal static string LoadedStringsCacheFromXLogMessage { get; } = T._("Loaded strings cache from {0}.");
+        internal static string ClearXSelectedCellsLogMessage { get; } = T._("Cleared {0} selected cells.");
+        #endregion
     }
 }
