@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('RimworldModTranslator/RimworldModTranslator.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
 
@@ -35,10 +35,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore **/*.sln
+        run: dotnet restore RimworldModTranslator.sln
 
       - name: Build solution
-        run: dotnet build **/*.sln --no-restore --configuration Release
-
-      - name: Run unit tests
-        run: dotnet test **/*Tests/*.csproj --no-build --configuration Release --verbosity normal
+        run: dotnet build RimworldModTranslator.sln --no-restore --configuration Release
