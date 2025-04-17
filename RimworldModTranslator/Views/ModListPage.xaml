@@ -40,7 +40,7 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsActive}" IsEnabled="False"/>
+                            <CheckBox HorizontalAlignment="Center" IsChecked="{Binding IsActive}" IsEnabled="False"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
