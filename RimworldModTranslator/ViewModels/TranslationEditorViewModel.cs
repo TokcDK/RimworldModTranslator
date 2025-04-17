@@ -264,6 +264,8 @@ namespace RimworldModTranslator.ViewModels
             OnPropertyChanged(nameof(ModDisplayingName));
 
             Logger.Info(Translation.LoadedStringsFromXLogMessage, selectedTranslatableDir);
+
+            return Task.CompletedTask;
         }
 
         [RelayCommand]
