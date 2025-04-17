@@ -270,7 +270,7 @@ namespace RimworldModTranslator.ViewModels
             }
             else
             {
-                Logger.Info(Translation.LoadedStringsFromXLogMessage, selectedTranslatableDir);
+                Logger.Info(Translation.Loaded0StringsFrom1LogMessage, translationsTable.Rows.Count, selectedTranslatableDir);
             }
 
             return Task.CompletedTask;

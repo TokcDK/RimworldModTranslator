@@ -81,7 +81,7 @@ namespace RimworldModTranslator.Translations
         internal static string PrefixCutOutText { get; } = T._("Cut out");
         internal static string SetTanslationsByCacheXFoldersLogMessage { get; } = T._("Set translations by cache. {0} folders.");
         internal static object AppStartedLogMessage { get; } = T._("Application started");
-        internal static string LoadedStringsFromXLogMessage { get; } = T._("Loaded strings from {0}.");
+        internal static string Loaded0StringsFrom1LogMessage { get; } = T._("Loaded {0} strings from {1}.");
         internal static string LoadedStringsCacheFromXLogMessage { get; } = T._("Loaded strings cache from {0}.");
         internal static string ClearXSelectedCellsLogMessage { get; } = T._("Cleared {0} selected cells.");
         internal static string LogFileNotFound { get; } = T._("Log file not found: {0}");
