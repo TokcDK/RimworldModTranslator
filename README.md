@@ -47,7 +47,7 @@ dotnet build --configuration Release
 
 ### 🛆 Topics
 ```
-rimworld-mod-translator rimworld translator localization mod-tools dotnet csharp
+RimworldModTranslator rimworld translator localization mod-tools dotnet csharp
 ```
 
 ### 🤝 Contributing
