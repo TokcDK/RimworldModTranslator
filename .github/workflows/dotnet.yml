@@ -5,11 +5,13 @@ name: .NET
 
 on:
   push:
-    branches:
-      - master
+    paths:
+      - '**/*.cs'
+      - '**/*.xaml'
   pull_request:
-    branches:
-      - master
+    paths:
+      - '**/*.cs'
+      - '**/*.xaml'
 
 jobs:
   build-and-test:
