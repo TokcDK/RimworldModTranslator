@@ -74,7 +74,7 @@ namespace RimworldModTranslator.Helpers
             string modsDir = game!.ModsDirPath!;
             foreach (var dir in Directory.EnumerateDirectories(modsDir))
             {
-                var mod = ModHelper.LoadModData(dir);
+                var mod = ModHelper.LoadModData(dir, game);
                 if (mod != null) game.ModsList.Add(mod);
             }
 

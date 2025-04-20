@@ -11,11 +11,11 @@ namespace RimworldModTranslator.Helpers
 {
     class ModHelper
     {
-        internal static ModData? LoadModData(string modDir)
+        internal static ModData? LoadModData(string modDir, Game game)
         {
             var about = LoadAboutData(modDir);
 
-            return new ModData
+            return new ModData(game)
             {
                 DirectoryName = Path.GetFileName(modDir),
                 About = about,
