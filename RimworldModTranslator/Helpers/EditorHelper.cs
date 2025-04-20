@@ -88,7 +88,7 @@ namespace RimworldModTranslator.Helpers
         {
             if (!_isDefsXmlTagsLoaded)
             {
-                string tagsToExtractPath = Path.Combine("RES", "Data", "TagsToExtract.txt");
+                string tagsToExtractPath = Path.Combine("RES", "data", "tags2extract.txt");
                 try
                 {
                     if (File.Exists(tagsToExtractPath))

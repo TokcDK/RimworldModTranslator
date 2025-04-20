@@ -35,7 +35,7 @@
         <Generator>SettingsSingleFileGenerator</Generator>
         <LastGenOutput>Settings.Designer.cs</LastGenOutput>
       </None>
-      <None Update="RES\data\TagsToExtract.txt">
+      <None Update="RES\data\tags2extract.txt">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Update="RES\locale\ru-RU\LC_MESSAGES\rmt.mo">
@@ -44,10 +44,6 @@
       <None Update="RES\locale\ru-RU\LC_MESSAGES\rmt.po">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="RES\data\" />
     </ItemGroup>
 
 </Project>
