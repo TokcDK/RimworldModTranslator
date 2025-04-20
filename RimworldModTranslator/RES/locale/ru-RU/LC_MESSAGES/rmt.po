@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-04-20 22:51+0500\n"
-"PO-Revision-Date: 2025-04-20 22:58+0500\n"
+"POT-Creation-Date: 2025-04-20 23:11+0500\n"
+"PO-Revision-Date: 2025-04-20 23:12+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -16,7 +16,7 @@ msgstr ""
 "GetString;GetPluralString:1,2;GetParticularString:1c,2;GetParticularPluralString:1c,2,3;_;_n:1,2;_p:1c,2;_pn:1c,2,3;T_;Gettext\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: RimworldModTranslator/RimworldModTranslator/Helpers/EditorHelper.cs:1150
+#: RimworldModTranslator/RimworldModTranslator/Helpers/EditorHelper.cs:1141
 #, csharp-format
 msgid "{0} {1} selected cells."
 msgstr "{0} {1} выбранных ячеек."
@@ -126,25 +126,16 @@ msgid "Save strings from of selected mod to a new mod"
 msgstr "Сохранить строки выбранного мода в новый мод"
 
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:39
-msgid ""
-"Help.\n"
-"\n"
-"Move the mouse cursor over any elements to get the tooltip for it\n"
-"\n"
-"\n"
-"HotKeys:\n"
-"Ctrl+C - Copy selected cells value\n"
-"Ctrl+X - Cut selected cells value\n"
-"Ctrl+V - Paste clipboard string lines into selected empty cells\n"
-"Ctrl+D - Clear selected cells\n"
-"Ctrl+S - Save DB file into the selected mod folder"
-msgstr ""
-"Горячие клавиши:\n"
-"Ctrl+C - Копировать значения выбранных ячеек\n"
-"Ctrl+X - Вырезать значения выбранных ячеек\n"
-"Ctrl+V - Вставить строки из буфера обмена в выбранные пустые ячейки\n"
-"Ctrl+D - Очистить выбранные ячейки\n"
-"Ctrl+S - Сохранение файла БД в папку мода"
+msgid "Help"
+msgstr "Помощь"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:40
+msgid "Move the mouse cursor over any elements to get the tooltip for it"
+msgstr "Наведите курсор мыши на элемент для тображения подсказки"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:42
+msgid "HotKeys"
+msgstr "Горячие клавиши"
 
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:48
 msgid "Select folder to translate."
@@ -454,6 +445,26 @@ msgstr "Загружены строки из файла БД."
 #, csharp-format
 msgid "Loaded total {0} strings for all folders."
 msgstr "Загружено {0} строк из всех папок."
+
+#~ msgid ""
+#~ "Help.\n"
+#~ "\n"
+#~ "Move the mouse cursor over any elements to get the tooltip for it\n"
+#~ "\n"
+#~ "\n"
+#~ "HotKeys:\n"
+#~ "Ctrl+C - Copy selected cells value\n"
+#~ "Ctrl+X - Cut selected cells value\n"
+#~ "Ctrl+V - Paste clipboard string lines into selected empty cells\n"
+#~ "Ctrl+D - Clear selected cells\n"
+#~ "Ctrl+S - Save DB file into the selected mod folder"
+#~ msgstr ""
+#~ "Горячие клавиши:\n"
+#~ "Ctrl+C - Копировать значения выбранных ячеек\n"
+#~ "Ctrl+X - Вырезать значения выбранных ячеек\n"
+#~ "Ctrl+V - Вставить строки из буфера обмена в выбранные пустые ячейки\n"
+#~ "Ctrl+D - Очистить выбранные ячейки\n"
+#~ "Ctrl+S - Сохранение файла БД в папку мода"
 
 #~ msgid "Active"
 #~ msgstr "Активен"
@@ -887,9 +898,6 @@ msgstr "Загружено {0} строк из всех папок."
 
 #~ msgid "Static translations"
 #~ msgstr "Статический перевод"
-
-#~ msgid "Help"
-#~ msgstr "Помощь"
 
 #~ msgid "About"
 #~ msgstr "О программе"
