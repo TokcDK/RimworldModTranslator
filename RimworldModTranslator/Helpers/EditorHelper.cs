@@ -34,7 +34,7 @@ namespace RimworldModTranslator.Helpers
 
 
         static List<string> _defsXmlTags =
-            // default values for case when the external file was not loaded
+            // default values
             [
                 "adjective",
                 "baseDesc",
@@ -75,6 +75,11 @@ namespace RimworldModTranslator.Helpers
                 "titleshortFemale",
                 "verb"
         ];
+        static string[] _tagFilePaths =
+        [
+            Path.Combine("RES", "data", "tags2extract.txt"),
+            Path.Combine("RES", "data", "usertags.txt")
+        ];
         static bool _isDefsXmlTagsLoaded = false;
         public static List<string> DefsXmlTags 
         {
@@ -88,33 +93,47 @@ namespace RimworldModTranslator.Helpers
         {
             if (!_isDefsXmlTagsLoaded)
             {
-                string tagsToExtractPath = Path.Combine("RES", "data", "tags2extract.txt");
-                try
+                string defaultPath = Path.Combine("RES", "data", "tags2extract.txt");
+
+                foreach (var path in _tagFilePaths)
                 {
-                    if (File.Exists(tagsToExtractPath))
+                    try
                     {
-                        _defsXmlTags = [.. File.ReadAllLines(tagsToExtractPath)
-                                .Select(l => l.Trim())
-                                .Where(l => !string.IsNullOrWhiteSpace(l) && !l.StartsWith(';'))
-                            ];
-                        _logger.Info(Translation.LoadedTagsFrom0, tagsToExtractPath);
+                        if (File.Exists(path))
+                        {
+                            bool isDefaultPath = string.Equals(path, defaultPath, StringComparison.OrdinalIgnoreCase);
+                            var tags = ReadTagsFile(path, isDefaultPath);
+                            if (isDefaultPath)
+                            {
+                                _defsXmlTags = [.. tags]; // replace default tags from external file
+                            }
+                            else
+                            {
+                                _defsXmlTags.AddRange(tags);
+                            }
+                            _logger.Info(Translation.LoadedTagsFrom0, path);
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        _logger.Info(Translation.LoadedDefaultTags);
+                        _logger.Error(ex, Translation.ErrorLoadingTagsFrom0, path);
                     }
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error(ex, Translation.ErrorLoadingTagsFrom0, tagsToExtractPath);
-                    _logger.Info(Translation.LoadedDefaultTags);
-                    return _defsXmlTags;
                 }
 
                 _isDefsXmlTagsLoaded = true;
             }
 
             return _defsXmlTags;
+        }
+
+        private static IEnumerable<string> ReadTagsFile(string path, bool onlyNewTags = true)
+        {
+            return [..File.ReadAllLines(path)
+                                .Select(l => l.Trim())
+                                .Where(l => !string.IsNullOrWhiteSpace(l)
+                                && !l.StartsWith(';')
+                                && (!onlyNewTags || (onlyNewTags && !_defsXmlTags.Contains(l))))
+                                ];
         }
 
         public static void GetTranslatableSubDirs(string fullPath, IList<FolderData> folders)

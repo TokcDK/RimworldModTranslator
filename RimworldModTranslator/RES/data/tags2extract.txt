@@ -1,3 +1,7 @@
+; the main list of tags to extract from the xml files
+; for user tags use the 'usertags.txt' file created next to this file
+; the user tags will be added to overall tags
+
 adjective
 baseDesc
 baseInspectLine
