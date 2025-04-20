@@ -30,7 +30,8 @@ namespace RimworldModTranslator.Translations
             "Ctrl+C - Copy selected cells value\n" +
             "Ctrl+X - Cut selected cells value\n" +
             "Ctrl+V - Paste clipboard string lines into selected empty cells\n" +
-            "Ctrl+D - Clear selected cells");
+            "Ctrl+D - Clear selected cells\n" +
+            "Ctrl+S - Save DB file into the selected mod folder");
         internal static string FolderSelectionToolTip { get; } = T._("Select folder to translate.");
         internal static string AddNewLanguageToolTip { get; } = T._("Enter the new language folder name and press add to add the new column.");
         internal static string LoadStringsCacheToolTip { get; } = T._("Load strings from all exist game(when the game dir path is set) dlcs and mods");
