@@ -91,6 +91,7 @@
                     <MenuItem Header="Clear" Command="{Binding ClearSelectedCellsCommand}" />
                     <MenuItem Header="Save DB" Command="{Binding SaveModDBCommand}" />
                     <MenuItem Header="Load DB" Command="{Binding LoadModDBCommand}" />
+                    <MenuItem Header="Load DB (replace)" Command="{Binding LoadModDBForceCommand}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
 

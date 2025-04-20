@@ -168,7 +168,7 @@ namespace RimworldModTranslator.Helpers
             Logger.Info(Translation.SaveModFileWasWrote, outputFilePath);
         }
 
-        internal static bool LoadModDB(ObservableCollection<FolderData> folders, ModData? mod)
+        internal static bool LoadModDB(ObservableCollection<FolderData> folders, ModData? mod, bool forceReplaceTables = false)
         {
             if (mod == null || string.IsNullOrWhiteSpace(mod.ParentGame.ModsDirPath) || string.IsNullOrEmpty(mod.DirectoryName) || folders.Count == 0)
             {
@@ -195,7 +195,14 @@ namespace RimworldModTranslator.Helpers
                     var folder = folders.FirstOrDefault(f => f.Name == table.TableName);
                     if (folder != null)
                     {
-                        FillTableValues(table, folder);
+                        if (forceReplaceTables)
+                        {
+                            folder.TranslationsTable = table.Copy();
+                        }
+                        else
+                        {
+                            FillTableValues(table, folder);
+                        }
                         Logger.Info(Translation.LoadedDBForFolder0, folder.Name);
                     }
                     else
@@ -218,8 +225,10 @@ namespace RimworldModTranslator.Helpers
         {
             if (folder.TranslationsTable == null)
             {
-                // copy the table structure
-                folder.TranslationsTable = table.Copy();
+                return; // no table to fill
+
+                // OR.. copy the table structure
+                //folder.TranslationsTable = table.Copy();
             }
             else
             {
