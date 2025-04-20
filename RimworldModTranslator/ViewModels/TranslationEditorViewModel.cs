@@ -238,7 +238,7 @@ namespace RimworldModTranslator.ViewModels
 
             if (totalStringsLoaded > 0)
             {
-                Logger.Info($"Загружено всего {totalStringsLoaded} строк перевода для всех папок мода");
+                Logger.Info(Translation.LoadedTotal0StringsForAllFoldersLogMessage, totalStringsLoaded);
             }
 
             return Task.CompletedTask;
