@@ -89,6 +89,9 @@ namespace RimworldModTranslator.Translations
         internal static string ModsPathIsNotSetWarnLogMessage { get; } = T._("Mods path is not set. Please select the mods path.");
         internal static string NoTranslatableFoldersFoundLogMessage { get; } = T._("No translatable folders found.");
         internal static string NothingToLoadFromXLogMessage { get; } = T._("Nothing to load from {0}.");
+        internal static string ErrorLoadingTagsFrom0 { get; } = T._("Error loading tags from {0}.");
+        internal static string LoadedTagsFrom0 { get; } = T._("Loaded tags from {0}.");
+        public static object LoadedDefaultTags { get; } = T._("Loaded default tags.");
         #endregion
     }
 }

@@ -32,8 +32,10 @@ namespace RimworldModTranslator.Helpers
 
         public static readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+$", RegexOptions.Compiled);
 
-        public static List<string> DefsXmlTags { get; } =
-        [
+
+        static List<string> _defsXmlTags =
+            // default values for case when the external file was not loaded
+            [
                 "adjective",
                 "baseDesc",
                 "baseInspectLine",
@@ -73,6 +75,47 @@ namespace RimworldModTranslator.Helpers
                 "titleshortFemale",
                 "verb"
         ];
+        static bool _isDefsXmlTagsLoaded = false;
+        public static List<string> DefsXmlTags 
+        {
+            get
+            {
+                return GetTagsToExtract();
+            }
+        }
+
+        private static List<string> GetTagsToExtract()
+        {
+            if (!_isDefsXmlTagsLoaded)
+            {
+                string tagsToExtractPath = Path.Combine("RES", "Data", "TagsToExtract.txt");
+                try
+                {
+                    if (File.Exists(tagsToExtractPath))
+                    {
+                        _defsXmlTags = [.. File.ReadAllLines(tagsToExtractPath)
+                                .Select(l => l.Trim())
+                                .Where(l => !string.IsNullOrWhiteSpace(l) && !l.StartsWith(';'))
+                            ];
+                        _logger.Info(Translation.LoadedTagsFrom0, tagsToExtractPath);
+                    }
+                    else
+                    {
+                        _logger.Info(Translation.LoadedDefaultTags);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, Translation.ErrorLoadingTagsFrom0, tagsToExtractPath);
+                    _logger.Info(Translation.LoadedDefaultTags);
+                    return _defsXmlTags;
+                }
+
+                _isDefsXmlTagsLoaded = true;
+            }
+
+            return _defsXmlTags;
+        }
 
         public static void GetTranslatableSubDirs(string fullPath, IList<FolderData> folders)
         {
