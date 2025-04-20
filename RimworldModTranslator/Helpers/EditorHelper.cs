@@ -167,12 +167,12 @@ namespace RimworldModTranslator.Helpers
             Logger.Info(Translation.SaveModFileWasWrote, outputFilePath);
         }
 
-        internal static void LoadModDB(ObservableCollection<FolderData> folders, Game? game, ModData? mod)
+        internal static bool LoadModDB(ObservableCollection<FolderData> folders, Game? game, ModData? mod)
         {
             if (mod == null || game == null || string.IsNullOrWhiteSpace(game.ModsDirPath) || string.IsNullOrEmpty(mod.DirectoryName) || folders.Count == 0)
             {
                 Logger.Debug("Invalid mod or folder data.");
-                return;
+                return false;
             }
 
             string modDirectoryPath = Path.Combine(game.ModsDirPath, mod.DirectoryName);
@@ -181,7 +181,7 @@ namespace RimworldModTranslator.Helpers
             if (!File.Exists(outputFilePath))
             {
                 Logger.Info(Translation.DBFileNotFoundAt0, outputFilePath);
-                return;
+                return false;
             }
 
             try
@@ -207,6 +207,8 @@ namespace RimworldModTranslator.Helpers
             {
                 Logger.Error(ex, Translation.ErrorLoadingDBFileFrom0, outputFilePath);
             }
+
+            return true;
         }
 
         private static void FillTableValues(DataTable table, FolderData folder)
@@ -1243,6 +1245,11 @@ namespace RimworldModTranslator.Helpers
         {
             // Check if the folder name contains any invalid characters
             return !folderName.Any(c => invalidChars.Contains(c));
+        }
+
+        internal static bool HaveAnyEmptyLanguageString(ObservableCollection<FolderData> folders)
+        {
+            throw new NotImplementedException();
         }
     }
 }

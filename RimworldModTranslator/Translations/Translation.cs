@@ -9,6 +9,7 @@ namespace RimworldModTranslator.Translations
 {
     internal static class Translation
     {
+        internal static string LoadedStringsFromDBFileLogMessage { get; } = T._("Loaded strings from DB file.");
         #region ui names and tooltips
         internal static string NameName { get; } = T._("Name");
         internal static string ActiveName { get; } = T._("☑");
