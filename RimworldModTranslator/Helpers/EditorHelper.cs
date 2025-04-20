@@ -137,15 +137,15 @@ namespace RimworldModTranslator.Helpers
                 .Where(l => !string.IsNullOrWhiteSpace(l)
                             && (!onlyNewTags || (onlyNewTags && !_defsXmlTags.Contains(l))));
         }
-        internal static void SaveModDB(ObservableCollection<FolderData> folders, Game? game, ModData? mod)
+        internal static void SaveModDB(ObservableCollection<FolderData> folders, ModData? mod)
         {
-            if (mod == null || game == null || string.IsNullOrWhiteSpace(game.ModsDirPath) || string.IsNullOrEmpty(mod.DirectoryName) || folders.Count == 0)
+            if (mod == null || string.IsNullOrWhiteSpace(mod.ParentGame.ModsDirPath) || string.IsNullOrEmpty(mod.DirectoryName) || folders.Count == 0)
             {
                 Logger.Debug("Invalid mod or folder data.");
                 return;
             }
 
-            string modDirectoryPath = Path.Combine(game.ModsDirPath, mod.DirectoryName);
+            string modDirectoryPath = Path.Combine(mod.ParentGame.ModsDirPath, mod.DirectoryName);
             if (!Directory.Exists(modDirectoryPath))
                 Directory.CreateDirectory(modDirectoryPath);
 
@@ -168,15 +168,15 @@ namespace RimworldModTranslator.Helpers
             Logger.Info(Translation.SaveModFileWasWrote, outputFilePath);
         }
 
-        internal static bool LoadModDB(ObservableCollection<FolderData> folders, Game? game, ModData? mod)
+        internal static bool LoadModDB(ObservableCollection<FolderData> folders, ModData? mod)
         {
-            if (mod == null || game == null || string.IsNullOrWhiteSpace(game.ModsDirPath) || string.IsNullOrEmpty(mod.DirectoryName) || folders.Count == 0)
+            if (mod == null || string.IsNullOrWhiteSpace(mod.ParentGame.ModsDirPath) || string.IsNullOrEmpty(mod.DirectoryName) || folders.Count == 0)
             {
                 Logger.Debug("Invalid mod or folder data.");
                 return false;
             }
 
-            string modDirectoryPath = Path.Combine(game.ModsDirPath, mod.DirectoryName);
+            string modDirectoryPath = Path.Combine(mod.ParentGame.ModsDirPath, mod.DirectoryName);
             string outputFilePath = Path.Combine(modDirectoryPath, $"RMT.DB.xml");
 
             if (!File.Exists(outputFilePath))
@@ -355,12 +355,11 @@ namespace RimworldModTranslator.Helpers
 
         public static async Task LoadStringsCacheInternal(
             ObservableCollection<FolderData> folders,
-            Game? game,
             ModData? mod,
             SettingsService settingsService
         )
         {
-            if (EditorHelper.LoadModDB(folders, game, mod))
+            if (EditorHelper.LoadModDB(folders, mod))
             {
                 Logger.Info(Translation.LoadedStringsFromDBFileLogMessage);
 
@@ -870,17 +869,16 @@ namespace RimworldModTranslator.Helpers
             doc.Save(aboutXmlPath);
         }
 
-        internal static void SaveTranslatedStrings(IEnumerable<FolderData> folders, Game? game, ModData? mod)
+        internal static void SaveTranslatedStrings(IEnumerable<FolderData> folders, ModData? mod)
         {
-            if (game == null) return;
             if (mod == null) return;
 
-            string targetModDirPath = Path.Combine(game.ModsDirPath!, $"{mod.DirectoryName!}_Translated");
+            string targetModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{mod.DirectoryName!}_Translated");
 
             int index = 0;
             while (Directory.Exists(targetModDirPath))
             {
-                targetModDirPath = Path.Combine(game.ModsDirPath!, $"{mod.DirectoryName!}_Translated{index++}");
+                targetModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{mod.DirectoryName!}_Translated{index++}");
             }
 
             bool isAnyFolderFileWrote = false;

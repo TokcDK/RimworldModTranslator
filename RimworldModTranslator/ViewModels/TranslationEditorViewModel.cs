@@ -52,7 +52,6 @@ namespace RimworldModTranslator.ViewModels
     {
         #region Fields
         private ModData? _mod;
-        private Game? _game;
         private readonly SettingsService _settingsService;
         private string? _previousSelectedFolder;
         #endregion
@@ -165,22 +164,11 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private async Task LoadStringsCache()
         {
-            await EditorHelper.LoadStringsCacheInternal(Folders, _game, _mod, _settingsService);
+            await EditorHelper.LoadStringsCacheInternal(Folders, _mod, _settingsService);
         }
 
         public Task LoadTheSelectedModStrings()
         {
-            if (_game == null || _game != _settingsService.SelectedGame)
-            {
-                // load only when game was not set or changed
-                _game = _settingsService.SelectedGame;
-                if (_game == null)
-                {
-                    Logger.Warn(Translation.ModsPathIsNotSetWarnLogMessage);
-                    return Task.CompletedTask;
-                }
-            }
-
             bool isChangedMod = _mod != _settingsService.SelectedMod;
 
             if (isChangedMod || _mod == null)
@@ -196,7 +184,7 @@ namespace RimworldModTranslator.ViewModels
 
             if (isChangedMod || Folders.Count == 0)
             {
-                string modPath = Path.Combine(_game!.ModsDirPath!, _mod.DirectoryName!);
+                string modPath = Path.Combine(_mod.ParentGame.ModsDirPath!, _mod.DirectoryName!);
                 if (!Directory.Exists(modPath))
                 {
                     Logger.Warn(Translation.ModsPathIsNotSetWarnLogMessage);
@@ -218,7 +206,7 @@ namespace RimworldModTranslator.ViewModels
 
             string selectedFolderName = SelectedFolder!.Name;
 
-            var selectedTranslatableDir = Path.Combine(_game!.ModsDirPath!, _mod!.DirectoryName!, EditorHelper.GetTranslatableFolderName(selectedFolderName));
+            var selectedTranslatableDir = Path.Combine(_mod.ParentGame.ModsDirPath!, _mod!.DirectoryName!, EditorHelper.GetTranslatableFolderName(selectedFolderName));
 
             var stringsData = EditorHelper.LoadStringsDataFromTheLanguageDir(selectedTranslatableDir);
 
@@ -244,7 +232,7 @@ namespace RimworldModTranslator.ViewModels
             }
 
             SelectedFolder.TranslationsTable = translationsTable;
-            EditorHelper.LoadModDB(Folders, _game, _mod); // load db for the mod
+            EditorHelper.LoadModDB(Folders, _mod); // load db for the mod
 
             InitTranslationsTable(dataTableToRelink: translationsTable);
 
@@ -265,7 +253,6 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void SaveStrings()
         {
-            if (_game == null) return;
             if (_mod == null) return;
 
             SaveLanguages();
@@ -274,7 +261,6 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void AddNewLanguage()
         {
-            if (_game == null) return;
             if (_mod == null) return;
 
             if (string.IsNullOrEmpty(NewLanguageName)) return;
@@ -291,19 +277,19 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void SaveLanguages()
         {
-            EditorHelper.SaveTranslatedStrings(Folders, _game, _mod);
+            EditorHelper.SaveTranslatedStrings(Folders, _mod);
         }
 
         [RelayCommand]
         private void SaveModDB()
         {
-            EditorHelper.SaveModDB(Folders, _game, _mod);
+            EditorHelper.SaveModDB(Folders, _mod);
         }
 
         [RelayCommand]
         private void LoadModDB()
         {
-            EditorHelper.LoadModDB(Folders, _game, _mod);
+            EditorHelper.LoadModDB(Folders, _mod);
             InitTranslationsTable(true, SelectedFolder!.TranslationsTable);
         }
 
@@ -364,21 +350,18 @@ namespace RimworldModTranslator.ViewModels
 
         private bool IsTheFoldersEnabled()
         {
-            return _game != null
-                   && _mod != null
+            return _mod != null
                    && Folders.Count > 1;
         }
 
         private bool IsTheTranslatorEnabled()
         {
-            return (_settingsService.SelectedGame != null || _game != null)
-                   && (_settingsService.SelectedMod != null || _mod != null);
+            return (_settingsService.SelectedMod != null || _mod != null);
         }
 
         private bool IsAddNewLanguageButtonEnabled()
         {
-            return _game != null
-                   && _mod != null
+            return _mod != null
                    && !string.IsNullOrWhiteSpace(NewLanguageName)
                    && TranslationsTable?.Columns.Count > 0
                    && !TranslationsTable.Columns.Contains(NewLanguageName)
