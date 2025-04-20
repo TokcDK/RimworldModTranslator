@@ -270,6 +270,8 @@ namespace RimworldModTranslator.ViewModels
             }
 
             SelectedFolder.TranslationsTable = translationsTable;
+            EditorHelper.LoadModDB(Folders, _game, _mod); // load db for the mod
+
             InitTranslationsTable(dataTableToRelink: translationsTable);
 
             OnPropertyChanged(nameof(ModDisplayingName));
