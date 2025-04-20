@@ -66,7 +66,7 @@ namespace RimworldModTranslator.ViewModels
         }
         #endregion
 
-        #region ToolTips
+        #region Names and ToolTips
         public static string EditorTableToolTip { get => Translation.EditorTableToolTip; }
         public static string FolderSelectionToolTip { get => Translation.FolderSelectionToolTip; }
         public static string AddNewLanguageToolTip { get => Translation.AddNewLanguageToolTip; }

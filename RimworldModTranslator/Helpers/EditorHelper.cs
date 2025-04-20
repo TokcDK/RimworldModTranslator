@@ -472,16 +472,7 @@ namespace RimworldModTranslator.Helpers
 
             folder.TranslationsTable = translationsTable;
 
-            if (translationsTable != null && translationsTable.Rows.Count > 0)
-            {
-                Logger.Info(Translation.Loaded0StringsFrom1LogMessage, stringsData.loadedStringsCount, translatableDir);
-                return stringsData.loadedStringsCount;
-            }
-            else
-            {
-                Logger.Info(Translation.NothingToLoadFromXLogMessage, translatableDir);
-                return 0;
-            }
+            return stringsData.loadedStringsCount;
         }
 
         public static void LoadStringsFromXmlsAsTxtDir(List<string?> languageNames, string languagesDirPath, EditorStringsData stringsData)
