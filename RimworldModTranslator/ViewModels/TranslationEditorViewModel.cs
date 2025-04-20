@@ -165,33 +165,7 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private async Task LoadStringsCache()
         {
-            if(EditorHelper.LoadModDB(Folders, _game, _mod))
-            {
-                Logger.Info(Translation.LoadedStringsFromDBFileLogMessage);
-
-                if (!EditorHelper.HaveAnyEmptyLanguageString(Folders))
-                {
-                    return;
-                }
-            }
-
-            if(_settingsService.ForceLoadTranslationsCache || IdCache == null || ValueCache == null)
-            {
-                var stringsData = await EditorHelper.LoadAllModsStringsData(_settingsService.SelectedGame);
-
-                if (stringsData == null) return;
-
-                (IdCache, ValueCache) = await EditorHelper.FillCache(stringsData);
-
-                string message = Translation.LoadedStringsCacheFromXLogMessage;
-                if (Directory.Exists(_settingsService.SelectedGame?.GameDirPath))
-                {
-                    Logger.Info(message, _settingsService.SelectedGame?.GameDirPath);
-                }
-                Logger.Info(message, _settingsService.SelectedGame?.ModsDirPath);
-            }
-
-            await EditorHelper.SetTranslationsbyCache(IdCache, ValueCache, Folders);
+            await EditorHelper.LoadStringsCacheInternal(Folders, _game, _mod, _settingsService);
         }
 
         public Task LoadTheSelectedModStrings()

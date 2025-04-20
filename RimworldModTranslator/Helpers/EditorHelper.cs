@@ -32,6 +32,7 @@ namespace RimworldModTranslator.Helpers
 
         public static readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+$", RegexOptions.Compiled);
 
+        internal static EditorStringsDBCache StringsDBCache = new();
 
         private static List<string> _defsXmlTags =
             // default values
@@ -350,6 +351,42 @@ namespace RimworldModTranslator.Helpers
         public static bool HaveTranslatableDirs(string languageDir)
         {
             return TransatableLanguageDirs.Any(d => Directory.Exists(Path.Combine(languageDir, d)));
+        }
+
+        public static async Task LoadStringsCacheInternal(
+            ObservableCollection<FolderData> folders,
+            Game? game,
+            ModData? mod,
+            SettingsService settingsService
+        )
+        {
+            if (EditorHelper.LoadModDB(folders, game, mod))
+            {
+                Logger.Info(Translation.LoadedStringsFromDBFileLogMessage);
+
+                if (!EditorHelper.HaveAnyEmptyLanguageString(folders))
+                {
+                    return;
+                }
+            }
+
+            if (settingsService.ForceLoadTranslationsCache || StringsDBCache.IdCache == null || StringsDBCache.ValueCache == null)
+            {
+                var stringsData = await EditorHelper.LoadAllModsStringsData(settingsService.SelectedGame);
+
+                if (stringsData == null) return;
+
+                (StringsDBCache.IdCache, StringsDBCache.ValueCache) = await EditorHelper.FillCache(stringsData);
+
+                string message = Translation.LoadedStringsCacheFromXLogMessage;
+                if (Directory.Exists(settingsService.SelectedGame?.GameDirPath))
+                {
+                    Logger.Info(message, settingsService.SelectedGame?.GameDirPath);
+                }
+                Logger.Info(message, settingsService.SelectedGame?.ModsDirPath);
+            }
+
+            await EditorHelper.SetTranslationsbyCache(StringsDBCache, folders);
         }
 
         public static void LoadStringsFromXmlsAsTxtDir(List<string?> languageNames, string languagesDirPath, EditorStringsData stringsData)
@@ -1223,17 +1260,23 @@ namespace RimworldModTranslator.Helpers
             return isAllFound;
         }
 
-        internal static Task SetTranslationsbyCache(Dictionary<string, LanguageValuePairsData> idCache, Dictionary<string, LanguageValuePairsData> valueCache, ObservableCollection<FolderData> folders)
+        internal static Task SetTranslationsbyCache(EditorStringsDBCache cache, ObservableCollection<FolderData> folders)
         {
+            if(cache.IdCache == null || cache.ValueCache == null)
+            {
+                Logger.Debug("Cache is empty. No translations to set.");
+                return Task.CompletedTask;
+            }   
+
             Parallel.ForEach(folders, folder =>
             {
                 if (folder.TranslationsTable == null) return;
 
                 foreach (DataRow row in folder.TranslationsTable.Rows)
                 {
-                    if (!EditorHelper.TrySetTranslationByStringID(idCache, row, folder.TranslationsTable.Columns))
+                    if (!EditorHelper.TrySetTranslationByStringID(cache.IdCache, row, folder.TranslationsTable.Columns))
                     {
-                        EditorHelper.TrySetTranslationByStringValue(valueCache, row, folder.TranslationsTable.Columns);
+                        EditorHelper.TrySetTranslationByStringValue(cache.ValueCache, row, folder.TranslationsTable.Columns);
                     }
                 }
             });
