@@ -267,6 +267,8 @@ namespace RimworldModTranslator.ViewModels
 
         public void LoadTheSelectedModStrings(ModData mod)
         {
+            _mod = mod; // retarget translating mod
+
             // Load folders only if the the folder list is empty
             if (Folders.Count == 0)
             {
