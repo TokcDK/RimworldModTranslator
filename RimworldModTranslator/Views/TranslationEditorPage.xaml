@@ -89,6 +89,7 @@
                     <MenuItem Header="Copy" Command="{Binding CopySelectedCellsCommand}" />
                     <MenuItem Header="Paste" Command="{Binding PasteStringsInSelectedCellsCommand}" />
                     <MenuItem Header="Clear" Command="{Binding ClearSelectedCellsCommand}" />
+                    <MenuItem Header="Save DB" Command="{Binding SaveModDBCommand}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
 

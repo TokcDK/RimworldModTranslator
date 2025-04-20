@@ -309,6 +309,12 @@ namespace RimworldModTranslator.ViewModels
         }
 
         [RelayCommand]
+        private void SaveModDB()
+        {
+            EditorHelper.SaveModDB(Folders, _game, _mod);
+        }
+
+        [RelayCommand]
         private void OpenSearchWindow()
         {
             if (TranslationsTable == null || TranslationsTable.Rows.Count == 0)

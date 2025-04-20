@@ -136,6 +136,48 @@ namespace RimworldModTranslator.Helpers
                 .Where(l => !string.IsNullOrWhiteSpace(l)
                             && (!onlyNewTags || (onlyNewTags && !_defsXmlTags.Contains(l))));
         }
+        internal static void SaveModDB(ObservableCollection<FolderData> folders, Game? game, ModData? mod)
+        {
+            if (mod == null || game == null || string.IsNullOrWhiteSpace(game.ModsDirPath) || string.IsNullOrEmpty(mod.DirectoryName) || folders.Count == 0)
+                throw new ArgumentException("Invalid mod or folder data.");
+
+            string modDirectoryPath = Path.Combine(game.ModsDirPath, mod.DirectoryName);
+            if (!Directory.Exists(modDirectoryPath))
+                Directory.CreateDirectory(modDirectoryPath);
+
+            string outputFilePath = Path.Combine(modDirectoryPath, $"RMT.DB.xml");
+
+            using var dataSet = new DataSet(mod.DirectoryName);
+
+            foreach (var folder in folders)
+            {
+                if (folder.TranslationsTable != null)
+                {
+                    var dataTable = folder.TranslationsTable.Copy();
+                    dataTable.TableName = folder.Name;
+                    dataSet.Tables.Add(dataTable);
+                }
+            }
+
+            dataSet.WriteXml(outputFilePath, XmlWriteMode.WriteSchema);
+
+            Logger.Info(Translation.SaveModFileWasWrote, outputFilePath);
+        }
+
+        internal static void LoadModDB(ObservableCollection<FolderData> folders, Game? game, ModData? mod)
+        {
+            if (mod == null || game == null || string.IsNullOrWhiteSpace(game.ModsDirPath) || string.IsNullOrEmpty(mod.DirectoryName) || folders.Count == 0)
+            {
+                Logger.Error("Invalid mod or folder data.");
+                return;
+            }
+
+            string modDirectoryPath = Path.Combine(game.ModsDirPath, mod.DirectoryName);
+            
+            string outputFilePath = Path.Combine(modDirectoryPath, $"RMT.DB.xml");
+
+
+        }
 
         public static void GetTranslatableSubDirs(string fullPath, IList<FolderData> folders)
         {

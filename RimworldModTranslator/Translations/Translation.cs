@@ -94,6 +94,7 @@ namespace RimworldModTranslator.Translations
         internal static string LoadedDefaultTags { get; } = T._("Loaded default tags.");
         internal static string SavedTranslatedFilesTo0 { get; } = T._("Saved translated files to {0}.");
         internal static string NoTranslatedFilesToSave { get; } = T._("No translated files to save.");
+        internal static string SaveModFileWasWrote { get; } = T._("Mod DB saved to {0}");
         #endregion
     }
 }
