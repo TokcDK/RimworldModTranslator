@@ -235,7 +235,7 @@ namespace RimworldModTranslator.Helpers
 
                     foreach (DataColumn column in table.Columns)
                     {
-                        if(column.ColumnName == "SubPath" || column.ColumnName == "ID")
+                        if(IsReadOnlyColumn(column.ColumnName))
                         {
                             continue;
                         }
