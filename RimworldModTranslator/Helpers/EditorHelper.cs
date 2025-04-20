@@ -398,6 +398,92 @@ namespace RimworldModTranslator.Helpers
             await EditorHelper.SetTranslationsbyCache(StringsDBCache, folders);
         }
 
+        #region load mod strings
+        /// <summary>
+        /// Инициализирует данные мода
+        /// </summary>
+        /// <returns>True, если инициализация прошла успешно, иначе False</returns>
+        internal static bool LoadStringsInitModData(ref ModData? mod, SettingsService settingsService)
+        {
+            bool isChangedMod = mod != settingsService.SelectedMod;
+
+            if (isChangedMod || mod == null)
+            {
+                // Загружаем только если мод не был установлен или изменился
+                mod = settingsService.SelectedMod;
+                if (mod == null)
+                {
+                    Logger.Warn(Translation.ModIsNotSetWarnLogMessage);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Загружает папки переводов для текущего мода
+        /// </summary>
+        /// <returns>True, если загрузка прошла успешно, иначе False</returns>
+        internal static bool LoadModStringsLoadTranslatableFolders(ModData? mod, ObservableCollection<FolderData> folders)
+        {
+            string modPath = Path.Combine(mod!.ParentGame.ModsDirPath!, mod.DirectoryName!);
+            if (!Directory.Exists(modPath))
+            {
+                Logger.Warn(Translation.ModsPathIsNotSetWarnLogMessage);
+                return false;
+            }
+
+            folders.Clear();
+            EditorHelper.GetTranslatableFolders(folders, modPath);
+            return true;
+        }
+
+        /// <summary>
+        /// Загружает строки перевода для всех папок
+        /// </summary>
+        /// <returns>Общее количество загруженных строк</returns>
+        internal static void LoadStringsForAllFolders(ObservableCollection<FolderData> folders, ModData? mod)
+        {
+            int totalStringsLoaded = 0;
+
+            foreach (var folder in folders)
+            {
+                int stringsLoaded = LoadStringsForFolder(folder, mod);
+                totalStringsLoaded += stringsLoaded;
+            }
+
+            Logger.Info(Translation.LoadedTotal0StringsForAllFoldersLogMessage, totalStringsLoaded);
+        }
+
+        /// <summary>
+        /// Загружает строки перевода для указанной папки
+        /// </summary>
+        /// <param name="folder">Папка для загрузки строк</param>
+        /// <returns>Количество загруженных строк</returns>
+        internal static int LoadStringsForFolder(FolderData folder, ModData? mod)
+        {
+            string folderName = folder.Name;
+            string translatableDir = Path.Combine(mod!.ParentGame.ModsDirPath!, mod.DirectoryName!,
+                                                 EditorHelper.GetTranslatableFolderName(folderName));
+
+            var stringsData = EditorHelper.LoadStringsDataFromTheLanguageDir(translatableDir);
+            var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
+
+            folder.TranslationsTable = translationsTable;
+
+            if (translationsTable != null && translationsTable.Rows.Count > 0)
+            {
+                Logger.Info(Translation.Loaded0StringsFrom1LogMessage, stringsData.loadedStringsCount, translatableDir);
+                return stringsData.loadedStringsCount;
+            }
+            else
+            {
+                Logger.Info(Translation.NothingToLoadFromXLogMessage, translatableDir);
+                return 0;
+            }
+        }
+
         public static void LoadStringsFromXmlsAsTxtDir(List<string?> languageNames, string languagesDirPath, EditorStringsData stringsData)
         {
             foreach (var languageName in languageNames)
@@ -571,6 +657,8 @@ namespace RimworldModTranslator.Helpers
 
             return loadedStringsCount;
         }
+
+        #endregion
 
         internal static string GetTranslatableFolderName(string selectedFolder)
         {

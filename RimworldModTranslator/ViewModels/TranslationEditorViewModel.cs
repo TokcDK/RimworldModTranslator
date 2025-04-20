@@ -156,9 +156,9 @@ namespace RimworldModTranslator.ViewModels
 
         #region Commands
         [RelayCommand]
-        private async Task LoadStrings()
+        private void LoadStrings()
         {
-            await LoadTheSelectedModStrings();
+            LoadTheSelectedModStrings();
         }
 
         [RelayCommand]
@@ -167,81 +167,43 @@ namespace RimworldModTranslator.ViewModels
             await EditorHelper.LoadStringsCacheInternal(Folders, _mod, _settingsService);
         }
 
-        public Task LoadTheSelectedModStrings()
+        public void LoadTheSelectedModStrings()
         {
-            bool isChangedMod = _mod != _settingsService.SelectedMod;
-
-            if (isChangedMod || _mod == null)
+            // Initialize or update mod data
+            if (!EditorHelper.LoadStringsInitModData(ref _mod, _settingsService))
             {
-                // load only when mod was not set or changed
-                _mod = _settingsService.SelectedMod;
-                if (_mod == null)
+                return;
+            }
+
+            // Load folders only if the mod has changed or the folder list is empty
+            bool isModChanged = _mod != _settingsService.SelectedMod;
+            if (isModChanged || Folders.Count == 0)
+            {
+                if (!EditorHelper.LoadModStringsLoadTranslatableFolders(_mod, Folders))
                 {
-                    Logger.Warn(Translation.ModIsNotSetWarnLogMessage);
-                    return Task.CompletedTask;
+                    return;
                 }
             }
 
-            if (isChangedMod || Folders.Count == 0)
-            {
-                string modPath = Path.Combine(_mod.ParentGame.ModsDirPath!, _mod.DirectoryName!);
-                if (!Directory.Exists(modPath))
-                {
-                    Logger.Warn(Translation.ModsPathIsNotSetWarnLogMessage);
-                    return Task.CompletedTask;
-                }
-
-                Folders.Clear();
-
-                EditorHelper.GetTranslatableFolders(Folders, modPath);
-            }
-
+            // check folders to parse
             if (Folders.Count == 0)
             {
                 Logger.Warn(Translation.NoTranslatableFoldersFoundLogMessage);
-                return Task.CompletedTask;
+                return;
             }
 
-            // Загрузка строк для всех папок
-            int totalStringsLoaded = 0;
-            foreach (var folder in Folders)
-            {
-                string folderName = folder.Name;
-                string translatableDir = Path.Combine(_mod.ParentGame.ModsDirPath!, _mod!.DirectoryName!, EditorHelper.GetTranslatableFolderName(folderName));
+            EditorHelper.LoadStringsForAllFolders(Folders, _mod);
 
-                var stringsData = EditorHelper.LoadStringsDataFromTheLanguageDir(translatableDir);
-                var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
-
-                folder.TranslationsTable = translationsTable;
-
-                if (translationsTable != null && translationsTable.Rows.Count > 0)
-                {
-                    totalStringsLoaded += stringsData.loadedStringsCount;
-                    Logger.Info(Translation.Loaded0StringsFrom1LogMessage, stringsData.loadedStringsCount, translatableDir);
-                }
-                else
-                {
-                    Logger.Info(Translation.NothingToLoadFromXLogMessage, translatableDir);
-                }
-            }
-
-            // Если папка не выбрана, выберем первую
+            // select 1st dir when not selected
             SelectedFolder ??= Folders.FirstOrDefault();
 
-            // Загружаем базу данных мода
+            // load mod db if exist
             EditorHelper.LoadModDB(Folders, _mod);
 
-            // Инициализируем таблицу переводов для выбранной папки
+            // refresh selected table
             InitTranslationsTable(dataTableToRelink: SelectedFolder?.TranslationsTable);
 
             OnPropertyChanged(nameof(ModDisplayingName));
-
-            if (totalStringsLoaded > 0)
-            {
-                Logger.Info(Translation.LoadedTotal0StringsForAllFoldersLogMessage, totalStringsLoaded);
-            }
-
-            return Task.CompletedTask;
         }
 
         [RelayCommand]
