@@ -25,7 +25,7 @@ namespace RimworldModTranslator.Helpers
 {
     internal partial class EditorHelper
     {
-        private static Logger _logger { get; } = LogManager.GetCurrentClassLogger();
+        private static Logger Logger { get; } = LogManager.GetCurrentClassLogger();
 
         public static string[] TransatableLanguageDirs { get; } = ["DefInjected", "Keyed", "Strings"];
         public static string[] ExtractableModSubDirs { get; } = ["Defs", "Languages"];
@@ -33,7 +33,7 @@ namespace RimworldModTranslator.Helpers
         public static readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+$", RegexOptions.Compiled);
 
 
-        static List<string> _defsXmlTags =
+        private static List<string> _defsXmlTags =
             // default values
             [
                 "adjective",
@@ -75,12 +75,12 @@ namespace RimworldModTranslator.Helpers
                 "titleshortFemale",
                 "verb"
         ];
-        static string[] _tagFilePaths =
+        private static readonly string[] _tagFilePaths =
         [
             Path.Combine("RES", "data", "tags2extract.txt"),
             Path.Combine("RES", "data", "usertags.txt")
         ];
-        static bool _isDefsXmlTagsLoaded = false;
+        private static bool _isDefsXmlTagsLoaded = false;
         public static List<string> DefsXmlTags 
         {
             get
@@ -111,12 +111,12 @@ namespace RimworldModTranslator.Helpers
                             {
                                 _defsXmlTags.AddRange(tags);
                             }
-                            _logger.Info(Translation.LoadedTagsFrom0, path);
+                            Logger.Info(Translation.LoadedTagsFrom0, path);
                         }
                     }
                     catch (Exception ex)
                     {
-                        _logger.Error(ex, Translation.ErrorLoadingTagsFrom0, path);
+                        Logger.Error(ex, Translation.ErrorLoadingTagsFrom0, path);
                     }
                 }
 
@@ -828,7 +828,7 @@ namespace RimworldModTranslator.Helpers
             {
                 rowItem.Row[column.SortMemberPath] = null;
             }
-            _logger.Info(Translation.ClearXSelectedCellsLogMessage, selectedCells.Count);
+            Logger.Info(Translation.ClearXSelectedCellsLogMessage, selectedCells.Count);
         }
         internal static void PasteStringsInSelectedCells(IList<DataGridCellInfo>? selectedCells)
         {
@@ -856,7 +856,7 @@ namespace RimworldModTranslator.Helpers
                 }
             }
 
-            _logger.Info(Translation.PastedXStringsToSelectedCellsLogMessage, clipboardLineIndex);
+            Logger.Info(Translation.PastedXStringsToSelectedCellsLogMessage, clipboardLineIndex);
         }
 
         internal static void CutSelectedCells(IList<DataGridCellInfo>? selectedCells, bool onlyCopy = false)
@@ -879,7 +879,7 @@ namespace RimworldModTranslator.Helpers
             Clipboard.SetText(string.Join("\r\n", strings));
 
             string actionName = onlyCopy ? Translation.PrefixCopiedText : Translation.PrefixCutOutText;
-            _logger.Info(T._("{0} {1} selected cells."), actionName, strings.Count);
+            Logger.Info(T._("{0} {1} selected cells."), actionName, strings.Count);
         }
 
         internal static IEnumerable<(DataRowView row, DataGridColumn column)> EnumerateValidSelectedCells(IList<DataGridCellInfo> selectedCells)
@@ -1113,7 +1113,7 @@ namespace RimworldModTranslator.Helpers
                 }
             });
 
-            _logger.Info(Translation.SetTanslationsByCacheXFoldersLogMessage, folders.Count);
+            Logger.Info(Translation.SetTanslationsByCacheXFoldersLogMessage, folders.Count);
             return Task.CompletedTask;
         }
 
