@@ -95,6 +95,9 @@ namespace RimworldModTranslator.Translations
         internal static string SavedTranslatedFilesTo0 { get; } = T._("Saved translated files to {0}.");
         internal static string NoTranslatedFilesToSave { get; } = T._("No translated files to save.");
         internal static string SaveModFileWasWrote { get; } = T._("Mod DB saved to {0}");
+        internal static string LoadedDBForFolder0 { get; } = T._("Loaded DB for folder {0}.");
+        internal static string DBFileNotFoundAt0 { get; } = T._("DB file not found at {0}");
+        internal static string ErrorLoadingDBFileFrom0 { get; } = T._("Error loading DB file from {0}.");
         #endregion
     }
 }

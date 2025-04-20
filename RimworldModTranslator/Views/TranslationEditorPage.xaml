@@ -99,6 +99,7 @@
                 <KeyBinding Modifiers="Control" Key="V" Command="{Binding PasteStringsInSelectedCellsCommand}" />
                 <KeyBinding Modifiers="Control" Key="D" Command="{Binding ClearSelectedCellsCommand}" />
                 <KeyBinding Modifiers="Control" Key="X" Command="{Binding CutSelectedCellsCommand}" />
+                <KeyBinding Modifiers="Control" Key="S" Command="{Binding SaveModDBCommand}" />
             </DataGrid.InputBindings>
 
             <i:Interaction.Behaviors>

@@ -139,7 +139,10 @@ namespace RimworldModTranslator.Helpers
         internal static void SaveModDB(ObservableCollection<FolderData> folders, Game? game, ModData? mod)
         {
             if (mod == null || game == null || string.IsNullOrWhiteSpace(game.ModsDirPath) || string.IsNullOrEmpty(mod.DirectoryName) || folders.Count == 0)
-                throw new ArgumentException("Invalid mod or folder data.");
+            {
+                Logger.Debug("Invalid mod or folder data.");
+                return;
+            }
 
             string modDirectoryPath = Path.Combine(game.ModsDirPath, mod.DirectoryName);
             if (!Directory.Exists(modDirectoryPath))
@@ -168,7 +171,7 @@ namespace RimworldModTranslator.Helpers
         {
             if (mod == null || game == null || string.IsNullOrWhiteSpace(game.ModsDirPath) || string.IsNullOrEmpty(mod.DirectoryName) || folders.Count == 0)
             {
-                Logger.Error("Invalid mod or folder data.");
+                Logger.Debug("Invalid mod or folder data.");
                 return;
             }
 
@@ -177,7 +180,7 @@ namespace RimworldModTranslator.Helpers
 
             if (!File.Exists(outputFilePath))
             {
-                Logger.Warn("RMT.DB.xml file not found at {0}.", outputFilePath);
+                Logger.Info(Translation.DBFileNotFoundAt0, outputFilePath);
                 return;
             }
 
@@ -192,17 +195,17 @@ namespace RimworldModTranslator.Helpers
                     if (folder != null)
                     {
                         FillTableValues(table, folder);
-                        Logger.Info("Loaded data for folder: {0} from RMT.DB.xml.", folder.Name);
+                        Logger.Info(Translation.LoadedDBForFolder0, folder.Name);
                     }
                     else
                     {
-                        Logger.Warn("No matching folder found for table: {0} in RMT.DB.xml.", table.TableName);
+                        Logger.Debug("No matching folder found for table: {0} in RMT.DB.xml.", table.TableName);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Error loading RMT.DB.xml file from {0}.", outputFilePath);
+                Logger.Error(ex, Translation.ErrorLoadingDBFileFrom0, outputFilePath);
             }
         }
 
