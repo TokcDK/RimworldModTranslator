@@ -315,6 +315,13 @@ namespace RimworldModTranslator.ViewModels
         }
 
         [RelayCommand]
+        private void LoadModDB()
+        {
+            EditorHelper.LoadModDB(Folders, _game, _mod);
+            InitTranslationsTable(true, SelectedFolder!.TranslationsTable);
+        }
+
+        [RelayCommand]
         private void OpenSearchWindow()
         {
             if (TranslationsTable == null || TranslationsTable.Rows.Count == 0)

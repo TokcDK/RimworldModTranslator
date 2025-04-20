@@ -173,10 +173,82 @@ namespace RimworldModTranslator.Helpers
             }
 
             string modDirectoryPath = Path.Combine(game.ModsDirPath, mod.DirectoryName);
-            
             string outputFilePath = Path.Combine(modDirectoryPath, $"RMT.DB.xml");
 
+            if (!File.Exists(outputFilePath))
+            {
+                Logger.Warn("RMT.DB.xml file not found at {0}.", outputFilePath);
+                return;
+            }
 
+            try
+            {
+                var dataSet = new DataSet();
+                dataSet.ReadXml(outputFilePath);
+
+                foreach (DataTable table in dataSet.Tables)
+                {
+                    var folder = folders.FirstOrDefault(f => f.Name == table.TableName);
+                    if (folder != null)
+                    {
+                        FillTableValues(table, folder);
+                        Logger.Info("Loaded data for folder: {0} from RMT.DB.xml.", folder.Name);
+                    }
+                    else
+                    {
+                        Logger.Warn("No matching folder found for table: {0} in RMT.DB.xml.", table.TableName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error loading RMT.DB.xml file from {0}.", outputFilePath);
+            }
+        }
+
+        private static void FillTableValues(DataTable table, FolderData folder)
+        {
+            if (folder.TranslationsTable == null)
+            {
+                // copy the table structure
+                folder.TranslationsTable = table.Copy();
+            }
+            else
+            {
+                // set the values by string ID
+
+                Dictionary<string, DataRow> RowsByID = table.Rows.Cast<DataRow>()
+                    .ToDictionary(r => r["ID"] + "", r => r);
+
+                foreach (DataRow row in folder.TranslationsTable.Rows)
+                {
+                    string subPath = row["SubPath"]+"";
+                    string id = row["ID"]+"";
+                    DataRow? foundRow = RowsByID.TryGetValue(id, out DataRow? rowByID) ? rowByID : null;
+
+                    if (foundRow == null) continue;
+
+                    foreach (DataColumn column in table.Columns)
+                    {
+                        if(column.ColumnName == "SubPath" || column.ColumnName == "ID")
+                        {
+                            continue;
+                        }
+
+                        if (!folder.TranslationsTable.Columns.Contains(column.ColumnName))
+                        {
+                            continue;
+                        }
+
+                        string value = foundRow[column].ToString() ?? "";
+                        if (string.IsNullOrEmpty(value))
+                        {
+                            continue;
+                        }
+                        row[column.ColumnName] = value;
+                    }
+                }
+            }
         }
 
         public static void GetTranslatableSubDirs(string fullPath, IList<FolderData> folders)
