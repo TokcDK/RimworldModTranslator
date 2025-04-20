@@ -51,7 +51,7 @@ namespace RimworldModTranslator.ViewModels
             SelectedTab = editor;
 
             // load strings in editor
-            editor.LoadTheSelectedModStrings();
+            editor.LoadTheSelectedModStrings(mod: message.SelectedMod);
         }
 
         [RelayCommand]

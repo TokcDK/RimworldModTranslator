@@ -158,52 +158,19 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void LoadStrings()
         {
-            LoadTheSelectedModStrings();
-        }
-
-        [RelayCommand]
-        private async Task LoadStringsCache()
-        {
-            await EditorHelper.LoadStringsCacheInternal(Folders, _mod, _settingsService);
-        }
-
-        public void LoadTheSelectedModStrings()
-        {
             // Initialize or update mod data
             if (!EditorHelper.LoadStringsInitModData(ref _mod, _settingsService))
             {
                 return;
             }
 
-            // Load folders only if the mod has changed or the folder list is empty
-            bool isModChanged = _mod != _settingsService.SelectedMod;
-            if (isModChanged || Folders.Count == 0)
-            {
-                if (!EditorHelper.LoadModStringsLoadTranslatableFolders(_mod, Folders))
-                {
-                    return;
-                }
-            }
+            LoadTheSelectedModStrings(_mod!);
+        }
 
-            // check folders to parse
-            if (Folders.Count == 0)
-            {
-                Logger.Warn(Translation.NoTranslatableFoldersFoundLogMessage);
-                return;
-            }
-
-            EditorHelper.LoadStringsForAllFolders(Folders, _mod);
-
-            // select 1st dir when not selected
-            SelectedFolder ??= Folders.FirstOrDefault();
-
-            // load mod db if exist
-            EditorHelper.LoadModDB(Folders, _mod);
-
-            // refresh selected table
-            InitTranslationsTable(dataTableToRelink: SelectedFolder?.TranslationsTable);
-
-            OnPropertyChanged(nameof(ModDisplayingName));
+        [RelayCommand]
+        private async Task LoadStringsCache()
+        {
+            await EditorHelper.LoadStringsCacheInternal(Folders, _mod, _settingsService);
         }
 
         [RelayCommand]
@@ -297,6 +264,39 @@ namespace RimworldModTranslator.ViewModels
         #endregion
 
         #region Private Methods
+
+        public void LoadTheSelectedModStrings(ModData mod)
+        {
+            // Load folders only if the the folder list is empty
+            if (Folders.Count == 0)
+            {
+                if (!EditorHelper.LoadModStringsLoadTranslatableFolders(mod, Folders))
+                {
+                    return;
+                }
+            }
+
+            // check folders to parse
+            if (Folders.Count == 0)
+            {
+                Logger.Warn(Translation.NoTranslatableFoldersFoundLogMessage);
+                return;
+            }
+
+            EditorHelper.LoadStringsForAllFolders(Folders, mod);
+
+            // select 1st dir when not selected
+            SelectedFolder ??= Folders.FirstOrDefault();
+
+            // load mod db if exist
+            EditorHelper.LoadModDB(Folders, mod);
+
+            // refresh selected table
+            InitTranslationsTable(dataTableToRelink: SelectedFolder?.TranslationsTable);
+
+            OnPropertyChanged(nameof(ModDisplayingName));
+        }
+
         /// <summary>
         /// Init Translations table and view
         /// </summary>

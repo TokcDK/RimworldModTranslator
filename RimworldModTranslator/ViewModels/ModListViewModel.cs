@@ -55,7 +55,7 @@ namespace RimworldModTranslator.ViewModels
         {
             if(SelectedMod == null) return;
 
-            WeakReferenceMessenger.Default.Send(new LoadSelectedModStringsMessage());
+            WeakReferenceMessenger.Default.Send(new LoadSelectedModStringsMessage(SelectedMod));
         }
         [RelayCommand]
         private void OpenModDir()
