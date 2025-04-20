@@ -202,49 +202,43 @@ namespace RimworldModTranslator.ViewModels
                 return Task.CompletedTask;
             }
 
-            SelectedFolder ??= Folders[0];
-
-            string selectedFolderName = SelectedFolder!.Name;
-
-            var selectedTranslatableDir = Path.Combine(_mod.ParentGame.ModsDirPath!, _mod!.DirectoryName!, EditorHelper.GetTranslatableFolderName(selectedFolderName));
-
-            var stringsData = EditorHelper.LoadStringsDataFromTheLanguageDir(selectedTranslatableDir);
-
-            var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
-
-            if (translationsTable == null || translationsTable.Columns.Count == 0)
+            // Загрузка строк для всех папок
+            int totalStringsLoaded = 0;
+            foreach (var folder in Folders)
             {
-                SelectedFolder = Folders.FirstOrDefault(f => f.Name == _previousSelectedFolder);
-            }
+                string folderName = folder.Name;
+                string translatableDir = Path.Combine(_mod.ParentGame.ModsDirPath!, _mod!.DirectoryName!, EditorHelper.GetTranslatableFolderName(folderName));
 
-            if (SelectedFolder == null)
-            {
-                if (Folders.Count > 0)
+                var stringsData = EditorHelper.LoadStringsDataFromTheLanguageDir(translatableDir);
+                var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
+
+                folder.TranslationsTable = translationsTable;
+
+                if (translationsTable != null && translationsTable.Rows.Count > 0)
                 {
-                    SelectedFolder = Folders[0];
+                    totalStringsLoaded += translationsTable.Rows.Count;
+                    Logger.Info(Translation.Loaded0StringsFrom1LogMessage, translationsTable.Rows.Count, translatableDir);
                 }
                 else
                 {
-                    Logger.Warn(Translation.NoTranslatableFoldersFoundLogMessage);
-
-                    return Task.CompletedTask;
+                    Logger.Info(Translation.NothingToLoadFromXLogMessage, translatableDir);
                 }
             }
 
-            SelectedFolder.TranslationsTable = translationsTable;
-            EditorHelper.LoadModDB(Folders, _mod); // load db for the mod
+            // Если папка не выбрана, выберем первую
+            SelectedFolder ??= Folders.FirstOrDefault();
 
-            InitTranslationsTable(dataTableToRelink: translationsTable);
+            // Загружаем базу данных мода
+            EditorHelper.LoadModDB(Folders, _mod);
+
+            // Инициализируем таблицу переводов для выбранной папки
+            InitTranslationsTable(dataTableToRelink: SelectedFolder?.TranslationsTable);
 
             OnPropertyChanged(nameof(ModDisplayingName));
 
-            if (translationsTable == null || translationsTable.Rows.Count == 0)
+            if (totalStringsLoaded > 0)
             {
-                Logger.Info(Translation.NothingToLoadFromXLogMessage, selectedTranslatableDir);
-            }
-            else
-            {
-                Logger.Info(Translation.Loaded0StringsFrom1LogMessage, translationsTable.Rows.Count, selectedTranslatableDir);
+                Logger.Info($"Загружено всего {totalStringsLoaded} строк перевода для всех папок мода");
             }
 
             return Task.CompletedTask;
