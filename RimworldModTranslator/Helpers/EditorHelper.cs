@@ -246,7 +246,7 @@ namespace RimworldModTranslator.Helpers
                         }
 
                         string value = foundRow[column].ToString() ?? "";
-                        if (string.IsNullOrEmpty(value))
+                        if (string.IsNullOrEmpty(value)) // we first check if the value is empty but maybe it will be optional
                         {
                             continue;
                         }
