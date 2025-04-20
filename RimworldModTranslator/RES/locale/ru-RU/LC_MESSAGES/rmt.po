@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-04-17 20:37+0500\n"
-"PO-Revision-Date: 2025-04-17 20:39+0500\n"
+"POT-Creation-Date: 2025-04-20 17:22+0500\n"
+"PO-Revision-Date: 2025-04-20 17:23+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -16,7 +16,7 @@ msgstr ""
 "GetString;GetPluralString:1,2;GetParticularString:1c,2;GetParticularPluralString:1c,2,3;_;_n:1,2;_p:1c,2;_pn:1c,2,3;T_;Gettext\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: RimworldModTranslator/RimworldModTranslator/Helpers/EditorHelper.cs:820
+#: RimworldModTranslator/RimworldModTranslator/Helpers/EditorHelper.cs:883
 #, csharp-format
 msgid "{0} {1} selected cells."
 msgstr "{0} {1} выбранных ячеек."
@@ -332,6 +332,20 @@ msgstr "Переводимых папок не найдено"
 #, csharp-format
 msgid "Nothing to load from {0}."
 msgstr "Нечего не найдено в {0}."
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:92
+#, csharp-format
+msgid "Error loading tags from {0}."
+msgstr "Ошибка загрузки тегов из {0}."
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:93
+#, csharp-format
+msgid "Loaded tags from {0}."
+msgstr "Загружены теги из {0}."
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:94
+msgid "Loaded default tags."
+msgstr ""
 
 #~ msgid "Active"
 #~ msgstr "Активен"
