@@ -91,7 +91,8 @@ namespace RimworldModTranslator.Translations
         internal static string NothingToLoadFromXLogMessage { get; } = T._("Nothing to load from {0}.");
         internal static string ErrorLoadingTagsFrom0 { get; } = T._("Error loading tags from {0}.");
         internal static string LoadedTagsFrom0 { get; } = T._("Loaded tags from {0}.");
-        public static object LoadedDefaultTags { get; } = T._("Loaded default tags.");
+        internal static string LoadedDefaultTags { get; } = T._("Loaded default tags.");
+        internal static string SavedTranslatedFilesTo0 { get; } = T._("Saved translated files to {0}.");
         #endregion
     }
 }

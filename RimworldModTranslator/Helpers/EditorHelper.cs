@@ -787,6 +787,8 @@ namespace RimworldModTranslator.Helpers
             EditorHelper.WriteAbout(targetModDirPath, modAboutData);
 
             EditorHelper.WriteLoadFoldersXml(targetModDirPath, modAboutData, folders);
+
+            Logger.Info(Translation.SavedTranslatedFilesTo0, targetModDirPath);
         }
 
         internal static bool IsVersionDir(string s)
