@@ -77,6 +77,21 @@ namespace RimworldModTranslator.ViewModels
         public static string SaveStringsToolTip { get => Translation.SaveStringsTooltip; }
         public static string FolderName { get => Translation.FolderName; }
         public static string AddLanguageName { get => Translation.AddLanguageName; }
+        // menus
+        public static string CutSelectedRowsName { get => Translation.CutSelectedRowsName; }
+        public static string CutSelectedRowsToolTip { get => Translation.CutSelectedRowsToolTip; }
+        public static string CopySelectedRowsName { get => Translation.CopySelectedRowsName; }
+        public static string CopySelectedRowsToolTip { get => Translation.CopySelectedRowsToolTip; }
+        public static string PasteToSelectedRowsName { get => Translation.PasteToSelectedRowsName; }
+        public static string PasteToSelectedRowsToolTip { get => Translation.PasteToSelectedRowsToolTip; }
+        public static string ClearSelectedRowsName { get => Translation.ClearSelectedRowsName; }
+        public static string ClearSelectedRowsToolTip { get => Translation.ClearSelectedRowsToolTip; }
+        public static string SaveModDBName { get => Translation.SaveModDBName; }
+        public static string SaveModDBToolTip { get => Translation.SaveModDBToolTip; }
+        public static string LoadModDBName { get => Translation.LoadModDBName; }
+        public static string LoadModDBToolTip { get => Translation.LoadModDBToolTip; }
+        public static string LoadModDBReplaceName { get => Translation.LoadModDBReplaceName; }
+        public static string LoadModDBReplaceToolTip { get => Translation.LoadModDBReplaceToolTip; }
         #endregion
 
         #region Properties

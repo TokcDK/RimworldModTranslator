@@ -85,13 +85,13 @@
                   >
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Cut" Command="{Binding CutSelectedCellsCommand}" />
-                    <MenuItem Header="Copy" Command="{Binding CopySelectedCellsCommand}" />
-                    <MenuItem Header="Paste" Command="{Binding PasteStringsInSelectedCellsCommand}" />
-                    <MenuItem Header="Clear" Command="{Binding ClearSelectedCellsCommand}" />
-                    <MenuItem Header="Save DB" Command="{Binding SaveModDBCommand}" />
-                    <MenuItem Header="Load DB" Command="{Binding LoadModDBCommand}" />
-                    <MenuItem Header="Load DB (replace)" Command="{Binding LoadModDBForceCommand}" />
+                    <MenuItem Header="{Binding CutSelectedRowsName}" ToolTip="{Binding CutSelectedRowsTooltip}" Command="{Binding CutSelectedCellsCommand}" />
+                    <MenuItem Header="{Binding CopySelectedRowsName}" ToolTip="{Binding CopySelectedRowsTooltip}" Command="{Binding CopySelectedCellsCommand}" />
+                    <MenuItem Header="{Binding PasteToSelectedRowsName}" ToolTip="{Binding PasteToSelectedRowsTooltip}" Command="{Binding PasteStringsInSelectedCellsCommand}" />
+                    <MenuItem Header="{Binding ClearSelectedRowsName}" ToolTip="{Binding ClearSelectedRowsTooltip}" Command="{Binding ClearSelectedCellsCommand}" />
+                    <MenuItem Header="{Binding SaveModDBName}" ToolTip="{Binding SaveModDBTooltip}" Command="{Binding SaveModDBCommand}" />
+                    <MenuItem Header="{Binding LoadModDBName}" ToolTip="{Binding LoadModDBTooltip}" Command="{Binding LoadModDBCommand}" />
+                    <MenuItem Header="{Binding LoadModDBReplaceName}" ToolTip="{Binding LoadModDBReplaceTooltip}" Command="{Binding LoadModDBForceCommand}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
 
