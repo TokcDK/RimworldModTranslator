@@ -50,6 +50,33 @@ namespace RimworldModTranslator.ViewModels
     // replacers: https://rimworldwiki.com/wiki/Modding_Tutorials/GrammarResolver
     public partial class TranslationEditorViewModel : ViewModelBase
     {
+        private System.Timers.Timer? _autoSaveTimer;
+
+        private void StartAutoSave()
+        {
+            _autoSaveTimer = new System.Timers.Timer(60000); // 60 seconds
+            _autoSaveTimer.Elapsed += (s, e) => SaveModDB();
+            _autoSaveTimer.AutoReset = true;
+            _autoSaveTimer.Start();
+        }
+
+        private void StopAutoSave()
+        {
+            if (_autoSaveTimer != null)
+            {
+                _autoSaveTimer.Stop();
+                _autoSaveTimer.Dispose();
+                _autoSaveTimer = null;
+            }
+        }
+
+        private void RestartAutosave()
+        {
+            StopAutoSave(); // stop auto-save timer if it was started
+            StartAutoSave(); // restart auto-save timer
+        }
+
+
         #region Fields
         private ModData? _mod;
         private readonly SettingsService _settingsService;
@@ -222,6 +249,7 @@ namespace RimworldModTranslator.ViewModels
         private void SaveModDB()
         {
             EditorHelper.SaveModDB(Folders, _mod);
+            RestartAutosave(); // restart because db was save just now
         }
 
         [RelayCommand]
@@ -282,6 +310,8 @@ namespace RimworldModTranslator.ViewModels
 
         public void LoadTheSelectedModStrings(ModData mod)
         {
+            StopAutoSave(); // stop auto-save timer if it was started
+
             _mod = mod; // retarget translating mod
 
             // Load folders only if the the folder list is empty
@@ -312,6 +342,9 @@ namespace RimworldModTranslator.ViewModels
             InitTranslationsTable(dataTableToRelink: SelectedFolder?.TranslationsTable);
 
             OnPropertyChanged(nameof(ModDisplayingName));
+
+            // Call StartAutoSave() to enable the auto-save functionality
+            StartAutoSave();
         }
 
         /// <summary>
