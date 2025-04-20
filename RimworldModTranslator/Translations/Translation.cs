@@ -9,7 +9,6 @@ namespace RimworldModTranslator.Translations
 {
     internal static class Translation
     {
-        internal static string LoadedStringsFromDBFileLogMessage { get; } = T._("Loaded strings from DB file.");
         #region ui names and tooltips
         internal static string NameName { get; } = T._("Name");
         internal static string ActiveName { get; } = T._("☑");
@@ -100,6 +99,8 @@ namespace RimworldModTranslator.Translations
         internal static string LoadedDBForFolder0 { get; } = T._("Loaded DB for folder {0}.");
         internal static string DBFileNotFoundAt0 { get; } = T._("DB file not found at {0}");
         internal static string ErrorLoadingDBFileFrom0 { get; } = T._("Error loading DB file from {0}.");
+        internal static string LoadedDBFrom0 { get; } = T._("Loaded DB from {0}.");
+        internal static string LoadedStringsFromDBFileLogMessage { get; } = T._("Loaded strings from DB file.");
         #endregion
     }
 }

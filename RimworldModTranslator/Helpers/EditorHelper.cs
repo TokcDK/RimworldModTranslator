@@ -208,6 +208,8 @@ namespace RimworldModTranslator.Helpers
                 Logger.Error(ex, Translation.ErrorLoadingDBFileFrom0, outputFilePath);
             }
 
+            Logger.Info(Translation.LoadedDBFrom0, outputFilePath);
+
             return true;
         }
 
