@@ -102,7 +102,7 @@ namespace RimworldModTranslator.Helpers
                         if (File.Exists(path))
                         {
                             bool isDefaultPath = string.Equals(path, defaultPath, StringComparison.OrdinalIgnoreCase);
-                            var tags = ReadTagsFile(path, isDefaultPath);
+                            var tags = ReadTagsFile(path, !isDefaultPath);
                             if (isDefaultPath)
                             {
                                 _defsXmlTags = [.. tags]; // replace default tags from external file
@@ -128,12 +128,13 @@ namespace RimworldModTranslator.Helpers
 
         private static IEnumerable<string> ReadTagsFile(string path, bool onlyNewTags = true)
         {
-            return [..File.ReadAllLines(path)
-                                .Select(l => l.Trim())
-                                .Where(l => !string.IsNullOrWhiteSpace(l)
-                                && !l.StartsWith(';')
-                                && (!onlyNewTags || (onlyNewTags && !_defsXmlTags.Contains(l))))
-                                ];
+            return File.ReadAllLines(path)
+                .Select(l => l.Split(new[] { ';' }, 2)[0]) // split by ';' comment char and take the first part
+                .Select(l => l.Trim()) // trim spaces
+
+                // remove empty lines and optional existing tags
+                .Where(l => !string.IsNullOrWhiteSpace(l)
+                            && (!onlyNewTags || (onlyNewTags && !_defsXmlTags.Contains(l))));
         }
 
         public static void GetTranslatableSubDirs(string fullPath, IList<FolderData> folders)
