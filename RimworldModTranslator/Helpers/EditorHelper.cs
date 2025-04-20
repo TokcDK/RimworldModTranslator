@@ -747,6 +747,7 @@ namespace RimworldModTranslator.Helpers
             if (!isAnyFolderFileWrote)
             {
                 Directory.Delete(targetModDirPath, true);
+                Logger.Warn(Translation.NoTranslatedFilesToSave);
                 return;
             }
 
