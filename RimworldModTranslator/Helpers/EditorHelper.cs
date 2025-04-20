@@ -1249,7 +1249,24 @@ namespace RimworldModTranslator.Helpers
 
         internal static bool HaveAnyEmptyLanguageString(ObservableCollection<FolderData> folders)
         {
-            throw new NotImplementedException();
+            foreach (var folder in folders)
+            {
+                if (folder.TranslationsTable == null) continue;
+                foreach (DataRow row in folder.TranslationsTable.Rows)
+                {
+                    foreach (DataColumn column in folder.TranslationsTable.Columns)
+                    {
+                        if (EditorHelper.IsReadOnlyColumn(column.ColumnName))
+                            continue; // skip readonly columns
+                        string? stringValue = row.Field<string>(column);
+                        if (string.IsNullOrEmpty(stringValue))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
     }
 }
