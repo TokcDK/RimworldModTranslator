@@ -1,16 +1,11 @@
-﻿using RimworldModTranslator.Models;
-using RimworldModTranslator.Translations;
-using SharpCompress.Archives.Tar;
+﻿using SharpCompress.Archives.Tar;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
 using System.Linq;
-using static RimworldModTranslator.Helpers.EditorHelper;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace RimworldModTranslator.Helpers
+namespace RimworldModTranslator.Models.LanguageXmlReader
 {
     class TarXmlReader(string languageName, string languageDirPath, EditorStringsData stringsData) : XmlReaderBase(languageName, languageDirPath, stringsData), IDisposable
     {

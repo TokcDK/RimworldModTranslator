@@ -216,8 +216,8 @@ namespace RimworldModTranslator.ViewModels
 
                 if (translationsTable != null && translationsTable.Rows.Count > 0)
                 {
-                    totalStringsLoaded += translationsTable.Rows.Count;
-                    Logger.Info(Translation.Loaded0StringsFrom1LogMessage, translationsTable.Rows.Count, translatableDir);
+                    totalStringsLoaded += stringsData.loadedStringsCount;
+                    Logger.Info(Translation.Loaded0StringsFrom1LogMessage, stringsData.loadedStringsCount, translatableDir);
                 }
                 else
                 {

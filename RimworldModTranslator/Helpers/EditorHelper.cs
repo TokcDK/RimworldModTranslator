@@ -1,5 +1,6 @@
 ﻿using NLog;
 using RimworldModTranslator.Models;
+using RimworldModTranslator.Models.LanguageXmlReader;
 using RimworldModTranslator.Properties;
 using RimworldModTranslator.Services;
 using RimworldModTranslator.Translations;
@@ -423,8 +424,10 @@ namespace RimworldModTranslator.Helpers
         // Регулярное выражение для поиска строк с xml тегами, которые начинаются и заканчиваются одинаково.
         // Пример: <OvipositorF.stages.5.label>Бездна</OvipositorF.stages.5.label>
         static Regex regex = new Regex(@"^\s*<(?<tag>[^>]+)>(?<value>.*)</\k<tag>>\s*$", RegexOptions.Compiled);
-        private static void ReadFromTheStringsArray(string[] lines, string language, StringsIdsBySubPath stringIdsList, bool skipMissingIds = false)
+        internal static int ReadFromTheStringsArray(string[] lines, string language, StringsIdsBySubPath stringIdsList, bool skipMissingIds = false)
         {
+            int loadedStringsCount = 0;
+
             foreach (var line in lines)
             {
                 if (string.IsNullOrWhiteSpace(line))
@@ -444,8 +447,11 @@ namespace RimworldModTranslator.Helpers
                         stringIdsList.StringIdLanguageValuePairsList[key] = langList;
                     }
                     langList.LanguageValuePairs[language] = NormalizeNewLines(value);
+                    loadedStringsCount++;
                 }
             }
+
+            return loadedStringsCount;
         }
 
         /// <summary>
@@ -543,8 +549,9 @@ namespace RimworldModTranslator.Helpers
             }
         }
 
-        private static void ReadTxtStringsFile(string[] lines, string fileName, string language, StringsIdsBySubPath stringIdsList)
+        internal static int ReadTxtStringsFile(string[] lines, string fileName, string language, StringsIdsBySubPath stringIdsList)
         {
+            int loadedStringsCount = 0;
             int idIndex = 0;
             foreach (var line in lines)
             {
@@ -559,7 +566,10 @@ namespace RimworldModTranslator.Helpers
                 }
 
                 langList.LanguageValuePairs[language] = line;
+                loadedStringsCount++;
             }
+
+            return loadedStringsCount;
         }
 
         internal static string GetTranslatableFolderName(string selectedFolder)
@@ -724,6 +734,7 @@ namespace RimworldModTranslator.Helpers
                                 stringsBySubPath.StringIdLanguageValuePairsList[stringId] = langList;
                             }
                             langList.LanguageValuePairs[language] = NormalizeNewLines(stringValue);
+                            stringsData.loadedStringsCount++;
                         }
                     }
                 }

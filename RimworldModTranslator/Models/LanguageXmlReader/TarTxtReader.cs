@@ -1,27 +1,19 @@
-﻿using RimworldModTranslator.Models;
-using SharpCompress.Archives.Tar;
-using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using RimworldModTranslator.Helpers;
 using System.IO;
-using System.Linq;
 
-namespace RimworldModTranslator.Helpers
+namespace RimworldModTranslator.Models.LanguageXmlReader
 {
-    internal partial class EditorHelper
+    internal class TarTxtReader(string languageName, string languageDirPath, EditorStringsData stringsData) : TarXmlReader(languageName, languageDirPath, stringsData)
     {
-        class TarTxtReader(string languageName, string languageDirPath, EditorStringsData stringsData) : TarXmlReader(languageName, languageDirPath, stringsData)
+        protected override string Ext
         {
-            protected override string Ext
-            {
-                get => ".txt";
-            }
+            get => ".txt";
+        }
 
-            protected override void ReadStrings(string[] lines, string subPath, StringsIdsBySubPath stringIdsList, bool skipMissingIds = false)
-            {
-                var fileName = Path.GetFileNameWithoutExtension(subPath);
-                EditorHelper.ReadTxtStringsFile(lines, fileName, languageName, stringIdsList);
-            }
+        protected override int ReadStrings(string[] lines, string subPath, StringsIdsBySubPath stringIdsList, bool skipMissingIds = false)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(subPath);
+            return EditorHelper.ReadTxtStringsFile(lines, fileName, languageName, stringIdsList);
         }
     }
 }
