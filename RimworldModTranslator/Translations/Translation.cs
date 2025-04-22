@@ -87,8 +87,8 @@ namespace RimworldModTranslator.Translations
         internal static string SaveModDBToolTip { get; } = T._("Save mod DB to the selected mod folder.");
         internal static string LoadModDBToolTip { get; } = T._("Load mod DB from the selected mod folder.");
         internal static string LoadModDBReplaceToolTip { get; } = T._("Load mod DB from the selected mod folder and replace each folder table by the table from DB.\n(use only when the DB is for this version of mod)");
-        internal static string EditorAutoSaveTimePeriodName { get; } = T._("Editor autosave time period");
-        internal static string EditorAutoSaveTimePeriodToolTip { get; } = T._("The time after which the currently editing strings will be autosaved.");
+        internal static string EditorAutoSaveTimePeriodName { get; } = T._("Editor autosave time period (sec)");
+        internal static string EditorAutoSaveTimePeriodToolTip { get; } = T._("The time in seconds after which the currently editing strings will be autosaved.");
         #endregion
 
         #region log messages

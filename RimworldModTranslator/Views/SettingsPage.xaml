@@ -79,7 +79,7 @@
                        />
                     <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding EditorAutoSaveTimePeriodToolTip, Mode=OneWay}">
                         <TextBlock Text="{Binding EditorAutoSaveTimePeriodName}" Width="150" HorizontalAlignment="Right" />
-                        <TextBox Text="{Binding EditorAutoSaveTimePeriodValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="400" Margin="5,0,0,0" />
+                        <TextBox Text="{Binding EditorAutosaveTimePeriodValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="5,0,0,0" />
                     </StackPanel>
                 </StackPanel>
            </ScrollViewer>

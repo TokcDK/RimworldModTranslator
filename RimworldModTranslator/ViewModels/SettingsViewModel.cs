@@ -119,6 +119,20 @@ namespace RimworldModTranslator.ViewModels
             }
         }
 
+        [ObservableProperty]
+        private string? editorAutosaveTimePeriodValue = Properties.Settings.Default.EditorAutosaveTimePeriod + "";
+        partial void OnEditorAutosaveTimePeriodValueChanged(string? value)
+        {
+            if(value == null || !int.TryParse(value, out var intValue) || intValue < 1)
+            {
+                EditorAutosaveTimePeriodValue = Properties.Settings.Default.EditorAutosaveTimePeriod + "";
+                return;
+            }
+
+            Properties.Settings.Default.EditorAutosaveTimePeriod = intValue;
+            Properties.Settings.Default.Save();
+        }
+
         #region Target mod data
         [ObservableProperty]
         private string? targetModName = Properties.Settings.Default.TargetModName;
