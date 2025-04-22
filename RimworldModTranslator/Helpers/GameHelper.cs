@@ -159,6 +159,8 @@ namespace RimworldModTranslator.Helpers
             var modsConfig = ModHelper.LoadModsConfig(modsConfigXmlPath);
             if (modsConfig == null) return false;
 
+            game.Version = modsConfig.Version;
+
             foreach (var mod in game.ModsList)
             {
                 mod.IsActive = mod.About != null &&!string.IsNullOrWhiteSpace(mod.About.PackageId)
