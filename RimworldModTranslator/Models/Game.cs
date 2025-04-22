@@ -14,6 +14,6 @@ namespace RimworldModTranslator.Models
         public ObservableCollection<ModData> ModsList { get; set; } = [];
         public ObservableCollection<ModData> SelectedMods { get; set; } = [];
         public string? GameDirPath { get; internal set; }
-        public string? Version { get; internal set; }
+        public ModsConfigData? ModsConfig { get; internal set; }
     }
 }

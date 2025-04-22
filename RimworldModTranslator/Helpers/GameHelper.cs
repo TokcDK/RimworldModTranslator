@@ -103,7 +103,7 @@ namespace RimworldModTranslator.Helpers
 
                 // Добавляем версию
                 var versionElement = xmlDoc.CreateElement("version");
-                versionElement.InnerText = game!.Version!;
+                versionElement.InnerText = game!.ModsConfig!.Version!;
                 rootElement.AppendChild(versionElement);
 
                 // Добавляем активные моды
@@ -121,10 +121,7 @@ namespace RimworldModTranslator.Helpers
                 var knownExpansionsElement = xmlDoc.CreateElement("knownExpansions");
                 rootElement.AppendChild(knownExpansionsElement);
 
-                // Базовые DLC для Rimworld - можно заменить на актуальный список или получать из игры
-                string[] defaultExpansions = { "ludeon.rimworld", "ludeon.rimworld.royalty", "ludeon.rimworld.ideology", "ludeon.rimworld.biotech" };
-
-                foreach (var expansion in defaultExpansions)
+                foreach (var expansion in game.ModsConfig.KnownExpansions)
                 {
                     var liElement = xmlDoc.CreateElement("li");
                     liElement.InnerText = expansion;
@@ -159,7 +156,7 @@ namespace RimworldModTranslator.Helpers
             var modsConfig = ModHelper.LoadModsConfig(modsConfigXmlPath);
             if (modsConfig == null) return false;
 
-            game.Version = modsConfig.Version;
+            game.ModsConfig = modsConfig;
 
             foreach (var mod in game.ModsList)
             {
