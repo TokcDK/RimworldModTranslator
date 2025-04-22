@@ -39,6 +39,7 @@ namespace RimworldModTranslator.Helpers
                     Name = meta.Element("name")?.Value,
                     Author = meta.Element("author")?.Value,
                     Url = meta.Element("url")?.Value,
+                    ModVersion = meta.Element("modVersion")?.Value,
                     SupportedVersions = meta.Element("supportedVersions")?.Elements("li").Select(e => e.Value).ToList() ?? new List<string>(),
                     PackageId = meta.Element("packageId")?.Value,
                     Description = meta.Element("description")?.Value,
