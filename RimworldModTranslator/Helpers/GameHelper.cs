@@ -69,6 +69,21 @@ namespace RimworldModTranslator.Helpers
         {
             if(LoadGameData(game)) return;
 
+            // sort packageIdA after packageIdB in Game.ModsList
+            var modB = game.ModsList.FirstOrDefault(m => m.About?.PackageId == packageIdB);
+            if (modB == null) return;
+            var modA = game!.ModsList.FirstOrDefault(m => m.About?.PackageId == packageIdA);
+            if (modA != null) return; // already added
+
+            int indexA = game.ModsList.IndexOf(modB);
+
+            game.ModsList.Insert(indexA + 1, modA!);
+
+            SaveGameData(game);
+        }
+
+        internal static void SaveGameData(Game game)
+        {
 
         }
 
