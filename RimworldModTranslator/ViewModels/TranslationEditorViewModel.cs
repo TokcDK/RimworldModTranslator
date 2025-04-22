@@ -54,7 +54,12 @@ namespace RimworldModTranslator.ViewModels
 
         private void StartAutoSave()
         {
-            _autoSaveTimer = new System.Timers.Timer(300000); // 5 min, 60000 = 1 min
+            if(Properties.Settings.Default.EditorAutosaveTimePeriod < 1)
+            {
+                return;
+            }
+
+            _autoSaveTimer = new System.Timers.Timer(Properties.Settings.Default.EditorAutosaveTimePeriod * 1000); // 60000 = 1 min
             _autoSaveTimer.Elapsed += (s, e) => SaveModDB();
             _autoSaveTimer.AutoReset = true;
             _autoSaveTimer.Start();
