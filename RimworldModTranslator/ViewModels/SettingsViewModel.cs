@@ -35,6 +35,8 @@ namespace RimworldModTranslator.ViewModels
         public static string ForceLoadTranslationsCacheToolTip { get => Translation.ForceLoadTranslationsCacheToolTip; }
         public static string LoadOnlyStringsForExtractedIdsName { get => Translation.LoadOnlyStringsForExtractedIdsName; }
         public static string LoadOnlyStringsForExtractedIdsToolTip { get => Translation.LoadOnlyStringsForExtractedIdsToolTip; }
+        public static string EditorAutoSaveTimePeriodName { get => Translation.EditorAutoSaveTimePeriodName; }
+        public static string EditorAutoSaveTimePeriodToolTip { get => Translation.EditorAutoSaveTimePeriodToolTip; }
         // Target mod data
         public static string TargetModDataName { get => Translation.TargetModDataName; }
         public static string TargetModDataTitleName { get => Translation.TargetModDataTitleName; }

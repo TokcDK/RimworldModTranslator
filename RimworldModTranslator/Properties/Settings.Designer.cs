@@ -178,5 +178,17 @@ namespace RimworldModTranslator.Properties {
                 this["ForceLoadTranslationsCache"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
+        public int EditorAutosaveTimePeriod {
+            get {
+                return ((int)(this["EditorAutosaveTimePeriod"]));
+            }
+            set {
+                this["EditorAutosaveTimePeriod"] = value;
+            }
+        }
     }
 }

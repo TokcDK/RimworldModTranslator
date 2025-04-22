@@ -9,20 +9,6 @@ namespace RimworldModTranslator.Translations
 {
     internal static class Translation
     {
-        public static string CutSelectedRowsName { get; } = T._("Cut selected rows");
-        public static string CopySelectedRowsName { get; } = T._("Copy selected rows");
-        public static string PasteToSelectedRowsName { get; } = T._("Paste to selected rows");
-        public static string ClearSelectedRowsName { get; } = T._("Clear selected rows");
-        public static string LoadModDBName { get; } = T._("Load mod DB");
-        public static string LoadModDBReplaceName { get; } = T._("Load mod DB (replace)");
-        public static string SaveModDBName { get; } = T._("Save mod DB");
-        public static string CutSelectedRowsToolTip { get; } = T._("Cut values of selected rows to clipboard.");
-        public static string CopySelectedRowsToolTip { get; } = T._("Copy values of selected rows to clipboard.");
-        public static string PasteToSelectedRowsToolTip { get; } = T._("Paste values from clipboard to selected empty rows.");
-        public static string ClearSelectedRowsToolTip { get; } = T._("Clear values of selected rows.");
-        public static string SaveModDBToolTip { get; } = T._("Save mod DB to the selected mod folder.");
-        public static string LoadModDBToolTip { get; } = T._("Load mod DB from the selected mod folder.");
-        public static string LoadModDBReplaceToolTip { get; } = T._("Load mod DB from the selected mod folder and replace each folder table by the table from DB.\n(use only when the DB is for this version of mod)");
         #region ui names and tooltips
         internal static string NameName { get; } = T._("Name");
         internal static string ActiveName { get; } = T._("☑");
@@ -87,6 +73,22 @@ namespace RimworldModTranslator.Translations
         internal static string TargetModUrlName { get => T._("Url"); }
         internal static string TargetModUrlToolTip { get => T._("Optional target mod web page URL. Default: No Url"); }
         internal static string TargetModPreviewName { get => T._("Preview path"); }
+        internal static string CutSelectedRowsName { get; } = T._("Cut selected rows");
+        internal static string CopySelectedRowsName { get; } = T._("Copy selected rows");
+        internal static string PasteToSelectedRowsName { get; } = T._("Paste to selected rows");
+        internal static string ClearSelectedRowsName { get; } = T._("Clear selected rows");
+        internal static string LoadModDBName { get; } = T._("Load mod DB");
+        internal static string LoadModDBReplaceName { get; } = T._("Load mod DB (replace)");
+        internal static string SaveModDBName { get; } = T._("Save mod DB");
+        internal static string CutSelectedRowsToolTip { get; } = T._("Cut values of selected rows to clipboard.");
+        internal static string CopySelectedRowsToolTip { get; } = T._("Copy values of selected rows to clipboard.");
+        internal static string PasteToSelectedRowsToolTip { get; } = T._("Paste values from clipboard to selected empty rows.");
+        internal static string ClearSelectedRowsToolTip { get; } = T._("Clear values of selected rows.");
+        internal static string SaveModDBToolTip { get; } = T._("Save mod DB to the selected mod folder.");
+        internal static string LoadModDBToolTip { get; } = T._("Load mod DB from the selected mod folder.");
+        internal static string LoadModDBReplaceToolTip { get; } = T._("Load mod DB from the selected mod folder and replace each folder table by the table from DB.\n(use only when the DB is for this version of mod)");
+        internal static string EditorAutoSaveTimePeriodName { get; } = T._("Editor autosave time period");
+        internal static string EditorAutoSaveTimePeriodToolTip { get; } = T._("The time after which the currently editing strings will be autosaved.");
         #endregion
 
         #region log messages

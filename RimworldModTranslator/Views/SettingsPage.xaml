@@ -77,7 +77,11 @@
                        Content="{Binding LoadOnlyStringsForExtractedIdsName}" 
                        IsChecked="{Binding LoadOnlyStringsForExtractedIds}"
                        />
-               </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding EditorAutoSaveTimePeriodToolTip, Mode=OneWay}">
+                        <TextBlock Text="{Binding EditorAutoSaveTimePeriodName}" Width="150" HorizontalAlignment="Right" />
+                        <TextBox Text="{Binding EditorAutoSaveTimePeriodValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="400" Margin="5,0,0,0" />
+                    </StackPanel>
+                </StackPanel>
            </ScrollViewer>
        </TabItem>
 
