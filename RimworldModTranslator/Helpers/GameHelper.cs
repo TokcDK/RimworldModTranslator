@@ -84,7 +84,62 @@ namespace RimworldModTranslator.Helpers
 
         internal static void SaveGameData(Game game)
         {
+            if (!IsValidGame(game)) return;
 
+            string modsConfigXmlPath = Path.Combine(game.ConfigDirPath!, "ModsConfig.xml");
+
+            try
+            {
+                // Создаем XML документ
+                var xmlDoc = new System.Xml.XmlDocument();
+
+                // Добавляем XML декларацию
+                var xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
+                xmlDoc.AppendChild(xmlDeclaration);
+
+                // Создаем корневой элемент
+                var rootElement = xmlDoc.CreateElement("ModsConfigData");
+                xmlDoc.AppendChild(rootElement);
+
+                // Добавляем версию
+                var versionElement = xmlDoc.CreateElement("version");
+                versionElement.InnerText = game!.Version!;
+                rootElement.AppendChild(versionElement);
+
+                // Добавляем активные моды
+                var activeModsElement = xmlDoc.CreateElement("activeMods");
+                rootElement.AppendChild(activeModsElement);
+
+                foreach (var mod in game.ModsList.Where(m => m.IsActive && m.About?.PackageId != null))
+                {
+                    var liElement = xmlDoc.CreateElement("li");
+                    liElement.InnerText = mod.About!.PackageId!.ToLowerInvariant();
+                    activeModsElement.AppendChild(liElement);
+                }
+
+                // Добавляем известные расширения (если такая информация есть)
+                var knownExpansionsElement = xmlDoc.CreateElement("knownExpansions");
+                rootElement.AppendChild(knownExpansionsElement);
+
+                // Базовые DLC для Rimworld - можно заменить на актуальный список или получать из игры
+                string[] defaultExpansions = { "ludeon.rimworld", "ludeon.rimworld.royalty", "ludeon.rimworld.ideology", "ludeon.rimworld.biotech" };
+
+                foreach (var expansion in defaultExpansions)
+                {
+                    var liElement = xmlDoc.CreateElement("li");
+                    liElement.InnerText = expansion;
+                    knownExpansionsElement.AppendChild(liElement);
+                }
+
+                // Сохраняем XML в файл
+                xmlDoc.Save(modsConfigXmlPath);
+
+                _logger.Info(Translation.SavedModConfigurationTo0, modsConfigXmlPath);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to save mods configuration: {0}", ex.Message);
+            }
         }
 
         internal static bool LoadGameData(Game? game)
