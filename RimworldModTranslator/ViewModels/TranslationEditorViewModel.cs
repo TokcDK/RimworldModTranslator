@@ -250,10 +250,15 @@ namespace RimworldModTranslator.ViewModels
             InitTranslationsTable(false);
         }
 
-        [RelayCommand]
         private void SaveLanguages()
         {
-            EditorHelper.SaveTranslatedStrings(Folders, _mod);
+            var targetModPackageID = EditorHelper.SaveTranslatedStrings(Folders, _mod);
+            if (string.IsNullOrWhiteSpace(targetModPackageID))
+            {
+                return;
+            }
+
+            GameHelper.SortMod(targetModPackageID, _mod);
         }
 
         [RelayCommand]

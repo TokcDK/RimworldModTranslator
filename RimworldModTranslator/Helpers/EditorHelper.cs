@@ -968,9 +968,9 @@ namespace RimworldModTranslator.Helpers
             doc.Save(aboutXmlPath);
         }
 
-        internal static void SaveTranslatedStrings(IEnumerable<FolderData> folders, ModData? mod)
+        internal static string? SaveTranslatedStrings(IEnumerable<FolderData> folders, ModData? mod)
         {
-            if (mod == null) return;
+            if (mod == null) return null;
 
             string targetModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{mod.DirectoryName!}_Translated");
 
@@ -1003,7 +1003,7 @@ namespace RimworldModTranslator.Helpers
             {
                 Directory.Delete(targetModDirPath, true);
                 Logger.Warn(Translation.NoTranslatedFilesToSave);
-                return;
+                return null;
             }
 
             string name = Properties.Settings.Default.TargetModName;
@@ -1045,6 +1045,8 @@ namespace RimworldModTranslator.Helpers
             EditorHelper.WriteLoadFoldersXml(targetModDirPath, modAboutData, folders);
 
             Logger.Info(Translation.SavedTranslatedFilesTo0, targetModDirPath);
+
+            return modAboutData.PackageId;
         }
 
         internal static bool IsVersionDir(string s)

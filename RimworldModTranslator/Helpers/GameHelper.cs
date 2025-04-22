@@ -65,7 +65,7 @@ namespace RimworldModTranslator.Helpers
             return true;
         }
 
-        internal static void SortMod(string packageIdA, string packageIdB, Game? game)
+        internal static void SortMod(string packageIdofTargetMod, ModData? mod)
         {
             if(LoadGameData(game)) return;
 
