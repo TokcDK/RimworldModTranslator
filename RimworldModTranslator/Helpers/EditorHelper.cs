@@ -968,7 +968,7 @@ namespace RimworldModTranslator.Helpers
             doc.Save(aboutXmlPath);
         }
 
-        internal static string? SaveTranslatedStrings(IEnumerable<FolderData> folders, ModData? mod)
+        internal static ModData? SaveTranslatedStrings(IEnumerable<FolderData> folders, ModData? mod)
         {
             if (mod == null) return null;
 
@@ -1046,7 +1046,20 @@ namespace RimworldModTranslator.Helpers
 
             Logger.Info(Translation.SavedTranslatedFilesTo0, targetModDirPath);
 
-            return modAboutData.PackageId;
+            return new ModData(mod.ParentGame) 
+            {
+                DirectoryName = $"{mod.DirectoryName!}_Translated",
+                About = new AboutData()
+                {
+                    Name = modAboutData.Name,
+                    PackageId = modAboutData.PackageId,
+                    Author = modAboutData.Author,
+                    ModVersion = modAboutData.ModVersion,
+                    SupportedVersions = modAboutData.SupportedVersions.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList(),
+                    Description = modAboutData.Description,
+                    Url = modAboutData.Url
+                }
+            };
         }
 
         internal static bool IsVersionDir(string s)

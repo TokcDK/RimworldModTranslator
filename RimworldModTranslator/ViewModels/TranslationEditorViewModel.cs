@@ -252,13 +252,13 @@ namespace RimworldModTranslator.ViewModels
 
         private void SaveLanguages()
         {
-            var targetModPackageID = EditorHelper.SaveTranslatedStrings(Folders, _mod);
-            if (string.IsNullOrWhiteSpace(targetModPackageID))
+            var translationMod = EditorHelper.SaveTranslatedStrings(Folders, _mod);
+            if (translationMod == null)
             {
                 return;
             }
 
-            GameHelper.SortMod(targetModPackageID, _mod);
+            GameHelper.SortMod(translationMod, _mod);
         }
 
         [RelayCommand]

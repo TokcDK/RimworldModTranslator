@@ -65,19 +65,19 @@ namespace RimworldModTranslator.Helpers
             return true;
         }
 
-        internal static void SortMod(string packageIdofTargetMod, ModData? mod)
+        internal static void SortMod(ModData? inputModToAdd, ModData? inputModToSortAfter)
         {
-            if(LoadGameData(game)) return;
+            if (inputModToAdd == null || inputModToSortAfter == null) return;
+            var game = inputModToSortAfter.ParentGame;
+            if (!IsValidGame(game)) return;
 
-            // sort packageIdA after packageIdB in Game.ModsList
-            var modB = game.ModsList.FirstOrDefault(m => m.About?.PackageId == packageIdB);
-            if (modB == null) return;
-            var modA = game!.ModsList.FirstOrDefault(m => m.About?.PackageId == packageIdA);
-            if (modA != null) return; // already added
+            var modToAdd = game.ModsList.FirstOrDefault(m => m.About?.PackageId == inputModToAdd.About!.PackageId);
+            if (modToAdd != null) return; // already added
 
-            int indexA = game.ModsList.IndexOf(modB);
+            int indexA = game.ModsList.IndexOf(inputModToSortAfter);
+            if (indexA == -1) return; // not found
 
-            game.ModsList.Insert(indexA + 1, modA!);
+            game.ModsList.Insert(indexA + 1, modToAdd!);
 
             SaveGameData(game);
         }
