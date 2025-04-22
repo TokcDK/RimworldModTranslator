@@ -21,6 +21,8 @@ using System.Threading.Tasks;
 using NLog;
 using RimworldModTranslator.Translations;
 using NLog.Fluent;
+using CommunityToolkit.Mvvm.Messaging;
+using RimworldModTranslator.Messages;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -48,7 +50,7 @@ namespace RimworldModTranslator.ViewModels
 
     // for editor extra functions to insert most often using replacers
     // replacers: https://rimworldwiki.com/wiki/Modding_Tutorials/GrammarResolver
-    public partial class TranslationEditorViewModel : ViewModelBase
+    public partial class TranslationEditorViewModel : ViewModelBase, IRecipient<ChangedEditorAutosaveTimePeriodSettingMessage>
     {
         private System.Timers.Timer? _autoSaveTimer;
 
@@ -63,6 +65,8 @@ namespace RimworldModTranslator.ViewModels
             _autoSaveTimer.Elapsed += (s, e) => SaveModDB();
             _autoSaveTimer.AutoReset = true;
             _autoSaveTimer.Start();
+
+            WeakReferenceMessenger.Default.Register<ChangedEditorAutosaveTimePeriodSettingMessage>(this);
         }
 
         private void StopAutoSave()
@@ -72,6 +76,8 @@ namespace RimworldModTranslator.ViewModels
                 _autoSaveTimer.Stop();
                 _autoSaveTimer.Dispose();
                 _autoSaveTimer = null;
+
+                WeakReferenceMessenger.Default.Unregister<ChangedEditorAutosaveTimePeriodSettingMessage>(this);
             }
         }
 
@@ -384,6 +390,11 @@ namespace RimworldModTranslator.ViewModels
                    && TranslationsTable?.Columns.Count > 0
                    && !TranslationsTable.Columns.Contains(NewLanguageName)
                    && EditorHelper.IsValidFolderName(NewLanguageName);
+        }
+
+        void IRecipient<ChangedEditorAutosaveTimePeriodSettingMessage>.Receive(ChangedEditorAutosaveTimePeriodSettingMessage message)
+        {
+            RestartAutosave();
         }
         #endregion
     }
