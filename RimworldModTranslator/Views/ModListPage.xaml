@@ -34,27 +34,15 @@
                </ContextMenu>
            </DataGrid.ContextMenu>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="Auto">
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="{Binding DataContext.ActiveColumnName, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox HorizontalAlignment="Center" IsChecked="{Binding IsActive}" IsEnabled="False"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridCheckBoxColumn Header="{Binding ActiveColumnName}" 
+                                    Binding="{Binding IsActive}" 
+                                    Width="Auto" 
+                                    IsReadOnly="False" />
 
-                <DataGridTemplateColumn Width="*">
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="{Binding DataContext.NameColumnName, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding ModDisplayingName}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{Binding NameColumnName}" 
+                                    Binding="{Binding ModDisplayingName}" 
+                                    Width="*" 
+                                    IsReadOnly="True" />
             </DataGrid.Columns>
             <DataGrid.RowHeaderStyle>
                <Style TargetType="{x:Type DataGridRowHeader}">
