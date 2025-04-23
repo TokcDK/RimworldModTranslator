@@ -23,6 +23,7 @@ using RimworldModTranslator.Translations;
 using NLog.Fluent;
 using CommunityToolkit.Mvvm.Messaging;
 using RimworldModTranslator.Messages;
+using System.Windows.Data;
 
 namespace RimworldModTranslator.ViewModels
 {
@@ -198,6 +199,9 @@ namespace RimworldModTranslator.ViewModels
 
         [ObservableProperty]
         private DataView? translationsView;
+
+        [ObservableProperty]
+        private ListCollectionView? translationsColl;
 
         // will not fire with SelectionUnit="CellOrRowHeader" selected cells but still can be used to select row programmatically
         [ObservableProperty]
@@ -377,6 +381,11 @@ namespace RimworldModTranslator.ViewModels
             }
 
             TranslationsView = new DataView(TranslationsTable);
+
+            // Rebind to fix dotnet/datagridextensions notsupported error
+            // maybe later change to use the datatable's filter?
+            // I lazy to implement it now.. Maybe will be better solution.
+            TranslationsColl = new ListCollectionView(TranslationsView);
         }
 
         private bool IsTheFoldersEnabled()

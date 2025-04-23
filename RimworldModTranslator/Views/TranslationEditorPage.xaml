@@ -64,7 +64,7 @@
         
         <!-- DataGrid bound to StringsByLanguage -->
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding TranslationsView}" 
+                  ItemsSource="{Binding TranslationsColl}" 
                   SelectedItem="{Binding SelectedRow}"
                   SelectedIndex="{Binding SelectedRowIndex}"
                   AutoGenerateColumns="True"
