@@ -229,8 +229,6 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void SaveStrings()
         {
-            if (_mod == null) return;
-
             SaveLanguages();
         }
 
@@ -252,13 +250,17 @@ namespace RimworldModTranslator.ViewModels
 
         private void SaveLanguages()
         {
+            if (_mod == null) return;
+
             var translationMod = EditorHelper.SaveTranslatedStrings(Folders, _mod);
             if (translationMod == null)
             {
                 return;
             }
 
-            GameHelper.SortMod(translationMod, _mod);
+            if (!GameHelper.SortMod(translationMod, _mod)) return;
+
+            GameHelper.UpdateSharedModList(_settingsService.ModsList, _mod.ParentGame.ModsList);
         }
 
         [RelayCommand]

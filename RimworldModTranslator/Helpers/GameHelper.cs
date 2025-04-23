@@ -65,28 +65,30 @@ namespace RimworldModTranslator.Helpers
             return true;
         }
 
-        internal static void SortMod(ModData? inputModToAdd, ModData? inputModToSortAfter)
+        internal static bool SortMod(ModData? inputModToAdd, ModData? inputModToSortAfter)
         {
-            if (inputModToAdd == null || inputModToSortAfter == null) return;
+            if (inputModToAdd == null || inputModToSortAfter == null) return false;
             var game = inputModToSortAfter.ParentGame;
-            if (!IsValidGame(game)) return;
+            if (!IsValidGame(game)) return false; // game is not valid
 
             var modToAdd = game.ModsList.FirstOrDefault(m => m.About?.PackageId == inputModToAdd.About!.PackageId);
-            if (modToAdd != null) return; // already added
+            if (modToAdd != null) return false; // already added
 
             int indexA = game.ModsList.IndexOf(inputModToSortAfter);
-            if (indexA == -1) return; // not found
+            if (indexA == -1) return false; // not found
 
             inputModToAdd.IsActive = true; // enable to be written as active mod
 
             game.ModsList.Insert(indexA + 1, inputModToAdd!);
 
-            SaveGameData(game);
+            if(!SaveGameData(game)) return false; // failed save
+
+            return true;
         }
 
-        internal static void SaveGameData(Game game)
+        internal static bool SaveGameData(Game game)
         {
-            if (!IsValidGame(game)) return;
+            if (!IsValidGame(game)) return false;
 
             string modsConfigXmlPath = Path.Combine(game.ConfigDirPath!, "ModsConfig.xml");
 
@@ -134,10 +136,13 @@ namespace RimworldModTranslator.Helpers
                 xmlDoc.Save(modsConfigXmlPath);
 
                 _logger.Info(Translation.SavedModConfigurationTo0, modsConfigXmlPath);
+
+                return true;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex, Translation.FailedToSaveModsConfigTo0, ex.Message);
+                return false; // save error
             }
         }
 
