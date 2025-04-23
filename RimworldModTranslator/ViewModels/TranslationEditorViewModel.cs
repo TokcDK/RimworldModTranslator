@@ -384,6 +384,7 @@ namespace RimworldModTranslator.ViewModels
 
             // Rebind to fix dotnet/datagridextensions notsupported error
             // maybe later change to use the datatable's filter?
+            // it also made the column sort to not react to the cells changing which is better of what was before
             // I lazy to implement it now.. Maybe will be better solution.
             TranslationsColl = new ListCollectionView(TranslationsView);
         }
