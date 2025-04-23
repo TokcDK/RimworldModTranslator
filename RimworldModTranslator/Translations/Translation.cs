@@ -119,6 +119,7 @@ namespace RimworldModTranslator.Translations
         internal static string LoadedStringsFromDBFileLogMessage { get; } = T._("Loaded strings from DB file.");
         internal static string LoadedTotal0StringsForAllFoldersLogMessage { get; } = T._("Loaded total {0} strings for all folders.");
         internal static string SavedModConfigurationTo0 { get; } = T._("Saved mod configuration to {0}");
+        public static string FailedToSaveModsConfigTo0 { get; } = T._("Failed to save mods configuration: {0}");
         #endregion
     }
 }

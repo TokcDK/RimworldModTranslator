@@ -137,7 +137,7 @@ namespace RimworldModTranslator.Helpers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Failed to save mods configuration: {0}", ex.Message);
+                _logger.Error(ex, Translation.FailedToSaveModsConfigTo0, ex.Message);
             }
         }
 
