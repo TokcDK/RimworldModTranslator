@@ -1098,7 +1098,7 @@ namespace RimworldModTranslator.Helpers
         {
             if (selectedCells == null || selectedCells.Count == 0) return;
 
-            foreach (var (rowItem, column) in EnumerateValidSelectedCells(selectedCells))
+            foreach (var (rowItem, column) in GetValidSelectedCells(selectedCells))
             {
                 rowItem.Row[column.SortMemberPath] = null;
             }
@@ -1118,7 +1118,7 @@ namespace RimworldModTranslator.Helpers
             string[] clipboardLines = clipboardText.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
             int clipboardLineIndex = 0;
 
-            foreach (var (rowItem, column) in EnumerateValidSelectedCells(selectedCells))
+            foreach (var (rowItem, column) in GetValidSelectedCells(selectedCells).ToArray())
             {
                 if (clipboardLineIndex >= clipboardLines.Length) break;
 
@@ -1138,7 +1138,9 @@ namespace RimworldModTranslator.Helpers
             if (selectedCells == null || selectedCells.Count == 0) return;
 
             List<string> strings = new();
-            foreach (var (rowItem, column) in EnumerateValidSelectedCells(selectedCells))
+            foreach (var (rowItem, column) in (onlyCopy 
+                ? EnumerateValidSelectedCells(selectedCells) // enumerate when copy to prevent extra operation
+                : GetValidSelectedCells(selectedCells))) 
             {
                 string rowValue = rowItem.Row[column.SortMemberPath] + "";
                 strings.Add(rowValue);
@@ -1156,6 +1158,16 @@ namespace RimworldModTranslator.Helpers
             Logger.Info(T._("{0} {1} selected cells."), actionName, strings.Count);
         }
 
+        /// <summary>
+        /// get the whole list of selected cells
+        /// for selected cellst using it will fix issues when values of selected cells are changing and the column of one selected cell is sorted
+        /// </summary>
+        /// <param name="selectedCells"></param>
+        /// <returns></returns>
+        internal static IEnumerable<(DataRowView row, DataGridColumn column)> GetValidSelectedCells(IList<DataGridCellInfo> selectedCells)
+        {
+            return EnumerateValidSelectedCells(selectedCells).ToArray();
+        }
         internal static IEnumerable<(DataRowView row, DataGridColumn column)> EnumerateValidSelectedCells(IList<DataGridCellInfo> selectedCells)
         {
             foreach (var cell in selectedCells)
