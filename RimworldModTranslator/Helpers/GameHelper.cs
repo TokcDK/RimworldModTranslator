@@ -68,6 +68,8 @@ namespace RimworldModTranslator.Helpers
         internal static bool SortMod(ModData? inputModToAdd, ModData? inputModToSortAfter)
         {
             if (inputModToAdd == null || inputModToSortAfter == null) return false;
+            if (!inputModToSortAfter.IsActive) return false; // dont need to sort when mod is not active
+            
             var game = inputModToSortAfter.ParentGame;
             if (!IsValidGame(game)) return false; // game is not valid
 
