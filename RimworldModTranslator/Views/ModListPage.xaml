@@ -4,11 +4,12 @@
             xmlns:viewmodels="clr-namespace:RimworldModTranslator.ViewModels" 
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             xmlns:bhvrs="clr-namespace:RimworldModTranslator.Behaviors"
+            xmlns:prxs="clr-namespace:RimworldModTranslator.Proxies"
             xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
             xmlns:dataGrid2D="http://gu.se/DataGrid2D"
             xmlns:t="clr-namespace:NGettext.Wpf;assembly=NGettext.Wpf"
             >
-   <Grid>
+    <Grid>
        <Grid.ColumnDefinitions>
            <ColumnDefinition Width="*" />
        </Grid.ColumnDefinitions>
@@ -16,41 +17,54 @@
            <RowDefinition Height="*" />
            <RowDefinition Height="Auto" />
        </Grid.RowDefinitions>
-       <DataGrid Grid.Row="0" 
-                 ItemsSource="{Binding ModsList}"
-                 AutoGenerateColumns="False"
-                 SelectedItem="{Binding SelectedMod}"
-                 bhvrs:DataGridAutoScrollToSelectedItemBehavior.AutoScrollToSelectedItem="True"
-                 CanUserAddRows="False"
-                 CanUserDeleteRows="False"
-                 Margin="1"
-                 dgx:DataGridFilter.IsAutoFilterEnabled="True"
-                 dataGrid2D:Index.StartAt="1"
-                 >
-           <DataGrid.ContextMenu>
-               <ContextMenu>
-                   <MenuItem Header="{Binding OpenModDirName}" Command="{Binding OpenModDirCommand}" />
-                   <MenuItem Header="{Binding LoadStringsName}" Command="{Binding LoadStringsCommand}" />
-               </ContextMenu>
-           </DataGrid.ContextMenu>
-            <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="{Binding ActiveColumnName}" 
-                                    Binding="{Binding IsActive}" 
-                                    Width="Auto" 
-                                    IsReadOnly="False" />
+        <DataGrid x:Name="ModsGrid"
+          ItemsSource="{Binding ModsList}"
+          AutoGenerateColumns="False"
+          SelectedItem="{Binding SelectedMod}"
+          bhvrs:DataGridAutoScrollToSelectedItemBehavior.AutoScrollToSelectedItem="True"
+          CanUserAddRows="False"
+          CanUserDeleteRows="False"
+          Margin="1"
+          dgx:DataGridFilter.IsAutoFilterEnabled="True"
+          dataGrid2D:Index.StartAt="1">
+            <!-- VmProxy to make the datagrid column headers translatable -->
+            <DataGrid.Resources>
+                <prxs:BindingProxy x:Key="VmProxy" Data="{Binding}" />
+            </DataGrid.Resources>
 
-                <DataGridTextColumn Header="{Binding NameColumnName}" 
-                                    Binding="{Binding ModDisplayingName}" 
-                                    Width="*" 
-                                    IsReadOnly="True" />
+            <DataGrid.ContextMenu>
+                <ContextMenu
+                    DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                    <MenuItem Header="{Binding OpenModDirName}" Command="{Binding OpenModDirCommand}" />
+                    <MenuItem Header="{Binding LoadStringsName}" Command="{Binding LoadStringsCommand}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn
+                      Header="{Binding Data.ActiveColumnName, Source={StaticResource VmProxy}}"
+                      Binding="{Binding IsActive}"
+                      SortMemberPath="IsActive"
+                      Width="Auto"
+                      IsReadOnly="False" />
+
+                <DataGridTextColumn
+                      Header="{Binding Data.NameColumnName, Source={StaticResource VmProxy}}"
+                      Binding="{Binding ModDisplayingName}"
+                      SortMemberPath="ModDisplayingName"
+                      Width="*"
+                      IsReadOnly="True" />
             </DataGrid.Columns>
+
             <DataGrid.RowHeaderStyle>
-               <Style TargetType="{x:Type DataGridRowHeader}">
-                   <Setter Property="Content" Value="{Binding Path=(dataGrid2D:Index.OfRow), RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"/>
-               </Style>
-           </DataGrid.RowHeaderStyle>
-       </DataGrid>
-       <Grid Grid.Row="1" Margin="1">
+                <Style TargetType="{x:Type DataGridRowHeader}">
+                    <Setter Property="Content" 
+                            Value="{Binding Path=(dataGrid2D:Index.OfRow),
+                            RelativeSource={RelativeSource AncestorType=DataGridRow}}"/>
+                </Style>
+            </DataGrid.RowHeaderStyle>
+        </DataGrid>
+        <Grid Grid.Row="1" Margin="1">
            <Grid.ColumnDefinitions>
                <ColumnDefinition Width="*" />
                <ColumnDefinition Width="100" />
