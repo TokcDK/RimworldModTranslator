@@ -91,7 +91,7 @@
                     <MenuItem Header="{Binding ClearSelectedRowsName}" ToolTip="{Binding ClearSelectedRowsTooltip}" Command="{Binding ClearSelectedCellsCommand}" />
                     <MenuItem Header="{Binding SaveModDBName}" ToolTip="{Binding SaveModDBTooltip}" Command="{Binding SaveModDBCommand}" />
                     <MenuItem Header="{Binding LoadModDBName}" ToolTip="{Binding LoadModDBTooltip}" Command="{Binding LoadModDBCommand}" />
-                    <MenuItem Header="{Binding LoadModDBReplaceName}" ToolTip="{Binding LoadModDBReplaceTooltip}" Command="{Binding LoadModDBForceCommand}" />
+                    <MenuItem Header="{Binding LoadModDBReplaceName}" ToolTip="{Binding LoadModDBReplaceTooltip, Mode=OneTime}" Command="{Binding LoadModDBForceCommand}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
 

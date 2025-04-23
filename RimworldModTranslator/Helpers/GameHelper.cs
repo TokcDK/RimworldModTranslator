@@ -77,7 +77,9 @@ namespace RimworldModTranslator.Helpers
             int indexA = game.ModsList.IndexOf(inputModToSortAfter);
             if (indexA == -1) return; // not found
 
-            game.ModsList.Insert(indexA + 1, modToAdd!);
+            inputModToAdd.IsActive = true; // enable to be written as active mod
+
+            game.ModsList.Insert(indexA + 1, inputModToAdd!);
 
             SaveGameData(game);
         }
