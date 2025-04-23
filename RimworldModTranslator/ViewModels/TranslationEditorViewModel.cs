@@ -256,6 +256,8 @@ namespace RimworldModTranslator.ViewModels
         {
             if (_mod == null) return;
 
+            SaveModDB(); // save mod db before saving strings
+
             var translationMod = EditorHelper.SaveTranslatedStrings(Folders, _mod);
             if (translationMod == null)
             {
