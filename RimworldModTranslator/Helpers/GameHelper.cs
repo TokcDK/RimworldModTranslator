@@ -180,24 +180,29 @@ namespace RimworldModTranslator.Helpers
             return true;
         }
 
-        internal static bool TryExploreDirectory(string? directoryName)
+        internal static bool TryExploreDirectory(string? directoryPath)
         {
-            if (directoryName != null && System.IO.Directory.Exists(directoryName))
+            if (string.IsNullOrEmpty(directoryPath) || !Directory.Exists(directoryPath))
+            {
+                _logger.Warn(Translation.DirPathIsNotSetWarnLogMessage, directoryPath);
+                return false;
+            }
+            try
             {
                 System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                 {
-                    FileName = directoryName,
+                    FileName = directoryPath,
                     UseShellExecute = true,
                     Verb = "open"
                 });
-
-                return true;
             }
-            else
+            catch (Exception ex)
             {
-                //System.Windows.MessageBox.Show("Mod directory does not exist.");
+                _logger.Error(ex, Translation.OpenDirErrorLogMessage, directoryPath);
                 return false;
             }
+
+            return true;
         }
 
         internal static void UpdateSharedModList(ObservableCollection<ModData> modlistToUpdate, ObservableCollection<ModData> modlistSource)

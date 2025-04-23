@@ -264,6 +264,8 @@ namespace RimworldModTranslator.ViewModels
                 return;
             }
 
+            GameHelper.TryExploreDirectory(Path.Combine(translationMod.ParentGame.ModsDirPath!, translationMod!.DirectoryName!));
+
             if (!GameHelper.SortMod(translationMod, _mod)) return;
 
             GameHelper.UpdateSharedModList(_settingsService.ModsList, _mod.ParentGame.ModsList);
