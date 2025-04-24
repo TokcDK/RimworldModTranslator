@@ -343,7 +343,7 @@ namespace RimworldModTranslator.ViewModels
             // Load folders only if the the folder list is empty
             if (Folders.Count == 0)
             {
-                if (!EditorHelper.LoadModStringsLoadTranslatableFolders(mod, Folders))
+                if (!EditorHelper.LoadModTranslatableFolders(mod, Folders))
                 {
                     return;
                 }

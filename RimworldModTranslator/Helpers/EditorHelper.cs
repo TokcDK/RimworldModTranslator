@@ -425,7 +425,7 @@ namespace RimworldModTranslator.Helpers
         /// Загружает папки переводов для текущего мода
         /// </summary>
         /// <returns>True, если загрузка прошла успешно, иначе False</returns>
-        internal static bool LoadModStringsLoadTranslatableFolders(ModData? mod, ObservableCollection<FolderData> folders)
+        internal static bool LoadModTranslatableFolders(ModData? mod, ObservableCollection<FolderData> folders)
         {
             string modPath = Path.Combine(mod!.ParentGame.ModsDirPath!, mod.DirectoryName!);
             if (!Directory.Exists(modPath))
@@ -439,10 +439,6 @@ namespace RimworldModTranslator.Helpers
             return true;
         }
 
-        /// <summary>
-        /// Загружает строки перевода для всех папок
-        /// </summary>
-        /// <returns>Общее количество загруженных строк</returns>
         internal static void LoadStringsForAllFolders(ObservableCollection<FolderData> folders, ModData? mod)
         {
             int totalStringsLoaded = 0;
