@@ -48,12 +48,12 @@ namespace RimworldModTranslator.Translations
         internal static string AddGameName { get => T._("Add game"); }
         internal static string AddNewGameToolTip { get => T._("Add Mods and Config directory paths of the new game. If Config dir path is not set then will be used default in appdata"); }
         internal static string ExtractedLanguageNameName { get => T._("Extracted strings dir name"); }
-        internal static string ExtractedLanguageNameToolTip { get => T._("The name of the folder where the extracted strings will be saved. Default is 'Extracted'."); }
+        internal static string ExtractedLanguageNameToolTip { get => T._("The name of the folder where the extracted strings will be saved. Default is 'Extracted'.\nWarning: If will be same name as any exist language folder name, the language name will be skipped!"); }
         internal static string TargetModPreviewToolTip { get => T._("Optional target mod preview path. Default: No preview. When empty will try to find 'Preview.png' next to the app exe. "); }
         internal static string ForceLoadTranslationsCacheName { get; } = T._("Force load translations from exist mods (Default: only once)");
         internal static string ForceLoadTranslationsCacheToolTip { get; } = T._("When enabled the translations of all dlcs and mods will be load each time. (slower, default: only 1st time and dont unload before the app restart)");
         internal static string LoadOnlyStringsForExtractedIdsName { get; } = T._("Load DefInjected strings only for exist extracted string ids");
-        internal static string LoadOnlyStringsForExtractedIdsToolTip { get; } = T._("When enabled Load strings will load definjected strings from language dir for only ids which was extracted from defs.");
+        internal static string LoadOnlyStringsForExtractedIdsToolTip { get; } = T._("When enabled Load strings will load DefInjected strings from language dir for only ids which was extracted from defs.");
         // target mod data
         internal static string TargetModDataName { get; } = T._("Target mod data");
         internal static string TargetModDataTitleName { get; } = T._("Target mod data (for About.xml)");
