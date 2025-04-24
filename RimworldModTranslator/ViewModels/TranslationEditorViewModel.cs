@@ -233,7 +233,11 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private async Task LoadStringsCache()
         {
+            bool previousLoadOnlyStringsForExtractedIds = Properties.Settings.Default.LoadOnlyStringsForExtractedIds;
+
+            Properties.Settings.Default.LoadOnlyStringsForExtractedIds = false;
             await EditorHelper.LoadStringsCacheInternal(Folders, _mod, _settingsService);
+            Properties.Settings.Default.LoadOnlyStringsForExtractedIds = previousLoadOnlyStringsForExtractedIds;
         }
 
         [RelayCommand]
