@@ -446,8 +446,12 @@ namespace RimworldModTranslator.Helpers
 
             foreach (var folder in folders)
             {
-                int stringsLoaded = LoadStringsForFolder(folder, mod);
-                totalStringsLoaded += stringsLoaded;
+                var stringsData = LoadStringsForFolder(folder, mod);
+
+                var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
+
+                folder.TranslationsTable = translationsTable;
+                totalStringsLoaded += stringsData.loadedStringsCount;
             }
 
             Logger.Info(Translation.LoadedTotal0StringsForAllFoldersLogMessage, totalStringsLoaded);
@@ -458,18 +462,15 @@ namespace RimworldModTranslator.Helpers
         /// </summary>
         /// <param name="folder">Папка для загрузки строк</param>
         /// <returns>Количество загруженных строк</returns>
-        internal static int LoadStringsForFolder(FolderData folder, ModData? mod)
+        internal static EditorStringsData LoadStringsForFolder(FolderData folder, ModData? mod)
         {
             string folderName = folder.Name;
             string translatableDir = Path.Combine(mod!.ParentGame.ModsDirPath!, mod.DirectoryName!,
                                                  EditorHelper.GetTranslatableFolderName(folderName));
 
             var stringsData = EditorHelper.LoadStringsDataFromTheLanguageDir(translatableDir);
-            var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
 
-            folder.TranslationsTable = translationsTable;
-
-            return stringsData.loadedStringsCount;
+            return stringsData;
         }
 
         public static void LoadStringsFromXmlsAsTxtDir(List<string?> languageNames, string languagesDirPath, EditorStringsData stringsData)
