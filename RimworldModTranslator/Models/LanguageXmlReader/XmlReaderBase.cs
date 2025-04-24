@@ -24,8 +24,6 @@ namespace RimworldModTranslator.Models.LanguageXmlReader
                 }
                 if (!stringsData.SubPathStringIdsList.TryGetValue(subPath, out StringsIdsBySubPath? stringIdsList))
                 {
-                    if (LoadOnlyExtracted && isDefInjected) continue;
-
                     stringIdsList = new();
                     stringsData.SubPathStringIdsList[subPath] = stringIdsList;
                 }

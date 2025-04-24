@@ -1215,7 +1215,7 @@ namespace RimworldModTranslator.Helpers
             {
                 EditorStringsData modStringsData = new();
                 List<FolderData> folders = [];
-
+                
                 EditorHelper.GetTranslatableFolders(folders, modDirPath);
 
                 foreach (var folder in folders)
