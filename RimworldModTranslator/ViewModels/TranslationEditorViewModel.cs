@@ -225,6 +225,12 @@ namespace RimworldModTranslator.ViewModels
         }
 
         [RelayCommand]
+        private void ClearSort()
+        {
+            EditorHelper.ClearSort(TranslationsColl);
+        }
+
+        [RelayCommand]
         private async Task LoadStringsCache()
         {
             await EditorHelper.LoadStringsCacheInternal(Folders, _mod, _settingsService);

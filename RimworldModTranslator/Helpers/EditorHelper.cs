@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Xml.Linq;
 using static RimworldModTranslator.ViewModels.TranslationEditorViewModel;
 
@@ -1432,6 +1433,16 @@ namespace RimworldModTranslator.Helpers
                 }
             }
             return false;
+        }
+
+        internal static void ClearSort(object sortedCollection)
+        {
+            var view = System.Windows.Data.CollectionViewSource.GetDefaultView(sortedCollection);
+            if (view != null)
+            {
+                view.SortDescriptions.Clear();
+                view.Refresh();
+            }
         }
     }
 }

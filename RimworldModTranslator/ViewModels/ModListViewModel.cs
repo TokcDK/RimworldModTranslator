@@ -38,6 +38,13 @@ namespace RimworldModTranslator.ViewModels
 
         public ObservableCollection<ModData> ModsList { get => settingsService.ModsList; }
 
+
+        [RelayCommand]
+        private void ClearSort()
+        {
+            EditorHelper.ClearSort(settingsService.ModsList);
+        }
+
         [RelayCommand]
         private void RefreshModList()
         {
