@@ -235,7 +235,7 @@ namespace RimworldModTranslator.ViewModels
         {
             bool previousLoadOnlyStringsForExtractedIds = Properties.Settings.Default.LoadOnlyStringsForExtractedIds;
 
-            Properties.Settings.Default.LoadOnlyStringsForExtractedIds = false;
+            Properties.Settings.Default.LoadOnlyStringsForExtractedIds = false; // disable load only extracted ids for cache load, we not extract here
             await EditorHelper.LoadStringsCacheInternal(Folders, _mod, _settingsService);
             Properties.Settings.Default.LoadOnlyStringsForExtractedIds = previousLoadOnlyStringsForExtractedIds;
         }
