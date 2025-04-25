@@ -2,8 +2,8 @@
 {
     public interface IColumnData
     {
-        public string? Name { get; }
-        public string? Caption { get; }
+        public string Name { get; }
+        public string Caption { get; }
         public bool IsReadOnly { get; }
     }
 }
