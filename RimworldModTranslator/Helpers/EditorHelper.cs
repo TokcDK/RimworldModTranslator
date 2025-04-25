@@ -855,8 +855,8 @@ namespace RimworldModTranslator.Helpers
 
             foreach (DataRow row in translationsTable.Rows)
             {
-                string subPath = row["SubPath"]?.ToString() ?? "";
-                string stringId = row["ID"]?.ToString() ?? "";
+                string subPath = row[SubPathColumnData.Name!]?.ToString() ?? "";
+                string stringId = row[IdColumnData.Name!]?.ToString() ?? "";
 
                 foreach (DataColumn column in translationsTable.Columns)
                 {
