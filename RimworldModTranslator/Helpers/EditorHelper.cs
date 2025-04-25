@@ -1,5 +1,6 @@
 ﻿using NLog;
 using RimworldModTranslator.Models;
+using RimworldModTranslator.Models.EditorColumns;
 using RimworldModTranslator.Models.LanguageXmlReader;
 using RimworldModTranslator.Properties;
 using RimworldModTranslator.Services;
