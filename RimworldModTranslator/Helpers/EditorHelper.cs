@@ -249,12 +249,12 @@ namespace RimworldModTranslator.Helpers
                 // set the values by string ID
 
                 Dictionary<string, DataRow> RowsByID = table.Rows.Cast<DataRow>()
-                    .ToDictionary(r => r["ID"] + "", r => r);
+                    .ToDictionary(r => r[IdColumnData.Name!] + "", r => r);
 
                 foreach (DataRow row in folder.TranslationsTable.Rows)
                 {
-                    string subPath = row["SubPath"]+"";
-                    string id = row["ID"]+"";
+                    string subPath = row[SubPathColumnData.Name!]+"";
+                    string id = row[IdColumnData.Name!] +"";
                     DataRow? foundRow = RowsByID.TryGetValue(id, out DataRow? rowByID) ? rowByID : null;
 
                     if (foundRow == null) continue;
