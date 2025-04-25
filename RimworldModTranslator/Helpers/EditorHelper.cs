@@ -672,8 +672,17 @@ namespace RimworldModTranslator.Helpers
 
             var translationsTable = new DataTable();
 
-            translationsTable.Columns.Add("SubPath", typeof(string));
-            translationsTable.Columns.Add("ID", typeof(string));
+            var subPathColumn = new DataColumn(SubPathColumnData.Name, typeof(string))
+            {
+                Caption = SubPathColumnData.Caption
+            };
+            var idColumn = new DataColumn(IdColumnData.Name, typeof(string))
+            {
+                Caption = IdColumnData.Caption
+            };
+
+            translationsTable.Columns.Add(subPathColumn);
+            translationsTable.Columns.Add(idColumn);
 
             var languageSet = GetUniqueLanguages(stringsData);
 
@@ -694,8 +703,8 @@ namespace RimworldModTranslator.Helpers
                     string? stringId = stringIdsLanguageValuePairs.Key;
 
                     var dataRow = translationsTable.NewRow();
-                    dataRow["SubPath"] = subPath ?? string.Empty;
-                    dataRow["ID"] = stringId ?? string.Empty;
+                    dataRow[subPathColumn.ColumnName] = subPath ?? string.Empty;
+                    dataRow[idColumn.ColumnName] = stringId ?? string.Empty;
 
                     // Заполняем языковые колонки
                     foreach (var langValuePair in stringIdsLanguageValuePairs.Value.LanguageValuePairs)
