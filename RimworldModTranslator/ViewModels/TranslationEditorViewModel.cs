@@ -131,6 +131,8 @@ namespace RimworldModTranslator.ViewModels
         public static string LoadModDBToolTip { get => Translation.LoadModDBToolTip; }
         public static string LoadModDBReplaceName { get => Translation.LoadModDBReplaceName; }
         public static string LoadModDBReplaceToolTip { get => Translation.LoadModDBReplaceToolTip; }
+        public static string ClearSortName { get => Translation.ClearSortName; }
+        public static string ClearSortToolTip { get => Translation.ClearSortToolTip; }
         #endregion
 
         #region Properties
