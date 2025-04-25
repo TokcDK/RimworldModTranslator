@@ -1334,9 +1334,9 @@ namespace RimworldModTranslator.Helpers
             return Task.FromResult((idCache, valueCache));
         }
 
-        internal static bool IsReadOnlyColumn(string columnName)
+        internal static bool IsReadOnlyColumn(string? columnName)
         {
-            return EditorColumns.Any(c => c.Name == columnName);
+            return columnName != null && EditorColumns.Any(c => c.Name == columnName);
         }
 
         internal static void TrySetTranslationByStringValue(Dictionary<string, LanguageValuePairsData> valueCache, DataRow row, DataColumnCollection columns)

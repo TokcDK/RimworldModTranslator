@@ -1,4 +1,5 @@
-﻿using RimworldModTranslator.ViewModels;
+﻿using RimworldModTranslator.Helpers;
+using RimworldModTranslator.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace RimworldModTranslator.Views
         }
         private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            if (e.Column.Header.ToString() == "SubPath" || e.Column.Header.ToString() == "ID")
+            if (EditorHelper.IsReadOnlyColumn(e.Column.Header.ToString()))
             {
                 e.Column.IsReadOnly = true;
             }
