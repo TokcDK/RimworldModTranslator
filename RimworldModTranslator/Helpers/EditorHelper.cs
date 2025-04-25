@@ -36,6 +36,17 @@ namespace RimworldModTranslator.Helpers
 
         internal static EditorStringsDBCache StringsDBCache = new();
 
+        public static FolderColumnData FolderColumnData = new();
+        public static SubPathColumnData SubPathColumnData = new();
+        public static IdColumnData IdColumnData = new();
+
+        public static IColumnData[] EditorColumns =
+        [
+            FolderColumnData,
+            SubPathColumnData,
+            IdColumnData
+        ];
+
         private static List<string> _defsXmlTags =
             // default values
             [
