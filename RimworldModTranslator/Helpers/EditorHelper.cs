@@ -1457,8 +1457,10 @@ namespace RimworldModTranslator.Helpers
             return false;
         }
 
-        internal static void ClearSort(object sortedCollection)
+        internal static void ClearSort(object? sortedCollection)
         {
+            if (sortedCollection == null) return;
+
             var view = System.Windows.Data.CollectionViewSource.GetDefaultView(sortedCollection);
             if (view != null)
             {
