@@ -16,8 +16,8 @@ namespace RimworldModTranslator.Models.LanguageXmlReader
             {
                 var (subPath, lines) = GetSubPathLines(entry);
 
-                bool isDefInjected = isXml && subPath.StartsWith("DefInjected");
-                if (isXml && !isDefInjected && !subPath.StartsWith("Keyed"))
+                bool isDefInjected = isXml && subPath.StartsWith(EditorHelper.DEFINJECTED_DIR_NAME);
+                if (isXml && !isDefInjected && !subPath.StartsWith(EditorHelper.KEYED_DIR_NAME))
                 {
                     // was About.xml in language dir
                     continue;

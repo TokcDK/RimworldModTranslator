@@ -30,12 +30,19 @@ namespace RimworldModTranslator.Helpers
     {
         private static Logger Logger { get; } = LogManager.GetCurrentClassLogger();
 
-        public static string[] TransatableLanguageDirs { get; } = ["DefInjected", "Keyed", "Strings"];
-        public static string[] ExtractableModSubDirs { get; } = ["Defs", "Languages"];
+        public static string[] TransatableLanguageDirs { get; } = [DEFINJECTED_DIR_NAME, KEYED_DIR_NAME, STRINGS_DIR_NAME];
+        public static string[] ExtractableModSubDirs { get; } = [DEFS_DIR_NAME, LANGUAGES_DIR_NAME];
 
         public static readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+$", RegexOptions.Compiled);
 
         internal static EditorStringsDBCache StringsDBCache = new();
+
+        internal const string LANGUAGES_DIR_NAME = "Languages";
+        internal const string STRINGS_DIR_NAME = "Strings";
+        internal const string KEYED_DIR_NAME = "Keyed";
+        internal const string DEFS_DIR_NAME = "Defs";
+        internal const string DEFINJECTED_DIR_NAME = "DefInjected";
+        internal const string ROOT_DIR_NAME = "/";
 
         public static FolderColumnData FolderColumnData { get; } = new();
         public static SubPathColumnData SubPathColumnData { get; } = new();
@@ -306,7 +313,7 @@ namespace RimworldModTranslator.Helpers
 
             if (EditorHelper.HasExtractableStringsDir(modPath))
             {
-                folders.Add(new FolderData() { Name = "/" });
+                folders.Add(new FolderData() { Name = ROOT_DIR_NAME });
             }
         }
 
@@ -620,7 +627,7 @@ namespace RimworldModTranslator.Helpers
                 stringsData.Languages.Add(language);
 
                 string langPath = Path.Combine(languagesDirPath, language);
-                string langTxtDirPath = Path.Combine(langPath, "Strings");
+                string langTxtDirPath = Path.Combine(langPath, STRINGS_DIR_NAME);
                 if (!Directory.Exists(langTxtDirPath))
                     continue;
 
@@ -663,7 +670,7 @@ namespace RimworldModTranslator.Helpers
 
         internal static string GetTranslatableFolderName(string selectedFolder)
         {
-            return selectedFolder != "/" ? selectedFolder : "";
+            return selectedFolder != ROOT_DIR_NAME ? selectedFolder : "";
         }
 
         public static DataTable? CreateTranslationsTable(EditorStringsData stringsData)
@@ -729,7 +736,7 @@ namespace RimworldModTranslator.Helpers
 
         public static bool LoadDefKeyedStringsFromTheDir(string selectedTranslatableDir, EditorStringsData stringsData, bool loadStringsTxt = true)
         {
-            string languagesDirPath = Path.Combine(selectedTranslatableDir, "Languages");
+            string languagesDirPath = Path.Combine(selectedTranslatableDir, LANGUAGES_DIR_NAME);
             if (!Directory.Exists(languagesDirPath)) return false;
 
             var langDirNames = Directory.GetDirectories(languagesDirPath)
@@ -766,7 +773,7 @@ namespace RimworldModTranslator.Helpers
 
         public static void ExtractStrings(string selectedLanguageDir, EditorStringsData stringsData)
         {
-            var defsDir = Path.Combine(selectedLanguageDir, "Defs");
+            var defsDir = Path.Combine(selectedLanguageDir, DEFS_DIR_NAME);
             if (!Directory.Exists(defsDir)) return;
 
             string language = Properties.Settings.Default.ExtractedStringsLanguageFolderName;
@@ -782,7 +789,7 @@ namespace RimworldModTranslator.Helpers
                 try
                 {
                     var doc = XDocument.Load(xmlFile);
-                    var root = doc.Element("Defs");
+                    var root = doc.Element(DEFS_DIR_NAME);
                     if (root == null) continue;
 
                     foreach (var category in root.Elements())
@@ -817,7 +824,7 @@ namespace RimworldModTranslator.Helpers
                             segments.Add(element.Name.LocalName);
 
 
-                            string subPath = $"DefInjected\\{folderName}\\{xmlFileName}";
+                            string subPath = $"{DEFINJECTED_DIR_NAME}\\{folderName}\\{xmlFileName}";
                             string stringId = stringIdRootName + "." + string.Join(".", segments);
                             string stringValue = element.Value.Trim();
 
@@ -1004,7 +1011,7 @@ namespace RimworldModTranslator.Helpers
             {
                 if (string.IsNullOrEmpty(folder.Name) || folder.TranslationsTable == null) continue;
 
-                string targetModLanguagesPath = Path.Combine(targetModDirPath, EditorHelper.GetTranslatableFolderName(folder.Name), "Languages");
+                string targetModLanguagesPath = Path.Combine(targetModDirPath, EditorHelper.GetTranslatableFolderName(folder.Name), LANGUAGES_DIR_NAME);
 
                 var translationsData = EditorHelper.FillTranslationsData(folder.TranslationsTable, targetModLanguagesPath);
                 if (translationsData == null)
@@ -1243,7 +1250,7 @@ namespace RimworldModTranslator.Helpers
                 {
                     var selectedTranslatableDir = Path.Combine(modDirPath, EditorHelper.GetTranslatableFolderName(folder.Name));
 
-                    if (Directory.Exists(Path.Combine(selectedTranslatableDir, "Languages")))
+                    if (Directory.Exists(Path.Combine(selectedTranslatableDir, LANGUAGES_DIR_NAME)))
                     {
                         EditorHelper.LoadDefKeyedStringsFromTheDir(selectedTranslatableDir, modStringsData, false);
                     }
