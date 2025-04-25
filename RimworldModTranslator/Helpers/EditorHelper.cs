@@ -1371,7 +1371,7 @@ namespace RimworldModTranslator.Helpers
 
         internal static bool TrySetTranslationByStringID(Dictionary<string, LanguageValuePairsData> idCache, DataRow row, DataColumnCollection columns)
         {
-            string? stringId = row.Field<string>("ID");
+            string? stringId = row.Field<string>(IdColumnData.Name!);
             if (string.IsNullOrEmpty(stringId) || !idCache.TryGetValue(stringId, out var idCachePairs))
             {
                 return false;
