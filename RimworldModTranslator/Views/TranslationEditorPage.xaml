@@ -94,7 +94,7 @@
                     <MenuItem Header="{Binding LoadModDBName}" ToolTip="{Binding LoadModDBToolTip}" Command="{Binding LoadModDBCommand}" />
                     <MenuItem Header="{Binding LoadModDBReplaceName}" ToolTip="{Binding LoadModDBReplaceToolTip, Mode=OneTime}" Command="{Binding LoadModDBForceCommand}" />
                     <Separator/>
-                    <MenuItem Header="Clear sorting" ToolTip="{Binding ClearSortToolTip, Mode=OneTime}" Command="{Binding ClearSortCommand}" />
+                    <MenuItem Header="{Binding ClearSortName}" ToolTip="{Binding ClearSortToolTip, Mode=OneTime}" Command="{Binding ClearSortCommand}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
 

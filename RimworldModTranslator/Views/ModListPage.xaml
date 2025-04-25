@@ -38,7 +38,7 @@
                     <MenuItem Header="{Binding OpenModDirName}" Command="{Binding OpenModDirCommand}" />
                     <MenuItem Header="{Binding LoadStringsName}" Command="{Binding LoadStringsCommand}" />
                     <Separator/>
-                    <MenuItem Header="Clear sorting" ToolTip="{Binding ClearSortToolTip, Mode=OneTime}" Command="{Binding ClearSortCommand}" />
+                    <MenuItem Header="{Binding ClearSortName}" ToolTip="{Binding ClearSortToolTip, Mode=OneTime}" Command="{Binding ClearSortCommand}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
 
