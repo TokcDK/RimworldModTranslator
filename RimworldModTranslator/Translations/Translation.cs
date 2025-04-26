@@ -16,6 +16,7 @@ namespace RimworldModTranslator.Translations
         public static string ClearSortToolTip { get; } = T._("Clear corting by any column if was sorted.");
         public static string AboutDataIsNull { get; } = T._("About data is null.");
         public static string ErrorWritingAboutXml { get; } = T._("Error writing About.xml file: {0}");
+        public static string ErrorWritingLoadFoldersXml { get; } = T._("Error writing LoadFolders.xml file: {0}");
         #region ui names and tooltips
         internal static string NameName { get; } = T._("Name");
         internal static string ActiveName { get; } = T._("☑");

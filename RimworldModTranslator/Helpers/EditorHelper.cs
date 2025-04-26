@@ -1210,31 +1210,38 @@ namespace RimworldModTranslator.Helpers
             return VersionDirRegex.IsMatch(s);
         }
 
-        private static void WriteLoadFoldersXml(string targetModDirPath, ModAboutData modAboutData, IEnumerable<FolderData> folders)
+        private static void WriteLoadFoldersXml(string targetModDirPath, IEnumerable<FolderData> folders)
         {
             var loadFoldersPath = Path.Combine(targetModDirPath, "LoadFolders.xml");
-
-            var loadFoldersElement = new XElement("loadFolders");
-
-            foreach (var folder in folders)
+            try
             {
-                foreach (var version in folder.SupportedVersions)
+                var loadFoldersElement = new XElement("loadFolders");
+
+                foreach (var folder in folders)
                 {
-                    string v = (version.StartsWith('v') ? "" : "v");
-
-                    var versionElement = loadFoldersElement.Element($"{v}{version}");
-                    if (versionElement == null)
+                    foreach (var version in folder.SupportedVersions)
                     {
-                        versionElement = new XElement($"{v}{version}");
-                        loadFoldersElement.Add(versionElement);
+                        string v = (version.StartsWith('v') ? "" : "v");
+
+                        var versionElement = loadFoldersElement.Element($"{v}{version}");
+                        if (versionElement == null)
+                        {
+                            versionElement = new XElement($"{v}{version}");
+                            loadFoldersElement.Add(versionElement);
+                        }
+
+                        versionElement.Add(new XElement("li", folder.Name));
                     }
-
-                    versionElement.Add(new XElement("li", folder.Name));
                 }
-            }
 
-            var doc = new XDocument(new XDeclaration("1.0", "utf-8", null), loadFoldersElement);
-            doc.Save(loadFoldersPath);
+                var doc = new XDocument(new XDeclaration("1.0", "utf-8", null), loadFoldersElement);
+                doc.Save(loadFoldersPath);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, Translation.ErrorWritingLoadFoldersXml, loadFoldersPath);
+                return;
+            }
         }
 
         internal static void ClearSelectedCells(IList<DataGridCellInfo>? selectedCells)
