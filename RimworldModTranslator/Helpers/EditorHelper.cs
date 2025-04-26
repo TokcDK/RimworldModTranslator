@@ -563,26 +563,19 @@ namespace RimworldModTranslator.Helpers
 
         private static bool IsReadBlacklistedLanguage(string languageName)
         {
-            return IsBlacklistedLanguage(languageName, Properties.Settings.Default.EditorReadBlacklist);
+            return IsBlacklistedLanguage(languageName, ReadBlacklist);
         }
 
         private static bool IsWriteBlacklistedLanguage(string languageName)
         {
-            return IsBlacklistedLanguage(languageName, Properties.Settings.Default.EditorWriteBlacklist);
+            return IsBlacklistedLanguage(languageName, WriteBlacklist);
         }
 
-        private static bool IsBlacklistedLanguage(string languageName, string blacklist)
+        private static bool IsBlacklistedLanguage(string languageName, List<string> blacklist)
         {
             if(!Properties.Settings.Default.CheckBlacklistedLanguages) return false;
 
-            if (string.IsNullOrWhiteSpace(blacklist))
-                return false;
-
-            var blacklistedLanguages = blacklist.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                                                 .Select(l => l.Trim())
-                                                 .ToList();
-
-            return blacklistedLanguages.Count > 0 && blacklistedLanguages.Contains(languageName);
+            return blacklist.Count > 0 && blacklist.Contains(languageName);
         }
 
         // Регулярное выражение для поиска строк с xml тегами, которые начинаются и заканчиваются одинаково.
