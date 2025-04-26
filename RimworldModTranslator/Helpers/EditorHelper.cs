@@ -667,8 +667,8 @@ namespace RimworldModTranslator.Helpers
         {
             foreach (var language in langDirNames)
             {
-                if (language == null)
-                    continue;
+                if (language == null) continue;
+
                 if (IsBlacklistedLanguage(language))
                 {
                     Logger.Info(Translation.Language0IsBlacklisted, language);
