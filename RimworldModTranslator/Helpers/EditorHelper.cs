@@ -1650,5 +1650,24 @@ namespace RimworldModTranslator.Helpers
                 }
             }
         }
+
+        internal static bool IsValidBlacklistValue(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return false;
+            }
+
+            List<string> readBlacklist = value
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(f => f.Trim())
+                .ToList();
+            if (readBlacklist.Any(f => EditorHelper.IsValidFolderName(f)))
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

@@ -123,6 +123,34 @@ namespace RimworldModTranslator.ViewModels
         }
 
         [ObservableProperty]
+        private string _readLanguagesBlackListValue = Properties.Settings.Default.EditorReadBlacklist;
+        partial void OnReadLanguagesBlackListValueChanged(string value)
+        {
+            if (!EditorHelper.IsValidBlacklistValue(value))
+            {
+                Properties.Settings.Default.EditorReadBlacklist = "";
+                return;
+            }
+
+            Properties.Settings.Default.EditorReadBlacklist = value;
+            Properties.Settings.Default.Save();
+        }
+
+        [ObservableProperty]
+        private string _writeLanguagesBlackListValue = Properties.Settings.Default.EditorWriteBlacklist;
+        partial void OnWriteLanguagesBlackListValueChanged(string value)
+        {
+            if (!EditorHelper.IsValidBlacklistValue(value))
+            {
+                Properties.Settings.Default.EditorWriteBlacklist = "";
+                return;
+            }
+
+            Properties.Settings.Default.EditorWriteBlacklist = value;
+            Properties.Settings.Default.Save();
+        }
+
+        [ObservableProperty]
         private string? editorAutosaveTimePeriodValue = Properties.Settings.Default.EditorAutosaveTimePeriod + "";
         partial void OnEditorAutosaveTimePeriodValueChanged(string? value)
         {
