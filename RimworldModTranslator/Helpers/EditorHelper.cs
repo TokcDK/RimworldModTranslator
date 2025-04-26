@@ -285,6 +285,11 @@ namespace RimworldModTranslator.Helpers
                             continue;
                         }
 
+                        if (!folder.TranslationsTable.Columns.Contains(column.ColumnName))
+                        {
+                            continue; // added because of blacklisted languages check filtering some missing column
+                        }
+
                         string? value = foundRow.Field<string>(column.ColumnName);
                         if (string.IsNullOrEmpty(value)) // we first check if the value is empty but maybe it will be optional
                         {
@@ -306,6 +311,12 @@ namespace RimworldModTranslator.Helpers
                 {
                     continue;
                 }
+                if(IsBlacklistedLanguage(column.ColumnName))
+                {
+                    Logger.Debug(Translation.Language0IsBlacklisted, column.ColumnName);
+                    continue;
+                }
+
                 if (!folder.TranslationsTable.Columns.Contains(column.ColumnName))
                 {
                     DataColumn newColumn = new(column.ColumnName, column.DataType)
