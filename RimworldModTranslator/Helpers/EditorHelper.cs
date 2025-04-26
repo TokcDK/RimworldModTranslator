@@ -1125,6 +1125,61 @@ namespace RimworldModTranslator.Helpers
             return translatedModDirPath;
         }
 
+        private static string GetTranslatedModName(ModData mod)
+        {
+            return !string.IsNullOrWhiteSpace(Properties.Settings.Default.TargetModName)
+                ? Properties.Settings.Default.TargetModName
+                : $"{mod.About?.Name} Translation";
+        }
+
+        private static string GetTranslatedModPackageId(ModData mod)
+        {
+            return !string.IsNullOrWhiteSpace(Properties.Settings.Default.TargetModPackageID)
+                ? Properties.Settings.Default.TargetModPackageID
+                : $"{mod.About?.PackageId}.translation";
+        }
+
+        private static string GetTranslatedModAuthor(ModData mod)
+        {
+            return !string.IsNullOrWhiteSpace(Properties.Settings.Default.TargetModAuthor)
+                ? Properties.Settings.Default.TargetModAuthor
+                : $"{mod.About?.Author}, Anonimous";
+        }
+
+        private static string GetTranslatedModVersion()
+        {
+            return !string.IsNullOrWhiteSpace(Properties.Settings.Default.TargetModVersion)
+                ? Properties.Settings.Default.TargetModVersion
+                : "1.0";
+        }
+
+        private static List<string> GetTranslatedModSupportedVersions(ModData mod, IEnumerable<FolderData> folders)
+        {
+            return !string.IsNullOrWhiteSpace(Properties.Settings.Default.TargetModSupportedVersions)
+                ? Properties.Settings.Default.TargetModSupportedVersions
+                    .Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(s => s.Trim())
+                    .ToList()
+                : EnumerateSupportedVersions(folders).ToList();
+        }
+
+        private static string GetTranslatedModDescription(ModData mod)
+        {
+            return !string.IsNullOrWhiteSpace(Properties.Settings.Default.TargetModDescription)
+                ? Properties.Settings.Default.TargetModDescription
+                : $"{mod.About?.Name} Translation";
+        }
+
+        private static string? GetTranslatedModUrl()
+        {
+            return Properties.Settings.Default.TargetModUrl;
+        }
+
+        private static string GetTranslatedModPreview()
+        {
+            return Properties.Settings.Default.TargetModPreview;
+        }
+
         private static ModData? GetTranslatedModData(string targetModDirName, ModData mod, IEnumerable<FolderData> folders)
         {
             var translatedMod = new ModData(mod.ParentGame)
@@ -1132,26 +1187,14 @@ namespace RimworldModTranslator.Helpers
                 DirectoryName = targetModDirName,
                 About = new AboutData()
                 {
-                    Name = !string.IsNullOrWhiteSpace(Properties.Settings.Default.TargetModName)
-                        ? Properties.Settings.Default.TargetModName
-                        : $"{mod.About?.Name} Translation",
-                    PackageId = !string.IsNullOrWhiteSpace(Properties.Settings.Default.TargetModPackageID)
-                        ? Properties.Settings.Default.TargetModPackageID
-                        : $"{mod.About?.PackageId}.translation",
-                    Author = !string.IsNullOrWhiteSpace(Properties.Settings.Default.TargetModAuthor)
-                        ? Properties.Settings.Default.TargetModAuthor
-                        : $"{mod.About?.Author}, Anonimous",
-                    ModVersion = !string.IsNullOrWhiteSpace(Properties.Settings.Default.TargetModVersion)
-                        ? Properties.Settings.Default.TargetModVersion
-                        : "1.0",
-                    SupportedVersions = !string.IsNullOrWhiteSpace(Properties.Settings.Default.TargetModSupportedVersions)
-                        ? Properties.Settings.Default.TargetModSupportedVersions.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList()
-                        : EnumerateSupportedVersions(folders).ToList(),
-                    Description = !string.IsNullOrWhiteSpace(Properties.Settings.Default.TargetModDescription)
-                        ? Properties.Settings.Default.TargetModDescription
-                        : $"{mod.About?.Name} Translation",
-                    Url = Properties.Settings.Default.TargetModUrl,
-                    Preview = Properties.Settings.Default.TargetModPreview
+                    Name = GetTranslatedModName(mod),
+                    PackageId = GetTranslatedModPackageId(mod),
+                    Author = GetTranslatedModAuthor(mod),
+                    ModVersion = GetTranslatedModVersion(),
+                    SupportedVersions = GetTranslatedModSupportedVersions(mod, folders),
+                    Description = GetTranslatedModDescription(mod),
+                    Url = GetTranslatedModUrl(),
+                    Preview = GetTranslatedModPreview()
                 }
             };
 
