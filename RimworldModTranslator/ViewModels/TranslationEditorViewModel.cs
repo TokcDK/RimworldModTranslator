@@ -53,59 +53,19 @@ namespace RimworldModTranslator.ViewModels
     // replacers: https://rimworldwiki.com/wiki/Modding_Tutorials/GrammarResolver
     public partial class TranslationEditorViewModel : ViewModelBase, IRecipient<ChangedEditorAutosaveTimePeriodSettingMessage>
     {
-        private System.Timers.Timer? _autoSaveTimer;
-
-        private void StartAutoSave()
-        {
-            if(Properties.Settings.Default.EditorAutosaveTimePeriod < 1)
-            {
-                return;
-            }
-
-            _autoSaveTimer = new System.Timers.Timer(Properties.Settings.Default.EditorAutosaveTimePeriod * 1000); // 60000 = 1 min
-            _autoSaveTimer.Elapsed += (s, e) => SaveModDB();
-            _autoSaveTimer.AutoReset = true;
-            _autoSaveTimer.Start();
-
-            WeakReferenceMessenger.Default.Register<ChangedEditorAutosaveTimePeriodSettingMessage>(this);
-        }
-
-        private void StopAutoSave()
-        {
-            if (_autoSaveTimer != null)
-            {
-                _autoSaveTimer.Stop();
-                _autoSaveTimer.Dispose();
-                _autoSaveTimer = null;
-
-                WeakReferenceMessenger.Default.Unregister<ChangedEditorAutosaveTimePeriodSettingMessage>(this);
-            }
-        }
-
-        private void RestartAutosave()
-        {
-            StopAutoSave(); // stop auto-save timer if it was started
-            StartAutoSave(); // restart auto-save timer
-        }
-
-
         #region Fields
+        private System.Timers.Timer? _autoSaveTimer;
         private ModData? _mod;
         private readonly SettingsService _settingsService;
         private string? _previousSelectedFolder;
         #endregion
 
-        #region Constructors
-        public TranslationEditorViewModel(SettingsService settingsService)
-        {
-            this._settingsService = settingsService;
-            Folders.CollectionChanged += (s, e) => OnPropertyChanged(nameof(IsFoldersEnabled));
-
-            InitTranslationsTable();
-        }
+        #region Static Properties - General
+        public static string Header { get => Translation.EditorName; }
+        private static Logger Logger { get; } = LogManager.GetCurrentClassLogger();
         #endregion
 
-        #region Names and ToolTips
+        #region Static Properties - Control nanes and tooltips
         public static string EditorTableToolTip { get => Translation.EditorTableToolTip; }
         public static string FolderSelectionToolTip { get => Translation.FolderSelectionToolTip; }
         public static string AddNewLanguageToolTip { get => Translation.AddNewLanguageToolTip; }
@@ -116,7 +76,9 @@ namespace RimworldModTranslator.ViewModels
         public static string SaveStringsToolTip { get => Translation.SaveStringsTooltip; }
         public static string FolderName { get => Translation.FolderName; }
         public static string AddLanguageName { get => Translation.AddLanguageName; }
-        // menus
+        #endregion
+
+        #region Static Properties - Menu names and tooltips
         public static string CutSelectedRowsName { get => Translation.CutSelectedRowsName; }
         public static string CutSelectedRowsToolTip { get => Translation.CutSelectedRowsToolTip; }
         public static string CopySelectedRowsName { get => Translation.CopySelectedRowsName; }
@@ -136,30 +98,17 @@ namespace RimworldModTranslator.ViewModels
         #endregion
 
         #region Properties
-        public static string Header { get => Translation.EditorName; }
-
-        private static Logger Logger { get; } = LogManager.GetCurrentClassLogger();
-
         public bool IsTranslatorEnabled { get => IsTheTranslatorEnabled(); }
-
         public bool IsAddNewLanguageEnabled { get => IsAddNewLanguageButtonEnabled(); }
-
         public bool IsFoldersEnabled { get => IsTheFoldersEnabled(); }
-
         public string? ModDisplayingName => _mod != null && Folders.Count > 0 ? _mod.ModDisplayingName : _settingsService.SelectedMod?.ModDisplayingName;
-
         public ObservableCollection<FolderData> Folders { get; } = new();
-
         private IList<DataGridCellInfo>? selectedCells;
         public IList<DataGridCellInfo>? SelectedCells
         {
             get => selectedCells;
-            set
-            {
-                SetProperty(ref selectedCells, value);
-            }
+            set => SetProperty(ref selectedCells, value);
         }
-
         public DataTable? TranslationsTable
         {
             get => SelectedFolder?.TranslationsTable;
@@ -172,10 +121,8 @@ namespace RimworldModTranslator.ViewModels
                 SelectedFolder.TranslationsTable = value;
             }
         }
-
         public Dictionary<string, LanguageValuePairsData>? IdCache { get; private set; }
         public Dictionary<string, LanguageValuePairsData>? ValueCache { get; private set; }
-
         #endregion
 
         #region Observable Properties
@@ -213,16 +160,23 @@ namespace RimworldModTranslator.ViewModels
         private int selectedRowIndex;
         #endregion
 
+        #region Constructors
+        public TranslationEditorViewModel(SettingsService settingsService)
+        {
+            this._settingsService = settingsService;
+            Folders.CollectionChanged += (s, e) => OnPropertyChanged(nameof(IsFoldersEnabled));
+            InitTranslationsTable();
+        }
+        #endregion
+
         #region Commands
         [RelayCommand]
         private void LoadStrings()
         {
-            // Initialize or update mod data
             if (!EditorHelper.LoadStringsInitModData(ref _mod, _settingsService))
             {
                 return;
             }
-
             LoadTheSelectedModStrings(_mod!);
         }
 
@@ -236,8 +190,7 @@ namespace RimworldModTranslator.ViewModels
         private async Task LoadStringsCache()
         {
             bool previousLoadOnlyStringsForExtractedIds = Properties.Settings.Default.LoadOnlyStringsForExtractedIds;
-
-            Properties.Settings.Default.LoadOnlyStringsForExtractedIds = false; // disable load only extracted ids for cache load, we not extract here
+            Properties.Settings.Default.LoadOnlyStringsForExtractedIds = false;
             await EditorHelper.LoadStringsCacheInternal(Folders, _mod, _settingsService);
             Properties.Settings.Default.LoadOnlyStringsForExtractedIds = previousLoadOnlyStringsForExtractedIds;
         }
@@ -251,36 +204,13 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private void AddNewLanguage()
         {
-            if (_mod == null) return;
-
-            if (string.IsNullOrEmpty(NewLanguageName)) return;
+            if (_mod == null || string.IsNullOrEmpty(NewLanguageName)) return;
             string newLang = NewLanguageName!.Trim();
             if (TranslationsTable!.Columns.Contains(newLang)) return;
 
             TranslationsTable.Columns.Add(newLang, typeof(string));
-
             NewLanguageName = string.Empty;
-
             InitTranslationsTable(false);
-        }
-
-        private void SaveLanguages()
-        {
-            if (_mod == null) return;
-
-            SaveModDB(); // save mod db before saving strings
-
-            var translationMod = EditorHelper.SaveTranslatedStrings(Folders, _mod);
-            if (translationMod == null)
-            {
-                return;
-            }
-
-            GameHelper.TryExploreDirectory(Path.Combine(translationMod.ParentGame.ModsDirPath!, translationMod!.DirectoryName!));
-
-            if (!GameHelper.SortMod(translationMod, _mod)) return;
-
-            GameHelper.UpdateSharedModList(_settingsService.ModsList, _mod.ParentGame.ModsList);
         }
 
         [RelayCommand]
@@ -321,7 +251,6 @@ namespace RimworldModTranslator.ViewModels
         private void PasteStringsInSelectedCells()
         {
             if (TranslationsTable == null) return;
-
             EditorHelper.PasteStringsInSelectedCells(SelectedCells);
         }
 
@@ -345,6 +274,57 @@ namespace RimworldModTranslator.ViewModels
         #endregion
 
         #region Private Methods
+        private void StartAutoSave()
+        {
+            if (Properties.Settings.Default.EditorAutosaveTimePeriod < 1)
+            {
+                return;
+            }
+
+            _autoSaveTimer = new System.Timers.Timer(Properties.Settings.Default.EditorAutosaveTimePeriod * 1000);
+            _autoSaveTimer.Elapsed += (s, e) => SaveModDB();
+            _autoSaveTimer.AutoReset = true;
+            _autoSaveTimer.Start();
+
+            WeakReferenceMessenger.Default.Register<ChangedEditorAutosaveTimePeriodSettingMessage>(this);
+        }
+
+        private void StopAutoSave()
+        {
+            if (_autoSaveTimer != null)
+            {
+                _autoSaveTimer.Stop();
+                _autoSaveTimer.Dispose();
+                _autoSaveTimer = null;
+
+                WeakReferenceMessenger.Default.Unregister<ChangedEditorAutosaveTimePeriodSettingMessage>(this);
+            }
+        }
+
+        private void RestartAutosave()
+        {
+            StopAutoSave();
+            StartAutoSave();
+        }
+
+        private void SaveLanguages()
+        {
+            if (_mod == null) return;
+
+            SaveModDB();
+
+            var translationMod = EditorHelper.SaveTranslatedStrings(Folders, _mod);
+            if (translationMod == null)
+            {
+                return;
+            }
+
+            GameHelper.TryExploreDirectory(Path.Combine(translationMod.ParentGame.ModsDirPath!, translationMod!.DirectoryName!));
+
+            if (!GameHelper.SortMod(translationMod, _mod)) return;
+
+            GameHelper.UpdateSharedModList(_settingsService.ModsList, _mod.ParentGame.ModsList);
+        }
 
         public void LoadTheSelectedModStrings(ModData mod)
         {
@@ -385,10 +365,6 @@ namespace RimworldModTranslator.ViewModels
             StartAutoSave();
         }
 
-        /// <summary>
-        /// Init Translations table and view
-        /// </summary>
-        /// <param name="fullInit">when false, will be recreated only DataView. TranslationsTable will not be recreated.</param>
         private void InitTranslationsTable(bool fullInit = true, DataTable? dataTableToRelink = null)
         {
             if (fullInit)
@@ -397,7 +373,6 @@ namespace RimworldModTranslator.ViewModels
             }
 
             TranslationsView = new DataView(TranslationsTable);
-
             // Rebind to fix dotnet/datagridextensions notsupported error
             // maybe later change to use the datatable's filter?
             // it also made the column sort to not react to the cells changing which is better of what was before
@@ -408,7 +383,7 @@ namespace RimworldModTranslator.ViewModels
         private bool IsTheFoldersEnabled()
         {
             return _mod != null
-                   && Folders.Count > 1;
+                && Folders.Count > 1;
         }
 
         private bool IsTheTranslatorEnabled()
