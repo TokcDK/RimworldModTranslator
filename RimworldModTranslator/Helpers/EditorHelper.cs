@@ -1662,12 +1662,29 @@ namespace RimworldModTranslator.Helpers
                 .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(f => f.Trim())
                 .ToList();
-            if (readBlacklist.Any(f => EditorHelper.IsValidFolderName(f)))
+            if (readBlacklist.Any(f => !EditorHelper.IsValidFolderName(f)))
             {
                 return false;
             }
 
             return true;
+        }
+
+        internal static void CopySelectedColumnName(IList<DataGridCellInfo>? selectedCells)
+        {
+            var infos = selectedCells?.OfType<DataGridCellInfo>()
+                .Where(cell => cell.Item is DataRowView)
+                .Select(cell => (cell.Item as DataRowView, cell.Column))
+                .ToList();
+
+            if (infos == null || infos.Count == 0)
+            {
+                return;
+            }
+
+            var columnNames = string.Join(",", infos.Select(i => i.Column.Header.ToString()));
+
+            Clipboard.SetText(columnNames);
         }
     }
 }

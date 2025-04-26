@@ -90,6 +90,8 @@
                     <MenuItem Header="{Binding PasteToSelectedRowsName}" ToolTip="{Binding PasteToSelectedRowsToolTip}" Command="{Binding PasteStringsInSelectedCellsCommand}" />
                     <MenuItem Header="{Binding ClearSelectedRowsName}" ToolTip="{Binding ClearSelectedRowsToolTip}" Command="{Binding ClearSelectedCellsCommand}" />
                     <Separator/>
+                    <MenuItem Header="Copy column name" ToolTip="Copy column name" Command="{Binding CopySelectedColumnNameCommand}" />
+                    <Separator/>
                     <MenuItem Header="{Binding SaveModDBName}" ToolTip="{Binding SaveModDBToolTip}" Command="{Binding SaveModDBCommand}" />
                     <MenuItem Header="{Binding LoadModDBName}" ToolTip="{Binding LoadModDBToolTip}" Command="{Binding LoadModDBCommand}" />
                     <MenuItem Header="{Binding LoadModDBReplaceName}" ToolTip="{Binding LoadModDBReplaceToolTip, Mode=OneTime}" Command="{Binding LoadModDBForceCommand}" />
