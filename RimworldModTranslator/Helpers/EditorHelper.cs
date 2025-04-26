@@ -572,15 +572,14 @@ namespace RimworldModTranslator.Helpers
         {
             if(!Properties.Settings.Default.CheckBlacklistedLanguages) return false;
 
-            var readBlacklist = Properties.Settings.Default.EditorReadBlacklist;
-            if (string.IsNullOrWhiteSpace(readBlacklist))
+            if (string.IsNullOrWhiteSpace(blacklist))
                 return false;
 
-            var excludedLanguages = readBlacklist.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            var blacklistedLanguages = blacklist.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                                  .Select(l => l.Trim())
                                                  .ToList();
 
-            return excludedLanguages.Count > 0 && excludedLanguages.Contains(languageName);
+            return blacklistedLanguages.Count > 0 && blacklistedLanguages.Contains(languageName);
         }
 
         // Регулярное выражение для поиска строк с xml тегами, которые начинаются и заканчиваются одинаково.
