@@ -108,21 +108,6 @@ namespace RimworldModTranslator.ViewModels
         }
 
         [ObservableProperty]
-        private string? extractedLanguageName = Properties.Settings.Default.ExtractedStringsLanguageFolderName;
-        partial void OnExtractedLanguageNameChanged(string? value)
-        {
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                Properties.Settings.Default.ExtractedStringsLanguageFolderName = value;
-                Properties.Settings.Default.Save();
-            }
-            else
-            {
-                Properties.Settings.Default.ExtractedStringsLanguageFolderName = "Extracted";
-            }
-        }
-
-        [ObservableProperty]
         private string _readLanguagesBlackListValue = Properties.Settings.Default.EditorReadBlacklist;
         partial void OnReadLanguagesBlackListValueChanged(string value)
         {
