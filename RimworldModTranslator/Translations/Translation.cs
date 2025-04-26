@@ -1,9 +1,4 @@
 ﻿using RimworldModTranslator.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RimworldModTranslator.Translations
 {
@@ -18,11 +13,10 @@ namespace RimworldModTranslator.Translations
         public static string ErrorWritingAboutXml { get; } = T._("Error writing About.xml file: {0}");
         public static string ErrorWritingLoadFoldersXml { get; } = T._("Error writing LoadFolders.xml file: {0}");
         public static string ReadLanguagesBlackListName { get; } = T._("Read languages blacklist (name1,name2...,nameN)");
-        public static string ReadLanguagesBlackListToolTip { get; } = T._("If the language name is in the list, it will be skipped when loading strings from the mod.\n" +
-            "Example: 'English,Spanish' - will skip English and Spanish languages when loading strings from the selected mod.");
+        public static string LanguagesBlackListToolTipGeneral { get; } = T._("If the language name is in the list, it will be skipped.");
+        public static string ReadLanguagesBlackListToolTip { get; } = LanguagesBlackListToolTipGeneral + "\n" + T._("Example: 'English,Spanish' - will skip English and Spanish languages when loading strings from the selected mod.");
         public static string WriteLanguagesBlackListName { get; } = T._("Write languages blacklist (name1,name2...,nameN)");
-        public static string WriteLanguagesBlackListToolTip { get; } = T._("If the language name is in the list, it will be skipped when writing strings from the mod.\n" +
-            "Example: 'English,Spanish' - will skip English and Spanish languages when writing strings to the translated mod.");
+        public static string WriteLanguagesBlackListToolTip { get; } = LanguagesBlackListToolTipGeneral + "\n" + T._("Example: 'Russian,German' - will skip English and Spanish languages when writing strings to the translated mod.");
         public static string Language0IsBlacklisted { get; } = T._("Language {0} is blacklisted. Skipping it.");
         #region ui names and tooltips
         internal static string NameName { get; } = T._("Name");
@@ -51,8 +45,8 @@ namespace RimworldModTranslator.Translations
         internal static string LoadStringsCacheToolTip { get; } = T._("Load strings from all exist game(when the game dir path is set) dlcs and mods");
         internal static string FolderName { get; } = T._("Folder");
         internal static string AddLanguageName { get; } = T._("Add new language");
-        
-        internal static string SettingsName { get; } = T._("Settings");        
+
+        internal static string SettingsName { get; } = T._("Settings");
         // general
         internal static string GameName { get; } = T._("Game");
         internal static string GeneralName { get; } = T._("General");
