@@ -570,6 +570,8 @@ namespace RimworldModTranslator.Helpers
 
         private static bool IsBlacklistedLanguage(string languageName, string blacklist)
         {
+            if(!Properties.Settings.Default.CheckBlacklistedLanguages) return false;
+
             var readBlacklist = Properties.Settings.Default.EditorReadBlacklist;
             if (string.IsNullOrWhiteSpace(readBlacklist))
                 return false;

@@ -214,5 +214,17 @@ namespace RimworldModTranslator.Properties {
                 this["EditorWriteBlacklist"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CheckBlacklistedLanguages {
+            get {
+                return ((bool)(this["CheckBlacklistedLanguages"]));
+            }
+            set {
+                this["CheckBlacklistedLanguages"] = value;
+            }
+        }
     }
 }

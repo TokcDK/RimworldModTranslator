@@ -184,10 +184,20 @@ namespace RimworldModTranslator.ViewModels
         [RelayCommand]
         private async Task LoadStringsCache()
         {
+            // memorize previous values
             bool previousLoadOnlyStringsForExtractedIds = Properties.Settings.Default.LoadOnlyStringsForExtractedIds;
+            bool previousCheckBlacklistedLanguages = Properties.Settings.Default.CheckBlacklistedLanguages;
+           
+            // temporary disable on the database load time
             Properties.Settings.Default.LoadOnlyStringsForExtractedIds = false;
+            Properties.Settings.Default.CheckBlacklistedLanguages = false;
+
+            // load strings cache db
             await EditorHelper.LoadStringsCacheInternal(Folders, _mod, _settingsService);
+
+            // reload memorized values
             Properties.Settings.Default.LoadOnlyStringsForExtractedIds = previousLoadOnlyStringsForExtractedIds;
+            Properties.Settings.Default.LoadOnlyStringsForExtractedIds = previousCheckBlacklistedLanguages;
         }
 
         [RelayCommand]
