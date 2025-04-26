@@ -1092,16 +1092,7 @@ namespace RimworldModTranslator.Helpers
         {
             if (mod == null) return null;
 
-            string translatedModDirName = $"{mod.DirectoryName!}_Translated";
-
-            string translatedModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{translatedModDirName}");
-
-            int index = 0;
-            while (Directory.Exists(translatedModDirPath))
-            {
-                translatedModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{translatedModDirName}{index++}");
-            }
-            translatedModDirName = $"{translatedModDirName}{index}"; // set target mod name
+            string translatedModDirPath = GetNotExistTraslatedModDirPath(folders, mod);
 
             if(!WriteTranslatedModFolders(translatedModDirPath, folders, mod))
             {
@@ -1117,6 +1108,21 @@ namespace RimworldModTranslator.Helpers
             Logger.Info(Translation.SavedTranslatedFilesTo0, translatedModDirPath);
 
             return translatedModData;
+        }
+
+        private static string GetNotExistTraslatedModDirPath(IEnumerable<FolderData> folders, ModData mod)
+        {
+            string translatedModDirName = $"{mod.DirectoryName!}_Translated";
+
+            string translatedModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{translatedModDirName}");
+
+            int index = 0;
+            while (Directory.Exists(translatedModDirPath))
+            {
+                translatedModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{translatedModDirName}{index++}");
+            }
+
+            return translatedModDirPath;
         }
 
         private static ModData? GetTranslatedModData(string targetModDirName, ModData mod, IEnumerable<FolderData> folders)
