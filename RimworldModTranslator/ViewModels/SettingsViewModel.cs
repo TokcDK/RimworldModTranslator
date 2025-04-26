@@ -29,7 +29,10 @@ namespace RimworldModTranslator.ViewModels
         public static string GameDirPathName { get => $"{Translation.GameDirPathName} {Translation.SuffixOptionallName}"; }
         public static string AddGameName { get => Translation.AddGameName; }
         public static string AddNewGameToolTip { get => Translation.AddNewGameToolTip; }
-        public static string ExtractedLanguageNameName { get => Translation.ExtractedLanguageNameName; }
+        public static string ReadLanguagesBlackListName { get => Translation.ReadLanguagesBlackListName; }
+        public static string ReadLanguagesBlackListToolTip { get => Translation.ReadLanguagesBlackListToolTip; }
+        public static string WriteLanguagesBlackListName { get => Translation.WriteLanguagesBlackListName; }
+        public static string WriteLanguagesBlackListToolTip { get => Translation.WriteLanguagesBlackListToolTip; }
         public static string ExtractedLanguageNameToolTip { get => Translation.ExtractedLanguageNameToolTip; }
         public static string ForceLoadTranslationsCacheName { get => Translation.ForceLoadTranslationsCacheName; }
         public static string ForceLoadTranslationsCacheToolTip { get => Translation.ForceLoadTranslationsCacheToolTip; }

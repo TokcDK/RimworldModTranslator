@@ -62,11 +62,23 @@
                        <Button Grid.Column="1" Content="{Binding AddGameName}" Command="{Binding AddNewGameCommand}" />
                    </StackPanel>
                    <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
-                   <StackPanel Orientation="Horizontal" Margin="2" ToolTip="{Binding ExtractedLanguageNameToolTip, Mode=OneWay}">
-                        <TextBlock Text="{Binding ExtractedLanguageNameName}" />
-                       <TextBox Text="{Binding ExtractedLanguageName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,0,0" />
-                   </StackPanel>
-                   <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
+                    <Grid Margin="2" ToolTip="{Binding ReadLanguagesBlackListToolTip, Mode=OneWay}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>   
+                        <TextBlock Text="{Binding ReadLanguagesBlackListName}" />
+                        <TextBox Grid.Column="1" Text="{Binding ReadLanguagesBlackListValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,0,0" />
+                    </Grid>
+                    <Grid Margin="2" ToolTip="{Binding WriteLanguagesBlackListToolTip, Mode=OneWay}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding WriteLanguagesBlackListName}" />
+                        <TextBox Grid.Column="1" Text="{Binding WriteLanguagesBlackListValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,0,0" />
+                    </Grid>
+                    <GridSplitter Height="5" HorizontalAlignment="Stretch" Background="Gray" />
                    <CheckBox 
                        ToolTip="{Binding ForceLoadTranslationsCacheToolTip}"
                        Content="{Binding ForceLoadTranslationsCacheName}" 

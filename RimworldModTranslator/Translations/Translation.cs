@@ -17,6 +17,12 @@ namespace RimworldModTranslator.Translations
         public static string AboutDataIsNull { get; } = T._("About data is null.");
         public static string ErrorWritingAboutXml { get; } = T._("Error writing About.xml file: {0}");
         public static string ErrorWritingLoadFoldersXml { get; } = T._("Error writing LoadFolders.xml file: {0}");
+        public static string ReadLanguagesBlackListName { get; } = T._("Read languages blacklist (name1,name2...,nameN)");
+        public static string ReadLanguagesBlackListToolTip { get; } = T._("If the language name is in the list, it will be skipped when loading strings from the mod.\n" +
+            "Example: 'English,Spanish' - will skip English and Spanish languages when loading strings from the selected mod.");
+        public static string WriteLanguagesBlackListName { get; } = T._("Write languages blacklist (name1,name2...,nameN)");
+        public static string WriteLanguagesBlackListToolTip { get; } = T._("If the language name is in the list, it will be skipped when writing strings from the mod.\n" +
+            "Example: 'English,Spanish' - will skip English and Spanish languages when writing strings to the translated mod.");
         #region ui names and tooltips
         internal static string NameName { get; } = T._("Name");
         internal static string ActiveName { get; } = T._("☑");
