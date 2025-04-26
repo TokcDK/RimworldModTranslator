@@ -43,7 +43,7 @@ namespace RimworldModTranslator.Helpers
         internal const string DEFS_DIR_NAME = "Defs";
         internal const string DEFINJECTED_DIR_NAME = "DefInjected";
         internal const string ROOT_DIR_NAME = "/";
-        internal const char COMMENT_MAR_CHAR = ';';
+        internal const char COMMENT_MARK_CHAR = ';';
 
         static readonly HashSet<char> invalidChars = ['\\', '/', ':', '<', '>', '|', '*', '?', '\"'];
 
@@ -154,7 +154,7 @@ namespace RimworldModTranslator.Helpers
         private static IEnumerable<string> ReadTagsFile(string path, bool onlyNewTags = true)
         {
             return File.ReadAllLines(path)
-                .Select(l => l.Split(new[] { COMMENT_MAR_CHAR }, 2)[0]) // split by ';' comment char and take the first part
+                .Select(l => l.Split(new[] { COMMENT_MARK_CHAR }, 2)[0]) // split by ';' comment char and take the first part
                 .Select(l => l.Trim()) // trim spaces
 
                 // remove empty lines and optional existing tags
