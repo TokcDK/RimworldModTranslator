@@ -44,5 +44,11 @@
     <Setting Name="EditorAutosaveTimePeriod" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">300</Value>
     </Setting>
+    <Setting Name="EditorReadBlacklist" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="EditorWriteBlacklist" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -190,5 +190,29 @@ namespace RimworldModTranslator.Properties {
                 this["EditorAutosaveTimePeriod"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string EditorReadBlacklist {
+            get {
+                return ((string)(this["EditorReadBlacklist"]));
+            }
+            set {
+                this["EditorReadBlacklist"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string EditorWriteBlacklist {
+            get {
+                return ((string)(this["EditorWriteBlacklist"]));
+            }
+            set {
+                this["EditorWriteBlacklist"] = value;
+            }
+        }
     }
 }
