@@ -523,7 +523,7 @@ namespace RimworldModTranslator.Helpers
         {
             foreach (var languageName in languageNames)
             {
-                if (languageName == null)
+                if (languageName == null || IsBlacklistedLanguage(languageName))
                     continue;
 
                 stringsData.Languages.Add(languageName);
@@ -540,6 +540,19 @@ namespace RimworldModTranslator.Helpers
                     tar.ProcessFiles();
                 }
             }
+        }
+
+        private static bool IsBlacklistedLanguage(string languageName)
+        {
+            var readBlacklist = Properties.Settings.Default.EditorReadBlacklist;
+            if (string.IsNullOrWhiteSpace(readBlacklist))
+                return false;
+
+            var excludedLanguages = readBlacklist.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                                 .Select(l => l.Trim())
+                                                 .ToList();
+
+            return excludedLanguages.Count > 0 && excludedLanguages.Contains(languageName);
         }
 
         // Регулярное выражение для поиска строк с xml тегами, которые начинаются и заканчиваются одинаково.
