@@ -27,6 +27,7 @@ using System.Windows.Data;
 
 namespace RimworldModTranslator.ViewModels
 {
+    #region Info
     // subfolders and xml file naming
     // For Defs: Languages\%LanguageCode%\DefInjected\XmlParentTagNameInsideOfRootDefsTag\ParentXmlName.xml
     // For keyed (each xml tag value, only from exist language dir): Languages\%LanguageCode%\Keyed\Keyed_%LanguageCode%.xml
@@ -51,6 +52,8 @@ namespace RimworldModTranslator.ViewModels
 
     // for editor extra functions to insert most often using replacers
     // replacers: https://rimworldwiki.com/wiki/Modding_Tutorials/GrammarResolver
+    #endregion
+
     public partial class TranslationEditorViewModel : ViewModelBase, IRecipient<ChangedEditorAutosaveTimePeriodSettingMessage>
     {
         #region Fields
