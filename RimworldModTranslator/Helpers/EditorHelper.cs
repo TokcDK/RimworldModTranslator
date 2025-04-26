@@ -960,6 +960,12 @@ namespace RimworldModTranslator.Helpers
             foreach (var languagePair in translationsData)
             {
                 string languageName = languagePair.Key;
+                if(IsWriteBlacklistedLanguage(languageName))
+                {
+                    Logger.Info(Translation.Language0IsBlacklisted, languageName);
+                    continue;
+                }
+
                 string languageFolderPath = Path.Combine(targetModLanguagesPath, languageName);
 
                 foreach (var subPathPair in languagePair.Value)
