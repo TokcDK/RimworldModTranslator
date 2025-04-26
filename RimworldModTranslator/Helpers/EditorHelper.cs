@@ -1025,7 +1025,7 @@ namespace RimworldModTranslator.Helpers
             return isAnyWrote;
         }
 
-        internal static void WriteAbout(string targetModDirPath, ModData? translatedModData)
+        internal static void WriteTranslatedModAbout(string targetModDirPath, ModData? translatedModData)
         {
             if(translatedModData == null || WriteAboutXml(targetModDirPath, translatedModData))
             {
@@ -1088,22 +1088,22 @@ namespace RimworldModTranslator.Helpers
             return true;
         }
 
-        internal static ModData? WriteTranslatedMod(IEnumerable<FolderData> folders, ModData? mod)
+        internal static ModData? WriteTranslatedMod(IEnumerable<FolderData> translatedModFolders, ModData? modToTranslate)
         {
-            if (mod == null) return null;
+            if (modToTranslate == null) return null;
 
-            string translatedModDirPath = GetNotExistTraslatedModDirPath(folders, mod);
+            string translatedModDirPath = GetNotExistTraslatedModDirPath(translatedModFolders, modToTranslate);
 
-            if(!WriteTranslatedModFolders(translatedModDirPath, folders, mod))
+            if(!WriteTranslatedModFolders(translatedModDirPath, translatedModFolders, modToTranslate))
             {
                 return null;
             }
 
-            var translatedModData = GetTranslatedModData(Path.GetFileName(translatedModDirPath), mod, folders);
+            var translatedModData = GetTranslatedModData(Path.GetFileName(translatedModDirPath), modToTranslate, translatedModFolders);
 
-            EditorHelper.WriteAbout(translatedModDirPath, translatedModData);
+            EditorHelper.WriteTranslatedModAbout(translatedModDirPath, translatedModData);
 
-            EditorHelper.WriteLoadFoldersXml(translatedModDirPath, folders);
+            EditorHelper.WriteTranslatedModLoadFoldersXml(translatedModDirPath, translatedModFolders);
 
             Logger.Info(Translation.SavedTranslatedFilesTo0, translatedModDirPath);
 
@@ -1216,7 +1216,7 @@ namespace RimworldModTranslator.Helpers
             return VersionDirRegex.IsMatch(s);
         }
 
-        private static void WriteLoadFoldersXml(string targetModDirPath, IEnumerable<FolderData> folders)
+        private static void WriteTranslatedModLoadFoldersXml(string targetModDirPath, IEnumerable<FolderData> folders)
         {
             var loadFoldersPath = Path.Combine(targetModDirPath, "LoadFolders.xml");
             try
