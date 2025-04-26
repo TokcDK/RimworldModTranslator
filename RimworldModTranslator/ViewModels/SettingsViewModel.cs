@@ -117,6 +117,7 @@ namespace RimworldModTranslator.ViewModels
                 return;
             }
 
+            EditorHelper.SetupEditorReadBlacklist();
             Properties.Settings.Default.EditorReadBlacklist = value;
             Properties.Settings.Default.Save();
         }
@@ -131,6 +132,7 @@ namespace RimworldModTranslator.ViewModels
                 return;
             }
 
+            EditorHelper.SetupEditorWriteBlacklist();
             Properties.Settings.Default.EditorWriteBlacklist = value;
             Properties.Settings.Default.Save();
         }

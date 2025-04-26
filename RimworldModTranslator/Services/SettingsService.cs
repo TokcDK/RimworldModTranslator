@@ -52,6 +52,8 @@ namespace RimworldModTranslator.Services
         private void LoadSettings()
         {
             LoadGamesListSettings();
+
+            EditorHelper.SetupEditorBlacklists();
         }
 
         private void LoadGamesListSettings()

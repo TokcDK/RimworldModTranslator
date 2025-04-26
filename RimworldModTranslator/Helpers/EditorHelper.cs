@@ -28,6 +28,9 @@ namespace RimworldModTranslator.Helpers
 
         public static readonly Regex VersionDirRegex = new(@"[0-9]+\.[0-9]+$", RegexOptions.Compiled);
 
+        internal static readonly List<string> ReadBlacklist = new();
+        internal static readonly List<string> WriteBlacklist = new();
+
         internal static EditorStringsDBCache StringsDBCache = new();
 
         internal const char COMMENT_MARK_CHAR = ';';
@@ -1670,6 +1673,32 @@ namespace RimworldModTranslator.Helpers
             var columnNames = string.Join(",", infos.Select(i => i.Column.Header.ToString()));
 
             Clipboard.SetText(columnNames);
+        }
+
+        internal static void SetupEditorBlacklists()
+        {
+            SetupEditorReadBlacklist();
+            SetupEditorWriteBlacklist();
+        }
+
+        internal static void SetupEditorReadBlacklist()
+        {
+            SetupEditorBlacklist(ReadBlacklist, Properties.Settings.Default.EditorReadBlacklist);
+        }
+
+        internal static void SetupEditorWriteBlacklist()
+        {
+            SetupEditorBlacklist(WriteBlacklist, Properties.Settings.Default.EditorWriteBlacklist);
+        }
+
+        static void SetupEditorBlacklist(List<string> list, string listValue)
+        {
+            list.Clear();
+            list.AddRange(listValue
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(f => f.Trim())
+                .Where(f => !string.IsNullOrWhiteSpace(f))
+                .ToList());
         }
     }
 }
