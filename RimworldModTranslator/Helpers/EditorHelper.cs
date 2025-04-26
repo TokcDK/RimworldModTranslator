@@ -610,59 +610,6 @@ namespace RimworldModTranslator.Helpers
                 .Replace("\n", "\\n");
         }
 
-        public static void LoadStringsFromTheXmlDir(string xmlDirName, ObservableCollection<string?> langDirNames, string languagesDirPath, EditorStringsData stringsData)
-        {
-            // Создаем словарь с вложенной структурой:
-            // Dictionary<subPath, Dictionary<key, Dictionary<language, value>>>
-            var filesDictFull = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
-
-            foreach (var language in langDirNames)
-            {
-                if (language == null)
-                    continue;
-
-                string langPath = Path.Combine(languagesDirPath, language);
-                string langXmlDirPath = Path.Combine(langPath, xmlDirName);
-                if (!Directory.Exists(langXmlDirPath))
-                    continue;
-
-                foreach (var file in Directory.GetFiles(langXmlDirPath, "*.xml", SearchOption.AllDirectories))
-                {
-                    // Вычисление подкаталога относительно текущей папки языка
-                    string xmlSubPath = Path.GetRelativePath(langPath, file);
-
-                    if (!filesDictFull.TryGetValue(xmlSubPath, out Dictionary<string, Dictionary<string, string>>? stringByKeyForEachLanguage))
-                    {
-                        stringByKeyForEachLanguage = new Dictionary<string, Dictionary<string, string>>();
-                        filesDictFull[xmlSubPath] = stringByKeyForEachLanguage;
-                    }
-
-                    try
-                    {
-                        XDocument doc = XDocument.Load(file);
-                        // Получить все переведенные элементы (без вложенных элементов и пустых значений)
-                        var pairs = doc.Descendants().Where(e => !e.HasElements && !string.IsNullOrWhiteSpace(e.Value));
-
-                        foreach (var pair in pairs)
-                        {
-                            string key = pair.Name.LocalName;
-                            if (!stringByKeyForEachLanguage.TryGetValue(key, out Dictionary<string, string>? value))
-                            {
-                                value = new Dictionary<string, string>();
-                                stringByKeyForEachLanguage[key] = value;
-                            }
-
-                            value[language] = NormalizeNewLines(pair.Value);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Ignore xml parse errors
-                    }
-                }
-            }
-        }
-
         public static void LoadStringsFromStringsDir(List<string?> langDirNames, string languagesDirPath, EditorStringsData stringsData)
         {
             foreach (var language in langDirNames)
