@@ -98,8 +98,7 @@ namespace RimworldModTranslator.Translations
             $"Ctrl+V - {PasteToSelectedRowsToolTip}\n" +
             $"Ctrl+D - {ClearSelectedRowsToolTip}\n" +
             $"Ctrl+S - {SaveModDBToolTip}" +
-            "\n" +
-            "\n" +
+            "\n\n" +
             T._("'{0}' column contains extracted strings from Defs dir.", Properties.Settings.Default.ExtractedStringsLanguageFolderName);
         #endregion
 
