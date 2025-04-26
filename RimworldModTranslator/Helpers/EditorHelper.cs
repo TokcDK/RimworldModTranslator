@@ -1121,13 +1121,7 @@ namespace RimworldModTranslator.Helpers
                 Preview = Properties.Settings.Default.TargetModPreview
             };
 
-            EditorHelper.WriteAbout(targetModDirPath, modAboutData);
-
-            EditorHelper.WriteLoadFoldersXml(targetModDirPath, modAboutData, folders);
-
-            Logger.Info(Translation.SavedTranslatedFilesTo0, targetModDirPath);
-
-            return new ModData(mod.ParentGame) 
+            var translatedModData = new ModData(mod.ParentGame)
             {
                 DirectoryName = $"{targetModDirName}",
                 About = new AboutData()
@@ -1141,6 +1135,14 @@ namespace RimworldModTranslator.Helpers
                     Url = modAboutData.Url
                 }
             };
+
+            EditorHelper.WriteAbout(targetModDirPath, modAboutData);
+
+            EditorHelper.WriteLoadFoldersXml(targetModDirPath, modAboutData, folders);
+
+            Logger.Info(Translation.SavedTranslatedFilesTo0, targetModDirPath);
+
+            return translatedModData;
         }
 
         private static bool WriteTranslatedFolders(string targetModDirPath, IEnumerable<FolderData> folders, ModData mod)
