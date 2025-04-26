@@ -311,7 +311,7 @@ namespace RimworldModTranslator.Helpers
                 {
                     continue;
                 }
-                if(IsBlacklistedLanguage(column.ColumnName))
+                if(IsReadBlacklistedLanguage(column.ColumnName))
                 {
                     Logger.Debug(Translation.Language0IsBlacklisted, column.ColumnName);
                     continue;
@@ -536,7 +536,7 @@ namespace RimworldModTranslator.Helpers
             {
                 if (languageName == null) continue;
 
-                if (IsBlacklistedLanguage(languageName))
+                if (IsReadBlacklistedLanguage(languageName))
                 {                    
                     Logger.Info(Translation.Language0IsBlacklisted, languageName);
                     continue;
@@ -558,7 +558,17 @@ namespace RimworldModTranslator.Helpers
             }
         }
 
-        private static bool IsBlacklistedLanguage(string languageName)
+        private static bool IsReadBlacklistedLanguage(string languageName)
+        {
+            return IsBlacklistedLanguage(languageName, Properties.Settings.Default.EditorReadBlacklist);
+        }
+
+        private static bool IsWriteBlacklistedLanguage(string languageName)
+        {
+            return IsBlacklistedLanguage(languageName, Properties.Settings.Default.EditorWriteBlacklist);
+        }
+
+        private static bool IsBlacklistedLanguage(string languageName, string blacklist)
         {
             var readBlacklist = Properties.Settings.Default.EditorReadBlacklist;
             if (string.IsNullOrWhiteSpace(readBlacklist))
@@ -627,7 +637,7 @@ namespace RimworldModTranslator.Helpers
             {
                 if (language == null) continue;
 
-                if (IsBlacklistedLanguage(language))
+                if (IsReadBlacklistedLanguage(language))
                 {
                     Logger.Info(Translation.Language0IsBlacklisted, language);
                     continue;
