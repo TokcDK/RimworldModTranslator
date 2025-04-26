@@ -37,13 +37,14 @@ namespace RimworldModTranslator.Helpers
 
         internal static EditorStringsDBCache StringsDBCache = new();
 
+        internal const char COMMENT_MARK_CHAR = ';';
         internal const string LANGUAGES_DIR_NAME = "Languages";
         internal const string STRINGS_DIR_NAME = "Strings";
         internal const string KEYED_DIR_NAME = "Keyed";
         internal const string DEFS_DIR_NAME = "Defs";
         internal const string DEFINJECTED_DIR_NAME = "DefInjected";
         internal const string ROOT_DIR_NAME = "/";
-        internal const char COMMENT_MARK_CHAR = ';';
+        internal const string RMT_DB_XML_NAME = "RMT.DB.xml";
 
         static readonly HashSet<char> invalidChars = ['\\', '/', ':', '<', '>', '|', '*', '?', '\"'];
 
@@ -173,7 +174,7 @@ namespace RimworldModTranslator.Helpers
             if (!Directory.Exists(modDirectoryPath))
                 Directory.CreateDirectory(modDirectoryPath);
 
-            string outputFilePath = Path.Combine(modDirectoryPath, $"RMT.DB.xml");
+            string outputFilePath = Path.Combine(modDirectoryPath, RMT_DB_XML_NAME);
 
             using var dataSet = new DataSet(mod.DirectoryName);
 
@@ -201,7 +202,7 @@ namespace RimworldModTranslator.Helpers
             }
 
             string modDirectoryPath = Path.Combine(mod.ParentGame.ModsDirPath, mod.DirectoryName);
-            string outputFilePath = Path.Combine(modDirectoryPath, $"RMT.DB.xml");
+            string outputFilePath = Path.Combine(modDirectoryPath, RMT_DB_XML_NAME);
 
             if (!File.Exists(outputFilePath))
             {
@@ -521,6 +522,7 @@ namespace RimworldModTranslator.Helpers
         // Регулярное выражение для поиска строк с xml тегами, которые начинаются и заканчиваются одинаково.
         // Пример: <OvipositorF.stages.5.label>Бездна</OvipositorF.stages.5.label>
         static Regex regex = new Regex(@"^\s*<(?<tag>[^>]+)>(?<value>.*)</\k<tag>>\s*$", RegexOptions.Compiled);
+        
         internal static int ReadFromTheStringsArray(string[] lines, string language, StringsIdsBySubPath stringIdsList, bool skipMissingIds = false)
         {
             int loadedStringsCount = 0;
