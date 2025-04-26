@@ -1099,7 +1099,7 @@ namespace RimworldModTranslator.Helpers
                 return null;
             }
 
-            var translatedModData = GetTranslatedModData(translatedModDirName, mod, folders);
+            var translatedModData = GetTranslatedModData(Path.GetFileName(translatedModDirPath), mod, folders);
 
             EditorHelper.WriteAbout(translatedModDirPath, translatedModData);
 
