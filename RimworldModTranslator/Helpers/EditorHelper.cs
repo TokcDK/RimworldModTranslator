@@ -1634,9 +1634,11 @@ namespace RimworldModTranslator.Helpers
 
         internal static bool IsValidBlacklistValue(string value)
         {
+            if (value == "") return true; // empty value allow
+
             if (string.IsNullOrWhiteSpace(value))
             {
-                return false;
+                return false; // but do not allow whitespaces and null
             }
 
             List<string> readBlacklist = value
