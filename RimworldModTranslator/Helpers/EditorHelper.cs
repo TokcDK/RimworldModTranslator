@@ -1025,80 +1025,96 @@ namespace RimworldModTranslator.Helpers
             return isAnyWrote;
         }
 
-        internal static void WriteAbout(string targetModDirPath, ModAboutData modAboutData)
+        internal static void WriteAbout(string targetModDirPath, ModData? translatedModData)
         {
-            WriteAboutXml(targetModDirPath, modAboutData);
+            if(translatedModData == null || WriteAboutXml(targetModDirPath, translatedModData))
+            {
+                return;
+            }
 
             // Copy Preview.png
-            if (!string.IsNullOrWhiteSpace(modAboutData.Preview) && File.Exists(Path.GetFullPath(modAboutData.Preview)))
+            string previewPath = translatedModData.About!.Preview;
+            if (!string.IsNullOrWhiteSpace(previewPath) && File.Exists(Path.GetFullPath(previewPath)))
             {
-                var previewPath = Path.Combine(targetModDirPath, "About", "Preview.png");
-                File.Copy(modAboutData.Preview, previewPath, true);
+                var targetPreviewPath = Path.Combine(targetModDirPath, "About", "Preview.png");
+                File.Copy(previewPath, targetPreviewPath, true);
             }
         }
 
-        private static void WriteAboutXml(string targetModDirPath, ModAboutData modAboutData)
+        private static bool WriteAboutXml(string targetModDirPath, ModData? translatedModData)
         {
+            if (translatedModData == null || translatedModData.About == null)
+            {
+                Logger.Warn(Translation.AboutDataIsNull);
+                return false;
+            }
+
             var aboutXmlPath = Path.Combine(targetModDirPath, "About", "About.xml");
             Directory.CreateDirectory(Path.GetDirectoryName(aboutXmlPath)!);
 
-            // Обработка SupportedVersions - разбить по запятой и добавить li элементы
-            var supportedVersionsList = new List<XElement>();
-            if (!string.IsNullOrWhiteSpace(modAboutData.SupportedVersions))
+            try
             {
-                var versions = modAboutData.SupportedVersions.Split([',', ';'], StringSplitOptions.RemoveEmptyEntries);
-                foreach (var version in versions)
+                // Обработка SupportedVersions - разбить по запятой и добавить li элементы
+                var supportedVersionsList = new List<XElement>();
+                foreach (var version in translatedModData.About.SupportedVersions)
                 {
                     supportedVersionsList.Add(new XElement("li", version.Trim()));
                 }
+
+                // Значение для loadAfter, используя SourceMod.About.PackageId, если оно доступно
+                string loadAfterPackageId = translatedModData.About?.PackageId ?? string.Empty;
+
+                var modMetaData = new XElement("ModMetaData",
+                    new XElement("name", translatedModData.About!.Name ?? string.Empty),
+                    new XElement("author", translatedModData.About.Author ?? string.Empty),
+                    new XElement("url", translatedModData.About.Url ?? string.Empty),
+                    new XElement("modVersion", translatedModData.About.ModVersion ?? string.Empty),
+                    new XElement("packageId", translatedModData.About.PackageId ?? string.Empty),
+                    new XElement("supportedVersions", supportedVersionsList),
+                    new XElement("modDependencies"),
+                    new XElement("loadAfter", new XElement("li", loadAfterPackageId)),
+                    new XElement("description", translatedModData.About.Description ?? string.Empty)
+                );
+
+                var doc = new XDocument(new XDeclaration("1.0", "utf-8", null), modMetaData);
+                doc.Save(aboutXmlPath);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, Translation.ErrorWritingAboutXml, aboutXmlPath);
+                return false;
             }
 
-            // Значение для loadAfter, используя SourceMod.About.PackageId, если оно доступно
-            string loadAfterPackageId = modAboutData.SourceMod?.About?.PackageId ?? string.Empty;
-
-            var modMetaData = new XElement("ModMetaData",
-                new XElement("name", modAboutData.Name ?? string.Empty),
-                new XElement("author", modAboutData.Author ?? string.Empty),
-                new XElement("url", modAboutData.Url ?? string.Empty),
-                new XElement("modVersion", modAboutData.ModVersion ?? string.Empty),
-                new XElement("packageId", modAboutData.PackageId ?? string.Empty),
-                new XElement("supportedVersions", supportedVersionsList),
-                new XElement("modDependencies"),
-                new XElement("loadAfter", new XElement("li", loadAfterPackageId)),
-                new XElement("description", modAboutData.Description ?? string.Empty)
-            );
-
-            var doc = new XDocument(new XDeclaration("1.0", "utf-8", null), modMetaData);
-            doc.Save(aboutXmlPath);
+            return true;
         }
 
-        internal static ModData? SaveTranslatedStrings(IEnumerable<FolderData> folders, ModData? mod)
+        internal static ModData? WriteTranslatedMod(IEnumerable<FolderData> folders, ModData? mod)
         {
             if (mod == null) return null;
 
-            string targetModDirName = $"{mod.DirectoryName!}_Translated";
+            string translatedModDirName = $"{mod.DirectoryName!}_Translated";
 
-            string targetModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{targetModDirName}");
+            string translatedModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{translatedModDirName}");
 
             int index = 0;
-            while (Directory.Exists(targetModDirPath))
+            while (Directory.Exists(translatedModDirPath))
             {
-                targetModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{targetModDirName}{index++}");
+                translatedModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{translatedModDirName}{index++}");
             }
-            targetModDirName = $"{targetModDirName}{index}"; // set target mod name
+            translatedModDirName = $"{translatedModDirName}{index}"; // set target mod name
 
-            if(!WriteTranslatedFolders(targetModDirPath, folders, mod))
+            if(!WriteTranslatedModFolders(translatedModDirPath, folders, mod))
             {
                 return null;
             }
 
-            var translatedModData = GetTranslatedModData(targetModDirName, mod, folders);
+            var translatedModData = GetTranslatedModData(translatedModDirName, mod, folders);
 
-            EditorHelper.WriteAbout(targetModDirPath, modAboutData);
+            EditorHelper.WriteAbout(translatedModDirPath, translatedModData);
 
-            EditorHelper.WriteLoadFoldersXml(targetModDirPath, modAboutData, folders);
+            EditorHelper.WriteLoadFoldersXml(translatedModDirPath, folders);
 
-            Logger.Info(Translation.SavedTranslatedFilesTo0, targetModDirPath);
+            Logger.Info(Translation.SavedTranslatedFilesTo0, translatedModDirPath);
 
             return translatedModData;
         }
@@ -1150,7 +1166,7 @@ namespace RimworldModTranslator.Helpers
             };
         }
 
-        private static bool WriteTranslatedFolders(string targetModDirPath, IEnumerable<FolderData> folders, ModData mod)
+        private static bool WriteTranslatedModFolders(string targetModDirPath, IEnumerable<FolderData> folders, ModData mod)
         {
             bool isAnyFolderFileWrote = false;
             DataTable mergedDataTable = folders.First().TranslationsTable!;

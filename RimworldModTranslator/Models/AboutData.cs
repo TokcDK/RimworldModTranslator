@@ -17,5 +17,6 @@ namespace RimworldModTranslator.Models
         public string? Description { get; set; }
         public List<string> LoadAfter { get; set; } = [];
         public List<ModDependency> ModDependencies { get; set; } = [];
+        public string Preview { get; internal set; } = "";
     }
 }
