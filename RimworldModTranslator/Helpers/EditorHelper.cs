@@ -1092,6 +1092,19 @@ namespace RimworldModTranslator.Helpers
                 return null;
             }
 
+            var translatedModData = GetTranslatedModData(targetModDirName, mod, folders);
+
+            EditorHelper.WriteAbout(targetModDirPath, modAboutData);
+
+            EditorHelper.WriteLoadFoldersXml(targetModDirPath, modAboutData, folders);
+
+            Logger.Info(Translation.SavedTranslatedFilesTo0, targetModDirPath);
+
+            return translatedModData;
+        }
+
+        private static ModData? GetTranslatedModData(string targetModDirName, ModData mod, IEnumerable<FolderData> folders)
+        {
             string name = Properties.Settings.Default.TargetModName;
             string packageId = Properties.Settings.Default.TargetModPackageID;
             string author = Properties.Settings.Default.TargetModAuthor;
@@ -1107,21 +1120,21 @@ namespace RimworldModTranslator.Helpers
                 PackageId = !string.IsNullOrWhiteSpace(packageId) ? packageId : $"{mod.About?.PackageId}.translation",
                 Author = !string.IsNullOrWhiteSpace(author) ? author : $"{mod.About?.Author},Anonimous",
                 ModVersion = !string.IsNullOrWhiteSpace(version) ? version : "1.0",
-                SupportedVersions = 
-                supportedVersionsFromFolders.Length > 0 
-                    ? supportedVersionsFromFolders 
-                    : !string.IsNullOrWhiteSpace(supportedVersions) 
+                SupportedVersions =
+                supportedVersionsFromFolders.Length > 0
+                    ? supportedVersionsFromFolders
+                    : !string.IsNullOrWhiteSpace(supportedVersions)
                         ? supportedVersions
-                        : mod.About?.SupportedVersions != null 
-                            ? string.Join(",", mod.About?.SupportedVersions!) 
+                        : mod.About?.SupportedVersions != null
+                            ? string.Join(",", mod.About?.SupportedVersions!)
                             : "",
-                
+
                 Description = !string.IsNullOrWhiteSpace(description) ? description : $"{mod.About?.Name} Translation",
                 Url = !string.IsNullOrWhiteSpace(url) ? url : "",
                 Preview = Properties.Settings.Default.TargetModPreview
             };
 
-            var translatedModData = new ModData(mod.ParentGame)
+            return new ModData(mod.ParentGame)
             {
                 DirectoryName = $"{targetModDirName}",
                 About = new AboutData()
@@ -1135,14 +1148,6 @@ namespace RimworldModTranslator.Helpers
                     Url = modAboutData.Url
                 }
             };
-
-            EditorHelper.WriteAbout(targetModDirPath, modAboutData);
-
-            EditorHelper.WriteLoadFoldersXml(targetModDirPath, modAboutData, folders);
-
-            Logger.Info(Translation.SavedTranslatedFilesTo0, targetModDirPath);
-
-            return translatedModData;
         }
 
         private static bool WriteTranslatedFolders(string targetModDirPath, IEnumerable<FolderData> folders, ModData mod)
