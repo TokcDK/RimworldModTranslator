@@ -1076,13 +1076,16 @@ namespace RimworldModTranslator.Helpers
         {
             if (mod == null) return null;
 
-            string targetModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{mod.DirectoryName!}_Translated");
+            string targetModDirName = $"{mod.DirectoryName!}_Translated";
+
+            string targetModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{targetModDirName}");
 
             int index = 0;
             while (Directory.Exists(targetModDirPath))
             {
-                targetModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{mod.DirectoryName!}_Translated{index++}");
+                targetModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{targetModDirName}{index++}");
             }
+            targetModDirName = $"{targetModDirName}{index}"; // set target mod name
 
             if(!WriteTranslatedFolders(targetModDirPath, folders, mod))
             {
@@ -1126,7 +1129,7 @@ namespace RimworldModTranslator.Helpers
 
             return new ModData(mod.ParentGame) 
             {
-                DirectoryName = $"{mod.DirectoryName!}_Translated",
+                DirectoryName = $"{targetModDirName}",
                 About = new AboutData()
                 {
                     Name = modAboutData.Name,
