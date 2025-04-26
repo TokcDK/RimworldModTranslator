@@ -1,4 +1,5 @@
 ﻿using RimworldModTranslator.Helpers;
+using RimworldModTranslator.Models.EditorColumns;
 using RimworldModTranslator.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace RimworldModTranslator.Views
         {
             InitializeComponent();
         }
+
         private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             if (EditorHelper.IsReadOnlyColumn(e.Column.Header.ToString()))

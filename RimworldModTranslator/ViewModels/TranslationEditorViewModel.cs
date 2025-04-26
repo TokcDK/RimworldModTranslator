@@ -1,28 +1,20 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using NLog;
+using RimworldModTranslator.Helpers;
+using RimworldModTranslator.Messages;
 using RimworldModTranslator.Models;
+using RimworldModTranslator.Services;
+using RimworldModTranslator.Translations;
+using RimworldModTranslator.Views;
 using System.Collections.Generic;
-using System;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.IO;
 using System.Linq;
-using System.Xml.Linq;
-using RimworldModTranslator.Services;
-using System.Text.RegularExpressions;
-using System.Windows.Input;
-using System.Data;
-using RimworldModTranslator.Helpers;
-using System.Windows.Controls;
-using System.Collections.Specialized;
-using RimworldModTranslator.Views;
-using System.Windows;
-using System.Data.Common;
 using System.Threading.Tasks;
-using NLog;
-using RimworldModTranslator.Translations;
-using NLog.Fluent;
-using CommunityToolkit.Mvvm.Messaging;
-using RimworldModTranslator.Messages;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace RimworldModTranslator.ViewModels
@@ -335,13 +327,9 @@ namespace RimworldModTranslator.ViewModels
 
             _mod = mod; // retarget translating mod
 
-            // Load folders only if the the folder list is empty
-            if (Folders.Count == 0)
+            if (!EditorHelper.LoadModTranslatableFolders(mod, Folders))
             {
-                if (!EditorHelper.LoadModTranslatableFolders(mod, Folders))
-                {
-                    return;
-                }
+                return;
             }
 
             // check folders to parse
@@ -352,9 +340,33 @@ namespace RimworldModTranslator.ViewModels
             }
 
             EditorHelper.LoadStringsForAllFolders(Folders, mod);
+            if (!Folders.Any(f => f.StringsData != null && f.StringsData.loadedStringsCount > 0))
+            {
+                Logger.Warn(Translation.NothingToTranslateLogMessage);
+                return;
+            }
+
+            // insert all in foldet as first
+            var AllInFolder = new FolderData
+            {
+                Name = EditorHelper.ALL_IN_FOLDER_NAME,
+            };
+            Folders.Insert(0, AllInFolder);
 
             // select 1st dir when not selected
             SelectedFolder ??= Folders.FirstOrDefault();
+
+            // for overall table
+            AllInFolder.TranslationsTable = EditorHelper.CreateTranslationsTable(null, Folders);
+            var supportedVersions = EditorHelper.EnumerateSupportedVersions(Folders);
+            AllInFolder.SupportedVersions = supportedVersions.ToList();
+            // EditorHelper.RemoveAllButFirstFolder(Folders); // save for later using datas
+            foreach (var folder in Folders.Skip(1))
+            {
+                // reset datas, need only supported versions
+                folder.StringsData = null;
+                folder.TranslationsTable = null;
+            }
 
             // load mod db if exist
             EditorHelper.LoadModDB(Folders, mod);
@@ -386,7 +398,7 @@ namespace RimworldModTranslator.ViewModels
         private bool IsTheFoldersEnabled()
         {
             return _mod != null
-                && Folders.Count > 1;
+                   && Folders.Count > 1 && Folders[0].Name != EditorHelper.ALL_IN_FOLDER_NAME;
         }
 
         private bool IsTheTranslatorEnabled()

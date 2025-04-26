@@ -6,9 +6,10 @@ namespace RimworldModTranslator.Models
 {
     public class FolderData
     {
-        public string Name { get; set; }
-        public DataTable? TranslationsTable { get; set; }
+        public string? Name { get; internal set; }
+        public DataTable? TranslationsTable { get; internal set; }
 
-        public List<string> SupportedVersions { get; set; } = new();
+        public List<string> SupportedVersions { get; internal set; } = new();
+        public EditorStringsData? StringsData { get; internal set; }
     }
 }

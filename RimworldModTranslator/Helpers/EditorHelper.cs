@@ -1,4 +1,5 @@
 ﻿using NLog;
+using NLog.Filters;
 using RimworldModTranslator.Models;
 using RimworldModTranslator.Models.EditorColumns;
 using RimworldModTranslator.Models.LanguageXmlReader;
@@ -43,6 +44,10 @@ namespace RimworldModTranslator.Helpers
         internal const string DEFS_DIR_NAME = "Defs";
         internal const string DEFINJECTED_DIR_NAME = "DefInjected";
         internal const string ROOT_DIR_NAME = "/";
+        internal const string ALL_IN_FOLDER_NAME = "*";
+        internal const char COMMENT_MAR_CHAR_STRING = ';';
+
+        static readonly HashSet<char> invalidChars = ['\\', '/', ':', '<', '>', '|', '*', '?', '\"'];
 
         public static FolderColumnData FolderColumnData { get; } = new();
         public static SubPathColumnData SubPathColumnData { get; } = new();
@@ -151,7 +156,7 @@ namespace RimworldModTranslator.Helpers
         private static IEnumerable<string> ReadTagsFile(string path, bool onlyNewTags = true)
         {
             return File.ReadAllLines(path)
-                .Select(l => l.Split(new[] { ';' }, 2)[0]) // split by ';' comment char and take the first part
+                .Select(l => l.Split(new[] { COMMENT_MAR_CHAR_STRING }, 2)[0]) // split by ';' comment char and take the first part
                 .Select(l => l.Trim()) // trim spaces
 
                 // remove empty lines and optional existing tags
@@ -211,12 +216,14 @@ namespace RimworldModTranslator.Helpers
                 var dataSet = new DataSet();
                 dataSet.ReadXml(outputFilePath);
 
+                var folderColumn = FolderColumnData;
                 foreach (DataTable table in dataSet.Tables)
                 {
-                    var folder = folders.FirstOrDefault(f => f.Name == table.TableName);
+                    var folder = folders.FirstOrDefault(f => folders[0].Name == ALL_IN_FOLDER_NAME || f.Name == table.TableName);
                     if (folder != null)
                     {
-                        if (forceReplaceTables)
+                        if (forceReplaceTables 
+                            && table.Columns.Contains(folderColumn.Name!)) // check folder column back compatibility with old db
                         {
                             folder.TranslationsTable = table.Copy();
                         }
@@ -258,13 +265,25 @@ namespace RimworldModTranslator.Helpers
                 Dictionary<string, DataRow> RowsByID = table.Rows.Cast<DataRow>()
                     .ToDictionary(r => r[IdColumnData.Name!] + "", r => r);
 
+                AddMissingColumns(table, folder);
+
                 foreach (DataRow row in folder.TranslationsTable.Rows)
                 {
-                    string subPath = row[SubPathColumnData.Name!]+"";
-                    string id = row[IdColumnData.Name!] +"";
-                    DataRow? foundRow = RowsByID.TryGetValue(id, out DataRow? rowByID) ? rowByID : null;
+                    string? subPath = row.Field<string>(SubPathColumnData.Name!);
+                    if (string.IsNullOrEmpty(subPath))
+                    {
+                        continue;
+                    }
+                    string? id = row.Field<string>(IdColumnData.Name!);
+                    if (string.IsNullOrEmpty(id))
+                    {
+                        continue;
+                    }
 
-                    if (foundRow == null) continue;
+                    if(!RowsByID.TryGetValue(id, out DataRow? foundRow))
+                    {
+                        continue;
+                    }
 
                     foreach (DataColumn column in table.Columns)
                     {
@@ -273,18 +292,34 @@ namespace RimworldModTranslator.Helpers
                             continue;
                         }
 
-                        if (!folder.TranslationsTable.Columns.Contains(column.ColumnName))
-                        {
-                            continue;
-                        }
-
-                        string value = foundRow[column].ToString() ?? "";
+                        string? value = foundRow.Field<string>(column.ColumnName);
                         if (string.IsNullOrEmpty(value)) // we first check if the value is empty but maybe it will be optional
                         {
                             continue;
                         }
                         row[column.ColumnName] = value;
                     }
+                }
+            }
+        }
+
+        private static void AddMissingColumns(DataTable table, FolderData folder)
+        {
+            if (folder.TranslationsTable == null) return;
+
+            foreach (DataColumn column in table.Columns)
+            {
+                if (IsReadOnlyColumn(column.ColumnName))
+                {
+                    continue;
+                }
+                if (!folder.TranslationsTable.Columns.Contains(column.ColumnName))
+                {
+                    DataColumn newColumn = new(column.ColumnName, column.DataType)
+                    {
+                        Caption = column.Caption
+                    };
+                    folder.TranslationsTable.Columns.Add(newColumn);
                 }
             }
         }
@@ -465,12 +500,11 @@ namespace RimworldModTranslator.Helpers
 
             foreach (var folder in folders)
             {
-                var stringsData = LoadStringsForFolder(folder, mod);
+                folder.StringsData = LoadStringsForFolder(folder, mod, null);
 
-                var translationsTable = EditorHelper.CreateTranslationsTable(stringsData);
+                totalStringsLoaded += folder.StringsData.loadedStringsCount;
 
-                folder.TranslationsTable = translationsTable;
-                totalStringsLoaded += stringsData.loadedStringsCount;
+                //folder.TranslationsTable = translationsTable;
             }
 
             Logger.Info(Translation.LoadedTotal0StringsForAllFoldersLogMessage, totalStringsLoaded);
@@ -481,15 +515,15 @@ namespace RimworldModTranslator.Helpers
         /// </summary>
         /// <param name="folder">Папка для загрузки строк</param>
         /// <returns>Количество загруженных строк</returns>
-        internal static EditorStringsData LoadStringsForFolder(FolderData folder, ModData? mod)
+        internal static EditorStringsData LoadStringsForFolder(FolderData folder, ModData? mod, EditorStringsData? stringsData = null)
         {
             string folderName = folder.Name;
             string translatableDir = Path.Combine(mod!.ParentGame.ModsDirPath!, mod.DirectoryName!,
                                                  EditorHelper.GetTranslatableFolderName(folderName));
 
-            var stringsData = EditorHelper.LoadStringsDataFromTheLanguageDir(translatableDir);
+            stringsData ??= new();
 
-            return stringsData;
+            return EditorHelper.LoadStringsDataFromTheLanguageDir(translatableDir, stringsData);
         }
 
         public static void LoadStringsFromXmlsAsTxtDir(List<string?> languageNames, string languagesDirPath, EditorStringsData stringsData)
@@ -673,25 +707,39 @@ namespace RimworldModTranslator.Helpers
             return selectedFolder != ROOT_DIR_NAME ? selectedFolder : "";
         }
 
-        public static DataTable? CreateTranslationsTable(EditorStringsData stringsData)
+        public static DataTable? CreateTranslationsTable(EditorStringsData? stringsData, ObservableCollection<FolderData>? folders = null)
         {
-            if (stringsData.SubPathStringIdsList.Count == 0) return null;
+            bool isFoldersEmpty = folders == null || folders.Count == 0;
+
+            if (isFoldersEmpty && stringsData?.loadedStringsCount == 0) return null;
 
             var translationsTable = new DataTable();
 
+            var nameColumn = new DataColumn(FolderColumnData.Name, typeof(string))
+            {
+                Caption = FolderColumnData.Caption,
+                ReadOnly = FolderColumnData.IsReadOnly
+            };
             var subPathColumn = new DataColumn(SubPathColumnData.Name, typeof(string))
             {
-                Caption = SubPathColumnData.Caption
+                Caption = SubPathColumnData.Caption,
+                ReadOnly = SubPathColumnData.IsReadOnly
             };
             var idColumn = new DataColumn(IdColumnData.Name, typeof(string))
             {
-                Caption = IdColumnData.Caption
+                Caption = IdColumnData.Caption,
+                ReadOnly = IdColumnData.IsReadOnly
             };
 
+            if (!isFoldersEmpty) translationsTable.Columns.Add(nameColumn);
             translationsTable.Columns.Add(subPathColumn);
             translationsTable.Columns.Add(idColumn);
 
-            var languageSet = GetUniqueLanguages(stringsData);
+            var languageSet =
+                isFoldersEmpty 
+                ? GetUniqueLanguages(stringsData!)
+                : folders!.Where(f => IsValidNotAllInFolder(f))
+                .SelectMany(f => f.StringsData!.Languages).Distinct();
 
             // Add column for each language
             foreach (var lang in languageSet)
@@ -699,34 +747,50 @@ namespace RimworldModTranslator.Helpers
                 translationsTable.Columns.Add(lang, typeof(string));
             }
 
-            // fill DataTable
-            foreach (var subPathStringIds in stringsData.SubPathStringIdsList)
+            foreach (var folder in folders!.Skip(1))
             {
-                string? subPath = subPathStringIds.Key;
-                var stringIdsLanguageValuePairsList = subPathStringIds.Value.StringIdLanguageValuePairsList;
+                if (!IsValidNotAllInFolder(folder)) continue;
 
-                foreach (var stringIdsLanguageValuePairs in stringIdsLanguageValuePairsList)
+                stringsData = folder.StringsData;
+
+                // fill DataTable
+                foreach (var subPathStringIds in stringsData!.SubPathStringIdsList)
                 {
-                    string? stringId = stringIdsLanguageValuePairs.Key;
+                    string? subPath = subPathStringIds.Key;
+                    var stringIdsLanguageValuePairsList = subPathStringIds.Value.StringIdLanguageValuePairsList;
 
-                    var dataRow = translationsTable.NewRow();
-                    dataRow[subPathColumn.ColumnName] = subPath ?? string.Empty;
-                    dataRow[idColumn.ColumnName] = stringId ?? string.Empty;
-
-                    // Заполняем языковые колонки
-                    foreach (var langValuePair in stringIdsLanguageValuePairs.Value.LanguageValuePairs)
+                    foreach (var stringIdsLanguageValuePairs in stringIdsLanguageValuePairsList)
                     {
-                        string lang = langValuePair.Key;
-                        string? languageValue = langValuePair.Value;
+                        string? stringId = stringIdsLanguageValuePairs.Key;
 
-                        dataRow[lang] = languageValue;
+                        var dataRow = translationsTable.NewRow();
+                        dataRow[nameColumn.ColumnName] = folder.Name;
+                        dataRow[subPathColumn.ColumnName] = subPath ?? string.Empty;
+                        dataRow[idColumn.ColumnName] = stringId ?? string.Empty;
+
+                        // Заполняем языковые колонки
+                        foreach (var langValuePair in stringIdsLanguageValuePairs.Value.LanguageValuePairs)
+                        {
+                            string lang = langValuePair.Key;
+                            string? languageValue = langValuePair.Value;
+
+                            dataRow[lang] = languageValue;
+                        }
+
+                        translationsTable.Rows.Add(dataRow);
                     }
-
-                    translationsTable.Rows.Add(dataRow);
                 }
             }
 
             return translationsTable;
+        }
+
+        private static bool IsValidNotAllInFolder(FolderData folder)
+        {
+            return folder != null
+                    && folder.StringsData != null
+                    && folder.StringsData.loadedStringsCount > 0
+                    && folder.Name != ALL_IN_FOLDER_NAME;
         }
 
         private static HashSet<string> GetUniqueLanguages(EditorStringsData stringsData)
@@ -850,27 +914,39 @@ namespace RimworldModTranslator.Helpers
             }
         }
 
-        public static Dictionary<string, Dictionary<string, Dictionary<string, string>>>? FillTranslationsData(DataTable? translationsTable, string targetModLanguagesPath)
+        public static Dictionary<string, Dictionary<string, Dictionary<string, string>>>? FillTranslationsData(DataTable? translationsTable, string targetModLanguagesPath, string? name)
         {
             // Структура: Dictionary<LanguageName, Dictionary<SubPath, Dictionary<StringId, StringValue>>>
             var translationsData = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
 
-            // Предполагаем, что в TranslationsTable есть столбцы "SubPath" и "StringId",
-            // а остальные столбцы отвечают за языки.
             if (translationsTable == null)
                 return null;
 
-            foreach (DataRow row in translationsTable.Rows)
+            var subPathColumn = SubPathColumnData;
+            var idColumn = IdColumnData;
+            var folderColumn = FolderColumnData;
+
+            DataTable? folderTable = translationsTable.Clone();
+            foreach(DataRow row in translationsTable.Rows)
             {
-                string subPath = row[SubPathColumnData.Name!]?.ToString() ?? "";
-                string stringId = row[IdColumnData.Name!]?.ToString() ?? "";
+                if (row.Field<string>(folderColumn.Name) != name) continue;
+
+                folderTable.Rows.Add(row.ItemArray);
+            }
+
+            foreach (DataRow row in folderTable.Rows)
+            {
+                string? subPath = row.Field<string>(subPathColumn.Name);
+                string? stringId = row.Field<string>(idColumn.Name);
+                if (string.IsNullOrEmpty(subPath) 
+                    || string.IsNullOrEmpty(stringId)) continue;
 
                 foreach (DataColumn column in translationsTable.Columns)
                 {
                     if (EditorHelper.IsReadOnlyColumn(column.ColumnName))
                         continue;
 
-                    string stringValue = row[column]?.ToString() ?? "";
+                    string? stringValue = row.Field<string>(column.ColumnName);
                     if (string.IsNullOrEmpty(stringValue)) continue; // skip empty strings
 
                     string languageName = column.ColumnName;
@@ -1006,29 +1082,8 @@ namespace RimworldModTranslator.Helpers
                 targetModDirPath = Path.Combine(mod.ParentGame.ModsDirPath!, $"{mod.DirectoryName!}_Translated{index++}");
             }
 
-            bool isAnyFolderFileWrote = false;
-            foreach (var folder in folders)
+            if(!WriteTranslatedFolders(targetModDirPath, folders, mod))
             {
-                if (string.IsNullOrEmpty(folder.Name) || folder.TranslationsTable == null) continue;
-
-                string targetModLanguagesPath = Path.Combine(targetModDirPath, EditorHelper.GetTranslatableFolderName(folder.Name), LANGUAGES_DIR_NAME);
-
-                var translationsData = EditorHelper.FillTranslationsData(folder.TranslationsTable, targetModLanguagesPath);
-                if (translationsData == null)
-                    continue;
-
-                bool isAnyFileWrote = EditorHelper.WriteFiles(translationsData, targetModLanguagesPath);
-
-                if (isAnyFileWrote)
-                {
-                    isAnyFolderFileWrote = true;
-                }
-            }
-
-            if (!isAnyFolderFileWrote)
-            {
-                Directory.Delete(targetModDirPath, true);
-                Logger.Warn(Translation.NoTranslatedFilesToSave);
                 return null;
             }
 
@@ -1037,12 +1092,7 @@ namespace RimworldModTranslator.Helpers
             string author = Properties.Settings.Default.TargetModAuthor;
             string version = Properties.Settings.Default.TargetModVersion;
             string supportedVersions = Properties.Settings.Default.TargetModSupportedVersions;
-            string supportedVersionsFromFolders = string.Join(",", folders
-                .SelectMany(f => f.SupportedVersions)
-                .Select(s => s.StartsWith('v') ? s[1..] : s)
-                .Where(s => EditorHelper.IsVersionDir(s))
-                .Distinct()
-                );
+            string supportedVersionsFromFolders = string.Join(",", EnumerateSupportedVersions(folders));
             string description = Properties.Settings.Default.TargetModDescription;
             string url = Properties.Settings.Default.TargetModUrl;
             var modAboutData = new ModAboutData
@@ -1086,6 +1136,45 @@ namespace RimworldModTranslator.Helpers
                     Url = modAboutData.Url
                 }
             };
+        }
+
+        private static bool WriteTranslatedFolders(string targetModDirPath, IEnumerable<FolderData> folders, ModData mod)
+        {
+            bool isAnyFolderFileWrote = false;
+            DataTable mergedDataTable = folders.First().TranslationsTable!;
+            foreach (var folder in folders.Skip(1))
+            {
+                string targetModLanguagesPath = Path.Combine(targetModDirPath, EditorHelper.GetTranslatableFolderName(folder.Name!), LANGUAGES_DIR_NAME);
+
+                var translationsData = EditorHelper.FillTranslationsData(mergedDataTable, targetModLanguagesPath, folder.Name);
+                if (translationsData == null)
+                    continue;
+
+                bool isAnyFileWrote = EditorHelper.WriteFiles(translationsData, targetModLanguagesPath);
+
+                if (isAnyFileWrote)
+                {
+                    isAnyFolderFileWrote = true;
+                }
+            }
+
+            if (!isAnyFolderFileWrote)
+            {
+                Directory.Delete(targetModDirPath, true);
+                Logger.Warn(Translation.NoTranslatedFilesToSave);
+                
+                return false;
+            }
+
+            return true;
+        }
+
+        internal static IEnumerable<string> EnumerateSupportedVersions(IEnumerable<FolderData> folders)
+        {
+            return folders
+                .SelectMany(f => f.SupportedVersions)
+                .Select(s => s.StartsWith('v') ? s[1..] : s)
+                .Distinct();
         }
 
         internal static bool IsVersionDir(string s)
@@ -1214,9 +1303,9 @@ namespace RimworldModTranslator.Helpers
             }
         }
 
-        public static EditorStringsData LoadStringsDataFromTheLanguageDir(string selectedTranslatableDir)
+        public static EditorStringsData LoadStringsDataFromTheLanguageDir(string selectedTranslatableDir, EditorStringsData? stringsData = null)
         {
-            EditorStringsData stringsData = new();
+            stringsData ??= new();
 
             EditorHelper.ExtractStrings(selectedTranslatableDir, stringsData);
             EditorHelper.LoadDefKeyedStringsFromTheDir(selectedTranslatableDir, stringsData);
@@ -1435,7 +1524,6 @@ namespace RimworldModTranslator.Helpers
             return Task.CompletedTask;
         }
 
-        static readonly HashSet<char> invalidChars = ['\\', '/', ':', '<', '>', '|', '*', '?', '\"'];
         internal static bool IsValidFolderName(string folderName)
         {
             // Check if the folder name contains any invalid characters
@@ -1473,6 +1561,17 @@ namespace RimworldModTranslator.Helpers
             {
                 view.SortDescriptions.Clear();
                 view.Refresh();
+            }
+        }
+
+        internal static void RemoveAllButFirstFolder(ObservableCollection<FolderData> folders)
+        {
+            foreach(var folder in folders.Skip(1).ToArray())
+            {
+                if (folder != null)
+                {
+                    folders.Remove(folder);
+                }
             }
         }
     }

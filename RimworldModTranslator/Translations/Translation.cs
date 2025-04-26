@@ -127,6 +127,7 @@ namespace RimworldModTranslator.Translations
         internal static string FailedToSaveModsConfigTo0 { get; } = T._("Failed to save mods configuration: {0}");
         internal static string OpenDirErrorLogMessage { get; } = T._("Error opening directory: {0}");
         internal static string DirPathIsNotSetWarnLogMessage { get; } = T._("Directory path is not set. Path: {0}");
+        internal static string NothingToTranslateLogMessage { get; } = T._("Nothing to translate.");
         #endregion
     }
 }
