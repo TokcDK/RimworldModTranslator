@@ -23,6 +23,7 @@ namespace RimworldModTranslator.Translations
         public static string WriteLanguagesBlackListName { get; } = T._("Write languages blacklist (name1,name2...,nameN)");
         public static string WriteLanguagesBlackListToolTip { get; } = T._("If the language name is in the list, it will be skipped when writing strings from the mod.\n" +
             "Example: 'English,Spanish' - will skip English and Spanish languages when writing strings to the translated mod.");
+        public static string Language0IsBlacklisted { get; } = T._("Language {0} is blacklisted. Skipping it.");
         #region ui names and tooltips
         internal static string NameName { get; } = T._("Name");
         internal static string ActiveName { get; } = T._("☑");

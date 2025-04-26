@@ -523,8 +523,13 @@ namespace RimworldModTranslator.Helpers
         {
             foreach (var languageName in languageNames)
             {
-                if (languageName == null || IsBlacklistedLanguage(languageName))
+                if (languageName == null) continue;
+
+                if (IsBlacklistedLanguage(languageName))
+                {                    
+                    Logger.Info(Translation.Language0IsBlacklisted, languageName);
                     continue;
+                }
 
                 stringsData.Languages.Add(languageName);
 
@@ -664,6 +669,11 @@ namespace RimworldModTranslator.Helpers
             {
                 if (language == null)
                     continue;
+                if (IsBlacklistedLanguage(language))
+                {
+                    Logger.Info(Translation.Language0IsBlacklisted, language);
+                    continue;
+                }
 
                 stringsData.Languages.Add(language);
 
