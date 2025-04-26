@@ -1,14 +1,10 @@
 ﻿using NLog;
 using RimworldModTranslator.Models;
-using RimworldModTranslator.Services;
 using RimworldModTranslator.Translations;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RimworldModTranslator.Helpers
 {
@@ -69,7 +65,7 @@ namespace RimworldModTranslator.Helpers
         {
             if (inputModToAdd == null || inputModToSortAfter == null) return false;
             if (!inputModToSortAfter.IsActive) return false; // dont need to sort when mod is not active
-            
+
             var game = inputModToSortAfter.ParentGame;
             if (!IsValidGame(game)) return false; // game is not valid
 
@@ -83,7 +79,7 @@ namespace RimworldModTranslator.Helpers
 
             game.ModsList.Insert(indexA + 1, inputModToAdd!);
 
-            if(!SaveGameData(game)) return false; // failed save
+            if (!SaveGameData(game)) return false; // failed save
 
             return true;
         }
@@ -169,7 +165,7 @@ namespace RimworldModTranslator.Helpers
 
             foreach (var mod in game.ModsList)
             {
-                mod.IsActive = mod.About != null &&!string.IsNullOrWhiteSpace(mod.About.PackageId)
+                mod.IsActive = mod.About != null && !string.IsNullOrWhiteSpace(mod.About.PackageId)
                     && modsConfig.ActiveMods.Contains(mod.About.PackageId.ToLowerInvariant());
             }
 

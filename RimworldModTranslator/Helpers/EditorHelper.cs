@@ -1,29 +1,21 @@
 ﻿using NLog;
-using NLog.Filters;
 using RimworldModTranslator.Models;
 using RimworldModTranslator.Models.EditorColumns;
 using RimworldModTranslator.Models.LanguageXmlReader;
-using RimworldModTranslator.Properties;
 using RimworldModTranslator.Services;
 using RimworldModTranslator.Translations;
 using SharpCompress.Archives.Tar;
-using SharpCompress.Common;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Data.Common;
-using System.Formats.Tar;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Xml.Linq;
-using static RimworldModTranslator.ViewModels.TranslationEditorViewModel;
 
 namespace RimworldModTranslator.Helpers
 {
@@ -109,7 +101,7 @@ namespace RimworldModTranslator.Helpers
             Path.Combine("RES", "data", "usertags.txt")
         ];
         private static bool _isDefsXmlTagsLoaded = false;
-        public static List<string> DefsXmlTags 
+        public static List<string> DefsXmlTags
         {
             get
             {
@@ -223,7 +215,7 @@ namespace RimworldModTranslator.Helpers
                     var folder = folders.FirstOrDefault(f => folders[0].Name == ALL_IN_FOLDER_NAME || f.Name == table.TableName);
                     if (folder != null)
                     {
-                        if (forceReplaceTables 
+                        if (forceReplaceTables
                             && table.Columns.Contains(folderColumn.Name!)) // check folder column back compatibility with old db
                         {
                             folder.TranslationsTable = table.Copy();
@@ -281,14 +273,14 @@ namespace RimworldModTranslator.Helpers
                         continue;
                     }
 
-                    if(!RowsByID.TryGetValue(id, out DataRow? foundRow))
+                    if (!RowsByID.TryGetValue(id, out DataRow? foundRow))
                     {
                         continue;
                     }
 
                     foreach (DataColumn column in table.Columns)
                     {
-                        if(IsReadOnlyColumn(column.ColumnName))
+                        if (IsReadOnlyColumn(column.ColumnName))
                         {
                             continue;
                         }
@@ -340,7 +332,7 @@ namespace RimworldModTranslator.Helpers
 
         public static void GetTranslatableFolders(IList<FolderData> folders, string modPath)
         {
-            if(IsLoadedFromLoadFolders(folders, modPath))
+            if (IsLoadedFromLoadFolders(folders, modPath))
             {
                 return;
             }
@@ -364,7 +356,7 @@ namespace RimworldModTranslator.Helpers
 
                 var supportedVersions = loadFoldersDoc.Element("loadFolders")?.Elements();
 
-                if(supportedVersions == null) return false;
+                if (supportedVersions == null) return false;
 
                 Dictionary<string, FolderData> folderNames = new();
                 foreach (var versionElement in supportedVersions)
@@ -553,7 +545,7 @@ namespace RimworldModTranslator.Helpers
         // Регулярное выражение для поиска строк с xml тегами, которые начинаются и заканчиваются одинаково.
         // Пример: <OvipositorF.stages.5.label>Бездна</OvipositorF.stages.5.label>
         static Regex regex = new Regex(@"^\s*<(?<tag>[^>]+)>(?<value>.*)</\k<tag>>\s*$", RegexOptions.Compiled);
-        
+
         internal static int ReadFromTheStringsArray(string[] lines, string language, StringsIdsBySubPath stringIdsList, bool skipMissingIds = false)
         {
             int loadedStringsCount = 0;
@@ -571,7 +563,7 @@ namespace RimworldModTranslator.Helpers
 
                     if (!stringIdsList.StringIdLanguageValuePairsList.TryGetValue(key, out LanguageValuePairsData? langList))
                     {
-                        if(skipMissingIds) continue;
+                        if (skipMissingIds) continue;
 
                         langList = new();
                         stringIdsList.StringIdLanguageValuePairsList[key] = langList;
@@ -738,7 +730,7 @@ namespace RimworldModTranslator.Helpers
             translationsTable.Columns.Add(idColumn);
 
             var languageSet =
-                isFoldersEmpty 
+                isFoldersEmpty
                 ? GetUniqueLanguages(stringsData!)
                 : folders!.Where(f => IsValidNotAllInFolder(f))
                 .SelectMany(f => f.StringsData!.Languages).Distinct();
@@ -813,7 +805,7 @@ namespace RimworldModTranslator.Helpers
 
             EditorHelper.LoadStringsFromXmlsAsTxtDir(langDirNames, languagesDirPath, stringsData);
 
-            if(loadStringsTxt)
+            if (loadStringsTxt)
             {
                 EditorHelper.LoadStringsFromStringsDir(langDirNames, languagesDirPath, stringsData);
             }
@@ -929,7 +921,7 @@ namespace RimworldModTranslator.Helpers
             var folderColumn = FolderColumnData;
 
             DataTable? folderTable = translationsTable.Clone();
-            foreach(DataRow row in translationsTable.Rows)
+            foreach (DataRow row in translationsTable.Rows)
             {
                 if (row.Field<string>(folderColumn.Name) != name) continue;
 
@@ -940,7 +932,7 @@ namespace RimworldModTranslator.Helpers
             {
                 string? subPath = row.Field<string>(subPathColumn.Name);
                 string? stringId = row.Field<string>(idColumn.Name);
-                if (string.IsNullOrEmpty(subPath) 
+                if (string.IsNullOrEmpty(subPath)
                     || string.IsNullOrEmpty(stringId)) continue;
 
                 foreach (DataColumn column in translationsTable.Columns)
@@ -1027,7 +1019,7 @@ namespace RimworldModTranslator.Helpers
 
         internal static void WriteTranslatedModAbout(string targetModDirPath, ModData? translatedModData)
         {
-            if(translatedModData == null || WriteAboutXml(targetModDirPath, translatedModData))
+            if (translatedModData == null || WriteAboutXml(targetModDirPath, translatedModData))
             {
                 return;
             }
@@ -1094,7 +1086,7 @@ namespace RimworldModTranslator.Helpers
 
             string translatedModDirPath = GetNotExistTraslatedModDirPath(translatedModFolders, modToTranslate);
 
-            if(!WriteTranslatedModFolders(translatedModDirPath, translatedModFolders, modToTranslate))
+            if (!WriteTranslatedModFolders(translatedModDirPath, translatedModFolders, modToTranslate))
             {
                 return null;
             }
@@ -1225,7 +1217,7 @@ namespace RimworldModTranslator.Helpers
             {
                 Directory.Delete(targetModDirPath, true);
                 Logger.Warn(Translation.NoTranslatedFilesToSave);
-                
+
                 return false;
             }
 
@@ -1323,13 +1315,13 @@ namespace RimworldModTranslator.Helpers
             if (selectedCells == null || selectedCells.Count == 0) return;
 
             List<string> strings = new();
-            foreach (var (rowItem, column) in (onlyCopy 
+            foreach (var (rowItem, column) in (onlyCopy
                 ? EnumerateValidSelectedCells(selectedCells) // enumerate when copy to prevent extra operation
-                : GetValidSelectedCells(selectedCells))) 
+                : GetValidSelectedCells(selectedCells)))
             {
                 string rowValue = rowItem.Row[column.SortMemberPath] + "";
                 strings.Add(rowValue);
-                if(!onlyCopy) rowItem.Row[column.SortMemberPath] = null;
+                if (!onlyCopy) rowItem.Row[column.SortMemberPath] = null;
             }
 
             if (strings.Count == 0)
@@ -1389,8 +1381,9 @@ namespace RimworldModTranslator.Helpers
 
             EditorStringsData overallStringsData = new();
 
-            if (Directory.Exists(selectedGame.GameDirPath)) {
-                foreach(var dlcDir in Directory.EnumerateDirectories(Path.Combine(selectedGame.GameDirPath, "Data")))
+            if (Directory.Exists(selectedGame.GameDirPath))
+            {
+                foreach (var dlcDir in Directory.EnumerateDirectories(Path.Combine(selectedGame.GameDirPath, "Data")))
                 {
                     EditorHelper.LoadDefKeyedStringsFromTheDir(dlcDir, overallStringsData, false);
                 }
@@ -1402,7 +1395,7 @@ namespace RimworldModTranslator.Helpers
             {
                 EditorStringsData modStringsData = new();
                 List<FolderData> folders = [];
-                
+
                 EditorHelper.GetTranslatableFolders(folders, modDirPath);
 
                 foreach (var folder in folders)
@@ -1571,11 +1564,11 @@ namespace RimworldModTranslator.Helpers
 
         internal static Task SetTranslationsbyCache(EditorStringsDBCache cache, ObservableCollection<FolderData> folders)
         {
-            if(cache.IdCache == null || cache.ValueCache == null)
+            if (cache.IdCache == null || cache.ValueCache == null)
             {
                 Logger.Debug("Cache is empty. No translations to set.");
                 return Task.CompletedTask;
-            }   
+            }
 
             Parallel.ForEach(folders, folder =>
             {
@@ -1636,7 +1629,7 @@ namespace RimworldModTranslator.Helpers
 
         internal static void RemoveAllButFirstFolder(ObservableCollection<FolderData> folders)
         {
-            foreach(var folder in folders.Skip(1).ToArray())
+            foreach (var folder in folders.Skip(1).ToArray())
             {
                 if (folder != null)
                 {

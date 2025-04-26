@@ -1,12 +1,7 @@
-﻿using NLog.Config;
+﻿using NLog;
+using NLog.Config;
 using NLog.Targets;
-using NLog;
 using RimworldModTranslator.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RimworldModTranslator.Translations;
 using System.IO;
 
