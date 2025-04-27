@@ -36,8 +36,12 @@ namespace RimworldModTranslator.Views
                 e.Column.IsReadOnly = true;
 
                 EditorHelper.SetColumnHeaderToCaption(e, EditorTable);
+                e.Column.Width = 70;
             }
-            e.Column.Width = 100;
+            else
+            {
+                e.Column.Width = 100;
+            }
         }
     }
 }
