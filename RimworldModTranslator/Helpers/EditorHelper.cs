@@ -954,12 +954,18 @@ namespace RimworldModTranslator.Helpers
         public static bool WriteFiles(Dictionary<string, Dictionary<string, Dictionary<string, string>>> translationsData, string targetModLanguagesPath)
         {
             bool isAnyWrote = false;
+            string extractedDirName = Properties.Settings.Default.ExtractedStringsLanguageFolderName;
             foreach (var languagePair in translationsData)
             {
                 string languageName = languagePair.Key;
                 if(IsWriteBlacklistedLanguage(languageName))
                 {
                     Logger.Info(Translation.Language0IsBlacklisted, languageName);
+                    continue;
+                }
+                if(string.Equals(languageName, extractedDirName))
+                {
+                    Logger.Debug($"{WriteFiles}: '{extractedDirName}' column ignored", languageName);
                     continue;
                 }
 
