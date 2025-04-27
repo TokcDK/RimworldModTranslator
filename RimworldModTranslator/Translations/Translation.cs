@@ -98,7 +98,7 @@ namespace RimworldModTranslator.Translations
             $"Ctrl+D - {ClearSelectedRowsToolTip}\n" +
             $"Ctrl+S - {SaveModDBToolTip}" +
             "\n\n" +
-            T._("'{0}' column contains extracted strings from Defs dir.\nIt will be ignored while tranlated mod writing.", Properties.Settings.Default.ExtractedStringsLanguageFolderName);
+            T._("'{0}' column contains extracted strings from Defs dir\nand will be ignored while tranlated mod writing.", Properties.Settings.Default.ExtractedStringsLanguageFolderName);
         #endregion
 
         #region log messages

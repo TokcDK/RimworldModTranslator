@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-04-27 12:30+0500\n"
-"PO-Revision-Date: 2025-04-27 12:30+0500\n"
+"POT-Creation-Date: 2025-04-27 12:33+0500\n"
+"PO-Revision-Date: 2025-04-27 12:34+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -40,7 +40,7 @@ msgstr "Убрать сортировку"
 
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:8
 msgid "Clear corting by any column if was sorted."
-msgstr "Очистка сортировки по любой колонке, если отсортировано"
+msgstr "Очистка сортировки по любой колонке, если отсортировано."
 
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:9
 msgid "About data is null."
@@ -364,11 +364,11 @@ msgstr "Очистка значений выбранных ячеек."
 
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:85
 msgid "Save mod DB to the selected mod folder."
-msgstr "Сохранение строк в БД выбранного мода"
+msgstr "Сохранение строк в БД выбранного мода."
 
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:86
 msgid "Load mod DB from the selected mod folder."
-msgstr "Загрузка строк из БД выбранного мода"
+msgstr "Загрузка строк из БД выбранного мода."
 
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:87
 msgid ""
@@ -408,11 +408,11 @@ msgstr "Горячие клавиши"
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:101
 #, csharp-format
 msgid ""
-"'{0}' column contains extracted strings from Defs dir.\n"
-"It will be ignored while tranlated mod writing."
+"'{0}' column contains extracted strings from Defs dir\n"
+"and will be ignored while tranlated mod writing."
 msgstr ""
-"'{0}' колонка содержит извлеченные строки из папки Defs.\n"
-"Будет проигнорирована при записи переведенного мода."
+"'{0}' колонка содержит извлеченные строки из папки Defs\n"
+"и будет проигнорирована при записи переведенного мода."
 
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:105
 #, csharp-format
