@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-04-24 00:39+0500\n"
-"PO-Revision-Date: 2025-04-24 00:42+0500\n"
+"POT-Creation-Date: 2025-04-27 12:15+0500\n"
+"PO-Revision-Date: 2025-04-27 12:23+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -16,121 +16,192 @@ msgstr ""
 "GetString;GetPluralString:1,2;GetParticularString:1c,2;GetParticularPluralString:1c,2,3;_;_n:1,2;_p:1c,2;_pn:1c,2,3;T_;Gettext\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: RimworldModTranslator/RimworldModTranslator/Helpers/EditorHelper.cs:1158
+#: RimworldModTranslator/RimworldModTranslator/Helpers/EditorHelper.cs:1337
 #, csharp-format
 msgid "{0} {1} selected cells."
 msgstr "{0} {1} выбранных ячеек."
 
+#: RimworldModTranslator/RimworldModTranslator/Models/EditorColumns/FolderColumnData.cs:9
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:7
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:40
+msgid "Folder"
+msgstr "Папка"
+
+#: RimworldModTranslator/RimworldModTranslator/Models/EditorColumns/IdColumnData.cs:9
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:8
+msgid "ID"
+msgstr "ID"
+
+#: RimworldModTranslator/RimworldModTranslator/Models/EditorColumns/SubPathColumnData.cs:9
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:9
+msgid "SubPath"
+msgstr "Путь"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:10
+msgid "Clear sorting"
+msgstr "Убрать сортировку"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:11
+msgid "Clear corting by any column if was sorted."
+msgstr "Очистка сортировки по любой колонке, если отсортировано"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:12
+msgid "About data is null."
+msgstr "Данные About пустые (null)"
+
 #: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:13
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:61
+#, csharp-format
+msgid "Error writing About.xml file: {0}"
+msgstr "Ошибка записи About.xml {0}"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:14
+#, csharp-format
+msgid "Error writing LoadFolders.xml file: {0}"
+msgstr "Ошибка записи LoadFolders.xml: {0}"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:15
+msgid "Read languages blacklist (name1,name2...,nameN)"
+msgstr "Черный список языков при чтении (имя1,имя2...,имяN)"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:16
+msgid "If the language name is in the list, it will be skipped."
+msgstr "Если имя языка в списке, он будет пропущен."
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:17
+msgid ""
+"Example: 'English,Spanish' - will skip English and Spanish languages when "
+"loading strings from the selected mod."
+msgstr ""
+"Пример: 'English,Spanish' - пропустит языки с именами English и Spanish при "
+"загрузке строк из выбранного мода."
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:18
+msgid "Write languages blacklist (name1,name2...,nameN)"
+msgstr "Черный список языков при записи (имя1,имя2...,имяN)"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:19
+msgid ""
+"Example: 'Russian,German' - will skip English and Spanish languages when "
+"writing strings to the translated mod."
+msgstr ""
+"Пример: 'English,Spanish' - пропустит языки с именами English и Spanish при "
+"записи строк в переводимый мод."
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:20
+#, csharp-format
+msgid "Language {0} is blacklisted. Skipping it."
+msgstr "Язык {0} в черном списке. Пропущен."
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:21
+msgid "Read whitelist mode"
+msgstr "Белый список при чтении"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:22
+msgid ""
+"If enabled, switch the blacklist to whitelist mode when only the languages "
+"specified in the list will be processed."
+msgstr ""
+"При включении переключает список в режим белого списка, когда только языки в "
+"списке будут обработаны."
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:23
+msgid "Write whitelist mode"
+msgstr "Белый список при записи"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:26
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:64
 msgid "Name"
 msgstr "Имя"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:14
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:27
 msgid "☑"
 msgstr "☑"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:15
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:28
 msgid "Open mod dir"
 msgstr "Открыть папку мода"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:16
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:29
 msgid "Mods"
 msgstr "Моды"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:17
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:30
 msgid "Refresh"
 msgstr "Обновить"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:19
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:32
 msgid "Editor"
 msgstr "Редактор"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:20
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:33
 msgid "Load strings"
 msgstr "Загрузка строк"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:21
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:34
 msgid "Load strings from the selected mod"
 msgstr "Загрузка строк из выбранного мода"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:22
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:35
 msgid "Save strings"
 msgstr "Сохранить строки"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:23
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:36
 msgid "Save strings from of selected mod to a new mod"
 msgstr "Сохранить строки выбранного мода в новый мод"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:25
-msgid "Help"
-msgstr "Помощь"
-
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:26
-msgid "Move the mouse cursor over any elements to get the tooltip for it"
-msgstr "Наведите курсор мыши на элемент для тображения подсказки"
-
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:28
-msgid "HotKeys"
-msgstr "Горячие клавиши"
-
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:34
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:37
 msgid "Select folder to translate."
 msgstr "Выбор папки для перевода."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:35
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:38
 msgid "Enter the new language folder name and press add to add the new column."
 msgstr ""
 "Введите имя новой папки языка и нажмите Добавить для добавления новой "
 "колонки."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:36
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:39
 msgid ""
 "Load strings from all exist game(when the game dir path is set) dlcs and mods"
 msgstr ""
 "Загрузка строк из всех существующих dlc(когда указан путь к игре) и модов"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:37
-msgid "Folder"
-msgstr "Папка"
-
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:38
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:41
 msgid "Add new language"
 msgstr "Добавить язык"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:40
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:43
 msgid "Settings"
 msgstr "Настройки"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:42
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:45
 msgid "Game"
 msgstr "Игра"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:43
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:46
 msgid "General"
 msgstr "Основные"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:44
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:47
 msgid "(optional)"
 msgstr "(опионально)"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:45
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:48
 msgid "Mods dir path"
 msgstr "Путь к модам"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:46
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:49
 msgid "Config dir path"
 msgstr "Путь к папке конфига"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:47
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:50
 msgid "Game dir path"
 msgstr "Путь к игре"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:48
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:51
 msgid "Add game"
 msgstr "Добавить игру"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:49
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:52
 msgid ""
 "Add Mods and Config directory paths of the new game. If Config dir path is "
 "not set then will be used default in appdata"
@@ -138,19 +209,21 @@ msgstr ""
 "Добавить пути к папкам Mods и Config новой игры. Если путь к папке Config не "
 "задан, то будет использован путь по умолчанию в appdata"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:50
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:53
 msgid "Extracted strings dir name"
 msgstr "Имя папки извлеченных строк"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:51
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:54
 msgid ""
 "The name of the folder where the extracted strings will be saved. Default is "
-"'Extracted'."
+"'Extracted'.\n"
+"Warning: If will be same name as any exist language folder name, the "
+"language name will be skipped!"
 msgstr ""
 "Имя папки, в которой будут сохранены извлеченные строки. По умолчанию - "
 "'Extracted'."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:52
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:55
 msgid ""
 "Optional target mod preview path. Default: No preview. When empty will try "
 "to find 'Preview.png' next to the app exe. "
@@ -158,13 +231,13 @@ msgstr ""
 "Опциональный путь к превью целевого мода. По умолчанию: Без превью. В случае "
 "отсутствия будет пытаться найти 'Preview.png' рядом с exe-файлом приложения. "
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:53
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:56
 msgid "Force load translations from exist mods (Default: only once)"
 msgstr ""
 "Принудительная загрузка переводов из существующих модов (По умолчанию: "
 "только один раз)"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:54
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:57
 msgid ""
 "When enabled the translations of all dlcs and mods will be load each time. "
 "(slower, default: only 1st time and dont unload before the app restart)"
@@ -173,148 +246,148 @@ msgstr ""
 "раз. (медленнее, по умолчанию: только в первый раз и не выгружаться до "
 "перезапуска приложения)"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:55
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:58
 msgid "Load DefInjected strings only for exist extracted string ids"
 msgstr ""
 "Загрузка строк DefInjected только для существующих извлеченных id строк"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:56
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:59
 msgid ""
-"When enabled Load strings will load definjected strings from language dir "
+"When enabled Load strings will load DefInjected strings from language dir "
 "for only ids which was extracted from defs."
 msgstr ""
 "При включении Загрузка строк будет загружать definjected строки из папки "
 "языка только для тех id, которые были извлечены из defs."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:58
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:61
 msgid "Target mod data"
 msgstr "Данные целевого мода"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:59
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:62
 msgid "Target mod data (for About.xml)"
 msgstr "Данные целевого мода (для About.xml)"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:60
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:63
 msgid "Target mod data for About.xml file of the new target mod"
 msgstr "Данные целевого мода для About.xml файла нового мода с переводом"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:62
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:65
 msgid "Target mod displaying name. Default: '{Source mode name} Translation'"
 msgstr ""
 "Отображаемое имя целевого мода. По умолчанию: '{Имя исходного мода} перевод'"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:63
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:66
 msgid "PackageID"
 msgstr "PackageID"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:64
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:67
 msgid "Target mod PackageID. Default: '{Source mode PackageID}.translation'"
 msgstr "PackageID целевого мода. Умолч: '{Source mode PackageID}.translation'"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:65
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:68
 msgid "Author"
 msgstr "Автор"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:66
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:69
 msgid "Target mod Author. Default: '{Source mod authors},Anonimous'"
 msgstr "Автор целевого мода. Умолч: '{Source mod authors},Anonimous'"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:67
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:70
 msgid "Version"
 msgstr "Версия"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:68
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:71
 msgid "Target mod version. Default: '1.0'"
 msgstr "Версия целевого мода. Умолч: '1.0'"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:69
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:72
 msgid "Supported versions"
 msgstr "Поддерживаемые версии"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:70
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:73
 msgid ""
 "Target mod supported game versions. Default: {Source mod supported versions}"
 msgstr ""
 "Поддерживаемые версии игр для целевого мода. По умолчанию: {Поддерживаемые "
 "версии исходного мода}"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:71
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:74
 msgid "Description"
 msgstr "Описание"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:72
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:75
 msgid ""
 "Optional target mod description. Default: '{Source mode name} Translation'"
 msgstr ""
 "Опциональное описание целевого мода. По умолчанию: '{Имя исходного мода} "
 "Перевод'."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:73
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:76
 msgid "Url"
 msgstr "Url"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:74
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:77
 msgid "Optional target mod web page URL. Default: No Url"
 msgstr ""
 "Опциональный URL-адрес веб-страницы целевого мода. По умолчанию: Нет Url"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:75
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:78
 msgid "Preview path"
 msgstr "Путь к преаью"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:76
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:79
 msgid "Cut selected rows"
 msgstr "Вырезать выбранные ячейки"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:77
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:80
 msgid "Copy selected rows"
 msgstr "Копировать выбранные ячейки"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:78
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:81
 msgid "Paste to selected rows"
 msgstr "Вставка в выбранные ячейки"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:79
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:82
 msgid "Clear selected rows"
 msgstr "Очитка выбранных ячеек"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:80
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:83
 msgid "Load mod DB"
 msgstr "Загрузка БД"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:81
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:84
 msgid "Load mod DB (replace)"
 msgstr "Загрузка БД (с перезаписью)"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:82
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:85
 msgid "Save mod DB"
 msgstr "Сохранить БД"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:83
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:86
 msgid "Cut values of selected rows to clipboard."
 msgstr "Вырезание значений выбранных ячеек в буфер обмена."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:84
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:87
 msgid "Copy values of selected rows to clipboard."
 msgstr "Копирование значений выбранных ячеек в буфер обмена."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:85
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:88
 msgid "Paste values from clipboard to selected empty rows."
 msgstr "Вставка строк из буфера обмена в пустые ячейки."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:86
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:89
 msgid "Clear values of selected rows."
 msgstr "Очистка значений выбранных ячеек."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:87
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:90
 msgid "Save mod DB to the selected mod folder."
 msgstr "Сохранение строк в БД выбранного мода"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:88
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:91
 msgid "Load mod DB from the selected mod folder."
 msgstr "Загрузка строк из БД выбранного мода"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:89
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:92
 msgid ""
 "Load mod DB from the selected mod folder and replace each folder table by "
 "the table from DB.\n"
@@ -325,11 +398,11 @@ msgstr ""
 "(использовать только когда точно есть уверенность что БД для текущей версии "
 "мода)"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:90
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:93
 msgid "Editor autosave time period (sec)"
 msgstr "Период автосохранения редактора (сек)"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:91
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:94
 msgid ""
 "The time in seconds after which the currently editing strings will be "
 "autosaved."
@@ -337,146 +410,167 @@ msgstr ""
 "Время в секундах после которого текущие редактируемые строки будут сохранены "
 "автоматически."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:95
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:96
+msgid "Help"
+msgstr "Помощь"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:97
+msgid "Move the mouse cursor over any elements to get the tooltip for it"
+msgstr "Наведите курсор мыши на элемент для тображения подсказки"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:99
+msgid "HotKeys"
+msgstr "Горячие клавиши"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:106
+#, csharp-format
+msgid "'{0}' column contains extracted strings from Defs dir."
+msgstr "'{0}' колонка содержит извлеченные строки из папки Defs."
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:110
 #, csharp-format
 msgid "Loaded {0} mods from {1}."
 msgstr "Загружено {0} модов из {1}."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:96
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:111
 #, csharp-format
 msgid "Pasted {0} strings to selected cells."
 msgstr "Вставлено {0} строк в выбранные пустые ячейки."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:97
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:112
 msgid "Copied"
 msgstr "Скопировано"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:98
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:113
 msgid "Cut out"
 msgstr "Вырезано"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:99
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:114
 #, csharp-format
 msgid "Set translations by cache. {0} folders."
 msgstr "Применен перевод из кеша. {0} папок."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:100
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:115
 msgid "Application started"
 msgstr "Приложение запущено"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:101
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:116
 #, csharp-format
 msgid "Loaded {0} strings from {1}."
 msgstr "Загружено {0} строк из {1}."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:102
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:117
 #, csharp-format
 msgid "Loaded strings cache from {0}."
 msgstr "Загружен кеш строк из {0}."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:103
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:118
 #, csharp-format
 msgid "Cleared {0} selected cells."
 msgstr "Очищено {0} выбранных ячеек."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:104
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:119
 #, csharp-format
 msgid "Log file not found: {0}"
 msgstr "Файл лога не найден: {0}"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:105
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:120
 msgid "Mod is not set. Please select mod to load strings."
 msgstr "Мод не выбран. Выберете мод для загрузки строк."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:106
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:121
 msgid "Mods path is not set. Please select the mods path."
 msgstr "Путь к модам не выбран. Выберете путь к модам для загрузки строк."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:107
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:122
 msgid "No translatable folders found."
 msgstr "Переводимых папок не найдено."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:108
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:123
 #, csharp-format
 msgid "Nothing to load from {0}."
 msgstr "Нечего не найдено в {0}."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:109
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:124
 #, csharp-format
 msgid "Error loading tags from {0}."
 msgstr "Ошибка загрузки тегов из {0}."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:110
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:125
 #, csharp-format
 msgid "Loaded tags from {0}."
 msgstr "Загружены теги из {0}."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:111
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:126
 msgid "Loaded default tags."
 msgstr "Загружены теги по умолчанию."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:112
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:127
 #, csharp-format
 msgid "Saved translated files to {0}."
 msgstr "Сохранены переведенные файлы в {0}"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:113
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:128
 msgid "No translated files to save."
 msgstr "Не найдено переведенных файлов."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:114
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:129
 #, csharp-format
 msgid "Mod DB saved to {0}"
 msgstr "БД мода сохранена в {0}"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:115
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:130
 #, csharp-format
 msgid "Loaded DB for folder {0}."
 msgstr "Загружены теги для папки {0}."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:116
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:131
 #, csharp-format
 msgid "DB file not found at {0}"
 msgstr "Файл БД не найден в {0}"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:117
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:132
 #, csharp-format
 msgid "Error loading DB file from {0}."
 msgstr "Ошибка загрузки файла БД из {0}."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:118
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:133
 #, csharp-format
 msgid "Loaded DB from {0}."
 msgstr "Загружена БД из {0}."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:119
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:134
 msgid "Loaded strings from DB file."
 msgstr "Загружены строки из файла БД."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:120
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:135
 #, csharp-format
 msgid "Loaded total {0} strings for all folders."
 msgstr "Загружено {0} строк из всех папок."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:121
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:136
 #, csharp-format
 msgid "Saved mod configuration to {0}"
 msgstr "Конфиг модов сохранен в {0}"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:122
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:137
 #, csharp-format
 msgid "Failed to save mods configuration: {0}"
 msgstr "Не удалось сохранить конфиг модов: {0}"
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:123
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:138
 #, csharp-format
 msgid "Error opening directory: {0}"
 msgstr "Ошибка открытия папки {0}."
 
-#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:124
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:139
 #, csharp-format
 msgid "Directory path is not set. Path: {0}"
 msgstr "Путь к папке не установлен. Путь: {0}"
+
+#: RimworldModTranslator/RimworldModTranslator/Translations/Translation.cs:140
+msgid "Nothing to translate."
+msgstr "Нечего переводить."
 
 #~ msgid ""
 #~ "Help.\n"
@@ -798,9 +892,6 @@ msgstr "Путь к папке не установлен. Путь: {0}"
 
 #~ msgid "getting translation: "
 #~ msgstr "получение перевода: "
-
-#~ msgid "getting translation"
-#~ msgstr "получение перевода"
 
 #~ msgid "Failed to open project"
 #~ msgstr "Не удалось открыть проект"
