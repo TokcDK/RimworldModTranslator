@@ -4,9 +4,6 @@ namespace RimworldModTranslator.Translations
 {
     internal static class Translation
     {
-        public static string? FolderColumnName { get; } = T._("Folder");
-        public static string? IdColumnName { get; } = T._("ID");
-        public static string? SubPathColumnName { get; } = T._("SubPath");
         public static string ClearSortName { get; } = T._("Clear sorting");
         public static string ClearSortToolTip { get; } = T._("Clear corting by any column if was sorted.");
         public static string AboutDataIsNull { get; } = T._("About data is null.");
@@ -50,8 +47,6 @@ namespace RimworldModTranslator.Translations
         internal static string GameDirPathName { get => T._("Game dir path"); }
         internal static string AddGameName { get => T._("Add game"); }
         internal static string AddNewGameToolTip { get => T._("Add Mods and Config directory paths of the new game. If Config dir path is not set then will be used default in appdata"); }
-        internal static string ExtractedLanguageNameName { get => T._("Extracted strings dir name"); }
-        internal static string ExtractedLanguageNameToolTip { get => T._("The name of the folder where the extracted strings will be saved. Default is 'Extracted'.\nWarning: If will be same name as any exist language folder name, the language name will be skipped!"); }
         internal static string TargetModPreviewToolTip { get => T._("Optional target mod preview path. Default: No preview. When empty will try to find 'Preview.png' next to the app exe. "); }
         internal static string ForceLoadTranslationsCacheName { get; } = T._("Force load translations from exist mods (Default: only once)");
         internal static string ForceLoadTranslationsCacheToolTip { get; } = T._("When enabled the translations of all dlcs and mods will be load each time. (slower, default: only 1st time and dont unload before the app restart)");
@@ -113,17 +108,14 @@ namespace RimworldModTranslator.Translations
         internal static string PrefixCutOutText { get; } = T._("Cut out");
         internal static string SetTanslationsByCacheXFoldersLogMessage { get; } = T._("Set translations by cache. {0} folders.");
         internal static object AppStartedLogMessage { get; } = T._("Application started");
-        internal static string Loaded0StringsFrom1LogMessage { get; } = T._("Loaded {0} strings from {1}.");
         internal static string LoadedStringsCacheFromXLogMessage { get; } = T._("Loaded strings cache from {0}.");
         internal static string ClearXSelectedCellsLogMessage { get; } = T._("Cleared {0} selected cells.");
         internal static string LogFileNotFound { get; } = T._("Log file not found: {0}");
         internal static string ModIsNotSetWarnLogMessage { get; } = T._("Mod is not set. Please select mod to load strings.");
         internal static string ModsPathIsNotSetWarnLogMessage { get; } = T._("Mods path is not set. Please select the mods path.");
         internal static string NoTranslatableFoldersFoundLogMessage { get; } = T._("No translatable folders found.");
-        internal static string NothingToLoadFromXLogMessage { get; } = T._("Nothing to load from {0}.");
         internal static string ErrorLoadingTagsFrom0 { get; } = T._("Error loading tags from {0}.");
         internal static string LoadedTagsFrom0 { get; } = T._("Loaded tags from {0}.");
-        internal static string LoadedDefaultTags { get; } = T._("Loaded default tags.");
         internal static string SavedTranslatedFilesTo0 { get; } = T._("Saved translated files to {0}.");
         internal static string NoTranslatedFilesToSave { get; } = T._("No translated files to save.");
         internal static string SaveModFileWasWrote { get; } = T._("Mod DB saved to {0}");

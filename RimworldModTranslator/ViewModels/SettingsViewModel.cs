@@ -33,7 +33,6 @@ namespace RimworldModTranslator.ViewModels
         public static string ReadLanguagesBlackListToolTip { get => Translation.ReadLanguagesBlackListToolTip; }
         public static string WriteLanguagesBlackListName { get => Translation.WriteLanguagesBlackListName; }
         public static string WriteLanguagesBlackListToolTip { get => Translation.WriteLanguagesBlackListToolTip; }
-        public static string ExtractedLanguageNameToolTip { get => Translation.ExtractedLanguageNameToolTip; }
         public static string ForceLoadTranslationsCacheName { get => Translation.ForceLoadTranslationsCacheName; }
         public static string ForceLoadTranslationsCacheToolTip { get => Translation.ForceLoadTranslationsCacheToolTip; }
         public static string LoadOnlyStringsForExtractedIdsName { get => Translation.LoadOnlyStringsForExtractedIdsName; }
