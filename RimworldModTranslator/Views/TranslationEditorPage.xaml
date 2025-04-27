@@ -63,7 +63,8 @@
         </Grid>
         
         <!-- DataGrid bound to StringsByLanguage -->
-        <DataGrid Grid.Row="1"
+        <DataGrid x:Name="EditorTable"
+                  Grid.Row="1"
                   ItemsSource="{Binding TranslationsColl}" 
                   SelectedItem="{Binding SelectedRow}"
                   SelectedIndex="{Binding SelectedRowIndex}"

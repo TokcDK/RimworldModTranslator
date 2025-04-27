@@ -3,6 +3,7 @@ using RimworldModTranslator.Models.EditorColumns;
 using RimworldModTranslator.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,17 @@ namespace RimworldModTranslator.Views
             if (EditorHelper.IsReadOnlyColumn(e.Column.Header.ToString()))
             {
                 e.Column.IsReadOnly = true;
+
+                // Set the header to the column caption if it exists
+                var table = ((DataView)((ListCollectionView)EditorTable.ItemsSource).SourceCollection).Table;
+                if (table != null && table.Columns.Contains(e.PropertyName))
+                {
+                    var dc = table.Columns[e.PropertyName];
+                    if (dc != null && !String.IsNullOrEmpty(dc.Caption))
+                    {
+                        e.Column.Header = dc.Caption;
+                    }
+                }
             }
             e.Column.Width = 100;
         }
