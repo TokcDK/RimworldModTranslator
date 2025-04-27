@@ -35,16 +35,7 @@ namespace RimworldModTranslator.Views
             {
                 e.Column.IsReadOnly = true;
 
-                // Set the header to the column caption if it exists
-                var table = ((DataView)((ListCollectionView)EditorTable.ItemsSource).SourceCollection).Table;
-                if (table != null && table.Columns.Contains(e.PropertyName))
-                {
-                    var dc = table.Columns[e.PropertyName];
-                    if (dc != null && !String.IsNullOrEmpty(dc.Caption))
-                    {
-                        e.Column.Header = dc.Caption;
-                    }
-                }
+                EditorHelper.SetColumnHeaderToCaption(e, EditorTable);
             }
             e.Column.Width = 100;
         }

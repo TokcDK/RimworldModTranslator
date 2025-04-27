@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Xml.Linq;
 
 namespace RimworldModTranslator.Helpers
@@ -1702,6 +1703,19 @@ namespace RimworldModTranslator.Helpers
                 .Select(f => f.Trim())
                 .Where(f => !string.IsNullOrWhiteSpace(f))
                 .ToList());
+        }
+
+        internal static void SetColumnHeaderToCaption(DataGridAutoGeneratingColumnEventArgs e, DataGrid editorTable)
+        {
+            var table = ((DataView)((ListCollectionView)editorTable.ItemsSource).SourceCollection).Table;
+            if (table != null && table.Columns.Contains(e.PropertyName))
+            {
+                var dc = table.Columns[e.PropertyName];
+                if (dc != null && !String.IsNullOrEmpty(dc.Caption))
+                {
+                    e.Column.Header = dc.Caption;
+                }
+            }
         }
     }
 }
