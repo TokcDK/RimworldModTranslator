@@ -18,6 +18,10 @@ namespace RimworldModTranslator.Translations
         public static string WriteLanguagesBlackListName { get; } = T._("Write languages blacklist (name1,name2...,nameN)");
         public static string WriteLanguagesBlackListToolTip { get; } = LanguagesBlackListToolTipGeneral + "\n" + T._("Example: 'Russian,German' - will skip English and Spanish languages when writing strings to the translated mod.");
         public static string Language0IsBlacklisted { get; } = T._("Language {0} is blacklisted. Skipping it.");
+        public static string ReadWhitelistModeName { get; } = T._("Read whitelist mode");
+        public static string ReadWhitelistModeToolTip { get; } = T._("If enabled, switch the blacklist to whitelist mode when only the languages specified in the list will be processed.");
+        public static string WriteWhitelistModeName { get; } = T._("Write whitelist mode");
+        public static string WriteWhitelistModeToolTip { get => ReadWhitelistModeToolTip; }
         #region ui names and tooltips
         internal static string NameName { get; } = T._("Name");
         internal static string ActiveName { get; } = T._("☑");

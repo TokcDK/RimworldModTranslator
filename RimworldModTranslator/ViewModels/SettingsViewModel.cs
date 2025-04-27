@@ -60,6 +60,10 @@ namespace RimworldModTranslator.ViewModels
         public static string TargetModUrlToolTip { get => Translation.TargetModUrlToolTip; }
         public static string TargetModPreviewName { get => Translation.TargetModPreviewName; }
         public static string TargetModPreviewToolTip { get => Translation.TargetModPreviewToolTip; }
+        public static string ReadWhitelistModeName { get => Translation.ReadWhitelistModeName; }
+        public static string ReadWhitelistModeToolTip { get => Translation.ReadWhitelistModeToolTip; }
+        public static string WriteWhitelistModeName { get => Translation.WriteWhitelistModeName; }
+        public static string WriteWhitelistModeToolTip { get => Translation.WriteWhitelistModeToolTip; }
 
         #endregion
 
@@ -119,6 +123,22 @@ namespace RimworldModTranslator.ViewModels
 
             EditorHelper.SetupEditorReadBlacklist();
             Properties.Settings.Default.EditorReadBlacklist = value;
+            Properties.Settings.Default.Save();
+        }
+
+        [ObservableProperty]
+        private bool _isReadWhitelistMode = Properties.Settings.Default.IsReadWhitelistMode;
+        partial void OnIsReadWhitelistModeChanged(bool value)
+        {
+            Properties.Settings.Default.IsReadWhitelistMode = value;
+            Properties.Settings.Default.Save();
+        }
+
+        [ObservableProperty]
+        private bool _isWriteWhitelistMode = Properties.Settings.Default.IsWriteWhitelistMode;
+        partial void OnIsWriteWhitelistModeChanged(bool value)
+        {
+            Properties.Settings.Default.IsWriteWhitelistMode = value;
             Properties.Settings.Default.Save();
         }
 

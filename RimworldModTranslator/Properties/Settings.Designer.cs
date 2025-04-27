@@ -226,5 +226,29 @@ namespace RimworldModTranslator.Properties {
                 this["CheckBlacklistedLanguages"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsReadWhitelistMode {
+            get {
+                return ((bool)(this["IsReadWhitelistMode"]));
+            }
+            set {
+                this["IsReadWhitelistMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsWriteWhitelistMode {
+            get {
+                return ((bool)(this["IsWriteWhitelistMode"]));
+            }
+            set {
+                this["IsWriteWhitelistMode"] = value;
+            }
+        }
     }
 }

@@ -563,12 +563,14 @@ namespace RimworldModTranslator.Helpers
 
         private static bool IsReadBlacklistedLanguage(string languageName)
         {
-            return IsBlacklistedLanguage(languageName, ReadBlacklist);
+            return IsBlacklistedLanguage(languageName, ReadBlacklist) 
+                != Properties.Settings.Default.IsReadWhitelistMode; // when whitelist mode on the result will be inverted and only listed langs will be allowed
         }
 
         private static bool IsWriteBlacklistedLanguage(string languageName)
         {
-            return IsBlacklistedLanguage(languageName, WriteBlacklist);
+            return IsBlacklistedLanguage(languageName, WriteBlacklist) 
+                != Properties.Settings.Default.IsWriteWhitelistMode;
         }
 
         private static bool IsBlacklistedLanguage(string languageName, List<string> blacklist)
